@@ -1,4 +1,4 @@
-# XTee
+# XTree
 This is my attempt to rewrite dom4j xml library for newer version of java (1.7 and above). 
 I have renamed it to eliminate some licensing issues.
 
