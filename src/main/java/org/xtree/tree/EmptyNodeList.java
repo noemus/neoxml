@@ -14,14 +14,12 @@ import java.util.AbstractList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.NoSuchElementException;
+import java8.util.function.Predicate;
 
 import org.xtree.Branch;
 import org.xtree.Node;
 import org.xtree.NodeList;
-
-import java8.util.function.Predicate;
 
 final class EmptyNodeList<T extends Node> extends AbstractList<T> implements NodeList<T>
 {
@@ -37,13 +35,7 @@ final class EmptyNodeList<T extends Node> extends AbstractList<T> implements Nod
   @Override
   @SuppressWarnings("unchecked")
   public Iterator<T> iterator() {
-    return (Iterator<T>)EmptyIterator.EMPTY_ITERATOR;
-  }
-
-  @Override
-  @SuppressWarnings("unchecked")
-  public ListIterator<T> listIterator() {
-    return (ListIterator<T>)EmptyListIterator.EMPTY_LIST_ITERATOR;
+    return (Iterator<T>)EMPTY_ITERATOR;
   }
 
   @Override
@@ -167,47 +159,12 @@ final class EmptyNodeList<T extends Node> extends AbstractList<T> implements Nod
   public boolean isReadOnly() {
     return true;
   }
-
-  static class EmptyListIterator<T> extends EmptyIterator<T> implements ListIterator<T>
-  {
-    static final EmptyListIterator<Object> EMPTY_LIST_ITERATOR = new EmptyListIterator<>();
-
-    @Override
-    public boolean hasPrevious() {
-      return false;
-    }
-
-    @Override
-    public T previous() {
-      throw new NoSuchElementException();
-    }
-
-    @Override
-    public int nextIndex() {
-      return 0;
-    }
-
-    @Override
-    public int previousIndex() {
-      return -1;
-    }
-
-    @Override
-    public void set(T e) {
-      throw new IllegalStateException();
-    }
-
-    @Override
-    public void add(T e) {
-      throw new UnsupportedOperationException();
-    }
-  }
+  
+  static final EmptyIterator<Object> EMPTY_ITERATOR = new EmptyIterator<>();
 
   static class EmptyIterator<E> implements Iterator<E>
   {
-    static final EmptyIterator<Object> EMPTY_ITERATOR = new EmptyIterator<>();
-
-    @Override
+      @Override
     public boolean hasNext() {
       return false;
     }

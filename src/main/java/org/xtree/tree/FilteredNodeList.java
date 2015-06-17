@@ -19,6 +19,7 @@ import java.util.Objects;
 
 import org.xtree.Node;
 import org.xtree.NodeList;
+import org.xtree.util.ProxyListIterator;
 
 import java8.util.function.Predicate;
 

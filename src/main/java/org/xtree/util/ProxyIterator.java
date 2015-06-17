@@ -8,7 +8,7 @@
  * OF THIS WORK WITHOUT AUTHORIZATION COULD SUBJECT THE PERPETRATOR TO
  * CRIMINAL AND CIVIL LIABILITY.
  */
-package org.xtree.tree;
+package org.xtree.util;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
