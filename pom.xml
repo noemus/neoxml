@@ -15,6 +15,19 @@
     <description>XTree: The flexible XML framework for Java</description>
     
     <url>http://noemus.github.io/xtree/</url>
+
+    <distributionManagement>
+      <site>
+          <id>xtree.website</id>
+          <name>XTree 1.0 Website</name>
+          <url>http://noemus.github.io/xtree/htdocs</url>
+      </site>
+      <snapshotRepository>
+        <id>tdp-nexus-staging</id>
+        <name>TDP Nexus Snapshots</name>
+        <url>http://svn.tdp.cz/nexus/content/repositories/snapshots</url>
+      </snapshotRepository>
+    </distributionManagement>
     
     <build>
         <plugins>
@@ -158,14 +171,6 @@
             </roles>
         </developer>                
     </developers>
-    
-    <distributionManagement>
-        <site>
-            <id>xtree.website</id>
-            <name>XTree 1.0 Website</name>
-            <url>http://noemus.github.io/xtree/htdocs</url>
-        </site>
-    </distributionManagement>
     
     <scm>
         <url>https://github.com/noemus/xtree.git</url>
