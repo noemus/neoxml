@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Xtree by noemus</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Xtree</h1>
+        <p>fork/rewrite of dom4j</p>
+
+        <p class="view"><a href="https://github.com/noemus/xtree">View the Project on GitHub <small>noemus/xtree</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/noemus/xtree/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/noemus/xtree/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/noemus/xtree">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="xtree---xml-dom-tree-java-library-based-on-dom4j" class="anchor" href="#xtree---xml-dom-tree-java-library-based-on-dom4j" aria-hidden="true"><span class="octicon octicon-link"></span></a>XTree - XML DOM Tree java library based on dom4j</h1>
+
+<p>This is my attempt to rewrite dom4j xml library for newer version of java (1.7 and above). 
+I have renamed it to eliminate some licensing issues.</p>
+
+<p>My intent is to keep this library simple in design and use. 
+I am using dom4j in many my projects, but it is now too old and whithout maintentnace</p>
+
+<h3>
+<a id="main-goals" class="anchor" href="#main-goals" aria-hidden="true"><span class="octicon octicon-link"></span></a>Main goals:</h3>
+
+<ul>
+<li>Focus on simple traversal API based on java.util Collections framework (as in dom4j)</li>
+<li>I have (and will) remove some parts of former dom4j that are not necessary and that only added some dependencies. I will maybe - if asked for - create some separate modules for theese parts. (Swing, Datatype, Xpp) </li>
+<li>I have also added some new APIs that are more functional and are compatible with java 1.8 lambdas.</li>
+<li>Improvement of visitor pattern - which is one of top features of former dom4j library</li>
+</ul>
+
+<h3>
+<a id="important" class="anchor" href="#important" aria-hidden="true"><span class="octicon octicon-link"></span></a>IMPORTANT!</h3>
+
+<p>This is early version of XTree and it is possible that I will rename package or library name before first release </p>
+
+<h3>
+<a id="current-state" class="anchor" href="#current-state" aria-hidden="true"><span class="octicon octicon-link"></span></a>Current state</h3>
+
+<p>I am now focusing on JUnit test coverage and code clarity, JUnit tests from original dom4j library are fully functional and I am now adding tests for new classes and for missing use cases of original classes</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/noemus">noemus</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
