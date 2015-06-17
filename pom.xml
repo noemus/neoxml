@@ -14,7 +14,7 @@
     
     <description>XTree: The flexible XML framework for Java</description>
     
-    <url>https://github.com/noemus/xtree</url>
+    <url>http://noemus.github.io/xtree/</url>
     
     <build>
         <plugins>
@@ -163,7 +163,7 @@
         <site>
             <id>xtree.website</id>
             <name>XTree 1.0 Website</name>
-            <url>https://github.com/noemus/xtree/htdocs</url>
+            <url>http://noemus.github.io/xtree/htdocs</url>
         </site>
     </distributionManagement>
     
