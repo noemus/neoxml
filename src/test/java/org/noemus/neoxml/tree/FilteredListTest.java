@@ -3,16 +3,13 @@ package org.noemus.neoxml.tree;
 import static org.junit.Assert.*;
 
 import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.NoSuchElementException;
-
 import java8.util.function.Predicate;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.noemus.neoxml.Node;
-import org.noemus.neoxml.tree.DefaultElement;
-import org.noemus.neoxml.tree.DefaultNodeList;
-import org.noemus.neoxml.tree.FilteredNodeList;
 
 public class FilteredListTest
 {
@@ -440,6 +437,142 @@ public class FilteredListTest
     final FilteredNodeList<Node> filtered = new FilteredNodeList<>(list1, new AllwaysFalse());
     final Iterator<Node> it = filtered.iterator();
     it.next();
+  }
+  
+  
+  /////////// list iterator //////////////
+  
+  @Test
+  public void testListIterator_1() {
+    final FilteredNodeList<Node> filtered = new FilteredNodeList<>(list1, new TwoOrMore());
+    final ListIterator<Node> it = filtered.listIterator();
+    
+    assertFalse(it.hasPrevious());
+    assertTrue(it.hasNext());
+    assertEquals(0, it.nextIndex());
+    assertEquals(-1, it.previousIndex());
+    
+    assertNodeName("10", it.next());
+    assertTrue(it.hasPrevious());
+    assertTrue(it.hasNext());
+    assertEquals(1, it.nextIndex());
+    assertEquals(0, it.previousIndex());
+    
+    assertNodeName("11", it.next());
+    assertTrue(it.hasPrevious());
+    assertTrue(it.hasNext());
+    assertEquals(2, it.nextIndex());
+    assertEquals(1, it.previousIndex());
+    
+    assertNodeName("12", it.next());
+    assertTrue(it.hasPrevious());
+    assertFalse(it.hasNext());
+    assertEquals(3, it.nextIndex());
+    assertEquals(2, it.previousIndex());
+  }
+  
+  @Test
+  public void testListIterator_zigzag() {
+    final FilteredNodeList<Node> filtered = new FilteredNodeList<>(list1, new NotStartsWithOne());
+    final ListIterator<Node> it = filtered.listIterator();
+    assertNodeName("A", it.next());
+    assertNodeName("A", it.previous());
+    
+    assertFalse(it.hasPrevious());
+    assertTrue(it.hasNext());
+    assertFalse(it.hasPrevious());
+    assertTrue(it.hasNext());
+    
+    assertEquals(0, it.nextIndex());
+    assertEquals(-1, it.previousIndex());
+    
+    assertNodeName("A", it.next());
+    assertNodeName("B", it.next());
+    assertNodeName("C", it.next());
+    assertNodeName("C", it.previous());
+    assertTrue(it.hasPrevious());
+    assertTrue(it.hasNext());
+    assertEquals(2, it.nextIndex());
+    assertEquals(1, it.previousIndex());
+  }
+  
+  @Test
+  public void testListIterator_4() {
+    final FilteredNodeList<Node> filtered = new FilteredNodeList<>(list2, new NotStartsWithOne());
+    final ListIterator<Node> it = filtered.listIterator();
+    assertTrue(it.hasNext());
+    assertNodeName("A", it.next());
+    assertTrue(it.hasNext());
+    assertNodeName("B", it.next());
+    assertTrue(it.hasNext());
+    assertNodeName("C", it.next());
+    assertFalse(it.hasNext());
+  }
+  
+  @Test
+  public void testListIterator_4_backward() {
+    final FilteredNodeList<Node> filtered = new FilteredNodeList<>(list2, new NotStartsWithOne());
+    final ListIterator<Node> it = filtered.listIterator(3);
+    assertTrue(it.hasPrevious());
+    assertNodeName("C", it.previous());
+    assertTrue(it.hasPrevious());
+    assertNodeName("B", it.previous());
+    assertTrue(it.hasPrevious());
+    assertNodeName("A", it.previous());
+    assertFalse(it.hasPrevious());
+  }
+  
+  @Test
+  public void testListIterator_empty_1() {
+    final FilteredNodeList<Node> filtered = new FilteredNodeList<>(list1, new AllwaysFalse());
+    final ListIterator<Node> it = filtered.listIterator();
+    assertFalse(it.hasNext());
+    assertFalse(it.hasPrevious());
+  }
+  
+  @Test
+  public void testListIterator_empty_2() {
+    list1.clear();
+    final FilteredNodeList<Node> filtered = new FilteredNodeList<>(list1, new AllwaysTrue());
+    final ListIterator<Node> it = filtered.listIterator();
+    assertFalse(it.hasNext());
+    assertFalse(it.hasPrevious());
+  }
+  
+  @Test(expected = NoSuchElementException.class)
+  public void testListIterator_beforeStart() {
+    final FilteredNodeList<Node> filtered = new FilteredNodeList<>(list1, new AllwaysFalse());
+    final ListIterator<Node> it = filtered.listIterator();
+    it.previous();
+  }
+  
+  @Test
+  public void testListIterator_remove() {
+    final FilteredNodeList<Node> filtered = new FilteredNodeList<>(list2, new NotStartsWithOne());
+    final ListIterator<Node> it = filtered.listIterator();
+    assertNodeName("A", it.next());
+    it.remove();
+    
+    assertTrue(it.hasNext());
+    assertFalse(it.hasPrevious());
+    assertEquals(0, it.nextIndex());
+    assertEquals(-1, it.previousIndex());
+    assertNodeName("B", it.next());
+    
+    assertEquals(1, it.nextIndex());
+    assertEquals(0, it.previousIndex());
+    
+    assertNodeName("B", it.previous());
+    
+    assertEquals(0, it.nextIndex());
+    assertEquals(-1, it.previousIndex());
+    
+    it.remove();
+    
+    assertTrue(it.hasNext());
+    assertFalse(it.hasPrevious());
+    assertEquals(0, it.nextIndex());
+    assertEquals(-1, it.previousIndex());
   }
   
   @Test

@@ -16,12 +16,10 @@ import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java8.util.function.Predicate;
 
 import org.noemus.neoxml.Node;
 import org.noemus.neoxml.NodeList;
-import org.noemus.neoxml.util.ProxyListIterator;
-
-import java8.util.function.Predicate;
 
 /**
  * This implementation is based on backing list that implements RandomAccess
@@ -112,11 +110,10 @@ class FilteredNodeList<T extends Node> extends AbstractNodeListFacade<T>
       return 0;
     }
     
-    final int origSize = nodeList.size();
     int size = 0;
     
-    for (int i=0; i<origSize; ++i) {
-      if (condition.test(nodeList.get(i))) {
+    for (T node : nodeList) {
+      if (condition.test(node)) {
         ++size;
       }
     }
@@ -140,10 +137,7 @@ class FilteredNodeList<T extends Node> extends AbstractNodeListFacade<T>
 
   @Override
   public ListIterator<T> listIterator() {
-    if (nodeList.isEmpty()) {
-      return Collections.emptyListIterator();
-    }
-    return new ProxyListIterator<>(nodeList.listIterator(), condition);
+    return listIterator(0);
   }
 
   @Override
@@ -153,7 +147,8 @@ class FilteredNodeList<T extends Node> extends AbstractNodeListFacade<T>
     if (nodeList.isEmpty()) {
       return Collections.emptyListIterator();
     }
-    return new ProxyListIterator<>(nodeList.listIterator(find(index)), condition);
+    
+    return new ListItr(index);
   }
 
   @Override
@@ -213,7 +208,7 @@ class FilteredNodeList<T extends Node> extends AbstractNodeListFacade<T>
     return clonedNodes;
   }
   
-  private int find(int index) {
+  protected int find(int index) {
     checkLowerBound(index);
     
     final int size = nodeList.size();
@@ -230,7 +225,7 @@ class FilteredNodeList<T extends Node> extends AbstractNodeListFacade<T>
     throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + (idx + 1));
   }
   
-  private int findForAdd(int index) {
+  int findForAdd(int index) {
     checkLowerBound(index);
     
     final int size = nodeList.size();
@@ -257,7 +252,6 @@ class FilteredNodeList<T extends Node> extends AbstractNodeListFacade<T>
   @Override
   void copyNodes() {
     // defensive copy of original list to suppress propagation of changes from branch to this node list
-    //nodeList = nodeList.duplicate();
   }
 
   // internal helper methods and classes
@@ -291,7 +285,8 @@ class FilteredNodeList<T extends Node> extends AbstractNodeListFacade<T>
   @SuppressWarnings("synthetic-access")
   class Itr implements Iterator<T>
   {
-    int lastIndex = -1;
+    int nextIndex = -1;
+    int currIndex = -1;
     T nextElt;
     int lastModCount = nodeList.modCount();
     int size = nodeList.size();
@@ -301,10 +296,10 @@ class FilteredNodeList<T extends Node> extends AbstractNodeListFacade<T>
       return nextElt != null || findNext();
     }
 
-    private final boolean findNext() {
-      while (++lastIndex < size) {
+    protected boolean findNext() {
+      while (++nextIndex < size) {
         checkForComodification();
-        nextElt = nodeList.get(lastIndex);
+        nextElt = nodeList.get(nextIndex);
         
         if (condition.test(nextElt)) {
           return true;
@@ -319,9 +314,10 @@ class FilteredNodeList<T extends Node> extends AbstractNodeListFacade<T>
     @Override
     public T next() {
       if (hasNext()) {
-        T elt = nextElt;
+        T currElt = nextElt;
+        currIndex = nextIndex;
         nextElt = null;
-        return elt;
+        return currElt;
       }
       
       throw new NoSuchElementException();
@@ -329,96 +325,163 @@ class FilteredNodeList<T extends Node> extends AbstractNodeListFacade<T>
 
     @Override
     public void remove() {
-      if (lastIndex == -1 || lastIndex == size) {
-        throw new NoSuchElementException();
+      if (currIndex < 0) {
+        throw new IllegalStateException("Cannot call remove() without previous call to next() or previous()");
       }
       
       checkForComodification();
-      nodeList.remove(lastIndex);
+      nodeList.remove(nextIndex);
+      
+      currIndex = -1;
+      --nextIndex;
+      
       lastModCount = nodeList.modCount();
       size = nodeList.size();
     }
     
-    private final void checkForComodification() {
+    protected void checkForComodification() {
       if (nodeList.modCount() != lastModCount) {
         throw new ConcurrentModificationException();
       }
     }
   }
 
-  /*
-  abstract static class AbstractOp<T> implements Predicate<T>
+  public final class ListItr extends Itr implements ListIterator<T>
   {
-    protected int originalIdx = -1;
-    protected int idx = -1;
+    int prevIndex = -1;
+    T prevElt;
+    
+    int idx;
 
-    boolean iterate(List<? extends T> list, Predicate<? super T> cond) {
-      final int size = list.size();
-
-      for (originalIdx = 0; originalIdx < size; ++originalIdx) {
-        final T v = list.get(originalIdx);
-
-        if (cond.test(v)) {
-          ++idx;
-
-          if (test(v)) {
-            return true;
-          }
-        }
+    public ListItr(int index) {
+      super();
+      
+      // set last returned index in underlying list
+      if (index > 0) {
+        prevIndex = findForAdd(index);
+        nextIndex = prevIndex + 1;
       }
-
-      return false;
-    }
-
-    int originalIndex() {
-      return originalIdx;
-    }
-
-    int index() {
-      return idx;
-    }
-  }
-
-  static class CountOp<TT> extends AbstractOp<TT>
-  {
-    protected int count = 0;
-
-    CountOp(List<? extends TT> list, Predicate<? super TT> cond) {
-      iterate(list, cond);
-    }
-
-    @Override
-    public boolean test(TT v) {
-      ++count;
-      return false;
-    }
-
-    int size() {
-      return count;
-    }
-  }
-  
-  static class FindOp<TT> extends AbstractOp<TT>
-  {
-    final int index;
-
-    FindOp(int i, List<? extends TT> list, Predicate<? super TT> cond) {
-      this(i, list, cond, true);
+      else {
+        prevIndex = -1;
+        nextIndex = -1;
+      }
+      
+      // next index in current list
+      idx = index;
     }
     
-    FindOp(int i, List<? extends TT> list, Predicate<? super TT> cond, boolean failIfNotFound) {
-      checkLowerBound(i);
-      index = i;
+    @Override
+    public T next() {
+      prevElt = super.next();
+      prevIndex = currIndex;
+      ++idx;
+      return prevElt;
+    }
+    
+    @Override
+    public boolean hasPrevious() {
+      return prevElt != null || findPrev();
+    }
+    
+    protected boolean findPrev() {
+      while (prevIndex > 0) {
+        checkForComodification();
+        
+        prevElt = nodeList.get(--prevIndex);
+        
+        if (condition.test(prevElt)) {
+          return true;
+        }
+      }
+      
+      prevElt = null;
+      
+      return false;
+    }
 
-      if (!iterate(list, cond) && failIfNotFound) {
-        throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + (idx + 1));
+    @Override
+    public T previous() {
+      if (hasPrevious()) {
+        T currElt = prevElt;
+        currIndex = prevIndex;
+        nextIndex = currIndex;
+        nextElt = currElt;
+        prevElt = null;
+        --idx;
+        return currElt;
+      }
+      
+      throw new NoSuchElementException();
+    }
+
+    @Override
+    public int nextIndex() {
+      return idx;
+    }
+
+    @Override
+    public int previousIndex() {
+      return idx - 1;
+    }
+    
+    @Override
+    public void remove() {
+      super.remove();
+      
+      if (prevElt != null) {
+        // after next();
+        prevElt = null;
+        --idx;
+      }
+      
+      if (nextElt != null) {
+        // after previous()
+        nextElt = null;
       }
     }
 
     @Override
-    public boolean test(TT v) {
-      return index == idx;
+    public void set(T e) {
+      if (currIndex < 0) {
+        throw new IllegalStateException("Cannot call set() without previous call to next() or previous()");
+      }
+      
+      checkForComodification();
+      
+      nodeList.set(currIndex, e);
+      
+      currIndex = -1;
+      
+      if (condition.test(e)) {
+        prevElt = e;
+      }
+      else {
+        prevElt = null;
+      }
+      
+      lastModCount = nodeList.modCount();
+      size = nodeList.size();
+    }
+
+    @Override
+    public void add(T e) {
+      if (currIndex < 0) {
+        throw new IllegalStateException("Cannot call add() without previous call to next() or previous()");
+      }
+      
+      checkForComodification();
+      
+      nodeList.add(currIndex, e);
+      
+      ++currIndex;
+      ++nextIndex;
+      
+      if (condition.test(e)) {
+        ++idx;
+      }
+      
+      lastModCount = nodeList.modCount();
+      size = nodeList.size();
     }
   }
-  */
 }
