@@ -421,25 +421,11 @@ public class SAXReader
         handler.setEntityResolver(thatEntityResolver);
       }
 
-      /*
-      boolean internal = isIncludeInternalDTDDeclarations();
-      boolean external = isIncludeExternalDTDDeclarations();
-
-      handler.setIncludeInternalDTDDeclarations(internal);
-      handler.setIncludeExternalDTDDeclarations(external);
-      handler.setMergeAdjacentText(isMergeAdjacentText());
-      handler.setStripWhitespaceText(isStripWhitespaceText());
-      handler.setIgnoreComments(isIgnoreComments());
-      
-      configureReader(reader, handler);
-      */
-
       reader.parse(in);
 
       return handler.getDocument();
     }
     catch (SAXParseException e) {
-      // e.printStackTrace();
       SAXParseException parseException = e;
       String systemId = parseException.getSystemId();
 

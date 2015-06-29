@@ -191,8 +191,7 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
     namespaceStack.push(Namespace.NO_NAMESPACE);
   }
 
-  public XMLWriter(OutputStream out, OutputFormat format)
-      throws UnsupportedEncodingException {
+  public XMLWriter(OutputStream out, OutputFormat format) throws UnsupportedEncodingException {
     this.format = format;
     this.writer = createWriter(out, format.getEncoding());
     this.autoFlush = true;
@@ -211,8 +210,7 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
     this.autoFlush = false;
   }
 
-  public void setOutputStream(OutputStream out)
-      throws UnsupportedEncodingException {
+  public void setOutputStream(OutputStream out) throws UnsupportedEncodingException {
     this.writer = createWriter(out, format.getEncoding());
     this.autoFlush = true;
   }
@@ -451,8 +449,7 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
    * @param processingInstruction <code>ProcessingInstruction</code> to output.
    * @throws IOException DOCUMENT ME!
    */
-  public void write(ProcessingInstruction processingInstruction)
-      throws IOException {
+  public void write(ProcessingInstruction processingInstruction) throws IOException {
     writeProcessingInstruction(processingInstruction);
 
     if (autoFlush) {

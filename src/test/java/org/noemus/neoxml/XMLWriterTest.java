@@ -12,10 +12,6 @@ import java.io.StringReader;
 import java.io.StringWriter;
 
 import org.junit.Test;
-import org.noemus.neoxml.DefaultDocumentFactory;
-import org.noemus.neoxml.Document;
-import org.noemus.neoxml.DocumentHelper;
-import org.noemus.neoxml.Element;
 import org.noemus.neoxml.io.OutputFormat;
 import org.noemus.neoxml.io.SAXReader;
 import org.noemus.neoxml.io.XMLWriter;

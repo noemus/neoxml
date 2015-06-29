@@ -123,9 +123,8 @@ public class STAXEventReader
    * @return The Document that was read from the stream.
    * @throws XMLStreamException If an error occurs reading content from the stream.
    */
-  public Document readDocument(InputStream is, String systemId)
-      throws XMLStreamException {
-    XMLEventReader eventReader = inputFactory.createXMLEventReader(
+  public Document readDocument(InputStream is, String systemId) throws XMLStreamException {
+    final XMLEventReader eventReader = inputFactory.createXMLEventReader(
       systemId, is);
 
     try {
@@ -145,10 +144,8 @@ public class STAXEventReader
    * @return The Document that was read from the stream.
    * @throws XMLStreamException If an error occurs reading content from the stream.
    */
-  public Document readDocument(Reader reader, String systemId)
-      throws XMLStreamException {
-    XMLEventReader eventReader = inputFactory.createXMLEventReader(
-      systemId, reader);
+  public Document readDocument(Reader reader, String systemId) throws XMLStreamException {
+    final XMLEventReader eventReader = inputFactory.createXMLEventReader(systemId, reader);
 
     try {
       return readDocument(eventReader);
@@ -173,7 +170,7 @@ public class STAXEventReader
    *           positioned before an unsupported event.
    */
   public Node readNode(XMLEventReader reader) throws XMLStreamException {
-    XMLEvent event = reader.peek();
+    final XMLEvent event = reader.peek();
 
     if (event.isStartElement()) {
       return readElement(reader);
@@ -209,8 +206,7 @@ public class STAXEventReader
    * @return The {@link Document}that was read from the stream.
    * @throws XMLStreamException If an error occurs reading events from the stream.
    */
-  public Document readDocument(XMLEventReader reader)
-      throws XMLStreamException {
+  public Document readDocument(XMLEventReader reader) throws XMLStreamException {
     Document doc = null;
 
     while (reader.hasNext()) {
@@ -220,13 +216,12 @@ public class STAXEventReader
       switch (type) {
         case XMLStreamConstants.START_DOCUMENT:
 
-          StartDocument event = (StartDocument)reader.nextEvent();
+          final StartDocument event = (StartDocument)reader.nextEvent();
 
           if (doc == null) {
             // create document
             if (event.encodingSet()) {
-              String encodingScheme = event
-                  .getCharacterEncodingScheme();
+              String encodingScheme = event.getCharacterEncodingScheme();
               doc = factory.createDocument(encodingScheme);
             }
             else {
@@ -276,9 +271,8 @@ public class STAXEventReader
    * @throws XMLStreamException If an error occured reading events from the stream, or the
    *           stream was not positioned before a {@linkStartElement}event.
    */
-  public Element readElement(XMLEventReader eventReader)
-      throws XMLStreamException {
-    XMLEvent event = eventReader.peek();
+  public Element readElement(XMLEventReader eventReader) throws XMLStreamException {
+    final XMLEvent event = eventReader.peek();
 
     if (event.isStartElement()) {
       // advance the reader and get the StartElement event
@@ -288,20 +282,16 @@ public class STAXEventReader
       // read element content
       while (true) {
         if (!eventReader.hasNext()) {
-          String msg = "Unexpected end of stream while reading"
-              + " element content";
-          throw new XMLStreamException(msg);
+          throw new XMLStreamException("Unexpected end of stream while reading element content");
         }
 
-        XMLEvent nextEvent = eventReader.peek();
+        final XMLEvent nextEvent = eventReader.peek();
 
         if (nextEvent.isEndElement()) {
           EndElement endElem = eventReader.nextEvent().asEndElement();
 
           if (!endElem.getName().equals(startTag.getName())) {
-            throw new XMLStreamException("Expected "
-                + startTag.getName() + " end-tag, but found"
-                + endElem.getName());
+            throw new XMLStreamException("Expected " + startTag.getName() + " end-tag, but found" + endElem.getName());
           }
 
           break;
@@ -314,8 +304,7 @@ public class STAXEventReader
       return elem;
     }
     else {
-      throw new XMLStreamException("Expected Element event, found: "
-          + event);
+      throw new XMLStreamException("Expected Element event, found: " + event);
     }
   }
 
@@ -328,9 +317,8 @@ public class STAXEventReader
    * @throws XMLStreamException If an error occured reading events from the stream, or the
    *           stream was not positioned before an {@linkAttribute}event.
    */
-  public org.noemus.neoxml.Attribute readAttribute(XMLEventReader reader)
-      throws XMLStreamException {
-    XMLEvent event = reader.peek();
+  public org.noemus.neoxml.Attribute readAttribute(XMLEventReader reader) throws XMLStreamException {
+    final XMLEvent event = reader.peek();
 
     if (event.isAttribute()) {
       Attribute attr = (Attribute)reader.nextEvent();
@@ -338,8 +326,7 @@ public class STAXEventReader
       return createAttribute(null, attr);
     }
     else {
-      throw new XMLStreamException("Expected Attribute event, found: "
-          + event);
+      throw new XMLStreamException("Expected Attribute event, found: " + event);
     }
   }
 
@@ -352,9 +339,8 @@ public class STAXEventReader
    * @throws XMLStreamException If an error occured reading events from the stream, or the
    *           stream was not positioned before a {@linkNamespace}event.
    */
-  public org.noemus.neoxml.Namespace readNamespace(XMLEventReader reader)
-      throws XMLStreamException {
-    XMLEvent event = reader.peek();
+  public org.noemus.neoxml.Namespace readNamespace(XMLEventReader reader) throws XMLStreamException {
+    final XMLEvent event = reader.peek();
 
     if (event.isNamespace()) {
       Namespace ns = (Namespace)reader.nextEvent();
@@ -362,8 +348,7 @@ public class STAXEventReader
       return createNamespace(ns);
     }
     else {
-      throw new XMLStreamException("Expected Namespace event, found: "
-          + event);
+      throw new XMLStreamException("Expected Namespace event, found: " + event);
     }
   }
 
@@ -376,9 +361,8 @@ public class STAXEventReader
    * @throws XMLStreamException If an error occured reading events from the stream, or the
    *           stream was not positioned before a {@linkCharacters}event.
    */
-  public CharacterData readCharacters(XMLEventReader reader)
-      throws XMLStreamException {
-    XMLEvent event = reader.peek();
+  public CharacterData readCharacters(XMLEventReader reader) throws XMLStreamException {
+    final XMLEvent event = reader.peek();
 
     if (event.isCharacters()) {
       Characters characters = reader.nextEvent().asCharacters();
@@ -386,8 +370,7 @@ public class STAXEventReader
       return createCharacterData(characters);
     }
     else {
-      throw new XMLStreamException("Expected Characters event, found: "
-          + event);
+      throw new XMLStreamException("Expected Characters event, found: " + event);
     }
   }
 
@@ -400,16 +383,14 @@ public class STAXEventReader
    * @throws XMLStreamException If an error occured reading events from the stream, or the
    *           stream was not positioned before a {@linkComment}event.
    */
-  public org.noemus.neoxml.Comment readComment(XMLEventReader reader)
-      throws XMLStreamException {
-    XMLEvent event = reader.peek();
+  public org.noemus.neoxml.Comment readComment(XMLEventReader reader) throws XMLStreamException {
+    final XMLEvent event = reader.peek();
 
     if (event instanceof Comment) {
       return createComment((Comment)reader.nextEvent());
     }
     else {
-      throw new XMLStreamException("Expected Comment event, found: "
-          + event);
+      throw new XMLStreamException("Expected Comment event, found: " + event);
     }
   }
 
@@ -422,9 +403,8 @@ public class STAXEventReader
    * @throws XMLStreamException If an error occured reading events from the stream, or the
    *           stream was not positioned before an {@linkEntityReference} event.
    */
-  public Entity readEntityReference(XMLEventReader reader)
-      throws XMLStreamException {
-    XMLEvent event = reader.peek();
+  public Entity readEntityReference(XMLEventReader reader) throws XMLStreamException {
+    final XMLEvent event = reader.peek();
 
     if (event.isEntityReference()) {
       EntityReference entityRef = (EntityReference)reader.nextEvent();
@@ -432,8 +412,7 @@ public class STAXEventReader
       return createEntity(entityRef);
     }
     else {
-      throw new XMLStreamException("Expected EntityRef event, found: "
-          + event);
+      throw new XMLStreamException("Expected EntityRef event, found: " + event);
     }
   }
 
@@ -446,13 +425,11 @@ public class STAXEventReader
    * @throws XMLStreamException If an error occured reading events from the stream, or the
    *           stream was not positioned before a {@link ProcessingInstruction} event.
    */
-  public org.noemus.neoxml.ProcessingInstruction readProcessingInstruction(
-      XMLEventReader reader) throws XMLStreamException {
-    XMLEvent event = reader.peek();
+  public org.noemus.neoxml.ProcessingInstruction readProcessingInstruction(XMLEventReader reader) throws XMLStreamException {
+    final XMLEvent event = reader.peek();
 
     if (event.isProcessingInstruction()) {
-      ProcessingInstruction pi = (ProcessingInstruction)reader
-          .nextEvent();
+      ProcessingInstruction pi = (ProcessingInstruction)reader.nextEvent();
 
       return createProcessingInstruction(pi);
     }
@@ -500,8 +477,7 @@ public class STAXEventReader
    * @return The Attribute constructed from the provided Attribute event.
    */
   public org.noemus.neoxml.Attribute createAttribute(Element elem, Attribute attr) {
-    return factory.createAttribute(elem, createQName(attr.getName()), attr
-      .getValue());
+    return factory.createAttribute(elem, createQName(attr.getName()), attr.getValue());
   }
 
   /**
@@ -555,8 +531,7 @@ public class STAXEventReader
    * @return The Entity constructed from the provided EntityReference event.
    */
   public org.noemus.neoxml.Entity createEntity(EntityReference entityRef) {
-    return factory.createEntity(entityRef.getName(), entityRef
-      .getDeclaration().getReplacementText());
+    return factory.createEntity(entityRef.getName(), entityRef.getDeclaration().getReplacementText());
   }
 
   /**
@@ -568,10 +543,8 @@ public class STAXEventReader
    * @return The ProcessingInstruction constructed from the provided
    *         ProcessingInstruction event.
    */
-  public org.noemus.neoxml.ProcessingInstruction createProcessingInstruction(
-      ProcessingInstruction pi) {
-    return factory
-        .createProcessingInstruction(pi.getTarget(), pi.getData());
+  public org.noemus.neoxml.ProcessingInstruction createProcessingInstruction(ProcessingInstruction pi) {
+    return factory.createProcessingInstruction(pi.getTarget(), pi.getData());
   }
 
   /**
@@ -581,8 +554,7 @@ public class STAXEventReader
    * @return The newly constructed DOM4J QName.
    */
   public org.noemus.neoxml.QName createQName(QName qname) {
-    return factory.createQName(qname.getLocalPart(), qname.getPrefix(),
-      qname.getNamespaceURI());
+    return factory.createQName(qname.getLocalPart(), qname.getPrefix(), qname.getNamespaceURI());
   }
 }
 
