@@ -9,12 +9,11 @@ package org.noemus.neoxml.tree;
 import java.util.AbstractList;
 import java.util.Iterator;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 import org.noemus.neoxml.Branch;
 import org.noemus.neoxml.Node;
 import org.noemus.neoxml.NodeList;
-
-import java8.util.function.Predicate;
 
 /**
  * <code>BackedList</code> represents a list of content of a {@link org.noemus.neoxml.Branch}. Changes to the list will be

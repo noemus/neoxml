@@ -16,7 +16,7 @@ import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-import java8.util.function.Predicate;
+import java.util.function.Predicate;
 
 import org.noemus.neoxml.Node;
 import org.noemus.neoxml.NodeList;

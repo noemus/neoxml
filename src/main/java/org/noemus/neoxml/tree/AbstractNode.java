@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.io.Writer;
 import java.util.List;
+import java.util.function.Predicate;
 
 import org.noemus.neoxml.CDATA;
 import org.noemus.neoxml.Comment;
@@ -26,8 +27,6 @@ import org.noemus.neoxml.QName;
 import org.noemus.neoxml.Text;
 import org.noemus.neoxml.XPath;
 import org.noemus.neoxml.rule.Pattern;
-
-import java8.util.function.Predicate;
 
 /**
  * <p>

@@ -8,7 +8,7 @@ package org.noemus.neoxml;
 
 import java.io.Serializable;
 import java.util.List;
-import java8.util.function.Predicate;
+import java.util.function.Predicate;
 
 /**
  * DOCUMENT ME!
