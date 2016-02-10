@@ -280,7 +280,7 @@ public abstract class AbstractNode implements Node, Serializable
 
   protected static final Predicate<Node> ELEMENT_CONDITION = new ElementCondition();
   protected static final Predicate<Node> NAMESPACE_CONDITION = new NamespaceCondition();
-  protected static final Predicate<Node> Text_CONDITION = new TextCondition();
+  protected static final Predicate<Node> TEXT_CONDITION = new TextCondition();
   protected static final Predicate<Node> CDATA_CONDITION = new CDATACondition();
   protected static final Predicate<Node> COMMENT_CONDITION = new CommentCondition();
   protected static final Predicate<Node> PI_CONDITION = new ProcessingInstructionCondition();

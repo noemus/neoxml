@@ -127,7 +127,7 @@ public interface NodeList<T extends Node> extends List<T>, Cloneable, Serializab
    * <li> <code>null</code> if it is instance of <code>EmptyNodeList</code><br>
    * <li> same instance if it is <code>DefaultNodeList</code> and has not parent branch<br>
    * <li> duplicate if it is <code>FacadeNodeList</code> or <code>FilteredNodeList</code> and has not parent branch<br>
-   * <li> copy if it otherwise<br>
+   * <li> copy of it otherwise<br>
    * </ul>
    *
    * @return node list suitable for attaching to new parent branch
