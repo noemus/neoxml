@@ -25,6 +25,30 @@ package org.neoxml;
  */
 public interface Visitor
 {
+  default boolean visit(Node node) {
+    return true;
+  }
+
+  default boolean visitEnter(Node node) {
+    return true;
+  }
+
+  default boolean visitLeave(Node node) {
+    return true;
+  }
+  
+  default boolean visit(Branch node) {
+    return visit((Node)node);
+  }
+
+  default boolean visitEnter(Branch node) {
+    return visitEnter((Node)node);
+  }
+
+  default boolean visitLeave(Branch node) {
+    return visitLeave((Node)node);
+  }
+  
   /**
    * <p>
    * Visits the given <code>Document</code>
@@ -33,7 +57,9 @@ public interface Visitor
    * @param document is the <code>Document</code> node to visit.
    * @return false to indicate that processing stopped at some point
    */
-  boolean visit(Document document);
+  default boolean visit(Document document) {
+    return visit((Branch)document);
+  }
 
   /**
    * <p>
@@ -43,7 +69,9 @@ public interface Visitor
    * @param document is the <code>Document</code> node to visit.
    * @return true if subnodes should be processed
    */
-  boolean visitEnter(Document document);
+  default boolean visitEnter(Document document) {
+    return visitEnter((Branch)document);
+  }
 
   /**
    * <p>
@@ -53,7 +81,9 @@ public interface Visitor
    * @param document is the <code>Document</code> node to visit.
    * @return false to indicate that processing stopped at some point
    */
-  boolean visitLeave(Document document);
+  default boolean visitLeave(Document document) {
+    return visitLeave((Branch)document);
+  }
 
   /**
    * <p>
@@ -62,7 +92,9 @@ public interface Visitor
    *
    * @param documentType is the <code>DocumentType</code> node to visit.
    */
-  boolean visit(DocumentType documentType);
+  default boolean visit(DocumentType documentType) {
+    return visit((Node)documentType);
+  }
 
   /**
    * <p>
@@ -71,11 +103,17 @@ public interface Visitor
    *
    * @param node is the <code>Element</code> node to visit.
    */
-  boolean visit(Element node);
+  default boolean visit(Element node) {
+    return visit((Branch)node);
+  }
 
-  boolean visitEnter(Element node);
+  default boolean visitEnter(Element node) {
+    return visitEnter((Branch)node);
+  }
 
-  boolean visitLeave(Element node);
+  default boolean visitLeave(Element node) {
+    return visitLeave((Branch)node);
+  }
 
   /**
    * <p>
@@ -84,8 +122,21 @@ public interface Visitor
    *
    * @param node is the <code>Attribute</code> node to visit.
    */
-  boolean visit(Attribute node);
+  default boolean visit(Attribute node) {
+    return visit((Node)node);
+  }
 
+  /**
+   * <p>
+   * Visits the <code>CDATA</code> or <code>Comment</code> node
+   * </p>
+   *
+   * @param node is node to visit.
+   */
+  default boolean visit(CharacterData node) {
+    return visit((Node)node);
+  }
+  
   /**
    * <p>
    * Visits the given <code>CDATA</code>
@@ -93,7 +144,9 @@ public interface Visitor
    *
    * @param node is the <code>CDATA</code> node to visit.
    */
-  boolean visit(CDATA node);
+  default boolean visit(CDATA node) {
+    return visit((CharacterData)node);
+  }
 
   /**
    * <p>
@@ -102,7 +155,9 @@ public interface Visitor
    *
    * @param node is the <code>Comment</code> node to visit.
    */
-  boolean visit(Comment node);
+  default boolean visit(Comment node) {
+    return visit((CharacterData)node);
+  }
 
   /**
    * <p>
@@ -111,7 +166,9 @@ public interface Visitor
    *
    * @param node is the <code>Entity</code> node to visit.
    */
-  boolean visit(Entity node);
+  default boolean visit(Entity node) {
+    return visit((Node)node);
+  }
 
   /**
    * <p>
@@ -120,7 +177,9 @@ public interface Visitor
    *
    * @param namespace is the <code>Namespace</code> node to visit.
    */
-  boolean visit(Namespace namespace);
+  default boolean visit(Namespace namespace) {
+    return visit((Node)namespace);
+  }
 
   /**
    * <p>
@@ -129,7 +188,9 @@ public interface Visitor
    *
    * @param node is the <code>ProcessingInstruction</code> node to visit.
    */
-  boolean visit(ProcessingInstruction node);
+  default boolean visit(ProcessingInstruction node) {
+    return visit((Node)node);
+  }
 
   /**
    * <p>
@@ -138,7 +199,9 @@ public interface Visitor
    *
    * @param node is the <code>Text</code> node to visit.
    */
-  boolean visit(Text node);
+  default boolean visit(Text node) {
+    return visit((Node)node);
+  }
 }
 
 /*
