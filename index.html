@@ -32,31 +32,41 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h1>
-<a id="xml-dom-java-library-based-on-dom4j" class="anchor" href="#xml-dom-java-library-based-on-dom4j" aria-hidden="true"><span class="octicon octicon-link"></span></a>XML DOM Java library based on dom4j</h1>
+<a id="xml-dom-java-library-based-on-dom4j" class="anchor" href="#xml-dom-java-library-based-on-dom4j" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>XML DOM Java library based on dom4j</h1>
 
-<p>This is my attempt to rewrite dom4j xml library for newer version of java (1.7 and above). 
+<p>This is my attempt to rewrite dom4j xml library for newer version of java (1.8 and above). 
 I have renamed it to eliminate some licensing issues.</p>
 
 <p>My intent is to keep this library simple in design and use. 
 I am using dom4j in many my projects, but it is now too old and whithout maintentnace</p>
 
 <h3>
-<a id="main-goals" class="anchor" href="#main-goals" aria-hidden="true"><span class="octicon octicon-link"></span></a>Main goals:</h3>
+<a id="main-goals" class="anchor" href="#main-goals" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Main goals</h3>
 
 <ul>
-<li>Focus on simple traversal API based on java.util Collections framework (as in dom4j)</li>
-<li>I have (and will) remove some parts of former dom4j that are not necessary and that only added some dependencies. I will maybe - if asked for - create some separate modules for theese parts. (Swing, Datatype, Xpp) </li>
-<li>I have also added some new APIs that are more functional and are compatible with java 1.8 lambdas.</li>
-<li>Improvement of visitor pattern - which is one of top features of former dom4j library</li>
+<li>I am focusing on simple traversal API based on java.util Collections framework and on Visitor pattern ( as in dom4j )</li>
+<li>I have (and will) remove some parts of former dom4j that are not necessary and that only added some dependencies. I will maybe - if asked for - create some separate modules for theese parts. (Swing, Datatype, Xpp, etc)</li>
 </ul>
 
 <h3>
-<a id="important" class="anchor" href="#important" aria-hidden="true"><span class="octicon octicon-link"></span></a>IMPORTANT!</h3>
+<a id="allready-done" class="anchor" href="#allready-done" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Allready done</h3>
 
-<p>This is early version of XTree and it is possible that I will rename package or library name before first release </p>
+<ul>
+<li>All code is refactored and reorganised, nearly all code duplications are removed</li>
+<li>Added API for NodeList for better manipulation with collections of Nodes</li>
+<li>Branch (and all container nodes) now implements Iterable</li>
+<li>Added some new APIs that are more functional and are compatible with java 1.8 lambdas.</li>
+<li>Extended implementation of visitor pattern - which is one of top features of former dom4j library</li>
+<li>Done some benchmarks (based on JMH) against original dom4j, neoxml performs better in some cases and nearly same in other scenarios, whole library is optimised for XML documents with many nodes without subnodes or with only one subnode</li>
+</ul>
 
 <h3>
-<a id="current-state" class="anchor" href="#current-state" aria-hidden="true"><span class="octicon octicon-link"></span></a>Current state</h3>
+<a id="important" class="anchor" href="#important" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>IMPORTANT!</h3>
+
+<p>This is early version of neoxml and it is possible that I will rename package or library name before first release </p>
+
+<h3>
+<a id="current-state" class="anchor" href="#current-state" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Current state</h3>
 
 <p>I am now focusing on JUnit test coverage and code clarity, JUnit tests from original dom4j library are fully functional and I am now adding tests for new classes and for missing use cases of original classes</p>
 
