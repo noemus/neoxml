@@ -1,5 +1,3 @@
-// ///////////////////////////////////////////////////////////////////////////
-// $Id$
 package org.noemus.neoxml.util;
 
 import java.util.HashMap;
@@ -17,7 +15,7 @@ public class DoubleNameMap<T>
   private Map<QName,T> qNamedMap = new HashMap<>();
   
   public DoubleNameMap() {
-    
+    super();
   }
 
   public void put(QName qName, T value) {
