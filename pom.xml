@@ -6,7 +6,7 @@
     
     <groupId>org.noemus</groupId>
     <artifactId>neoxml</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
@@ -18,10 +18,15 @@
 
     <distributionManagement>
       <site>
-          <id>neoxml.website</id>
-          <name>NeoXML 1.0 Website</name>
-          <url>http://noemus.github.io/neoxml/htdocs</url>
+        <id>neoxml.website</id>
+        <name>NeoXML 1.0 Website</name>
+        <url>http://noemus.github.io/neoxml/htdocs</url>
       </site>
+      <repository>
+        <id>tdp-nexus</id>
+        <name>TDP Nexus Releases</name>
+        <url>http://svn.tdp.cz/nexus/content/repositories/releases</url>
+      </repository>
       <snapshotRepository>
         <id>tdp-nexus-staging</id>
         <name>TDP Nexus Snapshots</name>
