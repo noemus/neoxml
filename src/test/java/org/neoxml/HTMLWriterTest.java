@@ -9,10 +9,6 @@ package org.neoxml;
 import java.io.StringWriter;
 
 import org.junit.Test;
-import org.neoxml.DefaultDocumentFactory;
-import org.neoxml.Document;
-import org.neoxml.DocumentHelper;
-import org.neoxml.Element;
 import org.neoxml.io.HTMLWriter;
 import org.neoxml.io.OutputFormat;
 
@@ -65,18 +61,16 @@ public class HTMLWriterTest extends AbstractTestCase
     format.setExpandEmptyElements(true);
 
     StringWriter buffer = new StringWriter();
-    HTMLWriter writer = new HTMLWriter(buffer, format);
-    writer.write(doc);
+    try (HTMLWriter writer = new HTMLWriter(buffer, format)) {
+      writer.write(doc);
+    }
 
     String xml = buffer.toString();
     log(xml);
 
     int start = xml.indexOf("<root");
     int end = xml.indexOf("/root>") + 6;
-    String eol = "\n"; // System.getProperty("line.separator");
-    String expected = "<root>this is simple text" + eol
-        + "    <child></child>containing spaces and multiple textnodes"
-        + eol + "</root>";
+    String expected = "<root>this is simple text<child></child>containing spaces and multiple textnodes</root>";
     System.out.println("Expected:");
     System.out.println(expected);
     System.out.println("Obtained:");
@@ -89,19 +83,20 @@ public class HTMLWriterTest extends AbstractTestCase
     // use an the HTMLWriter sax-methods.
     //
     StringWriter buffer = new StringWriter();
-    HTMLWriter writer = new HTMLWriter(buffer, OutputFormat
-      .createPrettyPrint());
-    writer.characters("wor".toCharArray(), 0, 3);
-    writer.characters("d-being-cut".toCharArray(), 0, 11);
-
+    try (HTMLWriter writer = new HTMLWriter(buffer, OutputFormat.createPrettyPrint())) {
+      writer.characters("wor".toCharArray(), 0, 3);
+      writer.characters("d-being-cut".toCharArray(), 0, 11);
+    }
+    
     String expected = "word-being-cut";
     assertEquals(expected, buffer.toString());
 
     buffer = new StringWriter();
-    writer = new HTMLWriter(buffer, OutputFormat.createPrettyPrint());
-    writer.characters("    wor".toCharArray(), 0, 7);
-    writer.characters("d being    ".toCharArray(), 0, 11);
-    writer.characters("  cut".toCharArray(), 0, 5);
+    try (HTMLWriter writer = new HTMLWriter(buffer, OutputFormat.createPrettyPrint())) {
+      writer.characters("    wor".toCharArray(), 0, 7);
+      writer.characters("d being    ".toCharArray(), 0, 11);
+      writer.characters("  cut".toCharArray(), 0, 5);
+    }
 
     expected = "word being cut";
     assertEquals(expected, buffer.toString());
@@ -112,11 +107,11 @@ public class HTMLWriterTest extends AbstractTestCase
     // use an the HTMLWriter sax-methods.
     //
     StringWriter buffer = new StringWriter();
-    HTMLWriter writer = new HTMLWriter(buffer, OutputFormat
-      .createPrettyPrint());
-    writer.characters("wor".toCharArray(), 0, 3);
-    writer.characters(new char[0], 0, 0);
-    writer.characters("d-being-cut".toCharArray(), 0, 11);
+    try (HTMLWriter writer = new HTMLWriter(buffer, OutputFormat.createPrettyPrint())) {
+      writer.characters("wor".toCharArray(), 0, 3);
+      writer.characters(new char[0], 0, 0);
+      writer.characters("d-being-cut".toCharArray(), 0, 11);
+    }
 
     String expected = "word-being-cut";
     assertEquals(expected, buffer.toString());

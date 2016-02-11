@@ -12,10 +12,6 @@ import java.io.StringReader;
 import java.io.StringWriter;
 
 import org.junit.Test;
-import org.neoxml.DefaultDocumentFactory;
-import org.neoxml.Document;
-import org.neoxml.DocumentHelper;
-import org.neoxml.Element;
 import org.neoxml.io.OutputFormat;
 import org.neoxml.io.SAXReader;
 import org.neoxml.io.XMLWriter;
@@ -413,8 +409,40 @@ public class XMLWriterTest extends AbstractTestCase
     format.setExpandEmptyElements(true);
 
     StringWriter buffer = new StringWriter();
-    XMLWriter writer = new XMLWriter(buffer, format);
-    writer.write(doc);
+    try (XMLWriter writer = new XMLWriter(buffer, format)) {
+      writer.write(doc);
+    }
+
+    String xml = buffer.toString();
+    log(xml);
+
+    int start = xml.indexOf("<root");
+    int end = xml.indexOf("/root>") + 6;
+    String expected = "<root>this is simple text<child></child>containing spaces and multiple textnodes</root>";
+    System.out.println("Expected:");
+    System.out.println(expected);
+    System.out.println("Obtained:");
+    System.out.println(xml.substring(start, end));
+    assertEquals(expected, xml.substring(start, end));
+  }
+  
+  @Test
+  public void testBug923882_2() throws Exception {
+    Document doc = DefaultDocumentFactory.getInstance().createDocument();
+    Element root = doc.addElement("root");
+    root.addElement("child");
+    
+    OutputFormat format = new OutputFormat();
+    format.setEncoding("UTF-8");
+    format.setIndentSize(4);
+    format.setNewlines(true);
+    format.setTrimText(true);
+    format.setExpandEmptyElements(true);
+
+    StringWriter buffer = new StringWriter();
+    try (XMLWriter writer = new XMLWriter(buffer, format)) {
+      writer.write(doc);
+    }
 
     String xml = buffer.toString();
     log(xml);
@@ -422,9 +450,9 @@ public class XMLWriterTest extends AbstractTestCase
     int start = xml.indexOf("<root");
     int end = xml.indexOf("/root>") + 6;
     String eol = "\n"; // System.getProperty("line.separator");
-    String expected = "<root>this is simple text" + eol
-        + "    <child></child>containing spaces and multiple textnodes"
-        + eol + "</root>";
+    String expected = "<root>" + eol +
+        "    <child></child>" + eol +
+        "</root>";
     System.out.println("Expected:");
     System.out.println(expected);
     System.out.println("Obtained:");

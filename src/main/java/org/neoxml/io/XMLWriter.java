@@ -894,8 +894,10 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
     int size = element.nodeCount();
     String qualifiedName = element.getQualifiedName();
 
-    writePrintln();
-    indent();
+    if (lastOutputNodeType != NodeType.TEXT_NODE) {
+      writePrintln();
+      indent();
+    }
 
     writer.write('<');
     writer.write(qualifiedName);
@@ -953,8 +955,10 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
 
         --indentLevel;
 
-        writePrintln();
-        indent();
+        if (lastOutputNodeType != NodeType.TEXT_NODE) {
+          writePrintln();
+          indent();
+        }
       }
 
       writer.write("</");
