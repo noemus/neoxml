@@ -172,7 +172,7 @@ public abstract class AbstractElement extends AbstractBranch implements Element
       return out.toString();
     }
     catch (IOException e) {
-      throw new RuntimeException("IOException while generating " + "textual representation: " + e.getMessage());
+      throw new RuntimeException("IOException while generating textual representation: " + e.getMessage());
     }
   }
 
@@ -864,6 +864,8 @@ public abstract class AbstractElement extends AbstractBranch implements Element
   // Helper methods
   // -------------------------------------------------------------------------
 
+  //FIXME returns true in case of Text + Comment or CDATA, or in case of Element + ProcessingInstruction
+  //FIXME missing tests
   @Override
   public boolean hasMixedContent() {
     List<Node> contentList = safeContentList();

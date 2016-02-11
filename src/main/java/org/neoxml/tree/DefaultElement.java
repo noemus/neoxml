@@ -131,6 +131,7 @@ public class DefaultElement extends AbstractElement
     this.qname = name;
   }
 
+  /*
   @Override
   public String getStringValue() {
     if (safeContentList().size() == 0) {
@@ -157,6 +158,7 @@ public class DefaultElement extends AbstractElement
 
     return builder.toString();
   }
+  */
 
   @Override
   public Namespace getNamespaceForURI(String uri) {

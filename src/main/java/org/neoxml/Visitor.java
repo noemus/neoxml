@@ -200,7 +200,7 @@ public interface Visitor
    * @param node is the <code>Text</code> node to visit.
    */
   default boolean visit(Text node) {
-    return visit((Node)node);
+    return visit((CharacterData)node);
   }
 }
 
