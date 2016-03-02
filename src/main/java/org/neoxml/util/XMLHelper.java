@@ -1,5 +1,6 @@
 package org.neoxml.util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -8,7 +9,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +63,46 @@ public final class XMLHelper
   public static org.neoxml.Document createDocumentFromResource(String classpath, String encoding) throws DocumentException {
     try (InputStream xmlInputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(classpath)) {
       return createDocumentFromStream(classpath, xmlInputStream, encoding);
+    }
+    catch (IOException e) {
+      throw new DocumentException(e);
+    }
+  }
+  
+  /**
+   * Creates xml Document from file (default encoding is UTF-8)
+   *
+   * @param classpath
+   * @return org.neoxml.Document instance
+   * @throws DocumentException
+   */
+  public static org.neoxml.Document createDocumentFromFile(Path file) throws DocumentException {
+    return createDocumentFromFile(file, StandardCharsets.UTF_8);
+  }
+  
+  /**
+   * Creates xml Document from file
+   *
+   * @param classpath
+   * @param encoding
+   * @return org.neoxml.Document instance
+   * @throws DocumentException
+   */
+  public static org.neoxml.Document createDocumentFromFile(Path file, String encoding) throws DocumentException {
+    return createDocumentFromFile(file, Charset.forName(encoding));
+  }
+  
+  /**
+   * Creates xml Document from file
+   *
+   * @param classpath
+   * @param charset
+   * @return org.neoxml.Document instance
+   * @throws DocumentException
+   */
+  public static org.neoxml.Document createDocumentFromFile(Path file, Charset charset) throws DocumentException {
+    try (Reader reader = Files.newBufferedReader(file, charset)) {
+      return createDocumentFromReader(reader);
     }
     catch (IOException e) {
       throw new DocumentException(e);
@@ -242,7 +286,7 @@ public final class XMLHelper
    * @throws FileNotFoundException
    */
   public static XMLWriter createWriter(OutputStream out, String encoding) {
-    final OutputFormat format = defaultOutputFormat();
+    final OutputFormat format = OutputFormat.defaultOutputFormat();
     return createWriter(out, encoding, format);
   }
   
@@ -254,16 +298,24 @@ public final class XMLHelper
    * @throws FileNotFoundException
    */
   public static XMLWriter createWriter(OutputStream out, String encoding, OutputFormat format) {
-    return new XMLWriter(new OutputStreamWriter(out, Charset.forName(encoding)), format); //NOSONAR
+    return new XMLWriter(new OutputStreamWriter(out, Charset.forName(encoding)), format);
   }
   
   /**
-   * @return default output format scpecification for use with XMLWriter
+   * @param doc
+   * @return Documant as String
+   * @throws IOException
+   * @throws UnsupportedEncodingException
    */
-  public static OutputFormat defaultOutputFormat() {
-    final OutputFormat format = new OutputFormat("  ", false);
-    format.setExpandEmptyElements(false);
-    return format;
+  public static String printXml(org.neoxml.Document doc) throws IOException, UnsupportedEncodingException {
+    try (ByteArrayOutputStream output = new ByteArrayOutputStream();
+        XMLWriter xml = createWriter(output, DEFAULT_ENCODING)) {
+      
+      xml.write(doc);
+      xml.flush();
+    
+      return output.toString(DEFAULT_ENCODING);
+    }
   }
   
   private static org.neoxml.Document createDocumentFromStream(String desc, InputStream in, String encoding) throws DocumentException {

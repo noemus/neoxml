@@ -151,8 +151,9 @@ public class OutputFormat implements Cloneable
    * @param separator <code>String</code> line separator to use.
    * @see #setNewlines(boolean)
    */
-  public void setLineSeparator(String separator) {
+  public OutputFormat setLineSeparator(String separator) {
     lineSeparator = separator;
+    return this;
   }
 
   public boolean isNewlines() {
@@ -166,8 +167,9 @@ public class OutputFormat implements Cloneable
    *          else new lines are ignored (compacted).
    * @see #setLineSeparator(String)
    */
-  public void setNewlines(boolean newlines) {
+  public OutputFormat setNewlines(boolean newlines) {
     this.newlines = newlines;
+    return this;
   }
 
   public String getEncoding() {
@@ -176,13 +178,15 @@ public class OutputFormat implements Cloneable
 
   /**
    * DOCUMENT ME!
+   * <em>Subsequent call to this method doesnt change encoding
    *
    * @param encoding encoding format
    */
-  public void setEncoding(String encoding) {
+  public OutputFormat setEncoding(String encoding) {
     if (encoding != null) {
       this.encoding = encoding;
     }
+    return this;
   }
 
   public boolean isOmitEncoding() {
@@ -199,8 +203,9 @@ public class OutputFormat implements Cloneable
    * @param omitEncoding <code>boolean</code> indicating whether or not the XML
    *          declaration should indicate the document encoding.
    */
-  public void setOmitEncoding(boolean omitEncoding) {
+  public OutputFormat setOmitEncoding(boolean omitEncoding) {
     this.omitEncoding = omitEncoding;
+    return this;
   }
 
   /**
@@ -212,8 +217,9 @@ public class OutputFormat implements Cloneable
    * @param suppressDeclaration <code>boolean</code> indicating whether or not the XML
    *          declaration should be suppressed.
    */
-  public void setSuppressDeclaration(boolean suppressDeclaration) {
+  public OutputFormat setSuppressDeclaration(boolean suppressDeclaration) {
     this.suppressDeclaration = suppressDeclaration;
+    return this;
   }
 
   /**
@@ -235,8 +241,9 @@ public class OutputFormat implements Cloneable
    * @param newLineAfterDeclaration <code>boolean</code> indicating whether or not to print new
    *          line following the XML declaration. The default is true.
    */
-  public void setNewLineAfterDeclaration(boolean newLineAfterDeclaration) {
+  public OutputFormat setNewLineAfterDeclaration(boolean newLineAfterDeclaration) {
     this.newLineAfterDeclaration = newLineAfterDeclaration;
+    return this;
   }
 
   /**
@@ -261,8 +268,9 @@ public class OutputFormat implements Cloneable
    * @param expandEmptyElements <code>boolean</code> indicating whether or not empty
    *          elements should be expanded.
    */
-  public void setExpandEmptyElements(boolean expandEmptyElements) {
+  public OutputFormat setExpandEmptyElements(boolean expandEmptyElements) {
     this.expandEmptyElements = expandEmptyElements;
+    return this;
   }
 
   public boolean isTrimText() {
@@ -285,8 +293,9 @@ public class OutputFormat implements Cloneable
    * @param trimText <code>boolean</code> true=>trim the whitespace, false=>use
    *          text verbatim
    */
-  public void setTrimText(boolean trimText) {
+  public OutputFormat setTrimText(boolean trimText) {
     this.trimText = trimText;
+    return this;
   }
 
   public boolean isPadText() {
@@ -312,8 +321,9 @@ public class OutputFormat implements Cloneable
    *
    * @param padText <code>boolean</code> if true, pad string-element boundaries
    */
-  public void setPadText(boolean padText) {
+  public OutputFormat setPadText(boolean padText) {
     this.padText = padText;
+    return this;
   }
 
   public String getIndent() {
@@ -329,13 +339,14 @@ public class OutputFormat implements Cloneable
    *
    * @param indent <code>String</code> to use for indentation.
    */
-  public void setIndent(String indent) {
+  public OutputFormat setIndent(String indent) {
     // nullify empty string to void unnecessary indentation code
     if ((indent != null) && (indent.length() <= 0)) {
       indent = null;
     }
 
     this.indent = indent;
+    return this;
   }
 
   /**
@@ -344,13 +355,14 @@ public class OutputFormat implements Cloneable
    *
    * @param doIndent if true, set indenting on; if false, set indenting off
    */
-  public void setIndent(boolean doIndent) {
+  public OutputFormat setIndent(boolean doIndent) {
     if (doIndent) {
       this.indent = STANDARD_INDENT;
     }
     else {
       this.indent = null;
     }
+    return this;
   }
 
   /**
@@ -361,14 +373,15 @@ public class OutputFormat implements Cloneable
    *
    * @param indentSize <code>int</code> number of spaces in indentation.
    */
-  public void setIndentSize(int indentSize) {
-    StringBuilder indentBuffer = new StringBuilder(indentSize);
+  public OutputFormat setIndentSize(int indentSize) {
+    final StringBuilder indentBuffer = new StringBuilder(indentSize);
 
     for (int i = 0; i < indentSize; i++) {
       indentBuffer.append(' ');
     }
 
     this.indent = indentBuffer.toString();
+    return this;
   }
 
   /**
@@ -402,8 +415,9 @@ public class OutputFormat implements Cloneable
    * @param xhtml <code>boolean</code> true=>conform to XHTML, false=>conform
    *          to HTML, can have unclosed tags, etc.
    */
-  public void setXHTML(boolean xhtml) {
+  public OutputFormat setXHTML(boolean xhtml) {
     doXHTML = xhtml;
+    return this;
   }
 
   public int getNewLineAfterNTags() {
@@ -421,8 +435,9 @@ public class OutputFormat implements Cloneable
    *
    * @param tagCount DOCUMENT ME!
    */
-  public void setNewLineAfterNTags(int tagCount) {
+  public OutputFormat setNewLineAfterNTags(int tagCount) {
     newLineAfterNTags = tagCount;
+    return this;
   }
 
   public char getAttributeQuoteCharacter() {
@@ -438,7 +453,7 @@ public class OutputFormat implements Cloneable
    * @throws IllegalArgumentException If the specified character is not a valid XML attribute quote
    *           character.
    */
-  public void setAttributeQuoteCharacter(char quoteChar) {
+  public OutputFormat setAttributeQuoteCharacter(char quoteChar) {
     if ((quoteChar == '\'') || (quoteChar == '"')) {
       attributeQuoteChar = quoteChar;
     }
@@ -446,6 +461,7 @@ public class OutputFormat implements Cloneable
       throw new IllegalArgumentException("Invalid attribute quote "
           + "character (" + quoteChar + ")");
     }
+    return this;
   }
 
   /**
@@ -507,13 +523,11 @@ public class OutputFormat implements Cloneable
    * @return DOCUMENT ME!
    */
   public static OutputFormat createPrettyPrint() {
-    OutputFormat format = new OutputFormat();
-    format.setIndentSize(2);
-    format.setNewlines(true);
-    format.setTrimText(true);
-    format.setPadText(true);
-
-    return format;
+    return new OutputFormat()
+      .setIndentSize(2)
+      .setNewlines(true)
+      .setTrimText(true)
+      .setPadText(true);
   }
 
   /**
@@ -524,12 +538,21 @@ public class OutputFormat implements Cloneable
    * @return DOCUMENT ME!
    */
   public static OutputFormat createCompactFormat() {
-    OutputFormat format = new OutputFormat();
-    format.setIndent(false);
-    format.setNewlines(false);
-    format.setTrimText(true);
-
-    return format;
+    return new OutputFormat()
+      .setIndent(false)
+      .setNewlines(false)
+      .setTrimText(true);
+  }
+  
+  /**
+   * A static helper method to create the default format. This format
+   * does not have any indentation or newlines after an alement and all other
+   * whitespace trimmed
+   *
+   * @return DOCUMENT ME!
+   */
+  public static OutputFormat defaultOutputFormat() {
+    return new OutputFormat("  ", false).setExpandEmptyElements(false);
   }
 }
 
