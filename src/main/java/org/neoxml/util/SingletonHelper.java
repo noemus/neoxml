@@ -22,7 +22,7 @@ public final class SingletonHelper
   }
   
   @SuppressWarnings("unchecked")
-  public static <T> SingletonStrategy<T> getSingletonStrategy(String singletonStrategyProperty, String singletonClassName) {
+  private static <T> SingletonStrategy<T> getSingletonStrategy(String singletonStrategyProperty, String singletonClassName) {
     SingletonStrategy<T> singleton;
     
     try {

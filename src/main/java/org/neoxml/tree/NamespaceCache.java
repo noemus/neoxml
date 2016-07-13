@@ -6,6 +6,9 @@
 
 package org.neoxml.tree;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.neoxml.Namespace;
 
 /**
@@ -24,13 +27,13 @@ public class NamespaceCache
   /**
    * Cache of {@link Map}instances indexed by URI which contain caches of {@link Namespace}for each prefix
    */
-  //protected static final ConcurrentMap<String,ConcurrentMap<String,Namespace>> cache = new ConcurrentHashMap<>(11, 0.75f, 1);
+  protected static final Map<String,Map<String,Namespace>> cache = new ConcurrentHashMap<>(11, 0.75f, 1);
 
   /**
    * Cache of {@link Namespace}instances indexed by URI for default
    * namespaces with no prefixes
    */
-  //protected static final ConcurrentMap<String,Namespace> noPrefixCache = new ConcurrentHashMap<>(11, 0.75f, 1);
+  protected static final Map<String,Namespace> noPrefixCache = new ConcurrentHashMap<>(11, 0.75f, 1);
 
   /**
    * DOCUMENT ME!
@@ -40,21 +43,9 @@ public class NamespaceCache
    * @return the namespace for the given prefix and uri
    */
   public Namespace get(String prefix, String uri) {
-    /*
-    ConcurrentMap<String,Namespace> uriCache = getURICache(uri);
-    Namespace answer = uriCache.get(prefix);
-    
-    if (answer == null) {
-      answer = createNamespace(prefix, uri);
-      Namespace orig = uriCache.putIfAbsent(prefix, answer);
-      if (orig != null) {
-        answer = orig;
-      }
-    }
-
-    return answer;
-    */
-    return createNamespace(prefix, uri);
+    final Map<String,Namespace> uriCache = getURICache(uri);
+    return uriCache.computeIfAbsent(prefix, _prefix -> createNamespace(_prefix, uri));
+    //return createNamespace(prefix, uri);
   }
 
   /**
@@ -64,20 +55,8 @@ public class NamespaceCache
    * @return the name model for the given name and namepsace
    */
   public Namespace get(String uri) {
-    /*
-    Namespace answer = noPrefixCache.get(uri);
-    
-    if (answer == null) {
-      answer = createNamespace("", uri);
-      Namespace orig = noPrefixCache.putIfAbsent(uri, answer);
-      if (orig != null) {
-        answer = orig;
-      }
-    }
-
-    return answer;
-    */
-    return createNamespace("", uri);
+    return noPrefixCache.computeIfAbsent(uri, _uri -> createNamespace("", _uri));
+    //return createNamespace("", uri);
   }
 
   /**
@@ -86,21 +65,10 @@ public class NamespaceCache
    * @param uri DOCUMENT ME!
    * @return the cache for the given namespace URI. If one does not currently
    *         exist it is created.
-   *//*
-  protected ConcurrentMap<String,Namespace> getURICache(String uri) {
-    ConcurrentMap<String,Namespace> answer = cache.get(uri);
-
-    if (answer == null) {
-      answer = new ConcurrentHashMap<>();
-      ConcurrentMap<String,Namespace> orig = cache.putIfAbsent(uri, answer);
-      if (orig != null) {
-        answer = orig;
-      }
-    }
-
-    return answer;
+   */
+  protected Map<String,Namespace> getURICache(String uri) {
+    return cache.computeIfAbsent(uri, _uri -> new ConcurrentHashMap<>());
   }
-  */
 
   /**
    * A factory method to create {@link Namespace}instance

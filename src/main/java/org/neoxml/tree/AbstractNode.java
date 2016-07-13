@@ -315,7 +315,7 @@ public abstract class AbstractNode implements Node, Serializable
       return false;
     }
   }
-
+  
   protected static class ElementCondition extends NodeNameCondition
   {
     protected ElementCondition() {

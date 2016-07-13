@@ -245,27 +245,21 @@ public abstract class AbstractBranch extends AbstractNode implements Branch
 
   @Override
   public Element elementByID(String elementID) {
-    //TODO
-    for (int i = 0, size = nodeCount(); i < size; i++) {
-      Node node = node(i);
+    for (Element element : safeContentList().filter(ELEMENT_CONDITION, Element.class)) {
+      final String id = element.attributeValue("ID");
 
-      if (node instanceof Element) {
-        Element element = (Element)node;
-        String id = elementID(element);
+      if ((id != null) && id.equals(elementID)) {
+        return element;
+      }
+      else {
+        element = element.elementByID(elementID);
 
-        if ((id != null) && id.equals(elementID)) {
+        if (element != null) {
           return element;
-        }
-        else {
-          element = element.elementByID(elementID);
-
-          if (element != null) {
-            return element;
-          }
         }
       }
     }
-
+    
     return null;
   }
 
@@ -329,40 +323,15 @@ public abstract class AbstractBranch extends AbstractNode implements Branch
 
   @Override
   public ProcessingInstruction processingInstruction(String target) {
-    for (Node node : safeContentList()) {
-      if (node instanceof ProcessingInstruction && target.equals(node.getName())) {
-        return (ProcessingInstruction)node;
-      }
-    }
-
-    return null;
+    return safeContentList().find(new ProcessingInstructionCondition(target), ProcessingInstruction.class);
   }
 
   @Override
   public boolean removeProcessingInstruction(String target) {
-    final List<ProcessingInstruction> pis = contentList().filter(new ProcessingInstructionCondition(target), ProcessingInstruction.class);
-    if (pis != null && !pis.isEmpty()) {
-      pis.clear();
-      return true;
-    }
-
-    return false;
+    return safeContentList().removeIf(new ProcessingInstructionCondition(target));
   }
 
   // Implementation methods
-
-  /**
-   * DOCUMENT ME!
-   *
-   * @param element DOCUMENT ME!
-   * @return the ID of the given <code>Element</code>
-   */
-  protected String elementID(Element element) {
-    //TODO
-    // XXX: there will be other ways of finding the ID
-    // XXX: should probably have an IDResolver or something
-    return element.attributeValue("ID");
-  }
 
   /**
    * DOCUMENT ME!

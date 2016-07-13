@@ -35,17 +35,16 @@ public class Namespace extends AbstractNode
    * No Namespace present
    */
   public static final Namespace NO_NAMESPACE = new Namespace("", "");
-  //public static final Namespace NO_NAMESPACE = CACHE.get("", "");
 
   /**
    * The prefix mapped to this namespace
    */
-  private String prefix;
+  private final String prefix;
 
   /**
    * The URI for this namespace
    */
-  private String uri;
+  private final String uri;
 
   /**
    * A cached version of the hashcode for efficiency
@@ -185,8 +184,8 @@ public class Namespace extends AbstractNode
 
   @Override
   public String getPath(Element context) {
-    StringBuilder path = new StringBuilder(10);
-    Element parent = getParent();
+    final StringBuilder path = new StringBuilder(30);
+    final Element parent = getParent();
 
     if ((parent != null) && (parent != context)) {
       path.append(parent.getPath(context));
@@ -200,8 +199,8 @@ public class Namespace extends AbstractNode
 
   @Override
   public String getUniquePath(Element context) {
-    StringBuilder path = new StringBuilder(10);
-    Element parent = getParent();
+    final StringBuilder path = new StringBuilder(30);
+    final Element parent = getParent();
 
     if ((parent != null) && (parent != context)) {
       path.append(parent.getUniquePath(context));
@@ -220,8 +219,8 @@ public class Namespace extends AbstractNode
 
   @Override
   public String asXML() {
-    StringBuilder asxml = new StringBuilder(10);
-    String pref = getPrefix();
+    final StringBuilder asxml = new StringBuilder(50);
+    final String pref = getPrefix();
 
     if ((pref != null) && (pref.length() > 0)) {
       asxml.append("xmlns:");

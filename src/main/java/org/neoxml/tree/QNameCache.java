@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 import org.neoxml.DocumentFactory;
 import org.neoxml.Namespace;
@@ -20,24 +19,22 @@ import org.neoxml.QName;
  * <p>
  * <code>QNameCache</code> caches instances of <code>QName</code> for reuse both across documents and within documents.
  * </p>
- * < < < < < < < QNameCache.java
- *
+ * 
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
- * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
- * @version $Revision: 1.16 $ >>>>>>> 1.15
+ * @version $Revision: 1.16 $
  */
 public class QNameCache
 {
   /**
    * Cache of {@link QName}instances with no namespace
    */
-  protected ConcurrentMap<String,QName> noNamespaceCache = new ConcurrentHashMap<>();
+  protected final Map<String,QName> noNamespaceCache = new ConcurrentHashMap<>();
 
   /**
    * Cache of {@link Map}instances indexed by namespace which contain caches
    * of {@link QName}for each name
    */
-  protected ConcurrentMap<Namespace,ConcurrentMap<String,QName>> namespaceCache = new ConcurrentHashMap<>();
+  protected final Map<Namespace,Map<String,QName>> namespaceCache = new ConcurrentHashMap<>();
 
   /**
    * The document factory associated with new QNames instances in this cache
@@ -57,7 +54,7 @@ public class QNameCache
    * @return DOCUMENT ME!
    */
   public List<QName> getQNames() {
-    List<QName> answer = new ArrayList<>();
+    final List<QName> answer = new ArrayList<>();
 
     answer.addAll(noNamespaceCache.values());
 
@@ -75,27 +72,7 @@ public class QNameCache
    * @return the QName for the given name and no namepsace
    */
   public QName get(String name) {
-    QName answer = null;
-
-    if (name != null) {
-      answer = noNamespaceCache.get(name);
-    }
-    else {
-      name = "";
-    }
-
-    if (answer == null) {
-      answer = createQName(name);
-      QName orig = noNamespaceCache.putIfAbsent(name, answer);
-      if (orig != null) {
-        answer = orig;
-      }
-      else {
-        answer.setDocumentFactory(documentFactory);
-      }
-    }
-
-    return answer;
+    return noNamespaceCache.computeIfAbsent(name != null ? name : "", _name -> createQName(_name));
   }
 
   /**
@@ -106,28 +83,9 @@ public class QNameCache
    * @return the QName for the given local name and namepsace
    */
   public QName get(String name, Namespace namespace) {
-    ConcurrentMap<String,QName> cache = getNamespaceCache(namespace);
-    QName answer = null;
-
-    if (name != null) {
-      answer = cache.get(name);
-    }
-    else {
-      name = "";
-    }
-
-    if (answer == null) {
-      answer = createQName(name, namespace);
-      QName orig = cache.putIfAbsent(name, answer);
-      if (orig != null) {
-        answer = orig;
-      }
-      else {
-        answer.setDocumentFactory(documentFactory);
-      }
-    }
-
-    return answer;
+    final Map<String,QName> cache = getNamespaceCache(namespace);
+    
+    return cache.computeIfAbsent(name != null ? name : "", _name -> createQName(_name, namespace));
   }
 
   /**
@@ -139,28 +97,9 @@ public class QNameCache
    * @return the QName for the given local name, qualified name and namepsace
    */
   public QName get(String localName, Namespace namespace, String qName) {
-    ConcurrentMap<String,QName> cache = getNamespaceCache(namespace);
-    QName answer = null;
-
-    if (localName != null) {
-      answer = cache.get(localName);
-    }
-    else {
-      localName = "";
-    }
-
-    if (answer == null) {
-      answer = createQName(localName, namespace, qName);
-      QName orig = cache.putIfAbsent(localName, answer);
-      if (orig != null) {
-        answer = orig;
-      }
-      else {
-        answer.setDocumentFactory(documentFactory);
-      }
-    }
-
-    return answer;
+    final Map<String,QName> cache = getNamespaceCache(namespace);
+    
+    return cache.computeIfAbsent(localName != null ? localName : "", _localName -> createQName(_localName, namespace, qName));
   }
 
   public QName get(String qualifiedName, String uri) {
@@ -195,26 +134,12 @@ public class QNameCache
    * @return the cache for the given namespace. If one does not currently
    *         exist it is created.
    */
-  protected ConcurrentMap<String,QName> getNamespaceCache(Namespace namespace) {
+  protected Map<String,QName> getNamespaceCache(Namespace namespace) {
     if (namespace == Namespace.NO_NAMESPACE) {
       return noNamespaceCache;
     }
 
-    ConcurrentMap<String,QName> answer = null;
-
-    if (namespace != null) {
-      answer = namespaceCache.get(namespace);
-    }
-
-    if (answer == null) {
-      answer = new ConcurrentHashMap<>();
-      ConcurrentMap<String,QName> orig = namespaceCache.putIfAbsent(namespace, answer);
-      if (orig != null) {
-        answer = orig;
-      }
-    }
-
-    return answer;
+    return namespaceCache.computeIfAbsent(namespace, _namespace -> new ConcurrentHashMap<>());
   }
 
   /**
@@ -225,7 +150,9 @@ public class QNameCache
    * @return DOCUMENT ME!
    */
   protected QName createQName(String name) {
-    return new QName(name);
+    final QName qName = new QName(name);
+    qName.setDocumentFactory(documentFactory);
+    return qName;
   }
 
   /**
@@ -237,7 +164,9 @@ public class QNameCache
    * @return DOCUMENT ME!
    */
   protected QName createQName(String name, Namespace namespace) {
-    return new QName(name, namespace);
+    final QName qName = new QName(name, namespace);
+    qName.setDocumentFactory(documentFactory);
+    return qName;
   }
 
   /**
@@ -249,9 +178,10 @@ public class QNameCache
    * @param qualifiedName DOCUMENT ME!
    * @return DOCUMENT ME!
    */
-  protected QName createQName(String name, Namespace namespace,
-      String qualifiedName) {
-    return new QName(name, namespace, qualifiedName);
+  protected QName createQName(String name, Namespace namespace, String qualifiedName) {
+    final QName qName = new QName(name, namespace, qualifiedName);
+    qName.setDocumentFactory(documentFactory);
+    return qName;
   }
 }
 
