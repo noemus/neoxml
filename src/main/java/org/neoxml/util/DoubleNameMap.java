@@ -11,8 +11,8 @@ import org.neoxml.QName;
  */
 public class DoubleNameMap<T>
 {
-  private Map<String,T> namedMap = new HashMap<>();
-  private Map<QName,T> qNamedMap = new HashMap<>();
+  private final Map<String,T> namedMap = new HashMap<>();
+  private final Map<QName,T> qNamedMap = new HashMap<>();
   
   public DoubleNameMap() {
     super();

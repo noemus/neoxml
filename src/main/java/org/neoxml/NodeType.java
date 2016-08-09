@@ -62,7 +62,7 @@ public enum NodeType
   /**
    * Does not match any valid node
    */
-  UNKNOWN_NODE((short)14, "Unknown"), ;
+  UNKNOWN_NODE((short)14, "Unknown");
 
   private final short code;
   private final String name;
@@ -90,7 +90,7 @@ public enum NodeType
     return this.name;
   }
 
-  public static NodeType byCode(short code) {
+  public static NodeType byCode(int code) {
     if (code < 0 || code >= byCode.length) {
       return null;
     }
