@@ -38,7 +38,7 @@ public class XMLResultTest extends AbstractTestCase
     TransformerFactory factory = TransformerFactory.newInstance();
     Transformer transformer = factory.newTransformer();
 
-    // use dom4j document as the source
+    // use neoxml document as the source
     Source source = new DocumentSource(document);
 
     // use pretty print format and a buffer for the result

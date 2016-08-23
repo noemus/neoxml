@@ -16,7 +16,7 @@ import org.xml.sax.XMLReader;
 
 /**
  * <p>
- * <code>DocumentSource</code> implements a JAXP {@link SAXSource}for a {@linkDocument}.
+ * <code>DocumentSource</code> implements a JAXP {@link SAXSource} for a {@linkDocument}.
  * </p>
  *
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
@@ -25,9 +25,9 @@ import org.xml.sax.XMLReader;
 public class DocumentSource extends SAXSource
 {
   /**
-   * If {@link javax.xml.transform.TransformerFactory#getFeature}returns <code>true</code> when passed this value as an
+   * If {@link javax.xml.transform.TransformerFactory#getFeature} returns <code>true</code> when passed this value as an
    * argument then the
-   * Transformer natively supports <i>dom4j </i>.
+   * Transformer natively supports <i>neoxml</i>.
    */
   public static final String DOM4J_FEATURE = "http://org.neoxml.io.DoucmentSource/feature";
 
@@ -37,7 +37,7 @@ public class DocumentSource extends SAXSource
   private XMLReader xmlReader = new SAXWriter();
 
   /**
-   * Creates a JAXP {@link SAXSource}for the given {@link Node}.
+   * Creates a JAXP {@link SAXSource} for the given {@link Node}.
    *
    * @param node DOCUMENT ME!
    */
@@ -46,7 +46,7 @@ public class DocumentSource extends SAXSource
   }
 
   /**
-   * Creates a JAXP {@link SAXSource}for the given {@link Document}.
+   * Creates a JAXP {@link SAXSource} for the given {@link Document}.
    *
    * @param document DOCUMENT ME!
    */

@@ -111,7 +111,7 @@ public class RoundTripTest extends AbstractTestCase
     DOMWriter domWriter = new DOMWriter();
     org.w3c.dom.Document domDocument = domWriter.write(document);
 
-    // now lets read it back as a DOM4J object
+    // now lets read it back as a neoxml object
     DOMReader domReader = new DOMReader();
     Document newDocument = domReader.read(domDocument);
 

@@ -27,7 +27,7 @@ import org.w3c.dom.DOMException;
 
 /**
  * <p>
- * <code>DOMDocumentFactory</code> is a factory of DOM4J objects which implement the W3C DOM API.
+ * <code>DOMDocumentFactory</code> is a factory of neoxml objects which implement the W3C DOM API.
  * </p>
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>

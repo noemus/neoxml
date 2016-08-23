@@ -41,7 +41,7 @@ import org.xml.sax.helpers.LocatorImpl;
 
 /**
  * <p>
- * <code>SAXWriter</code> writes a DOM4J tree to a SAX ContentHandler.
+ * <code>SAXWriter</code> writes a neoxml tree to a SAX ContentHandler.
  * </p>
  *
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
@@ -561,7 +561,7 @@ public class SAXWriter implements XMLReader
    *
    * @param input DOCUMENT ME!
    * @throws SAXException DOCUMENT ME!
-   * @throws SAXNotSupportedException if the input source is not wrapping a dom4j document
+   * @throws SAXNotSupportedException if the input source is not wrapping a neoxml document
    */
   @Override
   public void parse(InputSource input) throws SAXException {
@@ -598,7 +598,7 @@ public class SAXWriter implements XMLReader
           write((Comment)node);
         }
         else {
-          throw new SAXException("Invalid Node in DOM4J content: "
+          throw new SAXException("Invalid Node in neoxml content: "
               + node + " of type: " + node.getClass());
         }
       }
@@ -612,7 +612,7 @@ public class SAXWriter implements XMLReader
         write(node);
       }
       else {
-        throw new SAXException("Invalid Node in DOM4J content: "
+        throw new SAXException("Invalid Node in neoxml content: "
             + node);
       }
     }

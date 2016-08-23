@@ -16,11 +16,6 @@ import java.util.Date;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.neoxml.Document;
-import org.neoxml.DocumentHelper;
-import org.neoxml.Element;
-import org.neoxml.Namespace;
-import org.neoxml.QName;
 
 import com.google.code.tempusfugit.concurrency.ConcurrentRule;
 import com.google.code.tempusfugit.concurrency.ConcurrentTestRunner;
@@ -29,7 +24,7 @@ import com.google.code.tempusfugit.concurrency.annotations.Concurrent;
 import com.google.code.tempusfugit.concurrency.annotations.Repeating;
 
 /**
- * A test harness to test the dom4j package in a threaded environment
+ * A test harness to test the neoxml package in a threaded environment
  *
  * @author <a href="mailto:ddlucas@lse.com">David Lucas </a>
  * @version $Revision: 1.3 $
@@ -77,7 +72,7 @@ public class ThreadingTest
   }
 
   /**
-   * This test combines many different types of operations on DOM4J in a
+   * This test combines many different types of operations on neoxml in a
    * threaded environment. If a problem occurs with threading, the tests will
    * fail. This was used to help isolate an internal threading issue.
    * Unfortunately it may not always create the condition necessary to break

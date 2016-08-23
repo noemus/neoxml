@@ -22,7 +22,7 @@ import org.neoxml.tree.NamespaceStack;
 
 /**
  * <p>
- * <code>DOMReader</code> navigates a W3C DOM tree and creates a DOM4J tree from it.
+ * <code>DOMReader</code> navigates a W3C DOM tree and creates a neoxml tree from it.
  * </p>
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
@@ -63,11 +63,11 @@ public class DOMReader
   /**
    * <p>
    * This sets the <code>DefaultDocumentFactory</code> used to create new documents. This method allows the building of
-   * custom DOM4J tree objects to be implemented easily using a custom derivation of
+   * custom neoxml tree objects to be implemented easily using a custom derivation of
    * {@link org.neoxml.DefaultDocumentFactory}
    * </p>
    *
-   * @param docFactory <code>DefaultDocumentFactory</code> used to create DOM4J objects
+   * @param docFactory <code>DefaultDocumentFactory</code> used to create neoxml objects
    */
   public void setDocumentFactory(DocumentFactory docFactory) {
     this.factory = docFactory;

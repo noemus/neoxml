@@ -306,7 +306,7 @@ public class NamespacesTest extends AbstractTestCase
     org.w3c.dom.Document domDocument = builder.parse(new InputSource(
       new StringReader(document.asXML())));
 
-    // now lets read it back as a DOM4J object
+    // now lets read it back as a neoxml object
     DOMReader domReader = new DOMReader();
 
     return domReader.read(domDocument);

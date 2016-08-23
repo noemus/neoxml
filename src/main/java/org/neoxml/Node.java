@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * <p>
- * <code>Node</code> defines the polymorphic behavior for all XML nodes in a dom4j tree.
+ * <code>Node</code> defines the polymorphic behavior for all XML nodes in a neoxml tree.
  * </p>
  * <p/>
  * <p>

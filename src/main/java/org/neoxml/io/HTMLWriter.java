@@ -26,7 +26,7 @@ import org.xml.sax.SAXException;
 
 /**
  * <p>
- * <code>HTMLWriter</code> takes a DOM4J tree and formats it to a stream as HTML. This formatter is similar to XMLWriter
+ * <code>HTMLWriter</code> takes a neoxml tree and formats it to a stream as HTML. This formatter is similar to XMLWriter
  * but it outputs the text of CDATA and Entity sections rather than the serialised format as in XML, it has an XHTML
  * mode, it retains whitespace in certain elements such as &lt;PRE&gt;, and it supports certain elements which have no
  * corresponding close tag such as for &lt;BR&gt; and &lt;P&gt;.

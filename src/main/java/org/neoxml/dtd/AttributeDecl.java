@@ -20,38 +20,37 @@ public class AttributeDecl implements InternalDeclaration, ExternalDeclaration
    * Holds value of property elementName.
    */
   private String elementName;
-
+  
   /**
    * Holds value of property attributeName.
    */
   private String attributeName;
-
+  
   /**
    * Holds value of property type.
    */
   private String type;
-
+  
   /**
    * Holds value of property value.
    */
   private String value;
-
+  
   /**
    * Holds value of property valueDefault.
    */
   private String valueDefault;
-
+  
   public AttributeDecl() {}
-
-  public AttributeDecl(String elementName, String attributeName, String type,
-      String valueDefault, String value) {
+  
+  public AttributeDecl(String elementName, String attributeName, String type, String valueDefault, String value) {
     this.elementName = elementName;
     this.attributeName = attributeName;
     this.type = type;
     this.value = value;
     this.valueDefault = valueDefault;
   }
-
+  
   /**
    * Getter for property elementName.
    *
@@ -60,7 +59,7 @@ public class AttributeDecl implements InternalDeclaration, ExternalDeclaration
   public String getElementName() {
     return elementName;
   }
-
+  
   /**
    * Setter for property elementName.
    *
@@ -69,7 +68,7 @@ public class AttributeDecl implements InternalDeclaration, ExternalDeclaration
   public void setElementName(String elementName) {
     this.elementName = elementName;
   }
-
+  
   /**
    * Getter for property attributeName.
    *
@@ -78,7 +77,7 @@ public class AttributeDecl implements InternalDeclaration, ExternalDeclaration
   public String getAttributeName() {
     return attributeName;
   }
-
+  
   /**
    * Setter for property attributeName.
    *
@@ -87,7 +86,7 @@ public class AttributeDecl implements InternalDeclaration, ExternalDeclaration
   public void setAttributeName(String attributeName) {
     this.attributeName = attributeName;
   }
-
+  
   /**
    * Getter for property type.
    *
@@ -96,7 +95,7 @@ public class AttributeDecl implements InternalDeclaration, ExternalDeclaration
   public String getType() {
     return type;
   }
-
+  
   /**
    * Setter for property type.
    *
@@ -105,7 +104,7 @@ public class AttributeDecl implements InternalDeclaration, ExternalDeclaration
   public void setType(String type) {
     this.type = type;
   }
-
+  
   /**
    * Getter for property value.
    *
@@ -114,7 +113,7 @@ public class AttributeDecl implements InternalDeclaration, ExternalDeclaration
   public String getValue() {
     return value;
   }
-
+  
   /**
    * Setter for property value.
    *
@@ -123,7 +122,7 @@ public class AttributeDecl implements InternalDeclaration, ExternalDeclaration
   public void setValue(String value) {
     this.value = value;
   }
-
+  
   /**
    * Getter for property valueDefault.
    *
@@ -132,7 +131,7 @@ public class AttributeDecl implements InternalDeclaration, ExternalDeclaration
   public String getValueDefault() {
     return valueDefault;
   }
-
+  
   /**
    * Setter for property valueDefault.
    *
@@ -141,7 +140,7 @@ public class AttributeDecl implements InternalDeclaration, ExternalDeclaration
   public void setValueDefault(String valueDefault) {
     this.valueDefault = valueDefault;
   }
-
+  
   @Override
   public String toString() {
     StringBuilder buffer = new StringBuilder(50);
@@ -152,10 +151,10 @@ public class AttributeDecl implements InternalDeclaration, ExternalDeclaration
     buffer.append(' ');
     buffer.append(type);
     buffer.append(' ');
-
+    
     if (valueDefault != null) {
       buffer.append(valueDefault);
-
+      
       if (valueDefault.equals("#FIXED")) {
         buffer.append(" \"");
         buffer.append(value);
@@ -167,9 +166,9 @@ public class AttributeDecl implements InternalDeclaration, ExternalDeclaration
       buffer.append(value);
       buffer.append('"');
     }
-
+    
     buffer.append('>');
-
+    
     return buffer.toString();
   }
 }

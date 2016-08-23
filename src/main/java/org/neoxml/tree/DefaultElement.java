@@ -21,7 +21,7 @@ import org.neoxml.QName;
 
 /**
  * <p>
- * <code>DefaultElement</code> is the default DOM4J default implementation of an XML element.
+ * <code>DefaultElement</code> is the default neoxml default implementation of an XML element.
  * </p>
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>

@@ -15,19 +15,19 @@ import org.neoxml.Node;
 /**
  * <p>
  * <code>RuleSet</code> manages a set of rules which are sorted in order of relevance according to the XSLT defined
- * conflict resolution policy. This makes finding the correct rule for a DOM4J Node using the XSLT processing model
+ * conflict resolution policy. This makes finding the correct rule for a neoxml Node using the XSLT processing model
  * efficient as the rules can be evaluated in order of priority.
  * </p>
  *
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.10 $
  */
-public class RuleSet
+public final class RuleSet
 {
   /**
    * An unordered list of Rule objects
    */
-  private List<Rule> rules = new ArrayList<>();
+  private final List<Rule> rules = new ArrayList<>();
 
   /**
    * A lazily evaluated and cached array of rules sorted
@@ -45,7 +45,7 @@ public class RuleSet
    * Performs an XSLT processing model match for the rule which matches the
    * given Node the best.
    *
-   * @param node is the DOM4J Node to match against
+   * @param node is the neoxml Node to match against
    * @return the matching Rule or no rule if none matched
    */
   public Rule getMatchingRule(Node node) {

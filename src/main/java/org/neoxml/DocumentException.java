@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 
 /**
  * <p>
- * <code>DocumentException</code> is a nested Exception which may be thrown during the processing of a DOM4J document.
+ * <code>DocumentException</code> is a nested Exception which may be thrown during the processing of a neoxml document.
  * </p>
  *
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
@@ -26,7 +26,7 @@ public class DocumentException extends Exception
   private Throwable nestedException;
 
   public DocumentException() {
-    super("Error occurred in DOM4J application.");
+    super("Error occurred in neoxml application.");
   }
 
   public DocumentException(String message) {

@@ -24,7 +24,7 @@ import org.neoxml.rule.Pattern;
  */
 public class DefaultPattern implements Pattern
 {
-  private NodeFilter filter;
+  private final NodeFilter filter;
 
   public DefaultPattern(NodeFilter filter) {
     this.filter = filter;

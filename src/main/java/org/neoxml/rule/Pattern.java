@@ -33,7 +33,7 @@ public interface Pattern extends NodeFilter
    * DOCUMENT ME!
    *
    * @param node DOCUMENT ME!
-   * @return true if the pattern matches the given DOM4J node.
+   * @return true if the pattern matches the given neoxml node.
    */
   boolean matches(Node node);
 

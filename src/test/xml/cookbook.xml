@@ -102,7 +102,7 @@
 
                     public class DeployFileLoaderSample {
 
-                    /** DOM4J object model representation of a xml document. Note: We use the interface(!) not its
+                    /** neoxml object model representation of a xml document. Note: We use the interface(!) not its
                     implementation */
                     private Document doc;
 
@@ -169,7 +169,7 @@
 
                     public class DeployFileLoaderSample {
 
-                    /** DOM4J object model representation of a xml document. Note: We use the interface(!) not its
+                    /** neoxml object model representation of a xml document. Note: We use the interface(!) not its
                     implementation */
                     private Document doc;
 
@@ -350,7 +350,7 @@
             stream.
             <application>dom4j</application>
             provides a set of classes to serialize
-            your DOM4J tree in four ways:
+            your neoxml tree in four ways:
         </para>
 
         <itemizedlist>

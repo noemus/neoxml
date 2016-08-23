@@ -31,7 +31,7 @@ public class QName implements Serializable
   /**
    * The Singleton instance
    */
-  private static SingletonStrategy<QNameCache> singleton = SingletonHelper.getSingletonStrategy("org.neoxml.QName.singleton.strategy", QNameCache.class);
+  private final static SingletonStrategy<QNameCache> singleton = SingletonHelper.getSingletonStrategy("org.neoxml.QName.singleton.strategy", QNameCache.class);
 
   /**
    * The local name of the element or attribute

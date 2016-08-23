@@ -41,7 +41,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * <p>
- * <code>SAXContentHandler</code> builds a dom4j tree via SAX events.
+ * <code>SAXContentHandler</code> builds a neoxml tree via SAX events.
  * </p>
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>

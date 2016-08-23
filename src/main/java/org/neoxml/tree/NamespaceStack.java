@@ -21,7 +21,7 @@ import org.neoxml.QName;
 /**
  * NamespaceStack implements a stack of namespaces and optionally maintains a
  * cache of all the fully qualified names (<code>QName</code>) which are in
- * scope. This is useful when building or navigating a <i>dom4j </i> document.
+ * scope. This is useful when building or navigating a <i>neoxml</i> document.
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.13 $

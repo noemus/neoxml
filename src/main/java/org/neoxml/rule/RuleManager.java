@@ -18,7 +18,7 @@ import org.neoxml.rule.pattern.NodeTypePattern;
 
 /**
  * <p>
- * <code>RuleManager</code> manages a set of rules such that a rule can be found for a given DOM4J Node using the XSLT
+ * <code>RuleManager</code> manages a set of rules such that a rule can be found for a given neoxml node using the XSLT
  * processing model.
  * </p>
  *
@@ -30,7 +30,7 @@ public class RuleManager
   /**
    * Map of modes indexed by mode
    */
-  private Map<String,Mode> modes = new HashMap<>();
+  private final Map<String,Mode> modes = new HashMap<>();
 
   /**
    * A counter so that rules can be ordered by the order in which they were
@@ -53,14 +53,7 @@ public class RuleManager
    *         then it will be created.
    */
   public Mode getMode(String modeName) {
-    Mode mode = modes.get(modeName);
-
-    if (mode == null) {
-      mode = createMode();
-      modes.put(modeName, mode);
-    }
-
-    return mode;
+    return modes.computeIfAbsent(modeName, nm -> createMode());
   }
 
   public void addRule(Rule rule) {
@@ -98,7 +91,7 @@ public class RuleManager
    * given Node the best.
    *
    * @param modeName is the name of the mode associated with the rule if any
-   * @param node is the DOM4J Node to match against
+   * @param node is the neoxml node to match against
    * @return the matching Rule or no rule if none matched
    */
   public Rule getMatchingRule(String modeName, Node node) {

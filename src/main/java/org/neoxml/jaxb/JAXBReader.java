@@ -24,7 +24,7 @@ import org.neoxml.io.SAXReader;
 import org.xml.sax.InputSource;
 
 /**
- * Reads an XML document and creates a DOM4J tree from SAX parsing events. {@link JAXBObjectHandler}objects can be
+ * Reads an XML document and creates a neoxml tree from SAX parsing events. {@link JAXBObjectHandler}objects can be
  * registered to automatically receive
  * unmarshalled XML fragments. Registered {@linkorg.xtree.ElementHandler} implementations are notified when a certain
  * element path is encountered
@@ -69,7 +69,7 @@ public class JAXBReader extends JAXBSupport
    * Parses the specified {@link java.io.File}
    *
    * @param source the file to parse
-   * @return the resulting DOM4J document
+   * @return the resulting neoxml document
    * @throws DocumentException when an error occurs while parsing
    */
   public Document read(File source) throws DocumentException {
@@ -81,7 +81,7 @@ public class JAXBReader extends JAXBSupport
    *
    * @param file the file to parse
    * @param charset the charset to be used
-   * @return the resulting DOM4J document
+   * @return the resulting neoxml document
    * @throws DocumentException when an error occurs while parsing
    */
   public Document read(File file, Charset charset) throws DocumentException {
@@ -101,7 +101,7 @@ public class JAXBReader extends JAXBSupport
    * Parses the specified {@link org.xml.sax.InputSource}
    *
    * @param source the source to parse
-   * @return the resulting DOM4J document
+   * @return the resulting neoxml document
    * @throws DocumentException when an error occurs while parsing
    */
   public Document read(InputSource source) throws DocumentException {
@@ -118,7 +118,7 @@ public class JAXBReader extends JAXBSupport
    * Parses the specified {@link java.io.InputStream}
    *
    * @param source the input stream to parse
-   * @return the resulting DOM4J document
+   * @return the resulting neoxml document
    * @throws DocumentException when an error occurs while parsing
    */
   public Document read(InputStream source) throws DocumentException {
@@ -136,7 +136,7 @@ public class JAXBReader extends JAXBSupport
    *
    * @param source the input stream to parse
    * @param systemId is the URI for the input
-   * @return the resulting DOM4J document
+   * @return the resulting neoxml document
    * @throws DocumentException when an error occurs while parsing
    */
   public Document read(InputStream source, String systemId) throws DocumentException {
@@ -153,7 +153,7 @@ public class JAXBReader extends JAXBSupport
    * Parses the specified {@link java.io.Reader}
    *
    * @param source the input reader to use
-   * @return the resulting DOM4J document
+   * @return the resulting neoxml document
    * @throws DocumentException when an error occurs while parsing
    */
   public Document read(Reader source) throws DocumentException {
@@ -171,7 +171,7 @@ public class JAXBReader extends JAXBSupport
    *
    * @param source the input reader to parse
    * @param systemId is the URI for the input
-   * @return the resulting DOM4J document
+   * @return the resulting neoxml document
    * @throws DocumentException when an error occurs while parsing
    */
   public Document read(Reader source, String systemId) throws DocumentException {
@@ -188,7 +188,7 @@ public class JAXBReader extends JAXBSupport
    * Parses the the given URL or filename.
    *
    * @param source the location to parse
-   * @return the resulting DOM4J document
+   * @return the resulting neoxml document
    * @throws DocumentException when an error occurs while parsing
    */
   public Document read(String source) throws DocumentException {
@@ -205,7 +205,7 @@ public class JAXBReader extends JAXBSupport
    * Parses the the given URL.
    *
    * @param source the URL to parse
-   * @return the resulting DOM4J document
+   * @return the resulting neoxml document
    * @throws DocumentException when an error occurs while parsing
    */
   public Document read(URL source) throws DocumentException {
@@ -272,7 +272,7 @@ public class JAXBReader extends JAXBSupport
   }
 
   /**
-   * When 'true', the DOM4J document will not be kept in memory while parsing.
+   * When 'true', the neoxml document will not be kept in memory while parsing.
    *
    * @return Returns the pruneElements.
    */
@@ -281,7 +281,7 @@ public class JAXBReader extends JAXBSupport
   }
 
   /**
-   * Set to true when DOM4J elements must immediately be pruned from the tree.
+   * Set to true when neoxml elements must immediately be pruned from the tree.
    * The {@link Document}will not be available afterwards!
    *
    * @param pruneElements

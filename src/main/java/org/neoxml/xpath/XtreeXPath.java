@@ -3,7 +3,7 @@ package org.neoxml.xpath;
 import org.jaxen.BaseXPath;
 import org.jaxen.JaxenException;
 
-/** An XPath implementation for the dom4j model
+/** An XPath implementation for the neoxml model
  *
  * <p>This is the main entry point for matching an XPath against a DOM
  * tree.  You create a compiled XPath object, then match it against
@@ -17,8 +17,7 @@ import org.jaxen.JaxenException;
  * </pre>
  *
  * @see BaseXPath
- * @see <a href="http://dom4j.org/">The dom4j website</a>
- *
+ * 
  * @author <a href="mailto:bob@werken.com">bob mcwhirter</a>
  * @author <a href="mailto:jstachan@apache.org">James Strachan</a>
  *

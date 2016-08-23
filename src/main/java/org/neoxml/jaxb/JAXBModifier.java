@@ -40,15 +40,15 @@ import org.xml.sax.InputSource;
 public class JAXBModifier extends JAXBSupport
 {
   private SAXModifier modifier;
-
+  
   private XMLWriter xmlWriter;
-
+  
   private boolean pruneElements;
-
+  
   private OutputFormat outputFormat;
-
-  private Map<String,JAXBObjectModifier> modifiers = new HashMap<>();
-
+  
+  private final Map<String,JAXBObjectModifier> modifiers = new HashMap<>();
+  
   /**
    * Creates a new JAXBModifier for the given JAXB context path. This is the
    * Java package where JAXB can find the generated XML classes. This package
@@ -61,7 +61,7 @@ public class JAXBModifier extends JAXBSupport
     super(contextPath);
     this.outputFormat = new OutputFormat();
   }
-
+  
   /**
    * Creates a new JAXBModifier for the given JAXB context path, using the
    * given {@link java.lang.ClassLoader}. This is the Java package where JAXB
@@ -76,54 +76,55 @@ public class JAXBModifier extends JAXBSupport
     super(contextPath, classloader);
     this.outputFormat = new OutputFormat();
   }
-
+  
   /**
-   * Creates a new JAXBModifier for the given JAXB context path. The specified {@link org.neoxml.io.OutputFormat}will be
+   * Creates a new JAXBModifier for the given JAXB context path. The specified {@link org.neoxml.io.OutputFormat} will be
    * used while writing the XML
    * stream.
    *
    * @param contextPath JAXB context path to be used
-   * @param outputFormat the DOM4J {@link org.neoxml.io.OutputFormat}to be used
+   * @param outputFormat the neoxml {@link org.neoxml.io.OutputFormat} to be used
    * @see javax.xml.bind.JAXBContext
    */
   public JAXBModifier(String contextPath, OutputFormat outputFormat) {
     super(contextPath);
     this.outputFormat = outputFormat;
   }
-
+  
   /**
    * Creates a new JAXBModifier for the given JAXB context path, using the
-   * specified {@link java.lang.Classloader}. The specified {@link org.neoxml.io.OutputFormat} will be used while writing
+   * specified {@link java.lang.Classloader}. The specified {@link org.neoxml.io.OutputFormat} will be used while
+   * writing
    * the XML stream.
    *
    * @param contextPath JAXB context path to be used
    * @param classloader the class loader to be used to load JAXB
-   * @param outputFormat the DOM4J {@link org.neoxml.io.OutputFormat}to be used
+   * @param outputFormat the neoxml {@link org.neoxml.io.OutputFormat} to be used
    * @see javax.xml.bind.JAXBContext
    */
   public JAXBModifier(String contextPath, ClassLoader classloader, OutputFormat outputFormat) {
     super(contextPath, classloader);
     this.outputFormat = outputFormat;
   }
-
+  
   /**
    * Parses the specified {@link java.io.File}with SAX
    *
    * @param source the file to parse
-   * @return the resulting DOM4J document
+   * @return the resulting neoxml document
    * @throws DocumentException when an error occurs while parsing
    * @throws IOException when an error occurs while writing to the {@link org.neoxml.io.XMLWriter}
    */
   public Document modify(File source) throws DocumentException {
     return installModifier().modify(source);
   }
-
+  
   /**
    * Parses the specified {@link java.io.File}with SAX, using the given {@link java.nio.charset.Charset}.
    *
    * @param source the file to parse
    * @param charset the character set to use
-   * @return the resulting DOM4J document
+   * @return the resulting neoxml document
    * @throws DocumentException when an error occurs while parsing
    * @throws IOException when an error occurs while writing to the {@link org.neoxml.io.XMLWriter}
    */
@@ -139,12 +140,12 @@ public class JAXBModifier extends JAXBSupport
       throw new DocumentException(ex.getMessage(), ex);
     }
   }
-
+  
   /**
    * Parses the specified {@link org.xml.sax.InputSource}with SAX.
    *
    * @param source the input source to parse
-   * @return the resulting DOM4J document
+   * @return the resulting neoxml document
    * @throws DocumentException when an error occurs while parsing
    * @throws IOException when an error occurs while writing to the {@link org.neoxml.io.XMLWriter}
    */
@@ -157,12 +158,12 @@ public class JAXBModifier extends JAXBSupport
       throw new DocumentException(cause.getMessage(), cause);
     }
   }
-
+  
   /**
    * Parses the specified {@link java.io.InputStream}with SAX.
    *
    * @param source the inputstream to parse
-   * @return the resulting DOM4J document
+   * @return the resulting neoxml document
    * @throws DocumentException when an error occurs while parsing
    * @throws IOException when an error occurs while writing to the {@link org.neoxml.io.XMLWriter}
    */
@@ -175,13 +176,13 @@ public class JAXBModifier extends JAXBSupport
       throw new DocumentException(cause.getMessage(), cause);
     }
   }
-
+  
   /**
    * Parses the specified {@link java.io.InputStream}with SAX.
    *
    * @param source the inputstream to parse
    * @param systemId the URI of the given inputstream
-   * @return the resulting DOM4J document
+   * @return the resulting neoxml document
    * @throws DocumentException when an error occurs while parsing
    * @throws IOException when an error occurs while writing to the {@link org.neoxml.io.XMLWriter}
    */
@@ -194,12 +195,12 @@ public class JAXBModifier extends JAXBSupport
       throw new DocumentException(cause.getMessage(), cause);
     }
   }
-
+  
   /**
    * Parses the specified {@link java.io.Reader}with SAX.
    *
    * @param r the reader to use for parsing
-   * @return the resulting DOM4J document
+   * @return the resulting neoxml document
    * @throws DocumentException when an error occurs while parsing
    * @throws IOException when an error occurs while writing to the {@link org.neoxml.io.XMLWriter}
    */
@@ -212,13 +213,13 @@ public class JAXBModifier extends JAXBSupport
       throw new DocumentException(cause.getMessage(), cause);
     }
   }
-
+  
   /**
    * Parses the specified {@link java.io.Reader}with SAX.
    *
    * @param source the reader to parse
    * @param systemId the URI of the given reader
-   * @return the resulting DOM4J document
+   * @return the resulting neoxml document
    * @throws DocumentException when an error occurs while parsing
    * @throws IOException when an error occurs while writing to the {@link org.neoxml.io.XMLWriter}
    */
@@ -231,12 +232,12 @@ public class JAXBModifier extends JAXBSupport
       throw new DocumentException(cause.getMessage(), cause);
     }
   }
-
+  
   /**
    * Parses the the given URL or filename.
    *
    * @param url the URL or filename to parse
-   * @return the resulting DOM4J document
+   * @return the resulting neoxml document
    * @throws DocumentException when an error occurs while parsing
    * @throws IOException when an error occurs while writing to the {@link org.neoxml.io.XMLWriter}
    */
@@ -249,12 +250,12 @@ public class JAXBModifier extends JAXBSupport
       throw new DocumentException(cause.getMessage(), cause);
     }
   }
-
+  
   /**
    * Parses the the given URL.
    *
    * @param source the URL to parse
-   * @return the resulting DOM4J document
+   * @return the resulting neoxml document
    * @throws DocumentException when an error occurs while parsing
    * @throws IOException when an error occurs while writing to the {@link org.neoxml.io.XMLWriter}
    */
@@ -267,7 +268,7 @@ public class JAXBModifier extends JAXBSupport
       throw new DocumentException(cause.getMessage(), cause);
     }
   }
-
+  
   /**
    * Sets the Output to write the (modified) xml document to.
    *
@@ -278,7 +279,7 @@ public class JAXBModifier extends JAXBSupport
   public void setOutput(File file) throws IOException {
     createXMLWriter().setOutputStream(new FileOutputStream(file));
   }
-
+  
   /**
    * Sets the Output to write the (modified) xml document to.
    *
@@ -288,7 +289,7 @@ public class JAXBModifier extends JAXBSupport
   public void setOutput(OutputStream outputStream) throws IOException {
     createXMLWriter().setOutputStream(outputStream);
   }
-
+  
   /**
    * Sets the Output to write the (modified) xml document to.
    *
@@ -298,7 +299,7 @@ public class JAXBModifier extends JAXBSupport
   public void setOutput(Writer writer) throws IOException {
     createXMLWriter().setWriter(writer);
   }
-
+  
   /**
    * Adds the {@link JAXBObjectModifier}to be called when the specified xml
    * path is encounted while parsing the source.
@@ -309,7 +310,7 @@ public class JAXBModifier extends JAXBSupport
   public void addObjectModifier(String path, JAXBObjectModifier mod) {
     modifiers.put(path, mod);
   }
-
+  
   /**
    * Removes the {@link JAXBObjectModifier}from the event based processor,
    * for the specified element path.
@@ -320,7 +321,7 @@ public class JAXBModifier extends JAXBSupport
     modifiers.remove(path);
     getModifier().removeModifier(path);
   }
-
+  
   /**
    * Removes all registered {@link JAXBObjectModifier}instances from the
    * event based processor.
@@ -329,7 +330,7 @@ public class JAXBModifier extends JAXBSupport
     modifiers.clear();
     getModifier().resetModifiers();
   }
-
+  
   /**
    * Returns true when the modified {@link org.neoxml.Document}is not kept in
    * memory.
@@ -339,72 +340,68 @@ public class JAXBModifier extends JAXBSupport
   public boolean isPruneElements() {
     return pruneElements;
   }
-
+  
   /**
    * Define whether the modified {@link org.neoxml.Document}must only be
-   * written to the output and pruned from the DOM4J tree.
+   * written to the output and pruned from the neoxml tree.
    *
    * @param pruneElements When true, elements will not be kept in memory
    */
   public void setPruneElements(boolean pruneElements) {
     this.pruneElements = pruneElements;
   }
-
+  
   private SAXModifier installModifier() {
     modifier = new SAXModifier(isPruneElements());
-
+    
     modifier.resetModifiers();
-
+    
     for (Map.Entry<String,JAXBObjectModifier> entry : modifiers.entrySet()) {
       ElementModifier mod = new JAXBElementModifier(this, entry.getValue());
-      getModifier().addModifier(entry.getKey(), mod);
+      modifier.addModifier(entry.getKey(), mod);
     }
-
+    
     modifier.setXMLWriter(getXMLWriter());
-
+    
     return modifier;
   }
-
+  
   private SAXModifier getModifier() {
     if (this.modifier == null) {
       modifier = new SAXModifier(isPruneElements());
     }
-
+    
     return modifier;
   }
-
+  
   private XMLWriter getXMLWriter() {
     return xmlWriter;
   }
-
+  
   private XMLWriter createXMLWriter() throws IOException {
     if (this.xmlWriter == null) {
       xmlWriter = new XMLWriter(outputFormat);
     }
-
+    
     return xmlWriter;
   }
-
+  
   private class JAXBElementModifier implements ElementModifier
   {
     private JAXBModifier jaxbModifier;
-
+    
     private JAXBObjectModifier objectModifier;
-
-    public JAXBElementModifier(JAXBModifier jaxbModifier,
-        JAXBObjectModifier objectModifier) {
+    
+    public JAXBElementModifier(JAXBModifier jaxbModifier, JAXBObjectModifier objectModifier) {
       this.jaxbModifier = jaxbModifier;
       this.objectModifier = objectModifier;
     }
-
+    
     @Override
-    public org.neoxml.Element modifyElement(org.neoxml.Element element)
-        throws Exception {
-      javax.xml.bind.Element originalObject = jaxbModifier
-          .unmarshal(element);
-      javax.xml.bind.Element modifiedObject = objectModifier
-          .modifyObject(originalObject);
-
+    public org.neoxml.Element modifyElement(org.neoxml.Element element) throws Exception {
+      javax.xml.bind.Element originalObject = jaxbModifier.unmarshal(element);
+      javax.xml.bind.Element modifiedObject = objectModifier.modifyObject(originalObject);
+      
       return jaxbModifier.marshal(modifiedObject);
     }
   }

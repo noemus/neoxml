@@ -18,7 +18,7 @@ import org.neoxml.NodeType;
 /**
  * <p>
  * <code>Mode</code> manages a number of RuleSet instances for the mode in a stylesheet. It is responsible for finding
- * the correct rule for a given DOM4J Node using the XSLT processing model uses the smallest possible RuleSet to reduce
+ * the correct rule for a given neoxml node using the XSLT processing model uses the smallest possible RuleSet to reduce
  * the number of Rule evaluations.
  * </p>
  *
@@ -28,7 +28,7 @@ import org.neoxml.NodeType;
 public class Mode
 {
 
-  private EnumMap<NodeType,RuleSet> ruleSets = new EnumMap<>(NodeType.class);
+  private final EnumMap<NodeType,RuleSet> ruleSets = new EnumMap<>(NodeType.class);
   /**
    * Map of exact (local) element names to RuleSet instances
    */
@@ -80,8 +80,8 @@ public class Mode
   }
 
   public void addRule(Rule rule) {
-    NodeType matchType = rule.getMatchType();
-    String name = rule.getMatchesNodeName();
+    final NodeType matchType = rule.getMatchType();
+    final String name = rule.getMatchesNodeName();
 
     if (name != null) {
       switch (matchType) {
@@ -97,16 +97,10 @@ public class Mode
       }
     }
 
-    //TODO
-    //		if (matchType >= Pattern.NUMBER_OF_TYPES) {
-    //			matchType = Pattern.ANY_NODE;
-    //		}
     if (matchType == NodeType.ANY_NODE) {
       // add rule to all other RuleSets if they exist
       for (RuleSet ruleSet : this.ruleSets.values()) {
-        if (ruleSet != null) {
-          ruleSet.addRule(rule);
-        }
+        ruleSet.addRule(rule);
       }
     }
 
@@ -131,14 +125,9 @@ public class Mode
       }
     }
 
-    //TODO
-    //		if (matchType >= Pattern.NUMBER_OF_TYPES) {
-    //			matchType = Pattern.ANY_NODE;
-    //		}
-
     getRuleSet(matchType).removeRule(rule);
 
-    if (matchType == NodeType.ANY_NODE) {
+    if (matchType != NodeType.ANY_NODE) {
       getRuleSet(NodeType.ANY_NODE).removeRule(rule);
     }
   }
@@ -147,7 +136,7 @@ public class Mode
    * Performs an XSLT processing model match for the rule which matches the
    * given Node the best.
    *
-   * @param node is the DOM4J Node to match against
+   * @param node is the neoxml node to match against
    * @return the matching Rule or no rule if none matched
    */
   public Rule getMatchingRule(Node node) {
@@ -187,11 +176,6 @@ public class Mode
         break;
     }
 
-    //TODO
-    //		if ((matchType < 0) || (matchType >= ruleSets.length)) {
-    //			matchType = Pattern.ANY_NODE;
-    //		}
-
     Rule answer = null;
     RuleSet ruleSet = ruleSets.get(matchType);
 
@@ -202,7 +186,7 @@ public class Mode
 
     if ((answer == null) && (matchType != NodeType.ANY_NODE)) {
       // try general rules that match any kind of node
-      ruleSet = ruleSets.get(matchType);
+      ruleSet = ruleSets.get(NodeType.ANY_NODE);
 
       if (ruleSet != null) {
         answer = ruleSet.getMatchingRule(node);
@@ -228,7 +212,7 @@ public class Mode
 
       // add the patterns that match any node
       if (matchType != NodeType.ANY_NODE) {
-        RuleSet allRules = ruleSets.get(matchType);
+        RuleSet allRules = ruleSets.get(NodeType.ANY_NODE);
 
         if (allRules != null) {
           ruleSet.addAll(allRules);
@@ -252,12 +236,7 @@ public class Mode
       map = new HashMap<>();
     }
 
-    RuleSet ruleSet = map.get(name);
-
-    if (ruleSet == null) {
-      ruleSet = new RuleSet();
-      map.put(name, ruleSet);
-    }
+    RuleSet ruleSet = map.computeIfAbsent(name, n -> new RuleSet());
 
     ruleSet.addRule(rule);
 

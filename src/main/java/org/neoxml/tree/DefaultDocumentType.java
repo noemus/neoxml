@@ -13,7 +13,7 @@ import org.neoxml.dtd.InternalDeclaration;
 
 /**
  * <p>
- * <code>DefaultDocumentType</code> is the DOM4J default implementation of an XML document type.
+ * <code>DefaultDocumentType</code> is the neoxml default implementation of an XML document type.
  * </p>
  *
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>

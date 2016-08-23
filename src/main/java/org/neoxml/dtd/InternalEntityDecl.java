@@ -98,38 +98,31 @@ public class InternalEntityDecl implements InternalDeclaration
       switch (c) {
         case '<':
           result.append("&#38;#60;");
-
           break;
 
         case '>':
           result.append("&#62;");
-
           break;
 
         case '&':
           result.append("&#38;#38;");
-
           break;
 
         case '\'':
           result.append("&#39;");
-
           break;
 
         case '\"':
           result.append("&#34;");
-
           break;
 
         default:
-
           if (c < 32) {
             result.append("&#" + (int)c + ";");
           }
           else {
             result.append(c);
           }
-
           break;
       }
     }

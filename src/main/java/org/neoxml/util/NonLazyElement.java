@@ -12,7 +12,7 @@ import org.neoxml.tree.DefaultElement;
 
 /**
  * <p>
- * <code>NonLazyElement</code> is the default DOM4J default implementation of an XML element.
+ * <code>NonLazyElement</code> is the default neoxml default implementation of an XML element.
  * </p>
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>

@@ -31,12 +31,12 @@ import org.xml.sax.helpers.XMLReaderFactory;
 
 /**
  * <p>
- * <code>SAXReader</code> creates a DOM4J tree from SAX parsing events.
+ * <code>SAXReader</code> creates a neoxml tree from SAX parsing events.
  * </p>
  * <p/>
  * <p>
  * The actual SAX parser that is used by this class is configurable so you can use your favourite SAX parser if you
- * wish. DOM4J comes configured with its own SAX parser so you do not need to worry about configuring the SAX parser.
+ * wish. neoxml comes configured with its own SAX parser so you do not need to worry about configuring the SAX parser.
  * </p>
  * <p/>
  * <p>
@@ -607,11 +607,11 @@ public class SAXReader
   /**
    * <p>
    * This sets the <code>DefaultDocumentFactory</code> used to create new documents. This method allows the building of
-   * custom DOM4J tree objects to be implemented easily using a custom derivation of
+   * custom neoxml tree objects to be implemented easily using a custom derivation of
    * {@link org.neoxml.DefaultDocumentFactory}
    * </p>
    *
-   * @param documentFactory <code>DefaultDocumentFactory</code> used to create DOM4J objects
+   * @param documentFactory <code>DefaultDocumentFactory</code> used to create neoxml objects
    */
   public void setDocumentFactory(DocumentFactory documentFactory) {
     this.factory = documentFactory;

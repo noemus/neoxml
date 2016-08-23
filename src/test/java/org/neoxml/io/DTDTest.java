@@ -21,7 +21,6 @@ import org.neoxml.dtd.AttributeDecl;
 import org.neoxml.dtd.ElementDecl;
 import org.neoxml.dtd.ExternalEntityDecl;
 import org.neoxml.dtd.InternalEntityDecl;
-import org.neoxml.io.SAXReader;
 import org.neoxml.tree.DefaultDocumentType;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
@@ -96,7 +95,7 @@ public class DTDTest extends AbstractTestCase
   public void testInternalDTDSubset() throws Exception {
     /*
      * Setup the expected DocumentType.
-     * @todo dom4j should expose a DefaultDocumentType constructor that
+     * @todo neoxml should expose a DefaultDocumentType constructor that
      * accepts only the elementName property. This is used when only an
      * internal DTD subset is being provided via the <!DOCTYPE foo [...]>
      * syntax, in which case there is neither a SYSTEM nor PUBLIC

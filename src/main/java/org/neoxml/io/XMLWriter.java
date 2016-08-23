@@ -44,7 +44,7 @@ import org.xml.sax.helpers.XMLFilterImpl;
 
 /**
  * <p>
- * <code>XMLWriter</code> takes a DOM4J tree and formats it to a stream as XML. It can also take SAX events too so can
+ * <code>XMLWriter</code> takes a neoxml tree and formats it to a stream as XML. It can also take SAX events too so can
  * be used by SAX clients as this object implements the {@link org.xml.sax.ContentHandler}and {@link LexicalHandler}
  * interfaces. as well. This formatter performs typical document formatting. The XML declaration and processing
  * instructions are always on their own lines. An {@link OutputFormat}object can be used to define how whitespace is
@@ -53,7 +53,7 @@ import org.xml.sax.helpers.XMLFilterImpl;
  * </p>
  * <p/>
  * <p>
- * There are <code>write(...)</code> methods to print any of the standard DOM4J classes, including <code>Document</code>
+ * There are <code>write(...)</code> methods to print any of the standard neoxml classes, including <code>Document</code>
  * and <code>Element</code>, to either a <code>Writer</code> or an <code>OutputStream</code>. Warning: using your own
  * <code>Writer</code> may cause the writer's preferred character encoding to be ignored. If you use encodings other
  * than UTF8, we recommend using the method that takes an OutputStream instead.

@@ -22,7 +22,7 @@ public interface DocumentType extends Node
 {
 
   /**
-   * This method is the equivalent to the {@link #getName}method. It is added
+   * This method is the equivalent to the {@link #getName} method. It is added
    * for clarity.
    *
    * @return the root element name for the document type.
@@ -30,7 +30,7 @@ public interface DocumentType extends Node
   String getElementName();
 
   /**
-   * This method is the equivalent to the {@link #setName}method. It is added
+   * This method is the equivalent to the {@link #setName} method. It is added
    * for clarity.
    *
    * @param elementName DOCUMENT ME!
@@ -46,28 +46,28 @@ public interface DocumentType extends Node
   void setSystemID(String systemID);
 
   /**
-   * Returns a list of internal DTD declaration objects, defined in the {@link org.neoxml.dtd}package
+   * Returns a list of internal DTD declaration objects, defined in the {@link org.neoxml.dtd} package
    *
    * @return DOCUMENT ME!
    */
   List<InternalDeclaration> getInternalDeclarations();
 
   /**
-   * Sets the list of internal DTD declaration objects, defined in the {@link org.neoxml.dtd}package
+   * Sets the list of internal DTD declaration objects, defined in the {@link org.neoxml.dtd} package
    *
    * @param declarations DOCUMENT ME!
    */
   void setInternalDeclarations(List<InternalDeclaration> declarations);
 
   /**
-   * Returns a list of internal DTD declaration objects, defined in the {@link org.neoxml.dtd}package
+   * Returns a list of internal DTD declaration objects, defined in the {@link org.neoxml.dtd} package
    *
    * @return DOCUMENT ME!
    */
   List<ExternalDeclaration> getExternalDeclarations();
 
   /**
-   * Sets the list of internal DTD declaration objects, defined in the {@link org.neoxml.dtd}package
+   * Sets the list of internal DTD declaration objects, defined in the {@link org.neoxml.dtd} package
    *
    * @param declarations DOCUMENT ME!
    */

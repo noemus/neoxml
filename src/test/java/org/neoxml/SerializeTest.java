@@ -22,7 +22,7 @@ import org.neoxml.XPath;
 import org.neoxml.io.SAXReader;
 
 /**
- * Tests that a dom4j document is Serializable
+ * Tests that a neoxml document is Serializable
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.4 $

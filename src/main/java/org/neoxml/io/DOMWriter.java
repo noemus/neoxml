@@ -26,7 +26,7 @@ import org.w3c.dom.DOMImplementation;
 
 /**
  * <p>
- * <code>DOMWriter</code> takes a DOM4J tree and outputs it as a W3C DOM object
+ * <code>DOMWriter</code> takes a neoxml tree and outputs it as a W3C DOM object
  * </p>
  *
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>

@@ -41,9 +41,9 @@ import org.neoxml.Node;
 import org.neoxml.Text;
 
 /**
- * Writes DOM4J {@link Node}s to a StAX event stream. In addition the <code>createXXX</code> methods are provided to
+ * Writes neoxml {@link Node}s to a StAX event stream. In addition the <code>createXXX</code> methods are provided to
  * directly create STAX events
- * from DOM4J nodes.
+ * from neoxml nodes.
  *
  * @author Christian Niles
  */
@@ -148,10 +148,10 @@ public class STAXEventWriter
   }
 
   /**
-   * Writes a DOM4J {@link Node}to the stream. This method is simply a
+   * Writes a neoxml {@link Node}to the stream. This method is simply a
    * gateway to the overloaded methods such as {@link#writeElement(Element)}.
    *
-   * @param n The DOM4J {@link Node}to write to the stream.
+   * @param n The neoxml {@link Node}to write to the stream.
    * @throws XMLStreamException If an error occurs writing to the stream.
    */
   public void writeNode(Node n) throws XMLStreamException {
@@ -207,7 +207,7 @@ public class STAXEventWriter
         break;
 
       default:
-        throw new XMLStreamException("Unsupported DOM4J Node: " + n);
+        throw new XMLStreamException("Unsupported neoxml node: " + n);
     }
   }
 
@@ -226,7 +226,7 @@ public class STAXEventWriter
   }
 
   /**
-   * Writes a DOM4J {@link Element}node and its children to the stream.
+   * Writes a neoxml {@link Element}node and its children to the stream.
    *
    * @param elem The {@link Element}node to write to the stream.
    * @throws XMLStreamException If an error occurs writing to the stream.
@@ -238,7 +238,7 @@ public class STAXEventWriter
   }
 
   /**
-   * Constructs a STAX {@link StartElement}event from a DOM4J {@link Element}.
+   * Constructs a STAX {@link StartElement}event from a neoxml {@link Element}.
    *
    * @param elem The {@link Element}from which to construct the event.
    * @return The newly constructed {@link StartElement}event.
@@ -256,7 +256,7 @@ public class STAXEventWriter
   }
 
   /**
-   * Constructs a STAX {@link EndElement}event from a DOM4J {@link Element}.
+   * Constructs a STAX {@link EndElement}event from a neoxml {@link Element}.
    *
    * @param elem The {@link Element}from which to construct the event.
    * @return The newly constructed {@link EndElement}event.
@@ -269,7 +269,7 @@ public class STAXEventWriter
   }
 
   /**
-   * Writes a DOM4J {@link Attribute}to the stream.
+   * Writes a neoxml {@link Attribute}to the stream.
    *
    * @param attr The {@link Attribute}to write to the stream.
    * @throws XMLStreamException If an error occurs writing to the stream.
@@ -280,7 +280,7 @@ public class STAXEventWriter
 
   /**
    * Constructs a STAX {@link javax.xml.stream.events.Attribute}event from a
-   * DOM4J {@link Attribute}.
+   * neoxml {@link Attribute}.
    *
    * @param attr The {@link Attribute}from which to construct the event.
    * @return The newly constructed {@link javax.xml.stream.events.Attribute} event.
@@ -293,7 +293,7 @@ public class STAXEventWriter
   }
 
   /**
-   * Writes a DOM4J {@link Namespace}to the stream.
+   * Writes a neoxml {@link Namespace}to the stream.
    *
    * @param ns The {@link Namespace}to write to the stream.
    * @throws XMLStreamException If an error occurs writing to the stream.
@@ -304,7 +304,7 @@ public class STAXEventWriter
 
   /**
    * Constructs a STAX {@link javax.xml.stream.events.Namespace}event from a
-   * DOM4J {@link Namespace}.
+   * neoxml {@link Namespace}.
    *
    * @param ns The {@link Namespace}from which to construct the event.
    * @return The constructed {@link javax.xml.stream.events.Namespace}event.
@@ -317,7 +317,7 @@ public class STAXEventWriter
   }
 
   /**
-   * Writes a DOM4J {@link Text}to the stream.
+   * Writes a neoxml {@link Text}to the stream.
    *
    * @param text The {@link Text}to write to the stream.
    * @throws XMLStreamException If an error occurs writing to the stream.
@@ -327,7 +327,7 @@ public class STAXEventWriter
   }
 
   /**
-   * Constructs a STAX {@link Characters}event from a DOM4J {@link Text}.
+   * Constructs a STAX {@link Characters}event from a neoxml {@link Text}.
    *
    * @param text The {@link Text}from which to construct the event.
    * @return The constructed {@link Characters}event.
@@ -337,7 +337,7 @@ public class STAXEventWriter
   }
 
   /**
-   * Writes a DOM4J {@link CDATA}to the event stream.
+   * Writes a neoxml {@link CDATA}to the event stream.
    *
    * @param cdata The {@link CDATA}to write to the stream.
    * @throws XMLStreamException If an error occurs writing to the stream.
@@ -347,7 +347,7 @@ public class STAXEventWriter
   }
 
   /**
-   * Constructs a STAX {@link Characters}event from a DOM4J {@link CDATA}.
+   * Constructs a STAX {@link Characters}event from a neoxml {@link CDATA}.
    *
    * @param cdata The {@link CDATA}from which to construct the event.
    * @return The newly constructed {@link Characters}event.
@@ -357,7 +357,7 @@ public class STAXEventWriter
   }
 
   /**
-   * Writes a DOM4J {@link Comment}to the stream.
+   * Writes a neoxml {@link Comment}to the stream.
    *
    * @param comment The {@link Comment}to write to the stream.
    * @throws XMLStreamException If an error occurs writing to the stream.
@@ -368,7 +368,7 @@ public class STAXEventWriter
 
   /**
    * Constructs a STAX {@link javax.xml.stream.events.Comment}event from a
-   * DOM4J {@link Comment}.
+   * neoxml {@link Comment}.
    *
    * @param comment The {@link Comment}from which to construct the event.
    * @return The constructed {@link javax.xml.stream.events.Comment}event.
@@ -378,7 +378,7 @@ public class STAXEventWriter
   }
 
   /**
-   * Writes a DOM4J {@link ProcessingInstruction}to the stream.
+   * Writes a neoxml {@link ProcessingInstruction}to the stream.
    *
    * @param pi The {@link ProcessingInstruction}to write to the stream.
    * @throws XMLStreamException If an error occurs writing to the stream.
@@ -405,7 +405,7 @@ public class STAXEventWriter
   }
 
   /**
-   * Writes a DOM4J {@link Entity}to the stream.
+   * Writes a neoxml {@link Entity}to the stream.
    *
    * @param entity The {@link Entity}to write to the stream.
    * @throws XMLStreamException If an error occurs writing to the stream.
@@ -415,7 +415,7 @@ public class STAXEventWriter
   }
 
   /**
-   * Constructs a STAX {@link EntityReference}event from a DOM4J {@link Entity}.
+   * Constructs a STAX {@link EntityReference}event from a neoxml {@link Entity}.
    *
    * @param entity The {@link Entity}from which to construct the event.
    * @return The constructed {@link EntityReference}event.
@@ -425,7 +425,7 @@ public class STAXEventWriter
   }
 
   /**
-   * Writes a DOM4J {@link DocumentType}to the stream.
+   * Writes a neoxml {@link DocumentType}to the stream.
    *
    * @param docType The {@link DocumentType}to write to the stream.
    * @throws XMLStreamException If an error occurs writing to the stream.
@@ -436,7 +436,7 @@ public class STAXEventWriter
   }
 
   /**
-   * Constructs a STAX {@link DTD}event from a DOM4J {@link DocumentType}.
+   * Constructs a STAX {@link DTD}event from a neoxml {@link DocumentType}.
    *
    * @param docType The {@link DocumentType}from which to construct the event.
    * @return The constructed {@link DTD}event.
@@ -456,7 +456,7 @@ public class STAXEventWriter
   }
 
   /**
-   * Writes a DOM4J {@link Document}node, and all its contents, to the
+   * Writes a neoxml {@link Document}node, and all its contents, to the
    * stream.
    *
    * @param doc The {@link Document}to write to the stream.
@@ -471,7 +471,7 @@ public class STAXEventWriter
   }
 
   /**
-   * Constructs a STAX {@link StartDocument}event from a DOM4J {@link Document}.
+   * Constructs a STAX {@link StartDocument}event from a neoxml {@link Document}.
    *
    * @param doc The {@link Document}from which to construct the event.
    * @return The constructed {@link StartDocument}event.
@@ -488,7 +488,7 @@ public class STAXEventWriter
   }
 
   /**
-   * Constructs a STAX {@link EndDocument}event from a DOM4J {@link Document}.
+   * Constructs a STAX {@link EndDocument}event from a neoxml {@link Document}.
    *
    * @param doc The {@link Document}from which to construct the event.
    * @return The constructed {@link EndDocument}event.
@@ -498,7 +498,7 @@ public class STAXEventWriter
   }
 
   /**
-   * Constructs a STAX {@link QName}from a DOM4J {@link org.neoxml.QName}.
+   * Constructs a STAX {@link QName}from a neoxml {@link org.neoxml.QName}.
    *
    * @param qname The {@link org.neoxml.QName}from which to construct the STAX {@link QName}.
    * @return The constructed {@link QName}.
@@ -509,12 +509,12 @@ public class STAXEventWriter
   }
 
   /**
-   * Internal {@link Iterator}implementation used to pass DOM4J {@link Attribute}s to the stream.
+   * Internal {@link Iterator}implementation used to pass neoxml {@link Attribute}s to the stream.
    */
   private class AttributeIterator implements Iterator<javax.xml.stream.events.Attribute>
   {
     /**
-     * The underlying DOm4J attribute iterator.
+     * The underlying neoxml attribute iterator.
      */
     private Iterator<Attribute> iter;
 
@@ -543,7 +543,7 @@ public class STAXEventWriter
   }
 
   /**
-   * Internal {@link Iterator}implementation used to pass DOM4J {@link Namespace}s to the stream.
+   * Internal {@link Iterator} implementation used to pass neoxml {@link Namespace}s to the stream.
    */
   private class NamespaceIterator implements Iterator<javax.xml.stream.events.Namespace>
   {

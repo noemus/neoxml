@@ -28,7 +28,7 @@ import org.xml.sax.helpers.DefaultHandler;
 /**
  * <p>
  * Records SAX events such that they may be "replayed" at a later time. Provides an alternative serialization approach
- * when externalizing a DOM4J document. Rather than serializing a document as text and re-parsing, the sax events may be
+ * when externalizing a neoxml document. Rather than serializing a document as text and re-parsing, the sax events may be
  * serialized instead.
  * </p>
  * Example usage:

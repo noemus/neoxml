@@ -16,7 +16,7 @@ import org.xml.sax.XMLReader;
 /**
  * <code>JAXPHelper</code> contains some helper methods for working with JAXP.
  * These methods are kept in a seperate class to avoid class loading issues,
- * such that dom4j can work without JAXP on the CLASSPATH
+ * such that neoxml can work without JAXP on the CLASSPATH
  *
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.7 $

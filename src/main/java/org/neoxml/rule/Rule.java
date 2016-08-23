@@ -11,7 +11,7 @@ import org.neoxml.NodeType;
 
 /**
  * <p>
- * <code>Rule</code> matches against DOM4J Node so that some action can be performed such as in the XSLT processing
+ * <code>Rule</code> matches against neoxml Node so that some action can be performed such as in the XSLT processing
  * model.
  * </p>
  *
@@ -104,6 +104,7 @@ public class Rule implements Comparable<Rule>
   @Override
   public int compareTo(Rule that) {
     final int answer;
+    
     if (this.importPrecedence != that.importPrecedence) {
       answer = this.importPrecedence < that.importPrecedence ? -1 : 1;
     }
@@ -129,7 +130,7 @@ public class Rule implements Comparable<Rule>
    * DOCUMENT ME!
    *
    * @param node DOCUMENT ME!
-   * @return true if the pattern matches the given DOM4J node.
+   * @return true if the pattern matches the given neoxml node.
    */
   public final boolean matches(Node node) {
     return pattern.matches(node);
@@ -144,14 +145,14 @@ public class Rule implements Comparable<Rule>
    *         this rule is not a union rule
    */
   public Rule[] getUnionRules() {
-    Pattern[] patterns = pattern.getUnionPatterns();
+    final Pattern[] patterns = pattern.getUnionPatterns();
 
     if (patterns == null) {
       return null;
     }
 
-    int size = patterns.length;
-    Rule[] answer = new Rule[size];
+    final int size = patterns.length;
+    final Rule[] answer = new Rule[size];
 
     for (int i = 0; i < size; i++) {
       answer[i] = new Rule(this, patterns[i]);

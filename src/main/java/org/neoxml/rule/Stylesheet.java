@@ -6,11 +6,9 @@
 
 package org.neoxml.rule;
 
-import java.util.Iterator;
 import java.util.List;
 
-import org.neoxml.Document;
-import org.neoxml.Element;
+import org.neoxml.Branch;
 import org.neoxml.Node;
 import org.neoxml.XPath;
 
@@ -25,7 +23,7 @@ import org.neoxml.XPath;
  */
 public class Stylesheet
 {
-  private RuleManager ruleManager = new RuleManager();
+  private final RuleManager ruleManager = new RuleManager();
 
   /**
    * Holds value of property mode.
@@ -81,9 +79,7 @@ public class Stylesheet
   }
 
   public void run(List<Object> list, String mode) throws Exception {
-    for (int i = 0, size = list.size(); i < size; i++) {
-      Object object = list.get(i);
-
+    for (Object object : list) {
       if (object instanceof Node) {
         run((Node)object, mode);
       }
@@ -129,44 +125,6 @@ public class Stylesheet
   }
 
   /**
-   * Processes the result of the xpath expression. The xpath expression is
-   * evaluated against the provided input object.
-   *
-   * @param input the input object
-   * @param xpath the xpath expression
-   * @throws Exception if something goes wrong
-   * @deprecated Use {@link Stylesheet#applyTemplates(Object, XPath)}instead.
-   */
-  @Deprecated
-  public void applyTemplates(Object input, org.jaxen.XPath xpath) throws Exception {
-    applyTemplates(input, xpath, this.modeName);
-  }
-
-  /**
-   * Processes the result of the xpath expression in the given mode. The xpath
-   * expression is evaluated against the provided input object.
-   *
-   * @param input the input object
-   * @param xpath the xpath expression
-   * @param mode the mode
-   * @throws Exception if something goes wrong
-   * @deprecated Use {@link Stylesheet#applyTemplates(Object, XPath, String)} instead.
-   */
-  @SuppressWarnings("rawtypes")
-  @Deprecated
-  public void applyTemplates(Object input, org.jaxen.XPath xpath, String mode)
-      throws Exception {
-    Mode mod = ruleManager.getMode(mode);
-
-    List list = xpath.selectNodes(input);
-    Iterator it = list.iterator();
-    while (it.hasNext()) {
-      Node current = (Node)it.next();
-      mod.fireRule(current);
-    }
-  }
-
-  /**
    * If input is a <code>Node</code>, this will processes all of the
    * children of that node. If input is a <code>List</code> of <code>Nodes</code>s, these nodes will be iterated and all
    * children of
@@ -191,39 +149,28 @@ public class Stylesheet
    * @param mode the mode
    * @throws Exception if something goes wrong
    */
-  @SuppressWarnings("unchecked")
   public void applyTemplates(Object input, String mode) throws Exception {
-    Mode mod = ruleManager.getMode(mode);
+    final Mode mod = ruleManager.getMode(mode);
 
-    if (input instanceof Element) {
+    if (input instanceof Branch) {
       // iterate through all children
-      Element element = (Element)input;
-      for (int i = 0, size = element.nodeCount(); i < size; i++) {
-        Node node = element.node(i);
-        mod.fireRule(node);
-      }
+      applyTemplates((Branch)input, mod);
     }
-    else if (input instanceof Document) {
-      // iterate through all children
-      Document document = (Document)input;
-      for (int i = 0, size = document.nodeCount(); i < size; i++) {
-        Node node = document.node(i);
-        mod.fireRule(node);
-      }
-    }
-    else if (input instanceof List) {
-      List<Object> list = (List<Object>)input;
+    else if (input instanceof List<?>) {
+      @SuppressWarnings("unchecked")
+      final List<Object> list = (List<Object>)input;
 
-      for (int i = 0, size = list.size(); i < size; i++) {
-        Object object = list.get(i);
-
-        if (object instanceof Element) {
-          applyTemplates(object, mode);
-        }
-        else if (object instanceof Document) {
-          applyTemplates(object, mode);
+      for (Object object : list) {
+        if (object instanceof Branch) {
+          applyTemplates((Branch)object, mod);
         }
       }
+    }
+  }
+
+  private void applyTemplates(Branch input, Mode mode) throws Exception {
+    for (Node node : input) {
+      mode.fireRule(node);
     }
   }
 

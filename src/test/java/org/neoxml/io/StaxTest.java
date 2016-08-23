@@ -17,11 +17,9 @@ import javax.xml.stream.XMLStreamException;
 import org.junit.Test;
 import org.neoxml.AbstractTestCase;
 import org.neoxml.Document;
-import org.neoxml.io.STAXEventReader;
-import org.neoxml.io.STAXEventWriter;
 
 /**
- * Tests STAX->DOM4J functionality.
+ * Tests STAX->neoxml functionality.
  *
  * @author <a href="mailto:maartenc@sourceforge.net">Maarten Coene </a>
  * @author Christian Niles

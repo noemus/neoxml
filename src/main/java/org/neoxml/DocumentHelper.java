@@ -17,7 +17,7 @@ import org.xml.sax.InputSource;
 
 /**
  * <p>
- * <code>DocumentHelper</code> is a collection of helper methods for using DOM4J.
+ * <code>DocumentHelper</code> is a collection of helper methods for using neoxml.
  * </p>
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>

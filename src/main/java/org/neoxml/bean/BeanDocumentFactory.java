@@ -18,7 +18,7 @@ import org.xml.sax.Attributes;
 
 /**
  * <p>
- * <code>BeanDocumentFactory</code> is a factory of DOM4J objects which may be BeanElements which are backed by
+ * <code>BeanDocumentFactory</code> is a factory of neoxml objects which may be BeanElements which are backed by
  * JavaBeans and their properties.
  * </p>
  * <p/>

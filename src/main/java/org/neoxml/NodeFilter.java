@@ -8,7 +8,7 @@ package org.neoxml;
 
 /**
  * <p>
- * <code>NodeFilter</code> defines the behavior for a filter or predicate which acts on a DOM4J Node. Instances can be
+ * <code>NodeFilter</code> defines the behavior for a filter or predicate which acts on a neoxml node. Instances can be
  * generated from an {@link DefaultDocumentFactory}.
  * </p>
  *

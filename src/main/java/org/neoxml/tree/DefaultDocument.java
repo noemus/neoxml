@@ -19,7 +19,7 @@ import org.xml.sax.EntityResolver;
 
 /**
  * <p>
- * <code>DefaultDocument</code> is the default DOM4J default implementation of an XML document.
+ * <code>DefaultDocument</code> is the default neoxml default implementation of an XML document.
  * </p>
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>

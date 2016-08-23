@@ -30,7 +30,7 @@ import org.neoxml.Text;
 import org.neoxml.io.SAXReader;
 
 /**
- * Interface for navigating around the DOM4J object model.
+ * Interface for navigating around the neoxml object model.
  * <p>
  * This class is not intended for direct usage, but is used by the Jaxen engine during evaluation.
  * </p>
@@ -292,7 +292,7 @@ class DocumentNavigator extends DefaultNavigator implements NamedAccessNavigator
   
   /**
    * Returns a parsed form of the given XPath string, which will be suitable
-   * for queries on DOM4J documents.
+   * for queries on neoxml documents.
    */
   @Override
   public XPath parseXPath(String xpath) throws SAXPathException {

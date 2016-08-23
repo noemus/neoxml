@@ -18,7 +18,7 @@ import org.xml.sax.helpers.DefaultHandler;
 /**
  * <p>
  * <code>SAXValidator</code> validates an XML document by writing the document to a text buffer and parsing it with a
- * validating SAX parser. This could be implemented much more efficiently by validating against the dom4j object model
+ * validating SAX parser. This could be implemented much more efficiently by validating against the neoxml object model
  * directly but at least allows the reuse of existing SAX based validating parsers.
  * </p>
  *

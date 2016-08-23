@@ -9,5 +9,4 @@ package org.neoxml.dtd;
  */
 public interface InternalDeclaration extends Declaration
 {
-
 }

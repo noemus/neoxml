@@ -35,14 +35,14 @@ import org.neoxml.Entity;
 import org.neoxml.Node;
 
 /**
- * Reads a DOM4J {@link Document}, as well as other {@link Node}s, from a StAX {@link XMLEventReader}.
+ * Reads a neoxml {@link Document}, as well as other {@link Node}s, from a StAX {@link XMLEventReader}.
  *
  * @author Christian Niles
  */
 public class STAXEventReader
 {
   /**
-   * Reference to the DefaultDocumentFactory used to build DOM4J nodes.
+   * Reference to the DefaultDocumentFactory used to build neoxml nodes.
    */
   private DocumentFactory factory;
 
@@ -61,9 +61,9 @@ public class STAXEventReader
 
   /**
    * Constructs a <code>STAXEventReader</code> instance that uses the
-   * specified {@link org.neoxml.DefaultDocumentFactory}to construct DOM4J {@link Node}s.
+   * specified {@link org.neoxml.DefaultDocumentFactory}to construct neoxml {@link Node}s.
    *
-   * @param factory The DefaultDocumentFactory to use when constructing DOM4J nodes, or <code>null</code> if a default
+   * @param factory The DefaultDocumentFactory to use when constructing neoxml nodes, or <code>null</code> if a default
    *          should be used.
    */
   public STAXEventReader(DocumentFactory factory) {
@@ -76,9 +76,9 @@ public class STAXEventReader
   }
 
   /**
-   * Sets the DefaultDocumentFactory to be used when constructing DOM4J nodes.
+   * Sets the DefaultDocumentFactory to be used when constructing neoxml nodes.
    *
-   * @param documentFactory The DefaultDocumentFactory to use when constructing DOM4J nodes, or <code>null</code> if a
+   * @param documentFactory The DefaultDocumentFactory to use when constructing neoxml nodes, or <code>null</code> if a
    *          default should be used.
    */
   public void setDocumentFactory(DocumentFactory documentFactory) {
@@ -92,7 +92,7 @@ public class STAXEventReader
 
   /**
    * Constructs a StAX event stream from the provided I/O stream and reads a
-   * DOM4J document from it.
+   * neoxml document from it.
    *
    * @param is The I/O stream from which the Document will be read.
    * @return The Document that was read from the stream.
@@ -104,7 +104,7 @@ public class STAXEventReader
 
   /**
    * Constructs a StAX event stream from the provided I/O character stream and
-   * reads a DOM4J document from it.
+   * reads a neoxml document from it.
    *
    * @param reader The character stream from which the Document will be read.
    * @return The Document that was read from the stream.
@@ -116,7 +116,7 @@ public class STAXEventReader
 
   /**
    * Constructs a StAX event stream from the provided I/O stream and reads a
-   * DOM4J document from it.
+   * neoxml document from it.
    *
    * @param is The I/O stream from which the Document will be read.
    * @param systemId A system id used to resolve entities.
@@ -137,7 +137,7 @@ public class STAXEventReader
 
   /**
    * Constructs a StAX event stream from the provided I/O character stream and
-   * reads a DOM4J document from it.
+   * reads a neoxml document from it.
    *
    * @param reader The character stream from which the Document will be read.
    * @param systemId A system id used to resolve entities.
@@ -165,7 +165,7 @@ public class STAXEventReader
    * </p>
    *
    * @param reader The reader from which events will be read.
-   * @return A DOM4J {@link Node}constructed from the read events.
+   * @return A neoxml {@link Node}constructed from the read events.
    * @throws XMLStreamException If an error occurs reading from the stream, or the stream was
    *           positioned before an unsupported event.
    */
@@ -199,11 +199,11 @@ public class STAXEventReader
   }
 
   /**
-   * Reads a DOM4J {@link Document}from the provided stream. The stream
+   * Reads a neoxml{@link Document} from the provided stream. The stream
    * should be positioned at the start of a document, or before a {@link StartElement} event.
    *
    * @param reader The event stream from which to read the {@link Document}.
-   * @return The {@link Document}that was read from the stream.
+   * @return The {@link Document} that was read from the stream.
    * @throws XMLStreamException If an error occurs reading events from the stream.
    */
   public Document readDocument(XMLEventReader reader) throws XMLStreamException {
@@ -261,15 +261,15 @@ public class STAXEventReader
   }
 
   /**
-   * Reads a DOM4J Element from the provided event stream. The stream must be
-   * positioned before an {@link StartElement}event. In addition to the
+   * Reads a neoxml element from the provided event stream. The stream must be
+   * positioned before an {@link StartElement} event. In addition to the
    * initial start event, all events up to and including the closing {@link EndElement} will be read, and included with
    * the returned element.
    *
    * @param eventReader The event stream from which to read the Element.
    * @return The Element that was read from the stream.
    * @throws XMLStreamException If an error occured reading events from the stream, or the
-   *           stream was not positioned before a {@linkStartElement}event.
+   *           stream was not positioned before a {@linkStartElement} event.
    */
   public Element readElement(XMLEventReader eventReader) throws XMLStreamException {
     final XMLEvent event = eventReader.peek();
@@ -309,13 +309,13 @@ public class STAXEventReader
   }
 
   /**
-   * Constructs a DOM4J Attribute from the provided event stream. The stream
-   * must be positioned before an {@link Attribute}event.
+   * Constructs a neoxml Attribute from the provided event stream. The stream
+   * must be positioned before an {@link Attribute} event.
    *
    * @param reader The event stream from which to read the Attribute.
    * @return The Attribute that was read from the stream.
    * @throws XMLStreamException If an error occured reading events from the stream, or the
-   *           stream was not positioned before an {@linkAttribute}event.
+   *           stream was not positioned before an {@linkAttribute} event.
    */
   public org.neoxml.Attribute readAttribute(XMLEventReader reader) throws XMLStreamException {
     final XMLEvent event = reader.peek();
@@ -331,13 +331,13 @@ public class STAXEventReader
   }
 
   /**
-   * Constructs a DOM4J Namespace from the provided event stream. The stream
-   * must be positioned before a {@link Namespace}event.
+   * Constructs a neoxml Namespace from the provided event stream. The stream
+   * must be positioned before a {@link Namespace} event.
    *
    * @param reader The event stream from which to read the Namespace.
    * @return The Namespace that was read from the stream.
    * @throws XMLStreamException If an error occured reading events from the stream, or the
-   *           stream was not positioned before a {@linkNamespace}event.
+   *           stream was not positioned before a {@linkNamespace} event.
    */
   public org.neoxml.Namespace readNamespace(XMLEventReader reader) throws XMLStreamException {
     final XMLEvent event = reader.peek();
@@ -353,13 +353,13 @@ public class STAXEventReader
   }
 
   /**
-   * Constructs a DOM4J Text or CDATA section from the provided event stream.
-   * The stream must be positioned before a {@link Characters}event.
+   * Constructs a neoxml Text or CDATA section from the provided event stream.
+   * The stream must be positioned before a {@link Characters} event.
    *
    * @param reader The event stream from which to read the Text or CDATA.
    * @return The Text or CDATA that was read from the stream.
    * @throws XMLStreamException If an error occured reading events from the stream, or the
-   *           stream was not positioned before a {@linkCharacters}event.
+   *           stream was not positioned before a {@linkCharacters} event.
    */
   public CharacterData readCharacters(XMLEventReader reader) throws XMLStreamException {
     final XMLEvent event = reader.peek();
@@ -375,13 +375,13 @@ public class STAXEventReader
   }
 
   /**
-   * Constructs a DOM4J Comment from the provided event stream. The stream
-   * must be positioned before a {@link Comment}event.
+   * Constructs a neoxml Comment from the provided event stream. The stream
+   * must be positioned before a {@link Comment} event.
    *
    * @param reader The event stream from which to read the Comment.
    * @return The Comment that was read from the stream.
    * @throws XMLStreamException If an error occured reading events from the stream, or the
-   *           stream was not positioned before a {@linkComment}event.
+   *           stream was not positioned before a {@linkComment} event.
    */
   public org.neoxml.Comment readComment(XMLEventReader reader) throws XMLStreamException {
     final XMLEvent event = reader.peek();
@@ -395,11 +395,11 @@ public class STAXEventReader
   }
 
   /**
-   * Constructs a DOM4J Entity from the provided event stream. The stream must
-   * be positioned before an {@link EntityReference}event.
+   * Constructs a neoxml Entity from the provided event stream. The stream must
+   * be positioned before an {@link EntityReference} event.
    *
    * @param reader The event stream from which to read the {@link EntityReference}.
-   * @return The {@link org.neoxml.Entity}that was read from the stream.
+   * @return The {@link org.neoxml.Entity} that was read from the stream.
    * @throws XMLStreamException If an error occured reading events from the stream, or the
    *           stream was not positioned before an {@linkEntityReference} event.
    */
@@ -417,7 +417,7 @@ public class STAXEventReader
   }
 
   /**
-   * Constructs a DOM4J ProcessingInstruction from the provided event stream.
+   * Constructs a neoxml ProcessingInstruction from the provided event stream.
    * The stream must be positioned before a {@link ProcessingInstruction} event.
    *
    * @param reader The event stream from which to read the ProcessingInstruction.
@@ -439,10 +439,10 @@ public class STAXEventReader
   }
 
   /**
-   * Constructs a new DOM4J Element from the provided StartElement event. All
+   * Constructs a new neoxml element from the provided StartElement event. All
    * attributes and namespaces will be added to the returned element.
    *
-   * @param startEvent The StartElement event from which to construct the new DOM4J Element.
+   * @param startEvent The StartElement event from which to construct the new neoxml element.
    * @return The Element constructed from the provided StartElement event.
    */
   @SuppressWarnings("rawtypes")
@@ -469,7 +469,7 @@ public class STAXEventReader
   }
 
   /**
-   * Constructs a new DOM4J Attribute from the provided StAX Attribute event.
+   * Constructs a new neoxml Attribute from the provided StAX Attribute event.
    *
    * @param elem DOCUMENT ME!
    * @param attr The Attribute event from which to construct the new DOM4J
@@ -481,7 +481,7 @@ public class STAXEventReader
   }
 
   /**
-   * Constructs a new DOM4J Namespace from the provided StAX Namespace event.
+   * Constructs a new neoxml Namespace from the provided StAX Namespace event.
    *
    * @param ns The Namespace event from which to construct the new DOM4J
    *          Namespace.
@@ -492,7 +492,7 @@ public class STAXEventReader
   }
 
   /**
-   * Constructs a new DOM4J Text or CDATA object from the provided Characters
+   * Constructs a new neoxml Text or CDATA object from the provided Characters
    * event.
    *
    * @param characters The Characters event from which to construct the new DOM4J
@@ -512,7 +512,7 @@ public class STAXEventReader
   }
 
   /**
-   * Constructs a new DOM4J Comment from the provided StAX Comment event.
+   * Constructs a new neoxml Comment from the provided StAX Comment event.
    *
    * @param comment The Comment event from which to construct the new DOM4J
    *          Comment.
@@ -523,11 +523,11 @@ public class STAXEventReader
   }
 
   /**
-   * Constructs a new DOM4J Entity from the provided StAX EntityReference
+   * Constructs a new neoxml Entity from the provided StAX EntityReference
    * event.
    *
    * @param entityRef The EntityReference event from which to construct the new
-   *          DOM4J Entity.
+   *          neoxml Entity.
    * @return The Entity constructed from the provided EntityReference event.
    */
   public org.neoxml.Entity createEntity(EntityReference entityRef) {
@@ -535,11 +535,11 @@ public class STAXEventReader
   }
 
   /**
-   * Constructs a new DOM4J ProcessingInstruction from the provided StAX
+   * Constructs a new neoxml ProcessingInstruction from the provided StAX
    * ProcessingInstruction event.
    *
    * @param pi The ProcessingInstruction event from which to construct the
-   *          new DOM4J ProcessingInstruction.
+   *          new neoxml ProcessingInstruction.
    * @return The ProcessingInstruction constructed from the provided
    *         ProcessingInstruction event.
    */
@@ -548,10 +548,10 @@ public class STAXEventReader
   }
 
   /**
-   * Constructs a new DOM4J QName from the provided JAXP QName.
+   * Constructs a new neoxml QName from the provided JAXP QName.
    *
-   * @param qname The JAXP QName from which to create a DOM4J QName.
-   * @return The newly constructed DOM4J QName.
+   * @param qname The JAXP QName from which to create a neoxml QName.
+   * @return The newly constructed neoxml QName.
    */
   public org.neoxml.QName createQName(QName qname) {
     return factory.createQName(qname.getLocalPart(), qname.getPrefix(), qname.getNamespaceURI());

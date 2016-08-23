@@ -32,7 +32,7 @@ public class JAXBWriter extends JAXBSupport
 {
   private XMLWriter xmlWriter;
 
-  private OutputFormat outputFormat;
+  private final OutputFormat outputFormat;
 
   /**
    * Creates a new JAXBWriter for the given JAXB context path. This is the
@@ -48,12 +48,12 @@ public class JAXBWriter extends JAXBSupport
   }
 
   /**
-   * Creates a new JAXBWriter for the given JAXB context path. The specied {@link org.neoxml.io.OutputFormat}will be used
+   * Creates a new JAXBWriter for the given JAXB context path. The specied {@link org.neoxml.io.OutputFormat} will be used
    * for writing the XML
    * stream.
    *
    * @param contextPath JAXB context path to be used
-   * @param outputFormat the DOM4J {@link org.neoxml.io.OutputFormat}to be used
+   * @param outputFormat the neoxml {@link org.neoxml.io.OutputFormat} to be used
    * @see javax.xml.bind.JAXBContext
    */
   public JAXBWriter(String contextPath, OutputFormat outputFormat) {
@@ -73,6 +73,7 @@ public class JAXBWriter extends JAXBSupport
    */
   public JAXBWriter(String contextPath, ClassLoader classloader) {
     super(contextPath, classloader);
+    this.outputFormat = null;
   }
 
   /**
@@ -82,7 +83,7 @@ public class JAXBWriter extends JAXBSupport
    *
    * @param contextPath JAXB context path to be used
    * @param classloader the class loader to be used to load JAXB
-   * @param outputFormat the DOM4J {@link org.neoxml.io.OutputFormat}to be used
+   * @param outputFormat the neoxml {@link org.neoxml.io.OutputFormat} to be used
    * @see javax.xml.bind.JAXBContext
    */
   public JAXBWriter(String contextPath, ClassLoader classloader, OutputFormat outputFormat) {
