@@ -1,2 +1,13 @@
 language: java
 jdk: openjdk8
+
+addons:
+  sonarcloud:
+    organization: "noemus"
+    token:
+      secure: "OORr+st3wKzpvke8KbKazPeuJdTIm1lzouyjEzxkWoJZBg1BByJKQHbgoZKY6jF+GKhkljEhLZN5I6qjDcIrmjDu/SUwur2+7CSb44dfoODFpfgcaQ8KP61KlH3I1KE6Sa/jGGJpq0L/iawYH3RoJph9WS4XqU+qm4ylc/VwN+NAD2Ty2tRyZXEaftT9a1ulKJs8R++sdj+Uv/rED8nk1cZe/gq0ziN/QSb66EKvFRTJWtgsWlvVN/CLPyiz8432qlRsKajDvmHpblHOwrydHSqeAR9KVpvTAbvO+FCpkFGqR5wk8qygvOQ390p1dm6Sul+5XVrTPZ2YGjG9h8dLSQC+aeYCOivi1XUX2sf+wGfkMbQbeQpAkR8Sv89bQzLkMHNtuCDR/BznC3AXnJlA5hSf3WoaYmKQRBg8iHasrYzd5SF5JBG7xaEwcWooWBy5Wvf/v0Q7XzavYH0CGCWY9ePojly/1T6aJM/6mxnKwvOADMWmJR0WqqFxxgJcMP+JYve5BjUgxWZMzX9auwdvVZADcYFIDal+HroYdI5uEFJMcDNCF4IKhCGCnRb7HBu5ywIGb8R0fr5H8sWaDXH1QRlYXO9o+WNSoPhl9SdyGdNDvoTsco02avJ07WMb8kryexoKNSC3yBhGKSIgb05PFdMLdzp6V4w+wcc0+sDeRLo="
+
+script:
+  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
+  - mvn clean verify
+  - mvn sonar:sonar
