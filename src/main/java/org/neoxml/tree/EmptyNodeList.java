@@ -16,7 +16,6 @@ final class EmptyNodeList<T extends Node> extends AbstractList<T> implements Nod
   EmptyNodeList() {}
   
   @Override
-  @SuppressWarnings("unchecked")
   @SafeVarargs
   public final void add(T first, T... nodes) {
     throw new UnsupportedOperationException();
@@ -150,7 +149,7 @@ final class EmptyNodeList<T extends Node> extends AbstractList<T> implements Nod
     return true;
   }
   
-  static final EmptyIterator<Object> EMPTY_ITERATOR = new EmptyIterator<>();
+  static final EmptyIterator<?> EMPTY_ITERATOR = new EmptyIterator<>();
 
   static class EmptyIterator<E> implements Iterator<E>
   {
