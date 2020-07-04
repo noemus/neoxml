@@ -1,13 +1,11 @@
 language: java
 jdk: openjdk8
 
-addons:
-  sonarcloud:
-    organization: "noemus"
-    token:
-      secure: "SVE1nciW4CHsUfMCDQ3jeJERsuH5IZhxQ0xse7NStPZDpL5XJcBwneieypqF5frqz0/I6f19c13oTEHlg0LPkVJamuXa8gboa8bT+gqyxV5Q6YDM8n9b6lKelXY+9Pz+FZpHX0qfmdVneP7CrD15KorRzdir3Znzsmj6qvFAhXMJ93MFg7J3eGcjhM1EWX0EAddt1/PALYY4cszI20GBPDVymIH9lPrxX+Ksi4TeXnSnDQkW7vpDt2XVGI9w+fhltPV9j0Rau/7c9/hM2bzWcGSl9m6ZFcOXLayxIjNDt1Fwspxm1WQQKa4lP+R9LUFIAN+qSY+G6drTpMqfZPoQ4vLLA/XK4gndU4TaABio623yywXuRMJhGoVuUX9N5bEskEUwtnwz9R/8AN/lj7px5EDhPphVFld6shl3VzHopyp21v/dX4lowM/OSAq+Aru/UoZai1JRxFuG5arToALpP+Rjn+Gipcg2kD1aBJS6eGDK+knfGPnF8yI9CzC3Vg3knGPfzGAiBkj1wA4cvoacgbQyiyYJa6nYJpG1iH3pgRkEtLo6X2MT6Vosw0/7/tltrNzJ6gBTVwMKxqgFSQTrXAa7jknN75LsxsBrkrAc9v63Xcp8JWXFfiUFt12bcsOf/4G9wlFZaCNyz3dmvvoK/66hrl95xiEAZS0oTiHz82I="
+env:
+  global:
+    secure: ZZJOag7YKYDn1si4kurtpW9r0V3q2QrE64roAMg7Y4N/woBGYG4RuS4r36ApZRR41q/KjQAZ8KcISmL9Al50g+SE3N73sqJlQlx93pDQO2sVvFrFl8ToDcYXLgKmkJOGyBrBOFNx5Q//9KYzjETn67pdKF32si9wtVJjft2lwiREg8d/JkhMke0QByGNUmCVMlkg+RdhwsF2nUpui9FZabt1IRnbPcomTN7/+3sKyddfvjA3MbbTXu4k3X3wDPyU7vh5/UkKceQPlqBhr3wvP7PIrXr5yyj2a59QMEKNKSFZrB+FkfZkO3gFaIOCW0+TKhSvkTM+Yn7W4tlyu8UyI0aH6jqecppJl/swYAvdShnsz3xLpbvo8dd1SxTK231HYeBkBuAJrq56OFXnUtGkf3CnOL5VQCSvd8lvqt9Zrjua959y+eGEvxW8Hc7BttP9bsdxNfhbDK5IVyQi+DxJAj0NZKVhlvJS7FDcMAapDuCnD7OErE+PsqJo7wGofWLqt/hydF9egpOlUfBKmPv+hp0jsEMvBKo+N9qnbBgeNsbBPzc8B28S1yE9ap9FKumwMZGq/EK7NAxee7bm9takVs1Y4TfVUNvMymnB9OoznF7uEL2e2c2HpFqWiPOEi7oELIug0UL2Hno6XCZsGfEx0AINU3BXXANN8jyCCR7NnBs=
 
 script:
   # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
   - mvn clean verify
-  - mvn sonar:sonar -Dsonar.projectKey=noemus_neoxml
+  - mvn sonar:sonar -Dsonar.organization=noemus -Dsonar.projectKey=noemus_neoxml -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
