@@ -4,7 +4,7 @@
     
     <name>NeoXML</name>
     
-    <groupId>org.noemus</groupId>
+    <groupId>com.github.noemus</groupId>
     <artifactId>neoxml</artifactId>
     <version>1.0.2-SNAPSHOT</version>
     
