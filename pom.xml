@@ -6,39 +6,41 @@
     
     <groupId>org.noemus</groupId>
     <artifactId>neoxml</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.2-SNAPSHOT</version>
     
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
     <inceptionYear>2015</inceptionYear>
     
-    <description>NeoXML: The flexible XML framework for Java</description>
+    <description>NeoXML: The flexible XML framework for Java (forked from DOM4J 1.6.1)</description>
     
     <url>http://noemus.github.io/neoxml/</url>
 
     <distributionManagement>
-      <site>
-        <id>neoxml.website</id>
-        <name>NeoXML 1.0 Website</name>
-        <url>http://noemus.github.io/neoxml/htdocs</url>
-      </site>
-      <repository>
-        <id>tdp-nexus</id>
-        <name>TDP Nexus Releases</name>
-        <url>http://svn.tdp.cz/nexus/content/repositories/releases</url>
-      </repository>
-      <snapshotRepository>
-        <id>tdp-nexus-staging</id>
-        <name>TDP Nexus Snapshots</name>
-        <url>http://svn.tdp.cz/nexus/content/repositories/snapshots</url>
-      </snapshotRepository>
+        <site>
+            <id>neoxml.website</id>
+            <name>NeoXML 1.0 Website</name>
+            <url>http://noemus.github.io/neoxml/htdocs</url>
+        </site>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
     </distributionManagement>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
     
     <build>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
+                <version>3.8.1</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
                     <source>1.8</source>
@@ -47,7 +49,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>2.6</version>
+                <version>3.1.0</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
                 </configuration>                
@@ -55,8 +57,51 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.12.4</version>
-            </plugin>            
+                <version>2.22.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.2</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <additionalparam>-Xdoclint:none</additionalparam>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     
@@ -132,31 +177,7 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jxr-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>dependencies</report>
-                            <report>project-team</report>
-                            <report>mailing-list</report>
-                            <report>issue-tracking</report>
-                            <report>license</report>
-                            <report>scm</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -178,7 +199,9 @@
     </developers>
     
     <scm>
-        <url>https://github.com/noemus/neoxml.git</url>
+        <connection>scm:git:git://github.com:noemus/neoxml.git</connection>
+        <developerConnection>scm:git:ssh://github.com:noemus/neoxml.git</developerConnection>
+        <url>https://github.com/noemus/neoxml/tree/master</url>
     </scm>
     <issueManagement>
         <system>GitHub</system>
