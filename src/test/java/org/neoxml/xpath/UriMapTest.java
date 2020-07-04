@@ -6,14 +6,14 @@
 
 package org.neoxml.xpath;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.neoxml.AbstractTestCase;
 import org.neoxml.Node;
 import org.neoxml.XPath;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Tests the use of a Map for defining namespace URIs

@@ -1,18 +1,15 @@
 package org.neoxml.tree;
 
-import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+import org.neoxml.Node;
 
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.neoxml.Node;
-import org.neoxml.tree.DefaultElement;
-import org.neoxml.tree.DefaultNodeList;
-import org.neoxml.tree.FilteredNodeList;
+import static org.junit.Assert.*;
 
 public class FilteredListTest
 {

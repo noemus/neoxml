@@ -6,20 +6,14 @@
 
 package org.neoxml;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.neoxml.io.SAXReader;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.neoxml.DefaultDocumentFactory;
-import org.neoxml.Document;
-import org.neoxml.DocumentFactory;
-import org.neoxml.Element;
-import org.neoxml.Namespace;
-import org.neoxml.QName;
-import org.neoxml.io.SAXReader;
 
 /**
  * A test harness to test the use of Namespaces.

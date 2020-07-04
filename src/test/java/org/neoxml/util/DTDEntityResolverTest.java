@@ -1,10 +1,10 @@
 package org.neoxml.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
 import org.junit.Test;
 import org.xml.sax.InputSource;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class DTDEntityResolverTest
 {

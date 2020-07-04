@@ -6,6 +6,9 @@
 
 package org.neoxml.bean;
 
+import org.neoxml.DocumentFactory;
+import org.neoxml.QName;
+
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -14,9 +17,6 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.neoxml.DocumentFactory;
-import org.neoxml.QName;
 
 /**
  * <p>

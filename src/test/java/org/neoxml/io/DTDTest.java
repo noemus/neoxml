@@ -6,13 +6,6 @@
 
 package org.neoxml.io;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.junit.Test;
 import org.neoxml.AbstractTestCase;
 import org.neoxml.Document;
@@ -25,6 +18,13 @@ import org.neoxml.tree.DefaultDocumentType;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Tests the DocType functionality.

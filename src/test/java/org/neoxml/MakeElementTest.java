@@ -7,10 +7,6 @@
 package org.neoxml;
 
 import org.junit.Test;
-import org.neoxml.Document;
-import org.neoxml.DocumentHelper;
-import org.neoxml.Element;
-import org.neoxml.Node;
 
 /**
  * A test harness to test the DocumentHelper.makeElement() methodt

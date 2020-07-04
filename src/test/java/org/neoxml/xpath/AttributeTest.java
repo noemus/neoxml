@@ -6,14 +6,14 @@
 
 package org.neoxml.xpath;
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.junit.Test;
 import org.neoxml.AbstractTestCase;
 import org.neoxml.Attribute;
 import org.neoxml.DocumentHelper;
 import org.neoxml.XPath;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Test harness for the attribute axis

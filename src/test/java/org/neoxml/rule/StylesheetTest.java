@@ -12,10 +12,6 @@ import org.neoxml.AbstractTestCase;
 import org.neoxml.Document;
 import org.neoxml.DocumentHelper;
 import org.neoxml.Node;
-import org.neoxml.rule.Action;
-import org.neoxml.rule.Pattern;
-import org.neoxml.rule.Rule;
-import org.neoxml.rule.Stylesheet;
 import org.neoxml.xpath.DefaultXPath;
 
 /**

@@ -5,14 +5,10 @@
  */
 package org.neoxml.util;
 
-import java.util.List;
-
-import org.neoxml.Attribute;
-import org.neoxml.Element;
-import org.neoxml.Node;
-import org.neoxml.NodeList;
-import org.neoxml.QName;
+import org.neoxml.*;
 import org.neoxml.tree.DefaultElement;
+
+import java.util.List;
 
 /**
  * <p>

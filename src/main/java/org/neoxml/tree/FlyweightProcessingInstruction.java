@@ -6,11 +6,11 @@
 
 package org.neoxml.tree;
 
-import java.util.Collections;
-import java.util.Map;
-
 import org.neoxml.Element;
 import org.neoxml.Node;
+
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * <p>

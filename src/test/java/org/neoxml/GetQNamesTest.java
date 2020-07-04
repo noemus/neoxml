@@ -6,16 +6,10 @@
 
 package org.neoxml;
 
-import java.util.List;
-
 import org.junit.Test;
-import org.neoxml.DefaultDocumentFactory;
-import org.neoxml.Document;
-import org.neoxml.DocumentFactory;
-import org.neoxml.DocumentHelper;
-import org.neoxml.Element;
-import org.neoxml.QName;
 import org.neoxml.io.SAXReader;
+
+import java.util.List;
 
 /**
  * A test harness to test the DefaultDocumentFactory.getQNames() method

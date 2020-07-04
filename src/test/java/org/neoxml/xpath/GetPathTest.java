@@ -6,19 +6,11 @@
 
 package org.neoxml.xpath;
 
+import org.junit.Test;
+import org.neoxml.*;
+
 import java.util.Iterator;
 import java.util.List;
-
-import org.junit.Test;
-import org.neoxml.AbstractTestCase;
-import org.neoxml.Attribute;
-import org.neoxml.Branch;
-import org.neoxml.DefaultDocumentFactory;
-import org.neoxml.Document;
-import org.neoxml.DocumentHelper;
-import org.neoxml.Element;
-import org.neoxml.Node;
-import org.neoxml.QName;
 
 /**
  * Test harness for the GetPath() method

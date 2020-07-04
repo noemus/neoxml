@@ -6,39 +6,20 @@
 
 package org.neoxml.io;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.Iterator;
+import org.neoxml.Attribute;
+import org.neoxml.Comment;
+import org.neoxml.Namespace;
+import org.neoxml.*;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventFactory;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.Characters;
-import javax.xml.stream.events.DTD;
-import javax.xml.stream.events.EndDocument;
-import javax.xml.stream.events.EndElement;
-import javax.xml.stream.events.EntityReference;
 import javax.xml.stream.events.ProcessingInstruction;
-import javax.xml.stream.events.StartDocument;
-import javax.xml.stream.events.StartElement;
+import javax.xml.stream.events.*;
 import javax.xml.stream.util.XMLEventConsumer;
-
-import org.neoxml.Attribute;
-import org.neoxml.Branch;
-import org.neoxml.CDATA;
-import org.neoxml.Comment;
-import org.neoxml.Document;
-import org.neoxml.DocumentType;
-import org.neoxml.Element;
-import org.neoxml.Entity;
-import org.neoxml.Namespace;
-import org.neoxml.Node;
-import org.neoxml.Text;
+import java.io.*;
+import java.util.Iterator;
 
 /**
  * Writes neoxml {@link Node}s to a StAX event stream. In addition the <code>createXXX</code> methods are provided to

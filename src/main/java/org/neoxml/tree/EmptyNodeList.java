@@ -1,15 +1,11 @@
 package org.neoxml.tree;
 
-import java.util.AbstractList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.function.Predicate;
-
 import org.neoxml.Branch;
 import org.neoxml.Node;
 import org.neoxml.NodeList;
+
+import java.util.*;
+import java.util.function.Predicate;
 
 final class EmptyNodeList<T extends Node> extends AbstractList<T> implements NodeList<T>
 {

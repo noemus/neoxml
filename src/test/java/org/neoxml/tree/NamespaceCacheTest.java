@@ -9,7 +9,6 @@ package org.neoxml.tree;
 import org.junit.Test;
 import org.neoxml.AbstractTestCase;
 import org.neoxml.Namespace;
-import org.neoxml.tree.NamespaceCache;
 
 /**
  * A test harness to test the performance of the NamespaceCache

@@ -8,7 +8,6 @@ package org.neoxml.tree;
 
 import org.junit.Test;
 import org.neoxml.AbstractTestCase;
-import org.neoxml.tree.DefaultCDATA;
 
 /**
  * DOCUMENT ME!

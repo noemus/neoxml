@@ -6,12 +6,10 @@
 
 package org.neoxml;
 
-import java.util.List;
-
 import org.junit.Test;
-import org.neoxml.Document;
-import org.neoxml.Node;
 import org.neoxml.util.IndexedDocumentFactory;
+
+import java.util.List;
 
 /**
  * A test harness for the IndexedElement implementation

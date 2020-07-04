@@ -1,9 +1,9 @@
 package org.neoxml.util;
 
+import org.neoxml.QName;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.neoxml.QName;
 
 /**
  * @author Jirsák Filip

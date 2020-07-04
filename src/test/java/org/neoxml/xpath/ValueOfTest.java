@@ -6,13 +6,13 @@
 
 package org.neoxml.xpath;
 
-import java.util.List;
-
 import org.junit.Test;
 import org.neoxml.AbstractTestCase;
 import org.neoxml.Element;
 import org.neoxml.Node;
 import org.neoxml.XPath;
+
+import java.util.List;
 
 /**
  * Test harness for the valueOf() function

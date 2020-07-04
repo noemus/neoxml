@@ -6,20 +6,9 @@
 
 package org.neoxml;
 
-import java.util.Iterator;
-
 import org.junit.Test;
-import org.neoxml.Attribute;
-import org.neoxml.CDATA;
-import org.neoxml.Comment;
-import org.neoxml.Document;
-import org.neoxml.DocumentType;
-import org.neoxml.Element;
-import org.neoxml.Entity;
-import org.neoxml.Namespace;
-import org.neoxml.Node;
-import org.neoxml.ProcessingInstruction;
-import org.neoxml.Text;
+
+import java.util.Iterator;
 
 /**
  * Tests the getNodeNameType() method

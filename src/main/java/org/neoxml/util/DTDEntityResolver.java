@@ -1,9 +1,9 @@
 package org.neoxml.util;
 
-import java.io.InputStream;
-
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
+
+import java.io.InputStream;
 
 public class DTDEntityResolver implements EntityResolver
 {

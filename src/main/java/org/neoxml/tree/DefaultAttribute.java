@@ -6,11 +6,7 @@
 
 package org.neoxml.tree;
 
-import org.neoxml.DefaultDocumentFactory;
-import org.neoxml.DocumentFactory;
-import org.neoxml.Element;
-import org.neoxml.Namespace;
-import org.neoxml.QName;
+import org.neoxml.*;
 
 /**
  * <p>

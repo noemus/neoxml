@@ -6,28 +6,13 @@
 
 package org.neoxml.io;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.io.Serializable;
-import java.net.URL;
-
-import org.neoxml.DefaultDocumentFactory;
-import org.neoxml.Document;
-import org.neoxml.DocumentException;
-import org.neoxml.DocumentFactory;
-import org.neoxml.ElementHandler;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.XMLFilter;
-import org.xml.sax.XMLReader;
+import org.neoxml.*;
+import org.xml.sax.*;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
+
+import java.io.*;
+import java.net.URL;
 
 /**
  * <p>

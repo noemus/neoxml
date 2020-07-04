@@ -7,12 +7,6 @@
 package org.neoxml;
 
 import org.junit.Test;
-import org.neoxml.Attribute;
-import org.neoxml.DefaultDocumentFactory;
-import org.neoxml.Document;
-import org.neoxml.DocumentFactory;
-import org.neoxml.Element;
-import org.neoxml.QName;
 
 /**
  * Tests the use of null attribute values

@@ -6,15 +6,9 @@
 
 package org.neoxml;
 
-import java.util.List;
-
 import org.junit.Test;
-import org.neoxml.DefaultDocumentFactory;
-import org.neoxml.DocumentFactory;
-import org.neoxml.Element;
-import org.neoxml.IllegalAddException;
-import org.neoxml.Node;
-import org.neoxml.io.XMLWriter;
+
+import java.util.List;
 
 /**
  * A test harness to test the backed list feature of DOM4J
@@ -28,30 +22,26 @@ public class BackedListTest extends AbstractTestCase
   // -------------------------------------------------------------------------
 
   @Test
-  public void testXPaths() throws Exception {
+  public void testXPaths() {
     Element element = (Element)document.selectSingleNode("/root");
     mutate(element);
     element = (Element)document.selectSingleNode("//author");
     mutate(element);
   }
 
-  @Test
-  public void testAddRemove() throws Exception {
+  @Test(expected = IllegalAddException.class)
+  public void testAddRemove() {
     Element parentElement = (Element)document.selectSingleNode("/root");
     List<Element> children = parentElement.elements();
     int lastPos = children.size() - 1;
     Element child = children.get(lastPos);
 
-    try {
-      // should throw an exception cause we cannot add same child twice
-      children.add(0, child);
-      fail();
-    }
-    catch (IllegalAddException e) {}
+    // should throw an exception cause we cannot add same child twice
+    children.add(0, child);
   }
 
   @Test
-  public void testAddWithIndex() throws Exception {
+  public void testAddWithIndex() {
     DocumentFactory factory = DefaultDocumentFactory.getInstance();
 
     Element root = (Element)document.selectSingleNode("/root");
@@ -74,8 +64,8 @@ public class BackedListTest extends AbstractTestCase
     children = root.elements();
 
     assertEquals(4, children.size());
-    assertEquals("dummy1", ((Node)children.get(1)).getName());
-    assertEquals("dummy2", ((Node)children.get(2)).getName());
+    assertEquals("dummy1", children.get(1).getName());
+    assertEquals("dummy2", children.get(2).getName());
 
     /*
      * Some tests for issue reported at http://tinyurl.com/4jxrc
@@ -88,7 +78,7 @@ public class BackedListTest extends AbstractTestCase
   // Implementation methods
   // -------------------------------------------------------------------------
 
-  protected void mutate(Element element) throws Exception {
+  protected void mutate(Element element) {
     DocumentFactory factory = DefaultDocumentFactory.getInstance();
 
     List<Element> list = element.elements();
@@ -97,13 +87,7 @@ public class BackedListTest extends AbstractTestCase
 
     List<Element> list2 = element.elements();
 
-    assertTrue("Both lists should contain same number of elements", list
-      .size() == list2.size());
-
-    try (XMLWriter writer = new XMLWriter(System.out)) {
-      log("Element content is now: " + element.content());
-      writer.write(element);
-    }
+    assertEquals("Both lists should contain same number of elements", list.size(), list2.size());
   }
 }
 

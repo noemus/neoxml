@@ -9,7 +9,6 @@ package org.neoxml.io;
 import org.junit.Test;
 import org.neoxml.AbstractTestCase;
 import org.neoxml.ElementHandler;
-import org.neoxml.io.SAXReader;
 
 /**
  * DOCUMENT ME!

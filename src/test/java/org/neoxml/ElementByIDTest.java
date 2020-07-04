@@ -7,8 +7,6 @@
 package org.neoxml;
 
 import org.junit.Test;
-import org.neoxml.Document;
-import org.neoxml.Element;
 
 /**
  * Tests the elementByID() method

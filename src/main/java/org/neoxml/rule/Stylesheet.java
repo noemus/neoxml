@@ -6,11 +6,11 @@
 
 package org.neoxml.rule;
 
-import java.util.List;
-
 import org.neoxml.Branch;
 import org.neoxml.Node;
 import org.neoxml.XPath;
+
+import java.util.List;
 
 /**
  * <p>

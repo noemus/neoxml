@@ -6,10 +6,10 @@
 
 package org.neoxml.tree;
 
+import org.neoxml.Namespace;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.neoxml.Namespace;
 
 /**
  * <p>

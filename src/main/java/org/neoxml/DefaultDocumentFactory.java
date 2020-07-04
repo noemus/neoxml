@@ -6,30 +6,20 @@
 
 package org.neoxml;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.neoxml.rule.Pattern;
+import org.neoxml.tree.*;
+import org.neoxml.util.SingletonHelper;
+import org.neoxml.util.SingletonStrategy;
+import org.neoxml.xpath.XPathPattern;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.neoxml.rule.Pattern;
-import org.neoxml.tree.AbstractDocument;
-import org.neoxml.tree.DefaultAttribute;
-import org.neoxml.tree.DefaultCDATA;
-import org.neoxml.tree.DefaultComment;
-import org.neoxml.tree.DefaultDocument;
-import org.neoxml.tree.DefaultDocumentType;
-import org.neoxml.tree.DefaultElement;
-import org.neoxml.tree.DefaultEntity;
-import org.neoxml.tree.DefaultProcessingInstruction;
-import org.neoxml.tree.DefaultText;
-import org.neoxml.tree.QNameCache;
-import org.neoxml.util.SingletonHelper;
-import org.neoxml.util.SingletonStrategy;
-import org.neoxml.xpath.XPathPattern;
 
 /**
  * <p>

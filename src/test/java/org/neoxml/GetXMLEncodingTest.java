@@ -6,14 +6,12 @@
 
 package org.neoxml;
 
-import java.io.ByteArrayInputStream;
-import java.io.StringReader;
-
 import org.junit.Test;
-import org.neoxml.Document;
-import org.neoxml.DocumentHelper;
 import org.neoxml.io.SAXReader;
 import org.xml.sax.InputSource;
+
+import java.io.ByteArrayInputStream;
+import java.io.StringReader;
 
 /**
  * DOCUMENT ME!

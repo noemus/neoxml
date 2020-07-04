@@ -6,11 +6,6 @@
 
 package org.neoxml;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.StringReader;
-import java.io.StringWriter;
-
 import org.junit.Test;
 import org.neoxml.io.OutputFormat;
 import org.neoxml.io.SAXReader;
@@ -20,6 +15,11 @@ import org.neoxml.tree.DefaultElement;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.StringReader;
+import java.io.StringWriter;
 
 /**
  * A simple test harness to check that the XML Writer works

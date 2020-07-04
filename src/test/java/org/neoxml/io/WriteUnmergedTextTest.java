@@ -6,15 +6,12 @@
 
 package org.neoxml.io;
 
-import java.io.StringReader;
-import java.io.StringWriter;
-
 import org.junit.Test;
 import org.neoxml.AbstractTestCase;
 import org.neoxml.Document;
-import org.neoxml.io.OutputFormat;
-import org.neoxml.io.SAXReader;
-import org.neoxml.io.XMLWriter;
+
+import java.io.StringReader;
+import java.io.StringWriter;
 
 /**
  * A simple test harness to check that the XML Writer works

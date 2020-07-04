@@ -6,27 +6,14 @@
 
 package org.neoxml.tree;
 
+import org.neoxml.*;
+import org.neoxml.rule.Pattern;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.io.Writer;
 import java.util.List;
 import java.util.function.Predicate;
-
-import org.neoxml.CDATA;
-import org.neoxml.Comment;
-import org.neoxml.DefaultDocumentFactory;
-import org.neoxml.Document;
-import org.neoxml.DocumentFactory;
-import org.neoxml.Element;
-import org.neoxml.Namespace;
-import org.neoxml.Node;
-import org.neoxml.NodeFilter;
-import org.neoxml.NodeType;
-import org.neoxml.ProcessingInstruction;
-import org.neoxml.QName;
-import org.neoxml.Text;
-import org.neoxml.XPath;
-import org.neoxml.rule.Pattern;
 
 /**
  * <p>

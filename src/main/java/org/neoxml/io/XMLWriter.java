@@ -6,41 +6,17 @@
 
 package org.neoxml.io;
 
-import java.io.BufferedWriter;
-import java.io.Closeable;
-import java.io.Flushable;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
+import org.neoxml.*;
+import org.neoxml.tree.NamespaceStack;
+import org.xml.sax.*;
+import org.xml.sax.ext.LexicalHandler;
+import org.xml.sax.helpers.XMLFilterImpl;
+
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-
-import org.neoxml.Attribute;
-import org.neoxml.CDATA;
-import org.neoxml.Comment;
-import org.neoxml.Document;
-import org.neoxml.DocumentType;
-import org.neoxml.Element;
-import org.neoxml.Entity;
-import org.neoxml.Namespace;
-import org.neoxml.Node;
-import org.neoxml.NodeType;
-import org.neoxml.ProcessingInstruction;
-import org.neoxml.Text;
-import org.neoxml.tree.NamespaceStack;
-import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
-import org.xml.sax.Locator;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXNotRecognizedException;
-import org.xml.sax.SAXNotSupportedException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.ext.LexicalHandler;
-import org.xml.sax.helpers.XMLFilterImpl;
 
 /**
  * <p>

@@ -6,12 +6,9 @@
 
 package org.neoxml;
 
-import java.io.IOException;
-
 import org.junit.Test;
-import org.neoxml.Document;
-import org.neoxml.DocumentHelper;
-import org.neoxml.Element;
+
+import java.io.IOException;
 
 /**
  * A test harness to test the xml:space attribute for preserve. If it is

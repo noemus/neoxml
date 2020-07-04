@@ -6,20 +6,15 @@
 
 package org.neoxml;
 
+import org.junit.Test;
+import org.neoxml.io.SAXReader;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.junit.Test;
-import org.neoxml.DefaultDocumentFactory;
-import org.neoxml.Document;
-import org.neoxml.DocumentFactory;
-import org.neoxml.Node;
-import org.neoxml.XPath;
-import org.neoxml.io.SAXReader;
 
 /**
  * Tests that a neoxml document is Serializable

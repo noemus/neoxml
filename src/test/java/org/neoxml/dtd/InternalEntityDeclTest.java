@@ -8,7 +8,6 @@ package org.neoxml.dtd;
 
 import org.junit.Test;
 import org.neoxml.AbstractTestCase;
-import org.neoxml.dtd.InternalEntityDecl;
 
 /**
  * Tests the {@link InternalEntityDecl}functionality. Tests each of the

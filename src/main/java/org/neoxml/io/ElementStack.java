@@ -6,11 +6,11 @@
 
 package org.neoxml.io;
 
-import java.util.Arrays;
-
 import org.neoxml.Element;
 import org.neoxml.ElementHandler;
 import org.neoxml.ElementPath;
+
+import java.util.Arrays;
 
 /**
  * <p>

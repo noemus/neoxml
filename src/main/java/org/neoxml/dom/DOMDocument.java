@@ -6,24 +6,14 @@
 
 package org.neoxml.dom;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.neoxml.DocumentFactory;
 import org.neoxml.Element;
 import org.neoxml.QName;
 import org.neoxml.tree.DefaultDocument;
-import org.w3c.dom.Attr;
-import org.w3c.dom.CDATASection;
-import org.w3c.dom.DOMConfiguration;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.Document;
-import org.w3c.dom.EntityReference;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.ProcessingInstruction;
-import org.w3c.dom.UserDataHandler;
+import org.w3c.dom.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>

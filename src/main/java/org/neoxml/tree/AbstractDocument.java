@@ -6,23 +6,14 @@
 
 package org.neoxml.tree;
 
+import org.neoxml.*;
+import org.neoxml.io.OutputFormat;
+import org.neoxml.io.XMLWriter;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Map;
-
-import org.neoxml.Comment;
-import org.neoxml.Document;
-import org.neoxml.DocumentType;
-import org.neoxml.Element;
-import org.neoxml.IllegalAddException;
-import org.neoxml.Node;
-import org.neoxml.NodeType;
-import org.neoxml.ProcessingInstruction;
-import org.neoxml.QName;
-import org.neoxml.Visitor;
-import org.neoxml.io.OutputFormat;
-import org.neoxml.io.XMLWriter;
 
 /**
  * <p>

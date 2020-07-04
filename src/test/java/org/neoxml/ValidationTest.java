@@ -7,7 +7,6 @@
 package org.neoxml;
 
 import org.junit.Test;
-import org.neoxml.DocumentException;
 import org.neoxml.io.SAXReader;
 
 /**

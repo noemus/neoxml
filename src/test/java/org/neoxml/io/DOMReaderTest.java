@@ -6,15 +6,13 @@
 
 package org.neoxml.io;
 
-import java.io.ByteArrayInputStream;
-import java.util.List;
+import org.junit.Test;
+import org.neoxml.AbstractTestCase;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.junit.Test;
-import org.neoxml.AbstractTestCase;
-import org.neoxml.io.DOMReader;
+import java.io.ByteArrayInputStream;
+import java.util.List;
 
 /**
  * DOCUMENT ME!

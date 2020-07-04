@@ -6,11 +6,9 @@
 
 package org.neoxml;
 
-import java.util.Map;
-
 import org.junit.Test;
-import org.neoxml.DocumentHelper;
-import org.neoxml.ProcessingInstruction;
+
+import java.util.Map;
 
 /**
  * DOCUMENT ME!

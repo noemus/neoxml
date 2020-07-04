@@ -6,8 +6,6 @@
 
 package org.neoxml.xpath;
 
-import java.util.List;
-
 import org.jaxen.SimpleNamespaceContext;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +13,8 @@ import org.neoxml.AbstractTestCase;
 import org.neoxml.DocumentHelper;
 import org.neoxml.Node;
 import org.neoxml.XPath;
-import org.neoxml.xpath.DefaultXPath;
+
+import java.util.List;
 
 /**
  * Tests finding items using a namespace prefix

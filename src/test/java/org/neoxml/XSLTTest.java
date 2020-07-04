@@ -6,18 +6,16 @@
 
 package org.neoxml;
 
-import java.util.List;
+import org.junit.Before;
+import org.junit.Test;
+import org.neoxml.io.DocumentResult;
+import org.neoxml.io.DocumentSource;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamSource;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.neoxml.Document;
-import org.neoxml.io.DocumentResult;
-import org.neoxml.io.DocumentSource;
+import java.util.List;
 
 /**
  * Tests that XSLT works correctly

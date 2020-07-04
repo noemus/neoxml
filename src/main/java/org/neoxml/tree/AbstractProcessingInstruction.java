@@ -5,16 +5,16 @@
  */
 package org.neoxml.tree;
 
+import org.neoxml.Element;
+import org.neoxml.NodeType;
+import org.neoxml.ProcessingInstruction;
+import org.neoxml.Visitor;
+
 import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
-
-import org.neoxml.Element;
-import org.neoxml.NodeType;
-import org.neoxml.ProcessingInstruction;
-import org.neoxml.Visitor;
 
 /**
  * <p>

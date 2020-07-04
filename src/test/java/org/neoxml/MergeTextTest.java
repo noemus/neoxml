@@ -6,14 +6,10 @@
 
 package org.neoxml;
 
-import java.util.Iterator;
-
 import org.junit.Test;
-import org.neoxml.Document;
-import org.neoxml.Element;
-import org.neoxml.Node;
-import org.neoxml.Text;
 import org.neoxml.io.SAXReader;
+
+import java.util.Iterator;
 
 /**
  * A test harness for SAXReader option setMergeAdjacentText(true)

@@ -6,18 +6,12 @@
 
 package org.neoxml.tree;
 
-import java.io.ByteArrayOutputStream;
-
 import org.junit.Test;
-import org.neoxml.AbstractTestCase;
-import org.neoxml.DefaultDocumentFactory;
-import org.neoxml.Document;
-import org.neoxml.DocumentHelper;
-import org.neoxml.Element;
-import org.neoxml.IllegalAddException;
+import org.neoxml.*;
 import org.neoxml.io.OutputFormat;
 import org.neoxml.io.XMLWriter;
-import org.neoxml.tree.DefaultDocument;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * Some tests on DefaultDocument.

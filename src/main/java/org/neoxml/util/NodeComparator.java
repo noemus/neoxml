@@ -5,23 +5,10 @@
  */
 package org.neoxml.util;
 
-import java.util.Comparator;
-
-import org.neoxml.Attribute;
-import org.neoxml.Branch;
-import org.neoxml.CDATA;
 import org.neoxml.CharacterData;
-import org.neoxml.Comment;
-import org.neoxml.Document;
-import org.neoxml.DocumentType;
-import org.neoxml.Element;
-import org.neoxml.Entity;
-import org.neoxml.Namespace;
-import org.neoxml.Node;
-import org.neoxml.NodeType;
-import org.neoxml.ProcessingInstruction;
-import org.neoxml.QName;
-import org.neoxml.Text;
+import org.neoxml.*;
+
+import java.util.Comparator;
 
 /**
  * <p>

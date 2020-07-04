@@ -6,13 +6,13 @@
 
 package org.neoxml.tree;
 
-import java.io.IOException;
-import java.io.Writer;
-
 import org.neoxml.Element;
 import org.neoxml.Entity;
 import org.neoxml.NodeType;
 import org.neoxml.Visitor;
+
+import java.io.IOException;
+import java.io.Writer;
 
 /**
  * <p>

@@ -5,19 +5,10 @@
  */
 package org.neoxml.tree;
 
+import org.neoxml.*;
+
 import java.util.Iterator;
 import java.util.List;
-
-import org.neoxml.Attribute;
-import org.neoxml.Branch;
-import org.neoxml.DefaultDocumentFactory;
-import org.neoxml.Document;
-import org.neoxml.DocumentFactory;
-import org.neoxml.Element;
-import org.neoxml.Namespace;
-import org.neoxml.Node;
-import org.neoxml.NodeList;
-import org.neoxml.QName;
 
 /**
  * <p>

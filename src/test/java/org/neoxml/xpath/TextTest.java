@@ -6,12 +6,12 @@
 
 package org.neoxml.xpath;
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.junit.Test;
 import org.neoxml.AbstractTestCase;
 import org.neoxml.Text;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Test harness for the text() function

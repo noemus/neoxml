@@ -6,17 +6,16 @@
 
 package org.neoxml.io;
 
+import org.junit.Test;
+import org.neoxml.AbstractTestCase;
+import org.neoxml.Document;
+
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.StringWriter;
-
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
-
-import org.junit.Test;
-import org.neoxml.AbstractTestCase;
-import org.neoxml.Document;
 
 /**
  * Tests STAX->neoxml functionality.

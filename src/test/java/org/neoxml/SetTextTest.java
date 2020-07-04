@@ -7,8 +7,6 @@
 package org.neoxml;
 
 import org.junit.Test;
-import org.neoxml.Element;
-import org.neoxml.Node;
 
 /**
  * Tests the setText method

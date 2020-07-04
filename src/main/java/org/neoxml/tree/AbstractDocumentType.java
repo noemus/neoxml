@@ -5,16 +5,16 @@
  */
 package org.neoxml.tree;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.util.Iterator;
-import java.util.List;
-
 import org.neoxml.DocumentType;
 import org.neoxml.Element;
 import org.neoxml.NodeType;
 import org.neoxml.Visitor;
 import org.neoxml.dtd.InternalDeclaration;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * <p>

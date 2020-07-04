@@ -6,7 +6,7 @@
 
 package org.neoxml.jaxb;
 
-import java.io.StringReader;
+import org.neoxml.dom.DOMDocument;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -14,8 +14,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
-
-import org.neoxml.dom.DOMDocument;
+import java.io.StringReader;
 
 /**
  * DOCUMENT ME!

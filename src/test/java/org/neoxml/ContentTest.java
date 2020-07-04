@@ -6,17 +6,10 @@
 
 package org.neoxml;
 
+import org.junit.Test;
+
 import java.util.Iterator;
 import java.util.List;
-
-import org.junit.Test;
-import org.neoxml.DefaultDocumentFactory;
-import org.neoxml.Document;
-import org.neoxml.DocumentFactory;
-import org.neoxml.DocumentHelper;
-import org.neoxml.Element;
-import org.neoxml.Node;
-import org.neoxml.ProcessingInstruction;
 
 /**
  * A test harness to test the content API in DOM4J

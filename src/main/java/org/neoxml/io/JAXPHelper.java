@@ -6,12 +6,12 @@
 
 package org.neoxml.io;
 
+import org.xml.sax.XMLReader;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
-import org.xml.sax.XMLReader;
 
 /**
  * <code>JAXPHelper</code> contains some helper methods for working with JAXP.

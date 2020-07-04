@@ -8,12 +8,7 @@ package org.neoxml.dom;
 
 import org.neoxml.Element;
 import org.neoxml.tree.DefaultEntity;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.UserDataHandler;
+import org.w3c.dom.*;
 
 /**
  * <p>

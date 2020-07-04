@@ -6,14 +6,14 @@
 
 package org.neoxml;
 
+import org.neoxml.io.SAXReader;
+import org.neoxml.rule.Pattern;
+import org.xml.sax.InputSource;
+
 import java.io.StringReader;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-
-import org.neoxml.io.SAXReader;
-import org.neoxml.rule.Pattern;
-import org.xml.sax.InputSource;
 
 /**
  * <p>

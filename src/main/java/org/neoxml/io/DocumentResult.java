@@ -6,11 +6,11 @@
 
 package org.neoxml.io;
 
-import javax.xml.transform.sax.SAXResult;
-
 import org.neoxml.Document;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.ext.LexicalHandler;
+
+import javax.xml.transform.sax.SAXResult;
 
 /**
  * <p>

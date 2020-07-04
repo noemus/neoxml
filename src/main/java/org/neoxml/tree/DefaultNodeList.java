@@ -6,16 +6,15 @@
 
 package org.neoxml.tree;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Predicate;
-
 import org.neoxml.Branch;
 import org.neoxml.Node;
 import org.neoxml.NodeList;
 import org.neoxml.util.HeadList;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Predicate;
 
 /**
  * <code>BackedList</code> represents a list of content of a {@link org.neoxml.Branch}. Changes to the list will be
@@ -154,12 +153,7 @@ public class DefaultNodeList<T extends Node> extends HeadList<T> implements Node
 
   @Override
   public NodeList<T> remove(Predicate<? super T> cond) {
-    for (Iterator<T> it = iterator(); it.hasNext();) {
-      if (cond.test(it.next())) {
-        it.remove();
-      }
-    }
-
+    removeIf(cond);
     return this;
   }
 
@@ -243,13 +237,11 @@ public class DefaultNodeList<T extends Node> extends HeadList<T> implements Node
 
     final T removed = super.set(index, node);
     
-    if (node != removed) {
-      if (branch != null) {
-        if (removed != null) {
-          branch.childRemoved(removed);
-        }
-        branch.childAdded(node);
+    if (node != removed && branch != null) {
+      if (removed != null) {
+        branch.childRemoved(removed);
       }
+      branch.childAdded(node);
     }
 
     return removed;

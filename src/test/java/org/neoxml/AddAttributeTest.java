@@ -7,8 +7,6 @@
 package org.neoxml;
 
 import org.junit.Test;
-import org.neoxml.Element;
-import org.neoxml.Node;
 
 /**
  * A test harness to test the addAttribute() methods on attributes
@@ -21,7 +19,7 @@ public class AddAttributeTest extends AbstractTestCase
   // -------------------------------------------------------------------------
 
   @Test
-  public void testAddAttributeNormalValue() throws Exception {
+  public void testAddAttributeNormalValue() {
     String testAttributeName = "testAtt";
     String testAttributeValue = "testValue";
 
@@ -38,7 +36,7 @@ public class AddAttributeTest extends AbstractTestCase
   }
 
   @Test
-  public void testAddAttributeNullValue() throws Exception {
+  public void testAddAttributeNullValue() {
     String testAttributeName = "location";
     String testAttributeValue = null;
 

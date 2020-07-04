@@ -6,15 +6,14 @@
 
 package org.neoxml.tree;
 
-import java.util.AbstractList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.Objects;
-import java.util.function.Predicate;
-
 import org.neoxml.Branch;
 import org.neoxml.Node;
 import org.neoxml.NodeList;
+
+import java.util.AbstractList;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.function.Predicate;
 
 /**
  * <code>BackedList</code> represents a list of content of a {@link org.neoxml.Branch}. Changes to the list will be

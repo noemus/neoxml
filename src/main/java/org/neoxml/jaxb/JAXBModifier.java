@@ -6,21 +6,6 @@
 
 package org.neoxml.jaxb;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.io.Writer;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.neoxml.Document;
 import org.neoxml.DocumentException;
 import org.neoxml.io.ElementModifier;
@@ -28,6 +13,12 @@ import org.neoxml.io.OutputFormat;
 import org.neoxml.io.SAXModifier;
 import org.neoxml.io.XMLWriter;
 import org.xml.sax.InputSource;
+
+import java.io.*;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Reads an XML document using SAX and writes its content to the provided {@link org.neoxml.io.XMLWriter}. Modifications

@@ -1,9 +1,9 @@
 package org.neoxml;
 
+import org.neoxml.rule.Pattern;
+
 import java.util.List;
 import java.util.Map;
-
-import org.neoxml.rule.Pattern;
 
 /**
  * Created by IntelliJ IDEA.

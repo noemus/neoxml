@@ -6,26 +6,17 @@
 
 package org.neoxml;
 
-import java.io.StringReader;
-import java.io.StringWriter;
+import org.junit.Test;
+import org.junit.runners.JUnit4;
+import org.junit.runners.model.InitializationError;
+import org.neoxml.io.*;
 
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-
-import org.junit.Test;
-import org.junit.runners.JUnit4;
-import org.junit.runners.model.InitializationError;
-import org.neoxml.Document;
-import org.neoxml.io.DOMReader;
-import org.neoxml.io.DOMWriter;
-import org.neoxml.io.DocumentResult;
-import org.neoxml.io.DocumentSource;
-import org.neoxml.io.SAXContentHandler;
-import org.neoxml.io.SAXReader;
-import org.neoxml.io.SAXWriter;
-import org.neoxml.io.XMLWriter;
+import java.io.StringReader;
+import java.io.StringWriter;
 
 /**
  * A test harness to test the the round trips of Documents.

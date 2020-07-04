@@ -6,22 +6,13 @@
 
 package org.neoxml.jaxb;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.URL;
-import java.nio.charset.Charset;
-
-import org.neoxml.Document;
-import org.neoxml.DocumentException;
-import org.neoxml.Element;
-import org.neoxml.ElementHandler;
-import org.neoxml.ElementPath;
+import org.neoxml.*;
 import org.neoxml.io.SAXReader;
 import org.xml.sax.InputSource;
+
+import java.io.*;
+import java.net.URL;
+import java.nio.charset.Charset;
 
 /**
  * Reads an XML document and creates a neoxml tree from SAX parsing events. {@link JAXBObjectHandler}objects can be

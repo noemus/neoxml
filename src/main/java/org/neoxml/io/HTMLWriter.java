@@ -5,24 +5,10 @@
  */
 package org.neoxml.io;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-import java.util.Collections;
-import java.util.Deque;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Set;
+import org.neoxml.*;
 
-import org.neoxml.Document;
-import org.neoxml.DocumentException;
-import org.neoxml.DocumentHelper;
-import org.neoxml.Element;
-import org.neoxml.Entity;
-import org.neoxml.NodeType;
-import org.xml.sax.SAXException;
+import java.io.*;
+import java.util.*;
 
 /**
  * <p>
@@ -83,7 +69,7 @@ import org.xml.sax.SAXException;
  * </p>
  * <p/>
  * <p>
- * Basically, {@link OutputFormat.isXHTML() OutputFormat.isXHTML()} == <code>true</code> will produce valid XML, while
+ * Basically, {@link OutputFormat#isXHTML() OutputFormat.isXHTML()} == <code>true</code> will produce valid XML, while
  * {@link org.neoxml.io.OutputFormat#isExpandEmptyElements()
  * format.isExpandEmptyElements()} determines whether empty elements are expanded if isXHTML is true, excepting the
  * special HTML single tags.
@@ -97,7 +83,7 @@ import org.xml.sax.SAXException;
  * default list. HTML Comments are always whitespace-preserved. However, the parser you use may store comments with
  * linefeed-only text nodes (\n) even if your platform uses another line.separator character, and HTMLWriter outputs
  * Comment nodes exactly as the DOM is set up by the parser. See examples and discussion here:
- * {@link#setPreformattedTags(java.util.Set)
+ * {@link #setPreformattedTags(java.util.Set)
  * setPreformattedTags}
  * </p>
  * <p/>
@@ -167,13 +153,10 @@ import org.xml.sax.SAXException;
  * @author Laramie Crocker
  * @version $Revision: 1.21 $
  */
-public class HTMLWriter extends XMLWriter
-{
+public class HTMLWriter extends XMLWriter {
+  private static final String LINE_SEPARATOR = System.lineSeparator();
 
-  private static String lineSeparator = System.getProperty("line.separator");
   protected static final Set<String> DEFAULT_PREFORMATTED_TAGS;
-
-
   static {
     // If you change this list, update the javadoc examples, above in the
     // class javadoc, in writeElement, and in setPreformattedTags().
@@ -185,19 +168,18 @@ public class HTMLWriter extends XMLWriter
   }
 
   protected static final OutputFormat DEFAULT_HTML_FORMAT;
-
-
   static {
     DEFAULT_HTML_FORMAT = new OutputFormat("  ", true);
     DEFAULT_HTML_FORMAT.setTrimText(true);
     DEFAULT_HTML_FORMAT.setSuppressDeclaration(true);
   }
 
-  private Deque<FormatState> formatStack = new LinkedList<>();
+  private final Deque<FormatState> formatStack = new LinkedList<>();
   private String lastText = "";
   private int tagsOuput = 0;	// legal values are 0+, but -1 signifies lazy initialization.
   private int newLineAfterNTags = -1;
   private Set<String> preformattedTags = DEFAULT_PREFORMATTED_TAGS;
+
   /**
    * Used to store the qualified element names which should have no close
    * element tag
@@ -230,10 +212,14 @@ public class HTMLWriter extends XMLWriter
   }
 
   @Override
-  public void startCDATA() throws SAXException {}
+  public void startCDATA() {
+    // do nothing in HTML implementation
+  }
 
   @Override
-  public void endCDATA() throws SAXException {}
+  public void endCDATA() {
+    // do nothing in HTML implementation
+  }
 
   // Overloaded methods
   // added isXHTML() stuff so you get the CDATA brackets if you desire.
@@ -259,7 +245,9 @@ public class HTMLWriter extends XMLWriter
   }
 
   @Override
-  protected void writeDeclaration() throws IOException {}
+  protected void writeDeclaration() {
+    // do nothing in HTML implementation
+  }
 
   @Override
   protected void writeString(String text) throws IOException {
@@ -276,7 +264,7 @@ public class HTMLWriter extends XMLWriter
      */
     if (text.equals("\n")) {
       if (!formatStack.isEmpty()) {
-        super.writeString(lineSeparator);
+        super.writeString(LINE_SEPARATOR);
       }
 
       return;
@@ -555,7 +543,7 @@ public class HTMLWriter extends XMLWriter
 
     if (newLineAfterNTags > 0) {
       if ((tagsOuput > 0) && ((tagsOuput % newLineAfterNTags) == 0)) {
-        super.writer.write(lineSeparator);
+        super.writer.write(LINE_SEPARATOR);
       }
     }
 
@@ -656,7 +644,7 @@ public class HTMLWriter extends XMLWriter
    * @throws java.io.UnsupportedEncodingException
    * @throws org.neoxml.DocumentException
    */
-  public static String prettyPrintHTML(String html) throws IOException, UnsupportedEncodingException, DocumentException {
+  public static String prettyPrintHTML(String html) throws IOException, DocumentException {
     return prettyPrintHTML(html, true, true, false, true);
   }
 
@@ -673,7 +661,7 @@ public class HTMLWriter extends XMLWriter
    * @throws java.io.UnsupportedEncodingException
    * @throws org.neoxml.DocumentException
    */
-  public static String prettyPrintXHTML(String html) throws IOException, UnsupportedEncodingException, DocumentException {
+  public static String prettyPrintXHTML(String html) throws IOException, DocumentException {
     return prettyPrintHTML(html, true, true, true, false);
   }
 
@@ -694,7 +682,7 @@ public class HTMLWriter extends XMLWriter
    * @throws java.io.UnsupportedEncodingException
    * @throws org.neoxml.DocumentException
    */
-  public static String prettyPrintHTML(String html, boolean newlines, boolean trim, boolean isXHTML, boolean expandEmpty) throws IOException, UnsupportedEncodingException, DocumentException {
+  public static String prettyPrintHTML(String html, boolean newlines, boolean trim, boolean isXHTML, boolean expandEmpty) throws IOException, DocumentException {
     StringWriter sw = new StringWriter();
     OutputFormat format = OutputFormat.createPrettyPrint();
     format.setNewlines(newlines);
@@ -714,12 +702,10 @@ public class HTMLWriter extends XMLWriter
   // Allows us to the current state of the format in this struct on the
   // formatStack.
 
-  private class FormatState
-  {
-
-    private boolean newlines = false;
-    private boolean trimText = false;
-    private String indent = "";
+  private static class FormatState {
+    private final boolean newlines;
+    private final boolean trimText;
+    private final String indent;
 
     public FormatState(boolean newLines, boolean trimText, String indent) {
       this.newlines = newLines;
@@ -740,18 +726,6 @@ public class HTMLWriter extends XMLWriter
     }
   }
 }
-
-/*
- * <html> <head> <title>My Title </title> <style> .foo { text-align: Right; }
- * </style> <script> function mojo(){ return "bar"; } </script> <script
- * language="JavaScript"> <!-- //this is the canonical javascript hiding.
- * function foo(){ return "foo"; } //--> </script> </head> <!-- this is a
- * comment --> <body bgcolor="#A4BFDD" mojo="&amp;"> entities: &#160; &amp;
- * &quot; &lt; &gt; %23 <p></p> <mojo> </mojo> <foo /> <table border="1"> <tr>
- * <td><pre> line0 <hr /> line1 <b>line2, should line up, indent-wise </b> line
- * 3 line 4 </pre></td><td></td></tr> </table> <myCDATAElement> <![CDATA[My
- * data]]> </myCDATAElement> </body> </html>
- */
 
 /*
  * Redistribution and use of this software and associated documentation

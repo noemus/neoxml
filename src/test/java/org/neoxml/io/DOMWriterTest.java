@@ -6,14 +6,11 @@
 
 package org.neoxml.io;
 
-import java.io.StringWriter;
-
 import org.junit.Test;
 import org.neoxml.AbstractTestCase;
-import org.neoxml.io.DOMWriter;
-import org.neoxml.io.OutputFormat;
-import org.neoxml.io.XMLWriter;
 import org.w3c.dom.NamedNodeMap;
+
+import java.io.StringWriter;
 
 /**
  * DOCUMENT ME!

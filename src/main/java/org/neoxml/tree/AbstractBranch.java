@@ -5,19 +5,11 @@
  */
 package org.neoxml.tree;
 
+import org.neoxml.*;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
-
-import org.neoxml.Branch;
-import org.neoxml.Comment;
-import org.neoxml.Element;
-import org.neoxml.IllegalAddException;
-import org.neoxml.Namespace;
-import org.neoxml.Node;
-import org.neoxml.NodeList;
-import org.neoxml.ProcessingInstruction;
-import org.neoxml.QName;
 
 /**
  * <p>

@@ -6,8 +6,6 @@
 
 package org.neoxml;
 
-import java.io.File;
-
 import org.apache.xalan.processor.TransformerFactoryImpl;
 import org.apache.xerces.jaxp.SAXParserFactoryImpl;
 import org.junit.Assert;
@@ -15,6 +13,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.neoxml.io.SAXReader;
 import org.neoxml.util.NodeComparator;
+
+import java.io.File;
 
 /**
  * An abstract base class for some neoxml test cases
@@ -64,8 +64,7 @@ public class AbstractTestCase extends Assert
   }
 
   @SuppressWarnings("null")
-  public void assertDocumentsEqual(Document doc1, Document doc2)
-      throws Exception {
+  public void assertDocumentsEqual(Document doc1, Document doc2) {
     try {
       assertNotNull("Doc1 not null", doc1);
       assertNotNull("Doc2 not null", doc2);
@@ -75,7 +74,7 @@ public class AbstractTestCase extends Assert
 
       assertNodesEqual(doc1, doc2);
 
-      assertTrue("Documents are equal", NodeComparator.compare(doc1, doc2) == 0);
+      assertEquals("Documents are equal", 0, NodeComparator.compare(doc1, doc2));
     }
     catch (Exception e) {
       log("Failed during comparison of: " + doc1 + " and: " + doc2);
@@ -175,7 +174,7 @@ public class AbstractTestCase extends Assert
   public void assertNodesEqual(Node n1, Node n2) {
     NodeType nodeType1 = n1.getNodeTypeEnum();
     NodeType nodeType2 = n2.getNodeTypeEnum();
-    assertTrue("Nodes are of same type: ", nodeType1 == nodeType2);
+    assertSame("Nodes are of same type: ", nodeType1, nodeType2);
 
     switch (nodeType1) {
       case ELEMENT_NODE:
@@ -261,7 +260,7 @@ public class AbstractTestCase extends Assert
    */
   protected Element getRootElement() {
     Element root = document.getRootElement();
-    assertTrue("Document has root element", root != null);
+    assertNotNull("Document has root element", root);
 
     return root;
   }

@@ -6,9 +6,9 @@
 
 package org.neoxml.tree;
 
-import java.util.Map;
-
 import org.neoxml.Element;
+
+import java.util.Map;
 
 /**
  * <p>

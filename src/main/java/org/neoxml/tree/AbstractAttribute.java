@@ -5,15 +5,10 @@
  */
 package org.neoxml.tree;
 
+import org.neoxml.*;
+
 import java.io.IOException;
 import java.io.Writer;
-
-import org.neoxml.Attribute;
-import org.neoxml.Element;
-import org.neoxml.Namespace;
-import org.neoxml.Node;
-import org.neoxml.NodeType;
-import org.neoxml.Visitor;
 
 /**
  * <p>

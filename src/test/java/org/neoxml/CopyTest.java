@@ -6,12 +6,9 @@
 
 package org.neoxml;
 
-import java.util.List;
-
 import org.junit.Test;
-import org.neoxml.Attribute;
-import org.neoxml.Element;
-import org.neoxml.Node;
+
+import java.util.List;
 
 /**
  * A test harness to test the copy() methods on Element

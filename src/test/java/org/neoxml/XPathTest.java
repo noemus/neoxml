@@ -6,16 +6,11 @@
 
 package org.neoxml;
 
-import java.util.List;
-
 import org.junit.Test;
-import org.neoxml.Document;
-import org.neoxml.DocumentHelper;
-import org.neoxml.Element;
-import org.neoxml.Node;
-import org.neoxml.XPath;
 import org.neoxml.tree.DefaultElement;
 import org.neoxml.xpath.DefaultXPath;
+
+import java.util.List;
 
 /**
  * A test harness to test XPath expression evaluation in DOM4J

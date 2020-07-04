@@ -6,23 +6,16 @@
 
 package org.neoxml;
 
-import java.io.StringReader;
-import java.util.Iterator;
-import java.util.List;
+import org.junit.Before;
+import org.junit.Test;
+import org.neoxml.io.DOMReader;
+import org.xml.sax.InputSource;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.neoxml.Attribute;
-import org.neoxml.Document;
-import org.neoxml.DocumentHelper;
-import org.neoxml.Element;
-import org.neoxml.Namespace;
-import org.neoxml.Node;
-import org.neoxml.io.DOMReader;
-import org.xml.sax.InputSource;
+import java.io.StringReader;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Test the use of namespaces

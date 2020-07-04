@@ -1,11 +1,10 @@
 package org.neoxml.bean;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 import org.neoxml.Element;
 import org.neoxml.QName;
-import org.neoxml.bean.BeanElement;
+
+import static org.junit.Assert.assertEquals;
 
 public class BeanElementTest
 {

@@ -6,14 +6,14 @@
 
 package org.neoxml;
 
+import org.neoxml.tree.QNameCache;
+import org.neoxml.util.SingletonHelper;
+import org.neoxml.util.SingletonStrategy;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-
-import org.neoxml.tree.QNameCache;
-import org.neoxml.util.SingletonHelper;
-import org.neoxml.util.SingletonStrategy;
 
 /**
  * <p>

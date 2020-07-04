@@ -6,13 +6,13 @@
 
 package org.neoxml.io;
 
+import org.neoxml.Document;
+import org.xml.sax.InputSource;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
-
-import org.neoxml.Document;
-import org.xml.sax.InputSource;
 
 /**
  * <p>

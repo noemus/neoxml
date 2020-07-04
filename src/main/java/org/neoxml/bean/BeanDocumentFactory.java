@@ -8,11 +8,7 @@ package org.neoxml.bean;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.neoxml.Attribute;
-import org.neoxml.DefaultDocumentFactory;
-import org.neoxml.DocumentFactory;
-import org.neoxml.Element;
-import org.neoxml.QName;
+import org.neoxml.*;
 import org.neoxml.tree.DefaultAttribute;
 import org.xml.sax.Attributes;
 

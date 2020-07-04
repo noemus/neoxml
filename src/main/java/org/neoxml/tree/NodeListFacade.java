@@ -6,10 +6,10 @@
 
 package org.neoxml.tree;
 
-import java.util.RandomAccess;
-
 import org.neoxml.Node;
 import org.neoxml.NodeList;
+
+import java.util.RandomAccess;
 
 /**
  * <code>BackedList</code> represents a list of content of a {@link org.neoxml.Branch}. Changes to the list will be
@@ -111,7 +111,7 @@ class NodeListFacade<T extends Node> extends AbstractNodeListFacade<T> implement
     }
     return nodeList;
   }
-  
+
   /**
    * Called on nodeList modification
    */

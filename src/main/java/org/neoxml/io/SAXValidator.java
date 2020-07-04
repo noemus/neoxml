@@ -6,14 +6,14 @@
 
 package org.neoxml.io;
 
-import java.io.IOException;
-
 import org.neoxml.Document;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
+
+import java.io.IOException;
 
 /**
  * <p>

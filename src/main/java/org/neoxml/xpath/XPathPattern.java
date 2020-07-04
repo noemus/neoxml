@@ -6,15 +6,7 @@
 
 package org.neoxml.xpath;
 
-import java.util.ArrayList;
-
-import org.jaxen.Context;
-import org.jaxen.ContextSupport;
-import org.jaxen.JaxenException;
-import org.jaxen.SimpleNamespaceContext;
-import org.jaxen.SimpleVariableContext;
-import org.jaxen.VariableContext;
-import org.jaxen.XPathFunctionContext;
+import org.jaxen.*;
 import org.jaxen.pattern.Pattern;
 import org.jaxen.pattern.PatternParser;
 import org.jaxen.saxpath.SAXPathException;
@@ -22,6 +14,8 @@ import org.neoxml.InvalidXPathException;
 import org.neoxml.Node;
 import org.neoxml.NodeType;
 import org.neoxml.XPathException;
+
+import java.util.ArrayList;
 
 /**
  * <p>

@@ -6,12 +6,12 @@
 
 package org.neoxml.xpath;
 
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.neoxml.AbstractTestCase;
 import org.neoxml.Element;
+
+import java.util.List;
 
 /**
  * Test harness for the substring function

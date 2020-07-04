@@ -1,15 +1,7 @@
 package org.neoxml.util;
 
 import java.io.Serializable;
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.NoSuchElementException;
-import java.util.RandomAccess;
+import java.util.*;
 
 public class HeadList<T> extends AbstractList<T> implements RandomAccess, Cloneable, Serializable
 {

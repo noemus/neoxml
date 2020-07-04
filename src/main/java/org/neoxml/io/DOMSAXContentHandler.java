@@ -6,29 +6,15 @@
 
 package org.neoxml.io;
 
-import java.lang.reflect.Method;
-
-import org.neoxml.Branch;
-import org.neoxml.Document;
-import org.neoxml.Element;
-import org.neoxml.Namespace;
-import org.neoxml.QName;
-import org.neoxml.dom.DOMAttribute;
-import org.neoxml.dom.DOMCDATA;
-import org.neoxml.dom.DOMComment;
-import org.neoxml.dom.DOMDocumentFactory;
-import org.neoxml.dom.DOMElement;
-import org.neoxml.dom.DOMText;
+import org.neoxml.*;
+import org.neoxml.dom.*;
 import org.neoxml.tree.NamespaceStack;
 import org.w3c.dom.ProcessingInstruction;
-import org.xml.sax.Attributes;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
-import org.xml.sax.Locator;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
+import org.xml.sax.*;
 import org.xml.sax.ext.LexicalHandler;
 import org.xml.sax.helpers.DefaultHandler;
+
+import java.lang.reflect.Method;
 
 /**
  * <p/>

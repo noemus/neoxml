@@ -6,17 +6,15 @@
 
 package org.neoxml.io;
 
-import java.io.StringWriter;
-
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.stream.StreamResult;
-
 import org.junit.Test;
 import org.neoxml.AbstractTestCase;
 import org.neoxml.Document;
 import org.neoxml.DocumentHelper;
-import org.neoxml.io.DocumentSource;
+
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import java.io.StringWriter;
 
 /**
  * DOCUMENT ME!

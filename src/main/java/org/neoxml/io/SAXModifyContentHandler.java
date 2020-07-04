@@ -6,14 +6,14 @@
 
 package org.neoxml.io;
 
-import java.io.IOException;
-
 import org.neoxml.DocumentFactory;
 import org.neoxml.Element;
 import org.neoxml.ElementHandler;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
+
+import java.io.IOException;
 
 /**
  * This extension of the SAXContentHandler writes SAX events immediately to the

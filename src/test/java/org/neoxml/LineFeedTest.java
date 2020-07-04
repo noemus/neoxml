@@ -6,14 +6,11 @@
 
 package org.neoxml;
 
-import java.io.StringWriter;
-
 import org.junit.Test;
-import org.neoxml.Document;
-import org.neoxml.DocumentHelper;
-import org.neoxml.Element;
 import org.neoxml.io.OutputFormat;
 import org.neoxml.io.XMLWriter;
+
+import java.io.StringWriter;
 
 public class LineFeedTest extends AbstractTestCase
 {

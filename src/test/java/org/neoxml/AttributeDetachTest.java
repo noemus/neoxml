@@ -6,13 +6,10 @@
 
 package org.neoxml;
 
+import org.junit.Test;
+
 import java.util.Iterator;
 import java.util.List;
-
-import org.junit.Test;
-import org.neoxml.Attribute;
-import org.neoxml.Element;
-import org.neoxml.QName;
 
 /**
  * A test harness to test the detach() method on attributes

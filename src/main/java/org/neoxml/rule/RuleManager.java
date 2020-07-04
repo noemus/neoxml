@@ -6,15 +6,15 @@
 
 package org.neoxml.rule;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.neoxml.Document;
 import org.neoxml.Element;
 import org.neoxml.Node;
 import org.neoxml.rule.pattern.NodeTypePattern;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>

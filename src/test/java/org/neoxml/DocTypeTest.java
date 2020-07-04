@@ -6,14 +6,12 @@
 
 package org.neoxml;
 
-import java.util.List;
-
 import org.junit.Test;
-import org.neoxml.Document;
-import org.neoxml.DocumentType;
 import org.neoxml.dtd.ElementDecl;
 import org.neoxml.dtd.InternalDeclaration;
 import org.neoxml.io.SAXReader;
+
+import java.util.List;
 
 /**
  * Tests the DocType functionality

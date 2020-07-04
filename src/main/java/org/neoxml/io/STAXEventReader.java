@@ -6,9 +6,8 @@
 
 package org.neoxml.io;
 
-import java.io.InputStream;
-import java.io.Reader;
-import java.util.Iterator;
+import org.neoxml.CharacterData;
+import org.neoxml.*;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
@@ -16,23 +15,13 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
-import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.Comment;
-import javax.xml.stream.events.EndElement;
-import javax.xml.stream.events.EntityReference;
 import javax.xml.stream.events.Namespace;
 import javax.xml.stream.events.ProcessingInstruction;
-import javax.xml.stream.events.StartDocument;
-import javax.xml.stream.events.StartElement;
-import javax.xml.stream.events.XMLEvent;
-
-import org.neoxml.CharacterData;
-import org.neoxml.DefaultDocumentFactory;
-import org.neoxml.Document;
-import org.neoxml.DocumentFactory;
-import org.neoxml.Element;
-import org.neoxml.Entity;
-import org.neoxml.Node;
+import javax.xml.stream.events.*;
+import java.io.InputStream;
+import java.io.Reader;
+import java.util.Iterator;
 
 /**
  * Reads a neoxml {@link Document}, as well as other {@link Node}s, from a StAX {@link XMLEventReader}.

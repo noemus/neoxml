@@ -6,13 +6,13 @@
 
 package org.neoxml.xpath;
 
-import java.io.Serializable;
-
 import org.jaxen.NamespaceContext;
 import org.neoxml.Document;
 import org.neoxml.Element;
 import org.neoxml.Namespace;
 import org.neoxml.Node;
+
+import java.io.Serializable;
 
 /**
  * <p>

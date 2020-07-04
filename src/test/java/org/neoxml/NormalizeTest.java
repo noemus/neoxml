@@ -8,7 +8,6 @@ package org.neoxml;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.neoxml.DocumentHelper;
 
 /**
  * A test harness for the normalize() method

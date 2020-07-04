@@ -6,14 +6,13 @@
 
 package org.neoxml.io;
 
+import org.xml.sax.ContentHandler;
+import org.xml.sax.ext.LexicalHandler;
+
+import javax.xml.transform.sax.SAXResult;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-
-import javax.xml.transform.sax.SAXResult;
-
-import org.xml.sax.ContentHandler;
-import org.xml.sax.ext.LexicalHandler;
 
 /**
  * <p>

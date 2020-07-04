@@ -6,14 +6,14 @@
 
 package org.neoxml.io;
 
+import org.neoxml.Element;
+import org.neoxml.ElementHandler;
+import org.neoxml.ElementPath;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.neoxml.Element;
-import org.neoxml.ElementHandler;
-import org.neoxml.ElementPath;
 
 /**
  * <p>

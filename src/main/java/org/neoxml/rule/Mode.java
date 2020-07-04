@@ -5,15 +5,11 @@
  */
 package org.neoxml.rule;
 
+import org.neoxml.*;
+
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.neoxml.Attribute;
-import org.neoxml.Document;
-import org.neoxml.Element;
-import org.neoxml.Node;
-import org.neoxml.NodeType;
 
 /**
  * <p>

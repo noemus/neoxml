@@ -6,14 +6,14 @@
 
 package org.neoxml.tree;
 
+import org.neoxml.DocumentFactory;
+import org.neoxml.Namespace;
+import org.neoxml.QName;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.neoxml.DocumentFactory;
-import org.neoxml.Namespace;
-import org.neoxml.QName;
 
 /**
  * <p>
@@ -70,7 +70,7 @@ public class QNameCache
    * @return the QName for the given name and no namepsace
    */
   public QName get(String name) {
-    return noNamespaceCache.computeIfAbsent(name != null ? name : "", _name -> createQName(_name));
+    return noNamespaceCache.computeIfAbsent(name != null ? name : "", this::createQName);
   }
 
   /**
@@ -83,7 +83,7 @@ public class QNameCache
   public QName get(String name, Namespace namespace) {
     final Map<String,QName> cache = getNamespaceCache(namespace);
     
-    return cache.computeIfAbsent(name != null ? name : "", _name -> createQName(_name, namespace));
+    return cache.computeIfAbsent(name != null ? name : "", nm -> createQName(nm, namespace));
   }
 
   /**
@@ -97,7 +97,7 @@ public class QNameCache
   public QName get(String localName, Namespace namespace, String qName) {
     final Map<String,QName> cache = getNamespaceCache(namespace);
     
-    return cache.computeIfAbsent(localName != null ? localName : "", _localName -> createQName(_localName, namespace, qName));
+    return cache.computeIfAbsent(localName != null ? localName : "", nm -> createQName(nm, namespace, qName));
   }
 
   public QName get(String qualifiedName, String uri) {
@@ -137,7 +137,7 @@ public class QNameCache
       return noNamespaceCache;
     }
 
-    return namespaceCache.computeIfAbsent(namespace, _namespace -> new ConcurrentHashMap<>());
+    return namespaceCache.computeIfAbsent(namespace, ns -> new ConcurrentHashMap<>());
   }
 
   /**

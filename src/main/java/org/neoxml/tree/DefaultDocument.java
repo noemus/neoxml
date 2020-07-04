@@ -5,17 +5,10 @@
  */
 package org.neoxml.tree;
 
-import java.util.List;
-
-import org.neoxml.DefaultDocumentFactory;
-import org.neoxml.Document;
-import org.neoxml.DocumentFactory;
-import org.neoxml.DocumentType;
-import org.neoxml.Element;
-import org.neoxml.IllegalAddException;
-import org.neoxml.Node;
-import org.neoxml.NodeList;
+import org.neoxml.*;
 import org.xml.sax.EntityResolver;
+
+import java.util.List;
 
 /**
  * <p>

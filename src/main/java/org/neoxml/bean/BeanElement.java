@@ -6,17 +6,12 @@
 
 package org.neoxml.bean;
 
-import java.util.List;
-
-import org.neoxml.Attribute;
-import org.neoxml.DefaultDocumentFactory;
-import org.neoxml.DocumentFactory;
-import org.neoxml.Element;
-import org.neoxml.Namespace;
-import org.neoxml.QName;
+import org.neoxml.*;
 import org.neoxml.tree.DefaultElement;
 import org.neoxml.tree.NamespaceStack;
 import org.xml.sax.Attributes;
+
+import java.util.List;
 
 /**
  * <p>

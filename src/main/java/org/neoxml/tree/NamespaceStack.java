@@ -6,17 +6,17 @@
 
 package org.neoxml.tree;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.neoxml.DefaultDocumentFactory;
 import org.neoxml.DocumentFactory;
 import org.neoxml.Namespace;
 import org.neoxml.QName;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * NamespaceStack implements a stack of namespaces and optionally maintains a

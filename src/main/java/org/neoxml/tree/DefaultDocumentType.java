@@ -6,10 +6,10 @@
 
 package org.neoxml.tree;
 
-import java.util.List;
-
 import org.neoxml.dtd.ExternalDeclaration;
 import org.neoxml.dtd.InternalDeclaration;
+
+import java.util.List;
 
 /**
  * <p>

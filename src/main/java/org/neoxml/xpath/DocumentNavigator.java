@@ -1,33 +1,14 @@
 package org.neoxml.xpath;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import org.jaxen.DefaultNavigator;
-import org.jaxen.FunctionCallException;
-import org.jaxen.JaxenConstants;
-import org.jaxen.NamedAccessNavigator;
-import org.jaxen.Navigator;
 import org.jaxen.XPath;
+import org.jaxen.*;
 import org.jaxen.dom4j.Dom4jXPath;
 import org.jaxen.saxpath.SAXPathException;
 import org.jaxen.util.SingleObjectIterator;
-import org.neoxml.Attribute;
-import org.neoxml.Branch;
-import org.neoxml.CDATA;
-import org.neoxml.Comment;
-import org.neoxml.Document;
-import org.neoxml.DocumentException;
-import org.neoxml.Element;
-import org.neoxml.Namespace;
-import org.neoxml.Node;
-import org.neoxml.ProcessingInstruction;
-import org.neoxml.QName;
-import org.neoxml.Text;
+import org.neoxml.*;
 import org.neoxml.io.SAXReader;
+
+import java.util.*;
 
 /**
  * Interface for navigating around the neoxml object model.

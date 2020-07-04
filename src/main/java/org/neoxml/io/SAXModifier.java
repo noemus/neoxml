@@ -6,19 +6,19 @@
 
 package org.neoxml.io;
 
-import java.io.File;
-import java.io.InputStream;
-import java.io.Reader;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.neoxml.Document;
 import org.neoxml.DocumentException;
 import org.neoxml.DocumentFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
+
+import java.io.File;
+import java.io.InputStream;
+import java.io.Reader;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The SAXModifier reads, modifies and writes XML documents using SAX.

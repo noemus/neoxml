@@ -6,19 +6,17 @@
 
 package org.neoxml.dom;
 
-import java.io.StringReader;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.neoxml.AbstractTestCase;
-import org.neoxml.dom.DOMDocument;
-import org.neoxml.dom.DOMDocumentFactory;
 import org.neoxml.io.DOMWriter;
 import org.neoxml.io.SAXReader;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import java.io.StringReader;
 
 /**
  * A test harness to test the native DOM implementation of dom4j

@@ -6,25 +6,13 @@
 
 package org.neoxml.xpath;
 
-import java.io.Serializable;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.jaxen.FunctionContext;
-import org.jaxen.JaxenException;
-import org.jaxen.NamespaceContext;
-import org.jaxen.SimpleNamespaceContext;
-import org.jaxen.VariableContext;
-import org.jaxen.XPath;
+import org.jaxen.*;
 import org.neoxml.InvalidXPathException;
 import org.neoxml.Node;
 import org.neoxml.XPathException;
+
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * <p>

@@ -6,15 +6,10 @@
 
 package org.neoxml.tree;
 
-import java.util.List;
-
 import org.junit.Test;
-import org.neoxml.AbstractTestCase;
-import org.neoxml.DefaultDocumentFactory;
-import org.neoxml.Document;
-import org.neoxml.DocumentHelper;
-import org.neoxml.Element;
-import org.neoxml.Node;
+import org.neoxml.*;
+
+import java.util.List;
 
 /**
  * JUnit tests for <code>DefaultElement</code>.

@@ -6,17 +6,15 @@
 
 package org.neoxml.util;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import org.neoxml.util.PerThreadSingleton;
-import org.neoxml.util.SingletonStrategy;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * PerThreadSingleton Tester.

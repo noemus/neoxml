@@ -6,23 +6,13 @@
 
 package org.neoxml.io;
 
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.neoxml.Attribute;
-import org.neoxml.CDATA;
-import org.neoxml.Comment;
-import org.neoxml.Document;
-import org.neoxml.DocumentException;
-import org.neoxml.Element;
-import org.neoxml.Entity;
-import org.neoxml.Namespace;
-import org.neoxml.Node;
-import org.neoxml.ProcessingInstruction;
-import org.neoxml.Text;
+import org.neoxml.*;
 import org.neoxml.tree.NamespaceStack;
 import org.w3c.dom.DOMImplementation;
+
+import java.util.List;
 
 /**
  * <p>

@@ -6,9 +6,9 @@
 
 package org.neoxml;
 
-import java.util.Map;
-
 import org.xml.sax.EntityResolver;
+
+import java.util.Map;
 
 /**
  * <p>

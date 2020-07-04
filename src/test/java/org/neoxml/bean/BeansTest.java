@@ -8,7 +8,6 @@ package org.neoxml.bean;
 
 import org.junit.Test;
 import org.neoxml.AbstractTestCase;
-import org.neoxml.bean.BeanDocumentFactory;
 import org.neoxml.io.SAXReader;
 
 /**

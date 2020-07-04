@@ -1,9 +1,9 @@
 package org.neoxml.util;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 import org.neoxml.Document;
+
+import static org.junit.Assert.assertEquals;
 
 public class XMLHelperTest
 {

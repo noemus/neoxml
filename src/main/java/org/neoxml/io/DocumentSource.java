@@ -6,13 +6,13 @@
 
 package org.neoxml.io;
 
-import javax.xml.transform.sax.SAXSource;
-
 import org.neoxml.Document;
 import org.neoxml.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLFilter;
 import org.xml.sax.XMLReader;
+
+import javax.xml.transform.sax.SAXSource;
 
 /**
  * <p>

@@ -6,19 +6,14 @@
 
 package org.neoxml;
 
-import java.util.List;
+import org.junit.Before;
+import org.junit.Test;
+import org.neoxml.io.SAXContentHandler;
+import org.xml.sax.XMLReader;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.neoxml.Document;
-import org.neoxml.Element;
-import org.neoxml.Node;
-import org.neoxml.NodeType;
-import org.neoxml.io.SAXContentHandler;
-import org.xml.sax.XMLReader;
+import java.util.List;
 
 public class SAXContentHandlerTest extends AbstractTestCase
 {

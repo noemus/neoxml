@@ -6,18 +6,17 @@
 
 package org.neoxml;
 
-import java.io.StringWriter;
-
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-
 import org.junit.Test;
 import org.neoxml.io.DocumentSource;
 import org.neoxml.io.OutputFormat;
 import org.neoxml.io.XMLResult;
 import org.neoxml.io.XMLWriter;
+
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import java.io.StringWriter;
 
 /**
  * Test harness for the XMLResult which acts as a JAXP Result

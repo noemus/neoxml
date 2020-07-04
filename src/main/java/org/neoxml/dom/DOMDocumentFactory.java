@@ -6,24 +6,12 @@
 
 package org.neoxml.dom;
 
-import java.util.Map;
-
-import org.neoxml.Attribute;
-import org.neoxml.CDATA;
-import org.neoxml.Comment;
-import org.neoxml.DefaultDocumentFactory;
-import org.neoxml.Document;
-import org.neoxml.DocumentFactory;
-import org.neoxml.DocumentType;
-import org.neoxml.Element;
-import org.neoxml.Entity;
-import org.neoxml.Namespace;
-import org.neoxml.ProcessingInstruction;
-import org.neoxml.QName;
-import org.neoxml.Text;
+import org.neoxml.*;
 import org.neoxml.util.SingletonHelper;
 import org.neoxml.util.SingletonStrategy;
 import org.w3c.dom.DOMException;
+
+import java.util.Map;
 
 /**
  * <p>

@@ -5,6 +5,12 @@
  */
 package org.neoxml.tree;
 
+import org.neoxml.CharacterData;
+import org.neoxml.*;
+import org.neoxml.io.XMLWriter;
+import org.neoxml.util.AttributeHelper;
+import org.xml.sax.Attributes;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -12,28 +18,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import org.neoxml.Attribute;
-import org.neoxml.CDATA;
-import org.neoxml.CharacterData;
-import org.neoxml.Comment;
-import org.neoxml.DefaultDocumentFactory;
-import org.neoxml.Document;
-import org.neoxml.DocumentFactory;
-import org.neoxml.Element;
-import org.neoxml.Entity;
-import org.neoxml.IllegalAddException;
-import org.neoxml.Namespace;
-import org.neoxml.Node;
-import org.neoxml.NodeList;
-import org.neoxml.NodeType;
-import org.neoxml.ProcessingInstruction;
-import org.neoxml.QName;
-import org.neoxml.Text;
-import org.neoxml.Visitor;
-import org.neoxml.io.XMLWriter;
-import org.neoxml.util.AttributeHelper;
-import org.xml.sax.Attributes;
 
 /**
  * <p>

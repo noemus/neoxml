@@ -6,14 +6,11 @@
 
 package org.neoxml;
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.neoxml.Document;
-import org.neoxml.DocumentHelper;
-import org.neoxml.Element;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * A test harness to test the Iterator API in DOM4J

@@ -8,8 +8,6 @@ package org.neoxml;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.neoxml.DocumentHelper;
-import org.neoxml.Element;
 
 /**
  * Tests the {@link DocumentHelper#parseText(String)}method.

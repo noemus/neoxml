@@ -6,19 +6,13 @@
 
 package org.neoxml.io;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.neoxml.Branch;
-import org.neoxml.DefaultDocumentFactory;
-import org.neoxml.Document;
-import org.neoxml.DocumentFactory;
-import org.neoxml.Element;
-import org.neoxml.Namespace;
-import org.neoxml.QName;
+import org.neoxml.*;
 import org.neoxml.tree.NamespaceStack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>

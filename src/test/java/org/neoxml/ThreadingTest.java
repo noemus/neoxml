@@ -16,7 +16,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * A test harness to test the neoxml package in a threaded environment
@@ -48,95 +47,85 @@ public class ThreadingTest
    * threading issues.
    */
   @Test
-  public void testCombo() {
+  public void testCombo() throws Exception {
     int loop = 10;
 
-    try {
-      long begin = System.currentTimeMillis();
-      String value = null;
-      String expected = null;
-      String xml = null;
-      Document doc = null;
-      Element root = null;
-      Element item = null;
-      Element newItem = null;
-      QName qn = null;
-      Namespace ns = null;
-      long now = 0;
+    String value;
+    String expected;
+    String xml;
+    Document doc;
+    Element root;
+    Element item;
+    Element newItem;
+    QName qn;
+    Namespace ns;
+    long now;
 
-      xml = "<ROOT xmlns:t0=\"http://www.lse.com/t0\" >"
-          + "  <ctx><type>Context</type></ctx>"
-          + "  <A><B><C><D>This is a TEST</D></C></B></A>"
-          + "  <t0:Signon><A>xyz</A><t0:Cust>customer</t0:Cust>"
-          + "</t0:Signon></ROOT>";
+    xml = "<ROOT xmlns:t0=\"http://www.lse.com/t0\" >"
+        + "  <ctx><type>Context</type></ctx>"
+        + "  <A><B><C><D>This is a TEST</D></C></B></A>"
+        + "  <t0:Signon><A>xyz</A><t0:Cust>customer</t0:Cust>"
+        + "</t0:Signon></ROOT>";
 
-      for (int i = 0; i < loop; i++) {
-        doc = DocumentHelper.parseText(xml);
+    for (int i = 0; i < loop; i++) {
+      doc = DocumentHelper.parseText(xml);
 
-        root = doc.getRootElement();
-        ns = Namespace.get("t0", "http://www.lse.com/t0");
-        qn = QName.get("Signon", ns);
-        item = root.element(qn);
-        value = item.asXML();
-        expected = "<t0:Signon xmlns:t0=\"http://www.lse.com/t0\">"
-            + "<A>xyz</A><t0:Cust>customer</t0:Cust></t0:Signon>";
-        assertEquals("test t0:Signon ", expected, value);
+      root = doc.getRootElement();
+      ns = Namespace.get("t0", "http://www.lse.com/t0");
+      qn = QName.get("Signon", ns);
+      item = root.element(qn);
+      value = item.asXML();
+      expected = "<t0:Signon xmlns:t0=\"http://www.lse.com/t0\">"
+          + "<A>xyz</A><t0:Cust>customer</t0:Cust></t0:Signon>";
+      assertEquals("test t0:Signon ", expected, value);
 
-        qn = root.getQName("Test");
-        newItem = DocumentHelper.createElement(qn);
-        now = System.currentTimeMillis();
-        newItem.setText(String.valueOf(now));
-        root.add(newItem);
+      qn = root.getQName("Test");
+      newItem = DocumentHelper.createElement(qn);
+      now = System.currentTimeMillis();
+      newItem.setText(String.valueOf(now));
+      root.add(newItem);
 
-        qn = root.getQName("Test2");
-        newItem = DocumentHelper.createElement(qn);
-        now = System.currentTimeMillis();
-        newItem.setText(String.valueOf(now));
-        root.add(newItem);
+      qn = root.getQName("Test2");
+      newItem = DocumentHelper.createElement(qn);
+      now = System.currentTimeMillis();
+      newItem.setText(String.valueOf(now));
+      root.add(newItem);
 
-        item = root.element(qn);
-        item.detach();
-        item.setQName(qn);
-        root.add(item);
-        value = item.asXML();
-        expected = "<Test2>" + now + "</Test2>";
-        assertEquals("test Test2 ", expected, value);
+      item = root.element(qn);
+      item.detach();
+      item.setQName(qn);
+      root.add(item);
+      value = item.asXML();
+      expected = "<Test2>" + now + "</Test2>";
+      assertEquals("test Test2 ", expected, value);
 
-        qn = root.getQName("Test3");
-        newItem = DocumentHelper.createElement(qn);
-        now = System.currentTimeMillis();
-        newItem.setText(String.valueOf(now));
-        root.add(newItem);
+      qn = root.getQName("Test3");
+      newItem = DocumentHelper.createElement(qn);
+      now = System.currentTimeMillis();
+      newItem.setText(String.valueOf(now));
+      root.add(newItem);
 
-        item = root.element(qn);
-        item.detach();
-        item.setQName(qn);
-        root.add(item);
-        value = item.asXML();
-        expected = "<Test3>" + now + "</Test3>";
-        assertEquals("test Test3 ", expected, value);
+      item = root.element(qn);
+      item.detach();
+      item.setQName(qn);
+      root.add(item);
+      value = item.asXML();
+      expected = "<Test3>" + now + "</Test3>";
+      assertEquals("test Test3 ", expected, value);
 
-        qn = item.getQName("Test4");
-        newItem = DocumentHelper.createElement(qn);
-        now = System.currentTimeMillis();
-        newItem.setText(String.valueOf(now));
-        root.add(newItem);
+      qn = item.getQName("Test4");
+      newItem = DocumentHelper.createElement(qn);
+      now = System.currentTimeMillis();
+      newItem.setText(String.valueOf(now));
+      root.add(newItem);
 
-        item = root.element(qn);
-        item.detach();
-        item.setQName(qn);
-        root.add(item);
-        value = item.asXML();
-        expected = "<Test4>" + now + "</Test4>";
-        assertEquals("test Test4 ", expected, value);
-      }
-
-      double duration = System.currentTimeMillis() - begin;
-      double avg = duration / loop;
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-      assertTrue("Exception in test: " + e.getMessage(), false);
+      item = root.element(qn);
+      item.detach();
+      item.setQName(qn);
+      root.add(item);
+      value = item.asXML();
+      expected = "<Test4>" + now + "</Test4>";
+      assertEquals("test Test4 ", expected, value);
     }
   }
 
@@ -144,55 +133,41 @@ public class ThreadingTest
    * This test isolates QNameCache in a multithreaded environment.
    */
   @Test
-  public void testQNameCache() {
+  public void testQNameCache() throws Exception {
     int loop = 100;
 
-    try {
-      long begin = System.currentTimeMillis();
-      String value = null;
-      String expected = null;
-      String xml = null;
-      Document doc = null;
-      Element root = null;
-      Element item = null;
-      Element newItem = null;
-      QName qn = null;
-      Namespace ns = null;
-      long now = 0;
+    String value;
+    String expected;
+    String xml;
+    Document doc;
+    Element root;
+    QName qn;
 
-      xml = "<ROOT xmlns:t0=\"http://www.lse.com/t0\" >"
-          + "  <ctx><type>Context</type></ctx>"
-          + "  <A><B><C><D>This is a TEST</D></C></B></A>"
-          + "  <t0:Signon><A>xyz</A><t0:Cust>customer</t0:Cust>"
-          + "</t0:Signon></ROOT>";
+    xml = "<ROOT xmlns:t0=\"http://www.lse.com/t0\" >"
+        + "  <ctx><type>Context</type></ctx>"
+        + "  <A><B><C><D>This is a TEST</D></C></B></A>"
+        + "  <t0:Signon><A>xyz</A><t0:Cust>customer</t0:Cust>"
+        + "</t0:Signon></ROOT>";
 
-      for (int i = 0; i < loop; i++) {
-        doc = DocumentHelper.parseText(xml);
-        root = doc.getRootElement();
+    for (int i = 0; i < loop; i++) {
+      doc = DocumentHelper.parseText(xml);
+      root = doc.getRootElement();
 
-        qn = DocumentHelper.createQName("test");
-        value = fetchValue(qn);
-        expected = "<test/>";
-        assertEquals("test test ", expected, value);
+      qn = DocumentHelper.createQName("test");
+      value = fetchValue(qn);
+      expected = "<test/>";
+      assertEquals("test test ", expected, value);
 
-        // creat it again
-        qn = DocumentHelper.createQName("test");
-        value = fetchValue(qn);
-        expected = "<test/>";
-        assertEquals("test test again ", expected, value);
+      // creat it again
+      qn = DocumentHelper.createQName("test");
+      value = fetchValue(qn);
+      expected = "<test/>";
+      assertEquals("test test again ", expected, value);
 
-        qn = root.getQName("t0:Signon");
-        value = fetchValue(qn);
-        expected = "<t0:Signon xmlns:t0=\"http://www.lse.com/t0\"/>";
-        assertEquals("test t0:Signon ", expected, value);
-      }
-
-      double duration = System.currentTimeMillis() - begin;
-      double avg = duration / loop;
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-      assertTrue("Exception in test: " + e.getMessage(), false);
+      qn = root.getQName("t0:Signon");
+      value = fetchValue(qn);
+      expected = "<t0:Signon xmlns:t0=\"http://www.lse.com/t0\"/>";
+      assertEquals("test t0:Signon ", expected, value);
     }
   }
 
@@ -200,7 +175,7 @@ public class ThreadingTest
    * This method creates a value that can be expected during a test
    */
   public String fetchValue(QName qn) {
-    String value = null;
+    String value;
 
     StringBuilder sb = new StringBuilder();
     sb.append("<");
@@ -234,39 +209,39 @@ public class ThreadingTest
 
   @Test
   @Repeating(repetition = 10)
-  public void testComboLoad() {
+  public void testComboLoad() throws Exception {
     testCombo();
   }
 
   @Test
   @Concurrent(count = 5)
-  public void testComboRepeated() {
+  public void testComboRepeated() throws Exception {
     testCombo();
   }
 
   @Test(timeout = 120000 + (1000 * 5 * 10))
   @Concurrent(count = 5)
   @Repeating(repetition = 10)
-  public void testComboTimed() {
+  public void testComboTimed() throws Exception {
     testCombo();
   }
 
   @Test
   @Repeating(repetition = 10)
-  public void testQNameCacheLoad() {
+  public void testQNameCacheLoad() throws Exception {
     testQNameCache();
   }
 
   @Test
   @Concurrent(count = 5)
-  public void testQNameCacheRepeated() {
+  public void testQNameCacheRepeated() throws Exception {
     testQNameCache();
   }
 
   @Test(timeout = 120000 + (1000 * 5 * 10))
   @Concurrent(count = 5)
   @Repeating(repetition = 10)
-  public void testQNameCacheTimed() {
+  public void testQNameCacheTimed() throws Exception {
     testQNameCache();
   }
 }

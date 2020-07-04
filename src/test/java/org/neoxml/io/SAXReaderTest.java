@@ -6,20 +6,17 @@
 
 package org.neoxml.io;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.util.List;
-
 import org.junit.Test;
 import org.neoxml.AbstractTestCase;
 import org.neoxml.Document;
 import org.neoxml.DocumentHelper;
 import org.neoxml.Element;
-import org.neoxml.io.OutputFormat;
-import org.neoxml.io.SAXReader;
-import org.neoxml.io.XMLWriter;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.util.List;
 
 /**
  * A test harness to test the content API in DOM4J

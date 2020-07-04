@@ -1,15 +1,10 @@
 package org.neoxml.tree;
 
-import java.util.Collections;
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
-import java.util.ListIterator;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.function.Predicate;
-
 import org.neoxml.Node;
 import org.neoxml.NodeList;
+
+import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * This implementation is based on backing list that implements RandomAccess

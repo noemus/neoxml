@@ -6,38 +6,20 @@
 
 package org.neoxml.io;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.neoxml.Branch;
-import org.neoxml.DefaultDocumentFactory;
-import org.neoxml.Document;
-import org.neoxml.DocumentFactory;
-import org.neoxml.DocumentType;
-import org.neoxml.Element;
-import org.neoxml.ElementHandler;
-import org.neoxml.Namespace;
-import org.neoxml.QName;
-import org.neoxml.dtd.AttributeDecl;
-import org.neoxml.dtd.ElementDecl;
-import org.neoxml.dtd.ExternalDeclaration;
-import org.neoxml.dtd.ExternalEntityDecl;
-import org.neoxml.dtd.InternalDeclaration;
-import org.neoxml.dtd.InternalEntityDecl;
+import org.neoxml.*;
+import org.neoxml.dtd.*;
 import org.neoxml.tree.AbstractElement;
 import org.neoxml.tree.NamespaceStack;
 import org.neoxml.util.HeadList;
-import org.xml.sax.Attributes;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
-import org.xml.sax.Locator;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
+import org.xml.sax.*;
 import org.xml.sax.ext.DeclHandler;
 import org.xml.sax.ext.LexicalHandler;
 import org.xml.sax.ext.Locator2;
 import org.xml.sax.helpers.DefaultHandler;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * <p>

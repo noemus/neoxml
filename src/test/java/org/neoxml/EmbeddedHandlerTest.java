@@ -6,13 +6,10 @@
 
 package org.neoxml;
 
-import java.io.File;
-
 import org.junit.Test;
-import org.neoxml.Element;
-import org.neoxml.ElementHandler;
-import org.neoxml.ElementPath;
 import org.neoxml.io.SAXReader;
+
+import java.io.File;
 
 /**
  * TestEmbeddedHandler
@@ -29,7 +26,7 @@ public class EmbeddedHandlerTest extends AbstractTestCase
     "xml/test/FranzBeilMain.xml"
   };
 
-  private StringBuilder[] results = {
+  private final StringBuilder[] results = {
     new StringBuilder(), new StringBuilder()
   };
 
@@ -70,13 +67,13 @@ public class EmbeddedHandlerTest extends AbstractTestCase
   // ---------------------------------------------
 
   private void readDocuments() throws Exception {
-    for (int i = 0; i < testDocuments.length; i++) {
-      File testDoc = getFile(testDocuments[i]);
+    for (String testDocument : testDocuments) {
+      File testDoc = getFile(testDocument);
       String mainDir = testDoc.getParent();
       SAXReader reader = new SAXReader();
       ElementHandler mainHandler = new MainHandler(mainDir);
       reader.addHandler("/main/import", mainHandler);
-      getDocument(testDocuments[i], reader);
+      getDocument(testDocument, reader);
     }
   }
 
@@ -85,9 +82,9 @@ public class EmbeddedHandlerTest extends AbstractTestCase
 
   class MainHandler implements ElementHandler
   {
-    private SAXReader mainReader;
+    private final SAXReader mainReader;
 
-    private String mainDir;
+    private final String mainDir;
 
     public MainHandler(String dir) {
       mainReader = new SAXReader();

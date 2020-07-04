@@ -9,7 +9,6 @@ package org.neoxml.rule;
 import org.junit.Test;
 import org.neoxml.AbstractTestCase;
 import org.neoxml.DefaultDocumentFactory;
-import org.neoxml.rule.Pattern;
 
 /**
  * Tests the priority behaviour of Pattern.

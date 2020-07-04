@@ -6,16 +6,14 @@
 
 package org.neoxml.rule;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import org.junit.Test;
 import org.neoxml.AbstractTestCase;
 import org.neoxml.CDATA;
 import org.neoxml.DefaultDocumentFactory;
 import org.neoxml.DocumentFactory;
-import org.neoxml.rule.Pattern;
-import org.neoxml.rule.Rule;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Tests the ordering of Rules

@@ -6,19 +6,15 @@
 
 package org.neoxml.dom;
 
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.neoxml.Branch;
 import org.neoxml.CharacterData;
-import org.neoxml.Document;
-import org.neoxml.DocumentType;
-import org.neoxml.Element;
-import org.neoxml.Node;
+import org.neoxml.*;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
+
+import java.util.List;
 
 /**
  * <p>

@@ -6,17 +6,11 @@
 
 package org.neoxml;
 
-import java.util.Iterator;
-import java.util.List;
-
-import org.neoxml.DefaultDocumentFactory;
-import org.neoxml.Document;
-import org.neoxml.DocumentFactory;
-import org.neoxml.Element;
-import org.neoxml.Node;
-import org.neoxml.XPathException;
 import org.neoxml.io.SAXReader;
 import org.neoxml.rule.Pattern;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Performs a number of unit test cases on the XPath engine

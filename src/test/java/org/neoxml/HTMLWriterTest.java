@@ -6,11 +6,11 @@
 
 package org.neoxml;
 
-import java.io.StringWriter;
-
 import org.junit.Test;
 import org.neoxml.io.HTMLWriter;
 import org.neoxml.io.OutputFormat;
+
+import java.io.StringWriter;
 
 /**
  * Test harness for the HTMLWriter

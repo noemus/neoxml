@@ -7,9 +7,6 @@
 package org.neoxml;
 
 import org.junit.Test;
-import org.neoxml.Document;
-import org.neoxml.DocumentHelper;
-import org.neoxml.Element;
 
 /**
  * A test harness to test the detach() method on root elements
