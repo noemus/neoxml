@@ -96,9 +96,9 @@
 
                 <programlisting>
                     import java.io.File;
-                    import org.dom4j.Document;
-                    import org.dom4j.DocumentException;
-                    import org.dom4j.io.SAXReader;
+                    import org.neoxml.Document;
+                    import org.neoxml.DocumentException;
+                    import org.neoxml.io.SAXReader;
 
                     public class DeployFileLoaderSample {
 
@@ -109,7 +109,7 @@
                     /**
                     * Loads a document from a file.
                     *
-                    * @throw a org.dom4j.DocumentException occurs whenever the buildprocess fails.
+                    * @throw a org.neoxml.DocumentException occurs whenever the buildprocess fails.
                     */
                     public void parseWithSAX(File aFile) throws DocumentException {
                     SAXReader xmlReader = new SAXReader();
@@ -123,7 +123,7 @@
 
             <para>
                 The above example code should clarify the use of
-                <classname>org.dom4j.io.SAXReader</classname>
+                <classname>org.neoxml.io.SAXReader</classname>
                 to build a complete<application>dom4j</application>-Tree from a given file.
                 The io package of
                 <application>dom4j</application>
@@ -163,9 +163,9 @@
                 <programlisting>
                     import java.io.File;
 
-                    import org.dom4j.Document;
-                    import org.dom4j.DocumentException;
-                    import org.dom4j.io.SAXReader;
+                    import org.neoxml.Document;
+                    import org.neoxml.DocumentException;
+                    import org.neoxml.io.SAXReader;
 
                     public class DeployFileLoaderSample {
 
@@ -177,7 +177,7 @@
                     * Loads a document from a file.
                     *
                     * @param aFile the data source
-                    * @throw a org.dom4j.DocumentExcepiton occurs whenever the buildprocess fails.
+                    * @throw a org.neoxml.DocumentExcepiton occurs whenever the buildprocess fails.
                     */
                     public void parseWithSAX(File aFile) throws DocumentException {
                     SAXReader xmlReader = new SAXReader();
@@ -188,7 +188,7 @@
                     * Loads a document from a file.
                     *
                     * @param aURL the data source
-                    * @throw a org.dom4j.DocumentExcepiton occurs whenever the buildprocess fails.
+                    * @throw a org.neoxml.DocumentExcepiton occurs whenever the buildprocess fails.
                     */
                     public void parseWithSAX(URL aURL) throws DocumentException {
                     SAXReader xmlReader = new SAXReader();
@@ -200,7 +200,7 @@
                 </programlisting>
 
                 Using Reflection API provides the most flexbility for handling all kinds of
-                <classname>org.dom4j.io.SAXReader</classname>
+                <classname>org.neoxml.io.SAXReader</classname>
                 Sources, but that
                 and even a check with instanceof needs a good exception management while you suspend and a lot of
                 xml driven application will not need this flexiblity.
@@ -215,7 +215,7 @@
                 <application>dom4j</application>
                 offers also some classes for integration of
                 the two original XML processing APIs - SAX and DOM.
-                <classname>org.dom4j.SAXContentHandler</classname>
+                <classname>org.neoxml.SAXContentHandler</classname>
                 implements some
                 SAX interfaces. Thus you are able to use them to create a specific SAX-based Reader class.
             </para>
@@ -241,9 +241,9 @@
 
                 import org.sax.Document;
 
-                import org.dom4j.Document;
-                import org.dom4j.DocumentException;
-                import org.dom4j.io.DOMReader;
+                import org.neoxml.Document;
+                import org.neoxml.DocumentException;
+                import org.neoxml.io.DOMReader;
 
                 public class DOMIntegratorSample {
 
@@ -263,7 +263,7 @@
             Right now we have talked a lot of reading exisiting XML information e.g. form files, URL's or even Streams.
             Sometimes it's necessary to generate a XML document from scratch within a running Java Application.
             The class
-            <classname>org.dom4j.DefaultDocumentFactory</classname>
+            <classname>org.neoxml.DefaultDocumentFactory</classname>
             defines a set of factory methods in order to create empty documents, document
             types, elements, attributes, unparsed character data (CDATA), a namespace, instance regarding<acronym>
             XPath</acronym>, a Nodefilter and
@@ -275,9 +275,9 @@
 
         <programlisting>
 
-            import org.dom4j.DocumentFactory;
-            import org.dom4j.Document;
-            import org.dom4j.Element;
+            import org.neoxml.DocumentFactory;
+            import org.neoxml.Document;
+            import org.neoxml.Element;
 
             public class DeployFileCreator {
 
@@ -295,7 +295,7 @@
         <para>
             The listing shows how two generate a new Document from scratch. The method generateDoc takes a String
             instance of argument. The string value contains the name of
-            the root element of the new document. As you can see org.dom4j.DefaultDocumentFactory is a singleton that is
+            the root element of the new document. As you can see org.neoxml.DefaultDocumentFactory is a singleton that is
             accessable via getInstance() as most java singeltons are.
             After we obtained the instance we can DocumentFacotrie's methods. They follow the createXXX() naming
             convention, so if you want to create a Attribute you would
@@ -305,9 +305,9 @@
 
         <programlisting>
 
-            import org.dom4j.DocumentFactory;
-            import org.dom4j.Document;
-            import org.dom4j.Element;
+            import org.neoxml.DocumentFactory;
+            import org.neoxml.Document;
+            import org.neoxml.Element;
 
             public class GranuatedDeployFileCreator {
 
@@ -370,7 +370,7 @@
 
         <section>
             <title>Serializing to XML</title>
-            <classname>org.dom4j.io.XMLWriter</classname>
+            <classname>org.neoxml.io.XMLWriter</classname>
             is a easy-to-use and easy-to-understand class used to serialize a
             <application>dom4j</application>
             Tree to a plain<acronym>XML</acronym>. You are able
@@ -385,8 +385,8 @@
 
                 import java.io.OutputStream;
 
-                import org.dom4j.Document;
-                import org.dom4j.io.XMLWriter;
+                import org.neoxml.Document;
+                import org.neoxml.io.XMLWriter;
 
                 public class DeployFileCreator {
 
@@ -417,8 +417,8 @@
                 <title>Influencing the output format</title>
                 <para>
                     There are two way to influence the output format:
-                    <classname>org.dom4j.io.OutputFormater</classname>
-                    and<classname>org.dom4j.io.XMLWriter</classname>. Both provide methods for formatting the output e.g
+                    <classname>org.neoxml.io.OutputFormater</classname>
+                    and<classname>org.neoxml.io.XMLWriter</classname>. Both provide methods for formatting the output e.g
                     setting of indent
                     or new line.
                 </para>
@@ -428,9 +428,9 @@
 
                     import java.io.OutputStream;
 
-                    import org.dom4j.Document;
-                    import org.dom4j.io.XMLWriter;
-                    import org.dom4j.io.OutputFormat;
+                    import org.neoxml.Document;
+                    import org.neoxml.io.XMLWriter;
+                    import org.neoxml.io.OutputFormat;
 
                     public class DeployFileCreator {
 
@@ -473,9 +473,9 @@
 
                     import java.io.OutputStream;
 
-                    import org.dom4j.Document;
-                    import org.dom4j.io.XMLWriter;
-                    import org.dom4j.io.OutputFormat;
+                    import org.neoxml.Document;
+                    import org.neoxml.io.XMLWriter;
+                    import org.neoxml.io.OutputFormat;
 
                     public class DeployFileCreator {
 
@@ -544,9 +544,9 @@
 
                 import java.io.OutputStream;
 
-                import org.dom4j.Document;
-                import org.dom4j.io.HTMLWriter;
-                import org.dom4j.io.OutputFormat;
+                import org.neoxml.Document;
+                import org.neoxml.io.HTMLWriter;
+                import org.neoxml.io.OutputFormat;
 
                 public class DeployFileCreator {
 
@@ -592,12 +592,12 @@
             <programlisting>
                 import org.w3c.dom.Document;
 
-                import org.dom4j.Document;
-                import org.dom4j.io.DOMWriter;
+                import org.neoxml.Document;
+                import org.neoxml.io.DOMWriter;
 
                 public class DeployFileLoaderSample {
 
-                private org.dom4j.Document doc;
+                private org.neoxml.Document doc;
 
                 public org.w3c.dom.Document transformtoDOM() {
                 DOMWriter writer = new DOMWriter();
@@ -614,19 +614,19 @@
             <para>
                 When you want to resolve a existing document into sax events in order to process the by origin classes
                 <application>dom4j</application>
-                provides<classname>org.dom4j.SAXWriter</classname>.
+                provides<classname>org.neoxml.SAXWriter</classname>.
             </para>
 
 
             <programlisting>
                 import org.xml.ConentHandler;
 
-                import org.dom4j.Document;
-                import org.dom4j.io.SAXWriter;
+                import org.neoxml.Document;
+                import org.neoxml.io.SAXWriter;
 
                 public class DeployFileLoaderSample {
 
-                private org.dom4j.Document doc;
+                private org.neoxml.Document doc;
 
                 public void transformtoSAX(ContentHandler ctxHandler) {
                 SAXWriter writer = new SAXWriter();
@@ -687,13 +687,13 @@
 
             import java.util.Iterator;
 
-            import org.dom4j.Document;
-            import org.dom4j.Element;
+            import org.neoxml.Document;
+            import org.neoxml.Element;
 
             public class DeployFileLoaderSample {
 
-            private org.dom4j.Document doc;
-            private org.dom4j.Element root;
+            private org.neoxml.Document doc;
+            private org.neoxml.Element root;
 
             public void iterateRootChildren() {
             root = this.doc.getRootElement();
@@ -717,13 +717,13 @@
         <programlisting>
             import java.util.Iterator;
 
-            import org.dom4j.Document;
-            import org.dom4j.Element;
+            import org.neoxml.Document;
+            import org.neoxml.Element;
 
             public class DeployFileLoaderSample {
 
-            private org.dom4j.Document doc;
-            private org.dom4j.Element root;
+            private org.neoxml.Document doc;
+            private org.neoxml.Element root;
 
             public void iterateRootChildren(String aFilterElementName) {
             root = this.doc.getRootElement();
@@ -755,13 +755,13 @@
             <programlisting>
                 import java.util.List;
 
-                import org.dom4j.Document;
-                import org.dom4j.Element;
+                import org.neoxml.Document;
+                import org.neoxml.Element;
 
                 public class DeployFileLoaderSample {
 
-                private org.dom4j.Document doc;
-                private org.dom4j.Element root;
+                private org.neoxml.Document doc;
+                private org.neoxml.Element root;
 
                 public void iterateRootChildren() {
                 root = this.doc.getRootElement();
@@ -797,13 +797,13 @@
         <programlisting>
             import java.util.Iterator;
 
-            import org.dom4j.Document;
-            import org.dom4j.Element;
+            import org.neoxml.Document;
+            import org.neoxml.Element;
 
             public class DeployFileLoaderSample {
 
-            private org.dom4j.Document doc;
-            private org.dom4j.Element root;
+            private org.neoxml.Document doc;
+            private org.neoxml.Element root;
 
             public void browseRootChildren() {
             Iterator xpathResult = this.doc.selectNodes("/*").iterator();
@@ -838,10 +838,10 @@
         <programlisting>
             import java.util.Iterator;
 
-            import org.dom4j.Visitor;
-            import org.dom4j.VisitorSupport;
-            import org.dom4j.Document;
-            import org.dom4j.Element;
+            import org.neoxml.Visitor;
+            import org.neoxml.VisitorSupport;
+            import org.neoxml.Document;
+            import org.neoxml.Element;
 
             public class StyleDocumentSample {
 
@@ -867,25 +867,25 @@
 
         <section>
             <title>What
-                <classname>org.dom4j.Document</classname>
+                <classname>org.neoxml.Document</classname>
                 provides
             </title>
             <para>
                 A
-                <classname>org.dom4j.Document</classname>
+                <classname>org.neoxml.Document</classname>
                 allows you to configure and retreive the root element. You are also able to set the DOCTYPE or a SAX
                 based<classname>EntityResolver</classname>. An empty
                 <classname>Document</classname>
-                should be created via<classname>org.dom4j.DefaultDocumentFactory</classname>.
+                should be created via<classname>org.neoxml.DefaultDocumentFactory</classname>.
             </para>
         </section>
 
         <section>
             <title>Working with
-                <classname>org.dom4j.Element</classname>
+                <classname>org.neoxml.Element</classname>
             </title>
             <para>
-                <classname>org.dom4j.Element</classname>
+                <classname>org.neoxml.Element</classname>
                 is a powerfull interface providing lots of methods for manipulation an Element.
             </para>
 
@@ -907,19 +907,19 @@
                 <para>
                     A XML Element should have a qualified name. A qualified name consits normally of a Namespace and a
                     local name. It's recommend to use
-                    <classname>org.dom4j.DefaultDocumentFactory</classname>
+                    <classname>org.neoxml.DefaultDocumentFactory</classname>
                     to create Qualifed
                     Names that are provided by
-                    <classname>org.dom4j.QName</classname>
+                    <classname>org.neoxml.QName</classname>
                     instances.
                 </para>
 
                 <programlisting>
 
-                    import org.dom4j.Element;
-                    import org.dom4j.Document;
-                    import org.dom4j.DocumentFactory;
-                    import org.dom4j.QName;
+                    import org.neoxml.Element;
+                    import org.neoxml.Document;
+                    import org.neoxml.DocumentFactory;
+                    import org.neoxml.QName;
 
                     public class DeployFileCreator {
 
@@ -993,8 +993,8 @@
 
                 <programlisting>
 
-                    import org.dom4j.Document;
-                    import org.dom4j.Element;
+                    import org.neoxml.Document;
+                    import org.neoxml.Element;
 
                     public class DeployFileCreator {
 
@@ -1068,14 +1068,14 @@
             <classname>Source</classname>
             contains the source xml file that should be transformed.<classname>Result</classname>'s containted the the
             result of transformation. dom4j offers
-            <classname>org.dom4j.io.DocumentResult</classname>
+            <classname>org.neoxml.io.DocumentResult</classname>
             and
-            <classname>org.dom4j.io.DocumenSource</classname>
+            <classname>org.neoxml.io.DocumenSource</classname>
             for compatiblity to TrAX.
             Whereas
-            <classname>org.dom4j.io.DocumentResult</classname>
+            <classname>org.neoxml.io.DocumentResult</classname>
             contains a
-            <classname>org.dom4j.Document</classname>
+            <classname>org.neoxml.Document</classname>
             as result tree,
             <classname>DocumentSource</classname>
             takes dom4j<classname>Document</classname>s and pepare them for transformation. Both classes are build on
@@ -1088,9 +1088,9 @@
             import javax.xml.transform.TransformerFactory;
             import javax.xml.transform.stream.StreamSource;
 
-            import org.dom4j.Document;
-            import org.dom4j.io.DocumentResult;
-            import org.dom4j.io.DocumentSource;
+            import org.neoxml.Document;
+            import org.neoxml.io.DocumentResult;
+            import org.neoxml.io.DocumentSource;
 
             public class TemplateGeneratorSample {
 

@@ -3,7 +3,7 @@
 
     The declarations in this file MUST agree with the test case, see
 
-    org.dom4j.TestDocType#getInternalDeclarations()
+    org.neoxml.TestDocType#getInternalDeclarations()
 
 -->
 <!DOCTYPE greeting [
