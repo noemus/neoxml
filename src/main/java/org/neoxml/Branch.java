@@ -29,7 +29,7 @@ public interface Branch extends Node, Iterable<Node>
    * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt;=
    *           {@link Branch#nodeCount()}).
    */
-  Node node(int index) throws IndexOutOfBoundsException;
+  Node node(int index);
 
   /**
    * Returns the index of the given node if it is a child node of this branch
@@ -78,12 +78,12 @@ public interface Branch extends Node, Iterable<Node>
    */
   Iterator<Node> nodeIterator();
 
-  @Override
   /**
    * Returns an iterator through the content nodes of this branch
    *
    * @return an iterator through the content nodes of this branch
    */
+  @Override
   Iterator<Node> iterator();
 
   /**

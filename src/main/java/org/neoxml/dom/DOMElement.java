@@ -350,7 +350,6 @@ public class DOMElement extends DefaultElement implements org.w3c.dom.Element
   }
 
   @Override
-  @SuppressWarnings("rawtypes")
   public NodeList getElementsByTagName(String name) {
     List<Element> list = new ArrayList<>();
     DOMNodeHelper.appendElementsByTagName(list, this, name);

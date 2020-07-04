@@ -55,7 +55,6 @@ public class DefaultDocumentFactory implements DocumentFactory, Serializable
    */
   private Map<String,String> xpathNamespaceURIs;
 
-  @SuppressWarnings("unchecked")
   private static SingletonStrategy<DocumentFactory> createSingleton() {
     return SingletonHelper.getSingletonStrategy("org.neoxml.DefaultDocumentFactory.singleton.strategy", "org.neoxml.factory", DefaultDocumentFactory.class);
   }

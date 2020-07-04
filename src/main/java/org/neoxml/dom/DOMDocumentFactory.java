@@ -33,7 +33,6 @@ import org.w3c.dom.DOMException;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.21 $
  */
-@SuppressWarnings("unchecked")
 public class DOMDocumentFactory extends DefaultDocumentFactory implements org.w3c.dom.DOMImplementation
 {
 

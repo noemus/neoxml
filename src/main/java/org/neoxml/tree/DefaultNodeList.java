@@ -60,7 +60,6 @@ public class DefaultNodeList<T extends Node> extends HeadList<T> implements Node
   }
   
   @Override
-  @SuppressWarnings("unchecked")
   @SafeVarargs
   public final void add(T first, T... nodes) {
     add(first);
@@ -200,9 +199,7 @@ public class DefaultNodeList<T extends Node> extends HeadList<T> implements Node
   
   @Override
   public DefaultNodeList<T> clone() {
-    @SuppressWarnings("unchecked")
-    DefaultNodeList<T> answer = (DefaultNodeList<T>)super.clone();
-    return answer;
+    return (DefaultNodeList<T>)super.clone();
   }
 
   @Override

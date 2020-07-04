@@ -46,7 +46,7 @@ public class VariableTest extends AbstractTestCase
   // -------------------------------------------------------------------------
 
   @Test
-  public void testXPaths() throws Exception {
+  public void testXPaths() {
     int size = paths.length;
 
     for (int i = 0; i < size; i++) {

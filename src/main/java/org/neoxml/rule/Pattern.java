@@ -28,13 +28,13 @@ public interface Pattern extends NodeFilter
    */
   double DEFAULT_PRIORITY = 0.5;
 
-  @Override
   /**
    * DOCUMENT ME!
    *
    * @param node DOCUMENT ME!
    * @return true if the pattern matches the given neoxml node.
    */
+  @Override
   boolean matches(Node node);
 
   /**

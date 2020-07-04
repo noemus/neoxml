@@ -7,6 +7,7 @@
 package org.neoxml.tree;
 
 import java.util.AbstractList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -37,15 +38,12 @@ abstract class AbstractNodeListFacade<T extends Node> extends AbstractList<T> im
   }
 
   @Override
-  @SuppressWarnings("unchecked")
   @SafeVarargs
   public final void add(T first, T... nodes) {
     add(first);
     
     if (nodes != null) {
-      for (T n : nodes) {
-        add(n);
-      }
+      Collections.addAll(this, nodes);
     }
   }
 
@@ -89,11 +87,7 @@ abstract class AbstractNodeListFacade<T extends Node> extends AbstractList<T> im
   @Override
   public NodeList<T> remove(Predicate<? super T> cond) {
     if (!nodeList.isEmpty()) {
-      for (Iterator<T> it = iterator(); it.hasNext();) {
-        if (cond.test(it.next())) {
-          it.remove();
-        }
-      }
+      removeIf(cond);
     }
     return this;
   }
