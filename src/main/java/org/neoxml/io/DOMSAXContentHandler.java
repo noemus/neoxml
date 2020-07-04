@@ -123,7 +123,7 @@ public class DOMSAXContentHandler extends DefaultHandler implements LexicalHandl
   /**
    * Buffer used to concatenate text together
    */
-  private StringBuffer textBuffer;
+  private StringBuilder textBuffer;
 
   /**
    * Holds value of property stripWhitespaceText.
@@ -199,7 +199,7 @@ public class DOMSAXContentHandler extends DefaultHandler implements LexicalHandl
     declaredNamespaceIndex = 0;
 
     if (mergeAdjacentText && (textBuffer == null)) {
-      textBuffer = new StringBuffer();
+      textBuffer = new StringBuilder();
     }
 
     textInTextBuffer = false;

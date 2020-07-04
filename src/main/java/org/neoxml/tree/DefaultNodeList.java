@@ -6,6 +6,7 @@
 
 package org.neoxml.tree;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -65,9 +66,7 @@ public class DefaultNodeList<T extends Node> extends HeadList<T> implements Node
     add(first);
     
     if (nodes != null) {
-      for (T n : nodes) {
-        add(n);
-      }
+      Collections.addAll(this, nodes);
     }
   }
   

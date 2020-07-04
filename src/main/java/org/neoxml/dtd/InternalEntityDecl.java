@@ -90,7 +90,7 @@ public class InternalEntityDecl implements InternalDeclaration
   }
 
   private String escapeEntityValue(String text) {
-    StringBuffer result = new StringBuffer();
+    StringBuilder result = new StringBuilder();
 
     for (int i = 0; i < text.length(); i++) {
       char c = text.charAt(i);
@@ -118,7 +118,7 @@ public class InternalEntityDecl implements InternalDeclaration
 
         default:
           if (c < 32) {
-            result.append("&#" + (int)c + ";");
+            result.append("&#").append((int) c).append(";");
           }
           else {
             result.append(c);

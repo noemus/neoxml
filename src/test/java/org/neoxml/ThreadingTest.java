@@ -6,22 +6,17 @@
 
 package org.neoxml;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.text.FieldPosition;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import com.google.code.tempusfugit.concurrency.ConcurrentRule;
 import com.google.code.tempusfugit.concurrency.ConcurrentTestRunner;
 import com.google.code.tempusfugit.concurrency.RepeatingRule;
 import com.google.code.tempusfugit.concurrency.annotations.Concurrent;
 import com.google.code.tempusfugit.concurrency.annotations.Repeating;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * A test harness to test the neoxml package in a threaded environment
@@ -37,39 +32,6 @@ public class ThreadingTest
 
   @Rule
   public ConcurrentRule concurrent = new ConcurrentRule();
-
-  private static final ThreadLocal FORMATTER_CACHE = new ThreadLocal();
-
-  private static final String SEPERATOR = " - ";
-
-  private static final FieldPosition FIELD_ZERO = new FieldPosition(0);
-
-  private static void preformat(StringBuffer strBuf, String context) {
-    long now = System.currentTimeMillis();
-    Date currentTime = new Date(now);
-    SimpleDateFormat formatter = (SimpleDateFormat)FORMATTER_CACHE.get();
-
-    if (formatter == null) {
-      formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS zzz");
-      FORMATTER_CACHE.set(formatter);
-    }
-
-    strBuf.append("[");
-    formatter.format(currentTime, strBuf, FIELD_ZERO);
-    strBuf.append(" (").append(now).append(") ]");
-
-    strBuf.append(SEPERATOR);
-    strBuf.append(getThreadId());
-    strBuf.append(SEPERATOR);
-    strBuf.append(context);
-    strBuf.append(SEPERATOR);
-  }
-
-  private static String getThreadId() {
-    String tid = Thread.currentThread().getName();
-
-    return tid;
-  }
 
   /**
    * This test combines many different types of operations on neoxml in a
@@ -236,14 +198,11 @@ public class ThreadingTest
 
   /**
    * This method creates a value that can be expected during a test
-   *
-   * @param qn
-   * @return
    */
   public String fetchValue(QName qn) {
     String value = null;
 
-    StringBuffer sb = new StringBuffer();
+    StringBuilder sb = new StringBuilder();
     sb.append("<");
 
     String prefix = qn.getNamespacePrefix();

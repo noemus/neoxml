@@ -313,7 +313,7 @@ public class DOMNodeHelper
           throw new DOMException(DOMException.INDEX_SIZE_ERR, "No text at offset: " + offset);
         }
         else {
-          StringBuffer buffer = new StringBuffer(text);
+          StringBuilder buffer = new StringBuilder(text);
           buffer.delete(offset, offset + count);
           charData.setText(buffer.toString());
         }

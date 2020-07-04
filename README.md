@@ -19,4 +19,4 @@ WHAT IS DONE:
 - Done some benchmarks (based on JMH) against original dom4j, neoxml performs better in some cases and nearly same in other scenarios, whole library is optimised for XML documents with many nodes without subnodes or with only one subnode 
 
 NOTICE:
-This is early version of NeoXML and I am now focusing on JUnit test coverage and code clarity
+This is early version of NeoXML, and I am now focusing on JUnit test coverage and code clarity

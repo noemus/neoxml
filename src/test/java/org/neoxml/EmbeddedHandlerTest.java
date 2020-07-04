@@ -29,8 +29,8 @@ public class EmbeddedHandlerTest extends AbstractTestCase
     "xml/test/FranzBeilMain.xml"
   };
 
-  private StringBuffer[] results = {
-    new StringBuffer(), new StringBuffer()
+  private StringBuilder[] results = {
+    new StringBuilder(), new StringBuilder()
   };
 
   protected int test;
@@ -58,13 +58,10 @@ public class EmbeddedHandlerTest extends AbstractTestCase
 
     if (!results[MAIN_READER].toString().equals(
       results[ON_END_READER].toString())) {
-      StringBuffer msg = new StringBuffer();
-      msg.append("Results of tests should be equal!\n");
-      msg.append("Results testMainReader():\n"
-          + results[MAIN_READER].toString());
-      msg.append("Results testOnEndReader():\n"
-          + results[ON_END_READER].toString());
-      throw new Exception(msg.toString());
+      final String msg = "Results of tests should be equal!\n" +
+                         "Results testMainReader():\n" + results[MAIN_READER].toString() +
+                         "Results testOnEndReader():\n" + results[ON_END_READER].toString();
+      fail(msg);
     }
   }
 
@@ -136,8 +133,7 @@ public class EmbeddedHandlerTest extends AbstractTestCase
   {
     @Override
     public void onStart(ElementPath path) {
-      results[test].append(path.getCurrent().attribute("name").getValue()
-        + "\n");
+      results[test].append(path.getCurrent().attribute("name").getValue()).append("\n");
     }
 
     @Override

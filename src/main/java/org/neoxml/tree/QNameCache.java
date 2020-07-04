@@ -54,9 +54,7 @@ public class QNameCache
    * @return DOCUMENT ME!
    */
   public List<QName> getQNames() {
-    final List<QName> answer = new ArrayList<>();
-
-    answer.addAll(noNamespaceCache.values());
+    final List<QName> answer = new ArrayList<>(noNamespaceCache.values());
 
     for (Map<String,QName> map : namespaceCache.values()) {
       answer.addAll(map.values());

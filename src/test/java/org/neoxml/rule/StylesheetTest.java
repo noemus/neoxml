@@ -85,7 +85,7 @@ public class StylesheetTest extends AbstractTestCase
 
   @Test
   public void testFireRuleForNode() throws Exception {
-    final StringBuffer b = new StringBuffer();
+    final StringBuilder b = new StringBuilder();
 
     final Stylesheet s = new Stylesheet();
     Pattern pattern = DocumentHelper.createPattern("url");
