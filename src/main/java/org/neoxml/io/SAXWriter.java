@@ -482,19 +482,11 @@ public class SAXWriter implements XMLReader {
      *
      * @param name  DOCUMENT ME!
      * @param value DOCUMENT ME!
-     * @throws SAXNotRecognizedException DOCUMENT ME!
-     * @throws SAXNotSupportedException  DOCUMENT ME!
      */
     @Override
-    public void setFeature(String name, boolean value)
-            throws SAXNotRecognizedException, SAXNotSupportedException {
+    public void setFeature(String name, boolean value) {
         if (FEATURE_NAMESPACE_PREFIXES.equals(name)) {
             setDeclareNamespaceAttributes(value);
-        } else if (FEATURE_NAMESPACE_PREFIXES.equals(name)) {
-            if (!value) {
-                String msg = "Namespace feature is always supported in dom4j";
-                throw new SAXNotSupportedException(msg);
-            }
         }
 
         features.put(name, value);
@@ -508,10 +500,9 @@ public class SAXWriter implements XMLReader {
      */
     @Override
     public void setProperty(String name, Object value) {
-        for (int i = 0; i < LEXICAL_HANDLER_NAMES.length; i++) {
-            if (LEXICAL_HANDLER_NAMES[i].equals(name)) {
+        for (String lexicalHandlerName : LEXICAL_HANDLER_NAMES) {
+            if (lexicalHandlerName.equals(name)) {
                 setLexicalHandler((LexicalHandler) value);
-
                 return;
             }
         }
@@ -524,14 +515,11 @@ public class SAXWriter implements XMLReader {
      *
      * @param name DOCUMENT ME!
      * @return DOCUMENT ME!
-     * @throws SAXNotRecognizedException DOCUMENT ME!
-     * @throws SAXNotSupportedException  DOCUMENT ME!
      */
     @Override
-    public Object getProperty(String name) throws SAXNotRecognizedException,
-                                                  SAXNotSupportedException {
-        for (int i = 0; i < LEXICAL_HANDLER_NAMES.length; i++) {
-            if (LEXICAL_HANDLER_NAMES[i].equals(name)) {
+    public Object getProperty(String name) {
+        for (String lexicalHandlerName : LEXICAL_HANDLER_NAMES) {
+            if (lexicalHandlerName.equals(name)) {
                 return getLexicalHandler();
             }
         }
@@ -548,7 +536,7 @@ public class SAXWriter implements XMLReader {
     @Override
     public void parse(String systemId) throws SAXNotSupportedException {
         throw new SAXNotSupportedException("This XMLReader can only accept"
-                                                   + " <dom4j> InputSource objects");
+                                                   + " <neoxml> InputSource objects");
     }
 
     /**
@@ -568,7 +556,7 @@ public class SAXWriter implements XMLReader {
         } else {
             throw new SAXNotSupportedException(
                     "This XMLReader can only accept "
-                            + "<dom4j> InputSource objects");
+                            + "<neoxml> InputSource objects");
         }
     }
 
