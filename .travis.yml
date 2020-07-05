@@ -10,4 +10,4 @@ script:
   - git fetch --unshallow
   - mvn clean verify -Pcoverage
   - echo "SONAR_TOKEN=$SONAR_TOKEN"
-  - mvn sonar:sonar -Dsonar.login=$SONAR_TOKEN -Dsonar.sourceEncoding=UTF-8 -Dsonar.branch.name=master
+  - mvn sonar:sonar -Dsonar.login=9eb0bca134fa54ff1f25adb6006c8957038241f5 -Dsonar.sourceEncoding=UTF-8 -Dsonar.branch.name=master
