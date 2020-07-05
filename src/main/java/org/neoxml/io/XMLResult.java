@@ -66,12 +66,12 @@ public class XMLResult extends SAXResult {
 
     @Override
     public ContentHandler getHandler() {
-        return xmlWriter;
+        return getXMLWriter();
     }
 
     @Override
     public LexicalHandler getLexicalHandler() {
-        return xmlWriter;
+        return getXMLWriter();
     }
 }
 

@@ -66,10 +66,6 @@ public class DOMCDATA extends DefaultCDATA implements org.w3c.dom.CDATASection {
         return "#cdata-section";
     }
 
-    // already part of API
-    //
-    // public short getNodeType();
-
     @Override
     public String getNodeValue() throws DOMException {
         return DOMNodeHelper.getNodeValue(this);

@@ -22,7 +22,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -31,14 +30,62 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class XMLHelper {
-    private static final boolean mergeAdjacentText = true;
-    private static final boolean validation = false;
-    private static final boolean schemaValidation = false;
-    private static final boolean stripWhitespaceText = true;
-    private static final boolean externalDTDDeclarations = false;
-    private static final boolean internalDTDDeclarations = false;
+    private static boolean mergeAdjacentText = true;
+    private static boolean validation = false;
+    private static boolean schemaValidation = false;
+    private static boolean stripWhitespaceText = true;
+    private static boolean externalDTDDeclarations = false;
+    private static boolean internalDTDDeclarations = false;
 
-    public static final String DEFAULT_ENCODING = "UTF-8";
+    public static final String DEFAULT_ENCODING = StandardCharsets.UTF_8.name();
+
+    public static boolean isMergeAdjacentText() {
+        return mergeAdjacentText;
+    }
+
+    public static void setMergeAdjacentText(boolean mergeAdjacentText) {
+        XMLHelper.mergeAdjacentText = mergeAdjacentText;
+    }
+
+    public static boolean isValidation() {
+        return validation;
+    }
+
+    public static void setValidation(boolean validation) {
+        XMLHelper.validation = validation;
+    }
+
+    public static boolean isSchemaValidation() {
+        return schemaValidation;
+    }
+
+    public static void setSchemaValidation(boolean schemaValidation) {
+        XMLHelper.schemaValidation = schemaValidation;
+    }
+
+    public static boolean isStripWhitespaceText() {
+        return stripWhitespaceText;
+    }
+
+    public static void setStripWhitespaceText(boolean stripWhitespaceText) {
+        XMLHelper.stripWhitespaceText = stripWhitespaceText;
+    }
+
+    public static boolean isExternalDTDDeclarations() {
+        return externalDTDDeclarations;
+    }
+
+    public static void setExternalDTDDeclarations(boolean externalDTDDeclarations) {
+        XMLHelper.externalDTDDeclarations = externalDTDDeclarations;
+    }
+
+    public static boolean isInternalDTDDeclarations() {
+        return internalDTDDeclarations;
+    }
+
+    public static void setInternalDTDDeclarations(boolean internalDTDDeclarations) {
+        XMLHelper.internalDTDDeclarations = internalDTDDeclarations;
+    }
 
     /**
      * Creates xml Document from classpath resource path
@@ -246,7 +293,7 @@ public final class XMLHelper {
     /**
      * @return Documant as String
      */
-    public static String printXml(org.neoxml.Document doc) throws IOException, UnsupportedEncodingException {
+    public static String printXml(org.neoxml.Document doc) throws IOException {
         try (ByteArrayOutputStream output = new ByteArrayOutputStream();
              XMLWriter xml = createWriter(output, DEFAULT_ENCODING)) {
 

@@ -178,6 +178,7 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
 
     public XMLWriter() {
         this.format = DEFAULT_FORMAT;
+        // @nosonar System.out is used intentionally here and does not play role of logger
         this.writer = new BufferedWriter(new OutputStreamWriter(System.out));
         this.autoFlush = true;
         namespaceStack.push(Namespace.NO_NAMESPACE);
@@ -199,6 +200,7 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
 
     public XMLWriter(OutputFormat format) throws UnsupportedEncodingException {
         this.format = format;
+        // @nosonar System.out is used intentionally here and does not play role of logger
         this.writer = createWriter(System.out, format.getEncoding());
         this.autoFlush = true;
         namespaceStack.push(Namespace.NO_NAMESPACE);
@@ -598,11 +600,6 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
     // -------------------------------------------------------------------------
 
     @Override
-    public void setDocumentLocator(Locator locator) {
-        super.setDocumentLocator(locator);
-    }
-
-    @Override
     public void startDocument() throws SAXException {
         try {
             writeDeclaration();
@@ -631,11 +628,6 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
 
         namespacesMap.put(prefix, uri);
         super.startPrefixMapping(prefix, uri);
-    }
-
-    @Override
-    public void endPrefixMapping(String prefix) throws SAXException {
-        super.endPrefixMapping(prefix);
     }
 
     @Override
@@ -743,11 +735,6 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
     }
 
     @Override
-    public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {
-        super.ignorableWhitespace(ch, start, length);
-    }
-
-    @Override
     public void processingInstruction(String target, String data) throws SAXException {
         try {
             indent();
@@ -763,19 +750,6 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
         } catch (IOException e) {
             handleException(e);
         }
-    }
-
-    // DTDHandler interface
-    // -------------------------------------------------------------------------
-
-    @Override
-    public void notationDecl(String name, String publicID, String systemID) throws SAXException {
-        super.notationDecl(name, publicID, systemID);
-    }
-
-    @Override
-    public void unparsedEntityDecl(String name, String publicID, String systemID, String notationName) throws SAXException {
-        super.unparsedEntityDecl(name, publicID, systemID, notationName);
     }
 
     // LexicalHandler interface
@@ -1064,12 +1038,9 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
      * buff is not null and not empty
      */
     private void padStart(StringBuilder buff, boolean textOnly, boolean padText) throws IOException {
-        if (!textOnly && padText) {
-            // only add the PAD_TEXT if the text itself starts with
-            // whitespace
-            if (Character.isWhitespace(buff.charAt(0))) {
-                writer.write(PAD_TEXT);
-            }
+        // only add the PAD_TEXT if the text itself starts with whitespace
+        if (!textOnly && padText && Character.isWhitespace(buff.charAt(0))) {
+            writer.write(PAD_TEXT);
         }
     }
 
@@ -1080,11 +1051,8 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
         writeString(buff.toString());
 
         if (padText) {
-            // only add the PAD_TEXT if the text itself ends
-            // with whitespace
-
+            // only add the PAD_TEXT if the text itself ends with whitespace
             final char lastTextChar = buff.charAt(buff.length() - 1);
-
             if (Character.isWhitespace(lastTextChar)) {
                 writer.write(PAD_TEXT);
             }
@@ -1139,8 +1107,7 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
      * @param prefix the prefix
      * @param uri    the namespace uri
      */
-    protected void writeNamespace(String prefix, String uri)
-            throws IOException {
+    protected void writeNamespace(String prefix, String uri) throws IOException {
         if ((prefix != null) && (prefix.length() > 0)) {
             writer.write(" xmlns:");
             writer.write(prefix);
@@ -1153,9 +1120,7 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
         writer.write('"');
     }
 
-    protected void writeProcessingInstruction(ProcessingInstruction pi)
-            throws IOException {
-        // indent();
+    protected void writeProcessingInstruction(ProcessingInstruction pi) throws IOException {
         writer.write("<?");
         writer.write(pi.getName());
         writer.write(' ');
@@ -1172,11 +1137,6 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
                 text = escapeElementEntities(text);
             }
 
-            // if (format.isPadText()) {
-            // if (lastOutputNodeType == Node.ELEMENT_NODE) {
-            // writer.write(PAD_TEXT);
-            // }
-            // }
             if (format.isTrimText()) {
                 boolean first = true;
                 StringTokenizer tokenizer = new StringTokenizer(text);
@@ -1230,54 +1190,42 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
         switch (nodeType) {
             case ELEMENT_NODE:
                 writeElement((Element) node);
-
                 break;
 
             case ATTRIBUTE_NODE:
                 writeAttribute((Attribute) node);
-
                 break;
 
             case TEXT_NODE:
                 writeNodeText(node);
-
-                // write((Text) node);
                 break;
 
             case CDATA_SECTION_NODE:
                 writeCDATA(node.getText());
-
                 break;
 
             case ENTITY_REFERENCE_NODE:
                 writeEntity((Entity) node);
-
                 break;
 
             case PROCESSING_INSTRUCTION_NODE:
                 writeProcessingInstruction((ProcessingInstruction) node);
-
                 break;
 
             case COMMENT_NODE:
                 writeComment(node.getText());
-
                 break;
 
             case DOCUMENT_NODE:
                 write((Document) node);
-
                 break;
 
             case DOCUMENT_TYPE_NODE:
                 writeDocType((DocumentType) node);
-
                 break;
 
             case NAMESPACE_NODE:
-
                 // Will be output with attributes
-                // write((Namespace) node);
                 break;
 
             default:
@@ -1296,18 +1244,14 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
         for (int i = 0; i < LEXICAL_HANDLER_NAMES.length; i++) {
             try {
                 parent.setProperty(LEXICAL_HANDLER_NAMES[i], this);
-
                 break;
-            } catch (SAXNotRecognizedException ex) {
-                // ignore
-            } catch (SAXNotSupportedException ex) {
+            } catch (SAXNotRecognizedException | SAXNotSupportedException ex) {
                 // ignore
             }
         }
     }
 
-    protected void writeDocType(String name, String publicID, String systemID)
-            throws IOException {
+    protected void writeDocType(String name, String publicID, String systemID) throws IOException {
         boolean hasPublic = false;
 
         writer.write("<!DOCTYPE ");
@@ -1378,8 +1322,7 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
             Attribute attribute = element.attribute(i);
             Namespace ns = attribute.getNamespace();
 
-            if ((ns != null) && (ns != Namespace.NO_NAMESPACE)
-                    && (ns != Namespace.XML_NAMESPACE)) {
+            if ((ns != null) && (ns != Namespace.NO_NAMESPACE) && (ns != Namespace.XML_NAMESPACE)) {
                 String prefix = ns.getPrefix();
                 String uri = namespaceStack.getURI(prefix);
 
@@ -1567,36 +1510,29 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
             switch (c) {
                 case '<':
                     entity = "&lt;";
-
                     break;
 
                 case '>':
                     entity = "&gt;";
-
                     break;
 
                 case '&':
                     entity = "&amp;";
-
                     break;
 
                 case '\t':
                 case '\n':
                 case '\r':
-
                     // don't encode standard whitespace characters
                     if (preserve) {
                         entity = String.valueOf(c);
                     }
-
                     break;
 
                 default:
-
                     if ((c < 32) || shouldEncodeChar(c)) {
                         entity = "&#" + (int) c + ";";
                     }
-
                     break;
             }
 
@@ -1756,10 +1692,8 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
     protected int defaultMaximumAllowedCharacter() {
         String encoding = format.getEncoding();
 
-        if (encoding != null) {
-            if (encoding.equals("US-ASCII")) {
-                return 127;
-            }
+        if ("US-ASCII".equals(encoding)) {
+            return 127;
         }
 
         // no encoding for things like ISO-*, UTF-8 or UTF-16
@@ -1770,10 +1704,8 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
         if ((ns != null) && (ns != Namespace.XML_NAMESPACE)) {
             String uri = ns.getURI();
 
-            if (uri != null) {
-                if (!namespaceStack.contains(ns)) {
-                    return true;
-                }
+            if (uri != null && !namespaceStack.contains(ns)) {
+                return true;
             }
         }
 
