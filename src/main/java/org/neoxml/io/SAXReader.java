@@ -77,6 +77,8 @@ public class SAXReader {
     private static final String SAX_LEXICAL_HANDLER = "http://xml.org/sax/properties/lexical-handler";
     private static final String SAX_LEXICALHANDLER = "http://xml.org/sax/handlers/LexicalHandler";
 
+    private static final String SAX_DISALLOW_DOCTYPE_DECL = "http://apache.org/xml/features/disallow-doctype-decl";
+
     /**
      * <code>DefaultDocumentFactory</code> used to create new document objects
      */
@@ -147,9 +149,6 @@ public class SAXReader {
      */
     private String encoding = null;
 
-    // private boolean includeExternalGeneralEntities = false;
-    // private boolean includeExternalParameterEntities = false;
-
     private boolean configured = false;
 
     /**
@@ -157,41 +156,48 @@ public class SAXReader {
      */
     private XMLFilter xmlFilter;
 
-    public SAXReader() {}
+    public SAXReader() {
+        try {
+            setFeature(SAX_DISALLOW_DOCTYPE_DECL, true);
+        } catch (SAXException e) {
+            // ignore if not supported
+        }
+    }
 
     public SAXReader(boolean validating) {
+        this();
         this.validating = validating;
     }
 
     public SAXReader(DocumentFactory factory) {
-        this.factory = factory;
+        this(factory, false);
     }
 
     public SAXReader(DocumentFactory factory, boolean validating) {
+        this();
         this.factory = factory;
         this.validating = validating;
     }
 
     public SAXReader(XMLReader xmlReader) {
-        this.xmlReader = xmlReader;
+        this(xmlReader, false);
     }
 
     public SAXReader(XMLReader xmlReader, boolean validating) {
+        this();
         this.xmlReader = xmlReader;
         this.validating = validating;
     }
 
     public SAXReader(String xmlReaderClassName) throws SAXException {
-        if (xmlReaderClassName != null) {
-            this.xmlReader = XMLReaderFactory.createXMLReader(xmlReaderClassName);
-        }
+        this(xmlReaderClassName, false);
     }
 
     public SAXReader(String xmlReaderClassName, boolean validating) throws SAXException {
+        this();
         if (xmlReaderClassName != null) {
             this.xmlReader = XMLReaderFactory.createXMLReader(xmlReaderClassName);
         }
-
         this.validating = validating;
     }
 

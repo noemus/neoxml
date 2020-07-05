@@ -9,10 +9,10 @@ package org.neoxml.io;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXNotRecognizedException;
-import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
+
+import javax.xml.XMLConstants;
 
 /**
  * <p>
@@ -23,38 +23,28 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * @version $Revision: 1.18 $
  */
 class SAXHelper {
-    private static final boolean verbose = isVerboseErrorReporting();
+    private static final boolean VERBOSE = isVerboseErrorReporting();
     private static boolean loggedWarning = true;
 
     protected SAXHelper() {}
 
-    public static boolean setParserProperty(XMLReader reader,
-                                            String propertyName, Object value) {
+    public static boolean setParserProperty(XMLReader reader, String propertyName, Object value) {
         try {
             reader.setProperty(propertyName, value);
-
             return true;
-        } catch (SAXNotSupportedException e) {
-            // ignore
-        } catch (SAXNotRecognizedException e) {
-            // ignore
+        } catch (SAXException e) {
+            // ignore if not supported
         }
-
         return false;
     }
 
-    public static boolean setParserFeature(XMLReader reader,
-                                           String featureName, boolean value) {
+    public static boolean setParserFeature(XMLReader reader, String featureName, boolean value) {
         try {
             reader.setFeature(featureName, value);
-
             return true;
-        } catch (SAXNotSupportedException e) {
-            // ignore
-        } catch (SAXNotRecognizedException e) {
-            // ignore
+        } catch (SAXException e) {
+            // ignore if not supported
         }
-
         return false;
     }
 
@@ -73,7 +63,7 @@ class SAXHelper {
             try {
                 reader = XMLReaderFactory.createXMLReader();
             } catch (Exception e) {
-                if (verbose || log.isInfoEnabled()) {
+                if (VERBOSE || log.isInfoEnabled()) {
                     // log all exceptions as warnings and carry
                     // on as we have a default SAX parser we can use
                     log.warn("Caught exception attempting to use SAX to load a SAX XMLReader ");
@@ -82,6 +72,13 @@ class SAXHelper {
                 }
 
                 throw new SAXException(e);
+            }
+
+            try {
+                reader.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+                reader.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+            } catch (SAXException e) {
+                // ignore if not supported
             }
         }
 
@@ -109,7 +106,7 @@ class SAXHelper {
             if (!loggedWarning) {
                 loggedWarning = true;
 
-                if (verbose || log.isInfoEnabled()) {
+                if (VERBOSE || log.isInfoEnabled()) {
                     // log all exceptions as warnings and carry
                     // on as we have a default SAX parser we can use
                     log.warn("Warning: Caught exception attempting to use JAXP to load a SAX XMLReader");
@@ -123,8 +120,7 @@ class SAXHelper {
 
     static boolean isVerboseErrorReporting() {
         try {
-            String flag = System.getProperty("org.neoxml.verbose");
-            return (flag != null) && flag.equalsIgnoreCase("true");
+            return "true".equalsIgnoreCase(System.getProperty("org.neoxml.verbose"));
         } catch (Exception e) {
             // in case a security exception
             // happens in an applet or similar JVM

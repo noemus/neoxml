@@ -6,10 +6,15 @@
 
 package org.neoxml.io;
 
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.XMLReader;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
@@ -32,21 +37,36 @@ class JAXPHelper {
      * @param validating     DOCUMENT ME!
      * @param namespaceAware DOCUMENT ME!
      * @return DOCUMENT ME!
-     * @throws Exception DOCUMENT ME!
+     * @throws ParserConfigurationException DOCUMENT ME!
+     * @throws SAXException DOCUMENT ME!
      */
-    public static XMLReader createXMLReader(boolean validating, boolean namespaceAware) throws Exception {
+    public static XMLReader createXMLReader(boolean validating, boolean namespaceAware) throws ParserConfigurationException, SAXException {
         SAXParserFactory factory = SAXParserFactory.newInstance();
+        factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true); // Compliant
+
         factory.setValidating(validating);
         factory.setNamespaceAware(namespaceAware);
 
         SAXParser parser = factory.newSAXParser();
+        try {
+            parser.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            parser.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+        } catch (SAXNotRecognizedException | SAXNotSupportedException e) {
+            // ignore if not supported
+        }
 
         return parser.getXMLReader();
     }
 
-    public static org.w3c.dom.Document createDocument(boolean validating,
-                                                      boolean namespaceAware) throws Exception {
+    public static org.w3c.dom.Document createDocument(boolean validating, boolean namespaceAware) throws ParserConfigurationException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        try {
+            factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+        } catch (IllegalArgumentException e) {
+            // ignore if not supported
+        }
+
         factory.setValidating(validating);
         factory.setNamespaceAware(namespaceAware);
 
