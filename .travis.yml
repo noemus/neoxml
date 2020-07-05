@@ -7,5 +7,4 @@ env:
 
 script:
   # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-  - mvn clean verify
-  - mvn sonar:sonar -Dsonar.organization=noemus -Dsonar.projectKey=noemus_neoxml -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
+  - mvn clean sonar:sonar verify -Pcoverage

@@ -8,7 +8,7 @@ package org.neoxml.io;
 
 /**
  * <p>
- * <code>OutputFormat</code> represents the format configuration used by {@linkXMLWriter}and its base classes to format
+ * <code>OutputFormat</code> represents the format configuration used by {@link XMLWriter}and its base classes to format
  * the XML output
  * </p>
  *
