@@ -38,8 +38,7 @@ public class AbstractTestCase extends Assert {
         return getDocument(path, new SAXReader());
     }
 
-    protected Document getDocument(String path, SAXReader reader)
-            throws Exception {
+    protected Document getDocument(String path, SAXReader reader) throws Exception {
         return reader.read(getFile(path));
     }
 

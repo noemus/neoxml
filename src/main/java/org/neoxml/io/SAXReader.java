@@ -77,8 +77,6 @@ public class SAXReader {
     private static final String SAX_LEXICAL_HANDLER = "http://xml.org/sax/properties/lexical-handler";
     private static final String SAX_LEXICALHANDLER = "http://xml.org/sax/handlers/LexicalHandler";
 
-    private static final String SAX_DISALLOW_DOCTYPE_DECL = "http://apache.org/xml/features/disallow-doctype-decl";
-
     /**
      * <code>DefaultDocumentFactory</code> used to create new document objects
      */
@@ -156,16 +154,9 @@ public class SAXReader {
      */
     private XMLFilter xmlFilter;
 
-    public SAXReader() {
-        try {
-            setFeature(SAX_DISALLOW_DOCTYPE_DECL, true);
-        } catch (SAXException e) {
-            // ignore if not supported
-        }
-    }
+    public SAXReader() {}
 
     public SAXReader(boolean validating) {
-        this();
         this.validating = validating;
     }
 
@@ -174,7 +165,6 @@ public class SAXReader {
     }
 
     public SAXReader(DocumentFactory factory, boolean validating) {
-        this();
         this.factory = factory;
         this.validating = validating;
     }
@@ -184,7 +174,6 @@ public class SAXReader {
     }
 
     public SAXReader(XMLReader xmlReader, boolean validating) {
-        this();
         this.xmlReader = xmlReader;
         this.validating = validating;
     }
@@ -194,7 +183,6 @@ public class SAXReader {
     }
 
     public SAXReader(String xmlReaderClassName, boolean validating) throws SAXException {
-        this();
         if (xmlReaderClassName != null) {
             this.xmlReader = XMLReaderFactory.createXMLReader(xmlReaderClassName);
         }

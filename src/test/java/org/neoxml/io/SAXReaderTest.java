@@ -11,6 +11,7 @@ import org.neoxml.AbstractTestCase;
 import org.neoxml.Document;
 import org.neoxml.DocumentHelper;
 import org.neoxml.Element;
+import org.neoxml.Node;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -87,15 +88,14 @@ public class SAXReaderTest extends AbstractTestCase {
     @Test
     public void testBug527062() throws Exception {
         Document doc = getDocument("/src/test/xml/test/test.xml");
-        List l = doc.selectNodes("//broked/junk");
+        List<Node> nodes = doc.selectNodes("//broked/junk");
 
-        for (int i = 0; i < l.size(); i++) {
-            System.out.println("Found node: "
-                                       + ((Element) l.get(i)).getStringValue());
+        for (Node node : nodes) {
+            System.out.println("Found node: " + node.getStringValue());
         }
 
-        assertEquals("hi there", ((Element) l.get(0)).getStringValue());
-        assertEquals("hello world", ((Element) l.get(1)).getStringValue());
+        assertEquals("hi there", nodes.get(0).getStringValue());
+        assertEquals("hello world", nodes.get(1).getStringValue());
     }
 
     @Test

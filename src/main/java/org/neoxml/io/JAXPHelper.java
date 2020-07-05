@@ -42,8 +42,6 @@ class JAXPHelper {
      */
     public static XMLReader createXMLReader(boolean validating, boolean namespaceAware) throws ParserConfigurationException, SAXException {
         SAXParserFactory factory = SAXParserFactory.newInstance();
-        factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true); // Compliant
-
         factory.setValidating(validating);
         factory.setNamespaceAware(namespaceAware);
 
@@ -51,7 +49,7 @@ class JAXPHelper {
         try {
             parser.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
             parser.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
-        } catch (SAXNotRecognizedException | SAXNotSupportedException e) {
+        } catch (SAXException e) {
             // ignore if not supported
         }
 
