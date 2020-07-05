@@ -21,34 +21,33 @@ import java.io.Writer;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.10 $
  */
-public abstract class AbstractText extends AbstractCharacterData implements Text
-{
-  public AbstractText() {}
+public abstract class AbstractText extends AbstractCharacterData implements Text {
+    public AbstractText() {}
 
-  @Override
-  public NodeType getNodeTypeEnum() {
-    return NodeType.TEXT_NODE;
-  }
+    @Override
+    public NodeType getNodeTypeEnum() {
+        return NodeType.TEXT_NODE;
+    }
 
-  @Override
-  public String toString() {
-    return super.toString() + " [Text: \"" + getText() + "\"]";
-  }
+    @Override
+    public String toString() {
+        return super.toString() + " [Text: \"" + getText() + "\"]";
+    }
 
-  @Override
-  public String asXML() {
-    return getText();
-  }
+    @Override
+    public String asXML() {
+        return getText();
+    }
 
-  @Override
-  public void write(Writer writer) throws IOException {
-    writer.write(getText());
-  }
+    @Override
+    public void write(Writer writer) throws IOException {
+        writer.write(getText());
+    }
 
-  @Override
-  public boolean accept(Visitor visitor) {
-    return visitor.visit(this);
-  }
+    @Override
+    public boolean accept(Visitor visitor) {
+        return visitor.visit(this);
+    }
 }
 
 /*

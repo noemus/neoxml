@@ -6,7 +6,12 @@
 
 package org.neoxml.bean;
 
-import org.neoxml.*;
+import org.neoxml.Attribute;
+import org.neoxml.DefaultDocumentFactory;
+import org.neoxml.DocumentFactory;
+import org.neoxml.Element;
+import org.neoxml.Namespace;
+import org.neoxml.QName;
 import org.neoxml.tree.DefaultElement;
 import org.neoxml.tree.NamespaceStack;
 import org.xml.sax.Attributes;
@@ -21,152 +26,149 @@ import java.util.List;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.15 $
  */
-public class BeanElement extends DefaultElement
-{
-  /**
-   * The <code>DefaultDocumentFactory</code> instance used by default
-   */
-  private static final DocumentFactory DOCUMENT_FACTORY = DefaultDocumentFactory.getInstance();
+public class BeanElement extends DefaultElement {
+    /**
+     * The <code>DefaultDocumentFactory</code> instance used by default
+     */
+    private static final DocumentFactory DOCUMENT_FACTORY = DefaultDocumentFactory.getInstance();
 
-  /**
-   * The JavaBean which defines my attributes
-   */
-  private Object bean;
+    /**
+     * The JavaBean which defines my attributes
+     */
+    private Object bean;
 
-  public BeanElement(String name, Object bean) {
-    this(DOCUMENT_FACTORY.createQName(name), bean);
-  }
-
-  public BeanElement(String name, Namespace namespace, Object bean) {
-    this(DOCUMENT_FACTORY.createQName(name, namespace), bean);
-  }
-
-  public BeanElement(QName qname, Object bean) {
-    super(qname);
-    this.bean = bean;
-  }
-
-  public BeanElement(QName qname) {
-    super(qname);
-  }
-
-  /**
-   * DOCUMENT ME!
-   *
-   * @return the JavaBean associated with this element
-   */
-  @Override
-  public Object getData() {
-    return bean;
-  }
-
-  @Override
-  public void setData(Object data) {
-    this.bean = data;
-
-    // force the attributeList to be lazily
-    // created next time an attribute related
-    // method is called again.
-    this.attributes = null;
-  }
-
-  @Override
-  public Attribute attribute(String name) {
-    return getBeanAttributeList().attribute(name);
-  }
-
-  @Override
-  public Attribute attribute(QName qName) {
-    return getBeanAttributeList().attribute(qName);
-  }
-
-  @Override
-  public Element addAttribute(String name, String value) {
-    Attribute attribute = attribute(name);
-
-    if (attribute != null) {
-      attribute.setValue(value);
+    public BeanElement(String name, Object bean) {
+        this(DOCUMENT_FACTORY.createQName(name), bean);
     }
 
-    return this;
-  }
-
-  @Override
-  public Element addAttribute(QName qName, String value) {
-    Attribute attribute = attribute(qName);
-
-    if (attribute != null) {
-      attribute.setValue(value);
+    public BeanElement(String name, Namespace namespace, Object bean) {
+        this(DOCUMENT_FACTORY.createQName(name, namespace), bean);
     }
 
-    return this;
-  }
+    public BeanElement(QName qname, Object bean) {
+        super(qname);
+        this.bean = bean;
+    }
 
-  @Override
-  public void setAttributes(List<Attribute> attributes) {
-    if (attributes != null) {
-      for (Attribute attr :  attributes) {
-        final String attrName = attr.getName();
-        
-        if (!"class".equalsIgnoreCase(attrName)) {
-          addAttribute(attrName, attr.getValue());
+    public BeanElement(QName qname) {
+        super(qname);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return the JavaBean associated with this element
+     */
+    @Override
+    public Object getData() {
+        return bean;
+    }
+
+    @Override
+    public void setData(Object data) {
+        this.bean = data;
+
+        // force the attributeList to be lazily
+        // created next time an attribute related
+        // method is called again.
+        this.attributes = null;
+    }
+
+    @Override
+    public Attribute attribute(String name) {
+        return getBeanAttributeList().attribute(name);
+    }
+
+    @Override
+    public Attribute attribute(QName qName) {
+        return getBeanAttributeList().attribute(qName);
+    }
+
+    @Override
+    public Element addAttribute(String name, String value) {
+        Attribute attribute = attribute(name);
+
+        if (attribute != null) {
+            attribute.setValue(value);
         }
-      }
+
+        return this;
     }
-  }
 
-  // Method overridden from AbstractElement
+    @Override
+    public Element addAttribute(QName qName, String value) {
+        Attribute attribute = attribute(qName);
 
-  @Override
-  public void setAttributes(Attributes attributes, NamespaceStack namespaceStack, boolean noNamespaceAttributes) {
-    String className = attributes.getValue("class");
-
-    if (className != null) {
-      try {
-        Class<?> beanClass = Class.forName(className, true, BeanElement.class.getClassLoader());
-
-        // clears attributes
-        this.setData(beanClass.newInstance());
-
-        for (int i = 0; i < attributes.getLength(); i++) {
-          String attributeName = attributes.getLocalName(i);
-
-          if (!"class".equalsIgnoreCase(attributeName)) {
-            addAttribute(attributeName, attributes.getValue(i));
-          }
+        if (attribute != null) {
+            attribute.setValue(value);
         }
-      }
-      catch (Exception ex) {
-        // What to do here?
-        ((BeanDocumentFactory)this.getDocumentFactory()).handleException(ex);
-      }
+
+        return this;
     }
-    else {
-      super.setAttributes(attributes, namespaceStack, noNamespaceAttributes);
+
+    @Override
+    public void setAttributes(List<Attribute> attributes) {
+        if (attributes != null) {
+            for (Attribute attr : attributes) {
+                final String attrName = attr.getName();
+
+                if (!"class".equalsIgnoreCase(attrName)) {
+                    addAttribute(attrName, attr.getValue());
+                }
+            }
+        }
     }
-  }
 
-  // Implementation methods
-  // -------------------------------------------------------------------------
+    // Method overridden from AbstractElement
 
-  @Override
-  protected DocumentFactory getDocumentFactory() {
-    return DOCUMENT_FACTORY;
-  }
+    @Override
+    public void setAttributes(Attributes attributes, NamespaceStack namespaceStack, boolean noNamespaceAttributes) {
+        String className = attributes.getValue("class");
 
-  protected BeanAttributeList getBeanAttributeList() {
-    return attributeList();
-  }
+        if (className != null) {
+            try {
+                Class<?> beanClass = Class.forName(className, true, BeanElement.class.getClassLoader());
 
-  protected BeanAttributeList beanAttributes;
+                // clears attributes
+                this.setData(beanClass.newInstance());
 
-  @Override
-  protected BeanAttributeList attributeList() {
-    if (beanAttributes == null) {
-      beanAttributes = new BeanAttributeList(this);
+                for (int i = 0; i < attributes.getLength(); i++) {
+                    String attributeName = attributes.getLocalName(i);
+
+                    if (!"class".equalsIgnoreCase(attributeName)) {
+                        addAttribute(attributeName, attributes.getValue(i));
+                    }
+                }
+            } catch (Exception ex) {
+                // What to do here?
+                ((BeanDocumentFactory) this.getDocumentFactory()).handleException(ex);
+            }
+        } else {
+            super.setAttributes(attributes, namespaceStack, noNamespaceAttributes);
+        }
     }
-    return beanAttributes;
-  }
+
+    // Implementation methods
+    // -------------------------------------------------------------------------
+
+    @Override
+    protected DocumentFactory getDocumentFactory() {
+        return DOCUMENT_FACTORY;
+    }
+
+    protected BeanAttributeList getBeanAttributeList() {
+        return attributeList();
+    }
+
+    protected BeanAttributeList beanAttributes;
+
+    @Override
+    protected BeanAttributeList attributeList() {
+        if (beanAttributes == null) {
+            beanAttributes = new BeanAttributeList(this);
+        }
+        return beanAttributes;
+    }
 }
 
 /*

@@ -19,30 +19,29 @@ import org.neoxml.tree.DefaultAttribute;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.8 $
  */
-public class UserDataAttribute extends DefaultAttribute
-{
-  /**
-   * The user data object
-   */
-  private Object data;
+public class UserDataAttribute extends DefaultAttribute {
+    /**
+     * The user data object
+     */
+    private Object data;
 
-  public UserDataAttribute(QName qname) {
-    super(qname);
-  }
+    public UserDataAttribute(QName qname) {
+        super(qname);
+    }
 
-  public UserDataAttribute(QName qname, String text) {
-    super(qname, text);
-  }
+    public UserDataAttribute(QName qname, String text) {
+        super(qname, text);
+    }
 
-  @Override
-  public Object getData() {
-    return data;
-  }
+    @Override
+    public Object getData() {
+        return data;
+    }
 
-  @Override
-  public void setData(Object data) {
-    this.data = data;
-  }
+    @Override
+    public void setData(Object data) {
+        this.data = data;
+    }
 }
 
 /*

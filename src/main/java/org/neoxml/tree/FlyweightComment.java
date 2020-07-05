@@ -21,31 +21,30 @@ import org.neoxml.Node;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.7 $
  */
-public class FlyweightComment extends AbstractComment
-{
-  /**
-   * Text of the <code>Comment</code> node
-   */
-  protected String text;
+public class FlyweightComment extends AbstractComment {
+    /**
+     * Text of the <code>Comment</code> node
+     */
+    protected String text;
 
-  /**
-   * DOCUMENT ME!
-   *
-   * @param text is the Comment text
-   */
-  public FlyweightComment(String text) {
-    this.text = text;
-  }
+    /**
+     * DOCUMENT ME!
+     *
+     * @param text is the Comment text
+     */
+    public FlyweightComment(String text) {
+        this.text = text;
+    }
 
-  @Override
-  public String getText() {
-    return text;
-  }
+    @Override
+    public String getText() {
+        return text;
+    }
 
-  @Override
-  protected Node createXPathResult(Element parent) {
-    return new DefaultComment(parent, getText());
-  }
+    @Override
+    protected Node createXPathResult(Element parent) {
+        return new DefaultComment(parent, getText());
+    }
 }
 
 /*

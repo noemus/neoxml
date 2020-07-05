@@ -18,280 +18,276 @@ import org.neoxml.NodeType;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.7 $
  */
-public class Rule implements Comparable<Rule>
-{
-  /**
-   * Holds value of property mode.
-   */
-  private String mode;
+public class Rule implements Comparable<Rule> {
+    /**
+     * Holds value of property mode.
+     */
+    private String mode;
 
-  /**
-   * Holds value of property importPrecedence.
-   */
-  private int importPrecedence;
+    /**
+     * Holds value of property importPrecedence.
+     */
+    private int importPrecedence;
 
-  /**
-   * Holds value of property priority.
-   */
-  private double priority;
+    /**
+     * Holds value of property priority.
+     */
+    private double priority;
 
-  /**
-   * Holds value of property appearenceCount.
-   */
-  private int appearenceCount;
+    /**
+     * Holds value of property appearenceCount.
+     */
+    private int appearenceCount;
 
-  /**
-   * Holds value of property pattern.
-   */
-  private Pattern pattern;
+    /**
+     * Holds value of property pattern.
+     */
+    private Pattern pattern;
 
-  /**
-   * Holds value of property action.
-   */
-  private Action action;
+    /**
+     * Holds value of property action.
+     */
+    private Action action;
 
-  public Rule() {
-    this.priority = Pattern.DEFAULT_PRIORITY;
-  }
-
-  public Rule(Pattern pattern) {
-    this.pattern = pattern;
-    this.priority = pattern.getPriority();
-  }
-
-  public Rule(Pattern pattern, Action action) {
-    this(pattern);
-    this.action = action;
-  }
-
-  /**
-   * Constructs a new Rule with the same instance data as the given rule but a
-   * different pattern.
-   *
-   * @param that DOCUMENT ME!
-   * @param pattern DOCUMENT ME!
-   */
-  public Rule(Rule that, Pattern pattern) {
-    this.mode = that.mode;
-    this.importPrecedence = that.importPrecedence;
-    this.priority = that.priority;
-    this.appearenceCount = that.appearenceCount;
-    this.action = that.action;
-    this.pattern = pattern;
-  }
-
-  @Override
-  public boolean equals(Object that) {
-    if (that instanceof Rule) {
-      return compareTo((Rule)that) == 0;
+    public Rule() {
+        this.priority = Pattern.DEFAULT_PRIORITY;
     }
 
-    return false;
-  }
-
-  @Override
-  public int hashCode() {
-    return importPrecedence + appearenceCount;
-  }
-
-  /**
-   * Compares two rules in XSLT processing model order assuming that the modes
-   * are equal.
-   *
-   * @param that DOCUMENT ME!
-   * @return DOCUMENT ME!
-   */
-  @Override
-  public int compareTo(Rule that) {
-    final int answer;
-    
-    if (this.importPrecedence != that.importPrecedence) {
-      answer = this.importPrecedence < that.importPrecedence ? -1 : 1;
-    }
-    else if (this.priority != that.priority) {
-      answer = this.priority < that.priority ? -1 : 1;
-    }
-    else if (this.appearenceCount != that.appearenceCount) {
-      answer = this.appearenceCount < that.appearenceCount ? -1 : 1;
-    }
-    else {
-      answer = 0;
+    public Rule(Pattern pattern) {
+        this.pattern = pattern;
+        this.priority = pattern.getPriority();
     }
 
-    return answer;
-  }
-
-  @Override
-  public String toString() {
-    return super.toString() + "[ pattern: " + getPattern() + " action: " + getAction() + " ]";
-  }
-
-  /**
-   * DOCUMENT ME!
-   *
-   * @param node DOCUMENT ME!
-   * @return true if the pattern matches the given neoxml node.
-   */
-  public final boolean matches(Node node) {
-    return pattern.matches(node);
-  }
-
-  /**
-   * If this rule contains a union pattern then this method should return an
-   * array of Rules which describe the union rule, which should contain more
-   * than one rule. Otherwise this method should return null.
-   *
-   * @return an array of the rules which make up this union rule or null if
-   *         this rule is not a union rule
-   */
-  public Rule[] getUnionRules() {
-    final Pattern[] patterns = pattern.getUnionPatterns();
-
-    if (patterns == null) {
-      return null;
+    public Rule(Pattern pattern, Action action) {
+        this(pattern);
+        this.action = action;
     }
 
-    final int size = patterns.length;
-    final Rule[] answer = new Rule[size];
-
-    for (int i = 0; i < size; i++) {
-      answer[i] = new Rule(this, patterns[i]);
+    /**
+     * Constructs a new Rule with the same instance data as the given rule but a
+     * different pattern.
+     *
+     * @param that    DOCUMENT ME!
+     * @param pattern DOCUMENT ME!
+     */
+    public Rule(Rule that, Pattern pattern) {
+        this.mode = that.mode;
+        this.importPrecedence = that.importPrecedence;
+        this.priority = that.priority;
+        this.appearenceCount = that.appearenceCount;
+        this.action = that.action;
+        this.pattern = pattern;
     }
 
-    return answer;
-  }
+    @Override
+    public boolean equals(Object that) {
+        if (that instanceof Rule) {
+            return compareTo((Rule) that) == 0;
+        }
 
-  /**
-   * DOCUMENT ME!
-   *
-   * @return the type of node the pattern matches which by default should
-   *         return ANY_NODE if it can match any kind of node.
-   */
-  public final NodeType getMatchType() {
-    return pattern.getMatchType();
-  }
+        return false;
+    }
 
-  /**
-   * For patterns which only match an ATTRIBUTE_NODE or an ELEMENT_NODE then
-   * this pattern may return the name of the element or attribute it matches.
-   * This allows a more efficient rule matching algorithm to be performed,
-   * rather than a brute force approach of evaluating every pattern for a
-   * given Node.
-   *
-   * @return the name of the element or attribute this pattern matches or null
-   *         if this pattern matches any or more than one name.
-   */
-  public final String getMatchesNodeName() {
-    return pattern.getMatchesNodeName();
-  }
+    @Override
+    public int hashCode() {
+        return importPrecedence + appearenceCount;
+    }
 
-  /**
-   * Getter for property mode.
-   *
-   * @return Value of property mode.
-   */
-  public String getMode() {
-    return mode;
-  }
+    /**
+     * Compares two rules in XSLT processing model order assuming that the modes
+     * are equal.
+     *
+     * @param that DOCUMENT ME!
+     * @return DOCUMENT ME!
+     */
+    @Override
+    public int compareTo(Rule that) {
+        final int answer;
 
-  /**
-   * Setter for property mode.
-   *
-   * @param mode New value of property mode.
-   */
-  public void setMode(String mode) {
-    this.mode = mode;
-  }
+        if (this.importPrecedence != that.importPrecedence) {
+            answer = this.importPrecedence < that.importPrecedence ? -1 : 1;
+        } else if (this.priority != that.priority) {
+            answer = this.priority < that.priority ? -1 : 1;
+        } else if (this.appearenceCount != that.appearenceCount) {
+            answer = this.appearenceCount < that.appearenceCount ? -1 : 1;
+        } else {
+            answer = 0;
+        }
 
-  /**
-   * Getter for property importPrecedence.
-   *
-   * @return Value of property importPrecedence.
-   */
-  public int getImportPrecedence() {
-    return importPrecedence;
-  }
+        return answer;
+    }
 
-  /**
-   * Setter for property importPrecedence.
-   *
-   * @param importPrecedence New value of property importPrecedence.
-   */
-  public void setImportPrecedence(int importPrecedence) {
-    this.importPrecedence = importPrecedence;
-  }
+    @Override
+    public String toString() {
+        return super.toString() + "[ pattern: " + getPattern() + " action: " + getAction() + " ]";
+    }
 
-  /**
-   * Getter for property priority.
-   *
-   * @return Value of property priority.
-   */
-  public double getPriority() {
-    return priority;
-  }
+    /**
+     * DOCUMENT ME!
+     *
+     * @param node DOCUMENT ME!
+     * @return true if the pattern matches the given neoxml node.
+     */
+    public final boolean matches(Node node) {
+        return pattern.matches(node);
+    }
 
-  /**
-   * Setter for property priority.
-   *
-   * @param priority New value of property priority.
-   */
-  public void setPriority(double priority) {
-    this.priority = priority;
-  }
+    /**
+     * If this rule contains a union pattern then this method should return an
+     * array of Rules which describe the union rule, which should contain more
+     * than one rule. Otherwise this method should return null.
+     *
+     * @return an array of the rules which make up this union rule or null if
+     * this rule is not a union rule
+     */
+    public Rule[] getUnionRules() {
+        final Pattern[] patterns = pattern.getUnionPatterns();
 
-  /**
-   * Getter for property appearenceCount.
-   *
-   * @return Value of property appearenceCount.
-   */
-  public int getAppearenceCount() {
-    return appearenceCount;
-  }
+        if (patterns == null) {
+            return null;
+        }
 
-  /**
-   * Setter for property appearenceCount.
-   *
-   * @param appearenceCount New value of property appearenceCount.
-   */
-  public void setAppearenceCount(int appearenceCount) {
-    this.appearenceCount = appearenceCount;
-  }
+        final int size = patterns.length;
+        final Rule[] answer = new Rule[size];
 
-  /**
-   * Getter for property pattern.
-   *
-   * @return Value of property pattern.
-   */
-  public Pattern getPattern() {
-    return pattern;
-  }
+        for (int i = 0; i < size; i++) {
+            answer[i] = new Rule(this, patterns[i]);
+        }
 
-  /**
-   * Setter for property pattern.
-   *
-   * @param pattern New value of property pattern.
-   */
-  public void setPattern(Pattern pattern) {
-    this.pattern = pattern;
-  }
+        return answer;
+    }
 
-  /**
-   * Getter for property action.
-   *
-   * @return Value of property action.
-   */
-  public Action getAction() {
-    return action;
-  }
+    /**
+     * DOCUMENT ME!
+     *
+     * @return the type of node the pattern matches which by default should
+     * return ANY_NODE if it can match any kind of node.
+     */
+    public final NodeType getMatchType() {
+        return pattern.getMatchType();
+    }
 
-  /**
-   * Setter for property action.
-   *
-   * @param action New value of property action.
-   */
-  public void setAction(Action action) {
-    this.action = action;
-  }
+    /**
+     * For patterns which only match an ATTRIBUTE_NODE or an ELEMENT_NODE then
+     * this pattern may return the name of the element or attribute it matches.
+     * This allows a more efficient rule matching algorithm to be performed,
+     * rather than a brute force approach of evaluating every pattern for a
+     * given Node.
+     *
+     * @return the name of the element or attribute this pattern matches or null
+     * if this pattern matches any or more than one name.
+     */
+    public final String getMatchesNodeName() {
+        return pattern.getMatchesNodeName();
+    }
+
+    /**
+     * Getter for property mode.
+     *
+     * @return Value of property mode.
+     */
+    public String getMode() {
+        return mode;
+    }
+
+    /**
+     * Setter for property mode.
+     *
+     * @param mode New value of property mode.
+     */
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
+
+    /**
+     * Getter for property importPrecedence.
+     *
+     * @return Value of property importPrecedence.
+     */
+    public int getImportPrecedence() {
+        return importPrecedence;
+    }
+
+    /**
+     * Setter for property importPrecedence.
+     *
+     * @param importPrecedence New value of property importPrecedence.
+     */
+    public void setImportPrecedence(int importPrecedence) {
+        this.importPrecedence = importPrecedence;
+    }
+
+    /**
+     * Getter for property priority.
+     *
+     * @return Value of property priority.
+     */
+    public double getPriority() {
+        return priority;
+    }
+
+    /**
+     * Setter for property priority.
+     *
+     * @param priority New value of property priority.
+     */
+    public void setPriority(double priority) {
+        this.priority = priority;
+    }
+
+    /**
+     * Getter for property appearenceCount.
+     *
+     * @return Value of property appearenceCount.
+     */
+    public int getAppearenceCount() {
+        return appearenceCount;
+    }
+
+    /**
+     * Setter for property appearenceCount.
+     *
+     * @param appearenceCount New value of property appearenceCount.
+     */
+    public void setAppearenceCount(int appearenceCount) {
+        this.appearenceCount = appearenceCount;
+    }
+
+    /**
+     * Getter for property pattern.
+     *
+     * @return Value of property pattern.
+     */
+    public Pattern getPattern() {
+        return pattern;
+    }
+
+    /**
+     * Setter for property pattern.
+     *
+     * @param pattern New value of property pattern.
+     */
+    public void setPattern(Pattern pattern) {
+        this.pattern = pattern;
+    }
+
+    /**
+     * Getter for property action.
+     *
+     * @return Value of property action.
+     */
+    public Action getAction() {
+        return action;
+    }
+
+    /**
+     * Setter for property action.
+     *
+     * @param action New value of property action.
+     */
+    public void setAction(Action action) {
+        this.action = action;
+    }
 }
 
 /*

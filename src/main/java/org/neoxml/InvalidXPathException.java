@@ -14,15 +14,14 @@ package org.neoxml;
  * @version $Revision: 1.6 $
  */
 @SuppressWarnings("serial")
-public class InvalidXPathException extends IllegalArgumentException
-{
-  public InvalidXPathException(String xpath) {
-    super("Invalid XPath expression: " + xpath);
-  }
+public class InvalidXPathException extends IllegalArgumentException {
+    public InvalidXPathException(String xpath) {
+        super("Invalid XPath expression: " + xpath);
+    }
 
-  public InvalidXPathException(String xpath, String reason) {
-    super("Invalid XPath expression: " + xpath + " " + reason);
-  }
+    public InvalidXPathException(String xpath, String reason) {
+        super("Invalid XPath expression: " + xpath + " " + reason);
+    }
 }
 
 /*

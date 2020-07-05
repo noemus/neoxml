@@ -17,43 +17,40 @@ package org.neoxml.util;
  * @version $Revision: 1.3 $
  */
 
-public class SimpleSingleton<T> implements SingletonStrategy<T>
-{
-  private String singletonClassName = null;
+public class SimpleSingleton<T> implements SingletonStrategy<T> {
+    private String singletonClassName = null;
 
-  private T singletonInstance = null;
+    private T singletonInstance = null;
 
-  public SimpleSingleton() {}
+    public SimpleSingleton() {}
 
-  @Override
-  public T instance() {
-    return singletonInstance;
-  }
-
-  @SuppressWarnings("unchecked")
-  @Override
-  public void reset() {
-    if (singletonClassName != null) {
-      Class<T> clazz = null;
-      try {
-        clazz = (Class<T>)Thread.currentThread().getContextClassLoader().loadClass(singletonClassName);
-        singletonInstance = clazz.newInstance();
-      }
-      catch (Exception ignore) {
-        try {
-          clazz = (Class<T>)Class.forName(singletonClassName);
-          singletonInstance = clazz.newInstance();
-        }
-        catch (Exception ignore2) {}
-      }
+    @Override
+    public T instance() {
+        return singletonInstance;
     }
-  }
 
-  @Override
-  public void setSingletonClassName(String singletonClassName) {
-    this.singletonClassName = singletonClassName;
-    reset();
-  }
+    @SuppressWarnings("unchecked")
+    @Override
+    public void reset() {
+        if (singletonClassName != null) {
+            Class<T> clazz = null;
+            try {
+                clazz = (Class<T>) Thread.currentThread().getContextClassLoader().loadClass(singletonClassName);
+                singletonInstance = clazz.newInstance();
+            } catch (Exception ignore) {
+                try {
+                    clazz = (Class<T>) Class.forName(singletonClassName);
+                    singletonInstance = clazz.newInstance();
+                } catch (Exception ignore2) {}
+            }
+        }
+    }
+
+    @Override
+    public void setSingletonClassName(String singletonClassName) {
+        this.singletonClassName = singletonClassName;
+        reset();
+    }
 
 }
 

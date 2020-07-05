@@ -19,54 +19,50 @@ import java.lang.ref.WeakReference;
  * @version $Revision: 1.3 $
  */
 
-public class PerThreadSingleton<T> implements SingletonStrategy<T>
-{
-  private String singletonClassName = null;
+public class PerThreadSingleton<T> implements SingletonStrategy<T> {
+    private String singletonClassName = null;
 
-  private final ThreadLocal<WeakReference<T>> perThreadCache = new ThreadLocal<>();
+    private final ThreadLocal<WeakReference<T>> perThreadCache = new ThreadLocal<>();
 
-  public PerThreadSingleton() {}
+    public PerThreadSingleton() {}
 
-  @Override
-  public void reset() {
-    perThreadCache.set(null);
-  }
+    @Override
+    public void reset() {
+        perThreadCache.set(null);
+    }
 
-  @SuppressWarnings("unchecked")
-  @Override
-  public T instance() {
-    T singletonInstancePerThread = null;
+    @SuppressWarnings("unchecked")
+    @Override
+    public T instance() {
+        T singletonInstancePerThread = null;
 
-    // use weak reference to prevent cyclic reference during GC
-    WeakReference<T> ref = perThreadCache.get();
+        // use weak reference to prevent cyclic reference during GC
+        WeakReference<T> ref = perThreadCache.get();
 
-    if (ref == null || ref.get() == null) {
-      Class<T> clazz = null;
-      try {
-        clazz = (Class<T>)Thread.currentThread().getContextClassLoader().loadClass(singletonClassName);
-        singletonInstancePerThread = clazz.newInstance();
-      }
-      catch (Exception ignore) {
-        try {
-          clazz = (Class<T>)Class.forName(singletonClassName);
-          singletonInstancePerThread = clazz.newInstance();
+        if (ref == null || ref.get() == null) {
+            Class<T> clazz = null;
+            try {
+                clazz = (Class<T>) Thread.currentThread().getContextClassLoader().loadClass(singletonClassName);
+                singletonInstancePerThread = clazz.newInstance();
+            } catch (Exception ignore) {
+                try {
+                    clazz = (Class<T>) Class.forName(singletonClassName);
+                    singletonInstancePerThread = clazz.newInstance();
+                } catch (Exception ignore2) {}
+            }
+
+            perThreadCache.set(new WeakReference<>(singletonInstancePerThread));
+        } else {
+            singletonInstancePerThread = ref.get();
         }
-        catch (Exception ignore2) {}
-      }
-      
-      perThreadCache.set(new WeakReference<>(singletonInstancePerThread));
-    }
-    else {
-      singletonInstancePerThread = ref.get();
+
+        return singletonInstancePerThread;
     }
 
-    return singletonInstancePerThread;
-  }
-
-  @Override
-  public void setSingletonClassName(String singletonClassName) {
-    this.singletonClassName = singletonClassName;
-  }
+    @Override
+    public void setSingletonClassName(String singletonClassName) {
+        this.singletonClassName = singletonClassName;
+    }
 }
 
 /*

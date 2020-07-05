@@ -14,24 +14,23 @@ import org.neoxml.AbstractTestCase;
  *
  * @author Maarten Coene
  */
-public class CDataTest extends AbstractTestCase
-{
-  @Test
-  public void testNullTest() {
-    DefaultCDATA cdata = new DefaultCDATA(null);
-    assertEquals("CData not correct", "<![CDATA[]]>", cdata.asXML());
-  }
+public class CDataTest extends AbstractTestCase {
+    @Test
+    public void testNullTest() {
+        DefaultCDATA cdata = new DefaultCDATA(null);
+        assertEquals("CData not correct", "<![CDATA[]]>", cdata.asXML());
+    }
 
-  @Test
-  public void testNormal() {
-    DefaultCDATA cdata = new DefaultCDATA("sample");
-    assertEquals("CData not correct", "<![CDATA[sample]]>", cdata.asXML());
-  }
+    @Test
+    public void testNormal() {
+        DefaultCDATA cdata = new DefaultCDATA("sample");
+        assertEquals("CData not correct", "<![CDATA[sample]]>", cdata.asXML());
+    }
 
-  @Test
-  public void testLongCData() throws Exception {
-    getDocument("xml/test/longCDATA.xml");
-  }
+    @Test
+    public void testLongCData() throws Exception {
+        getDocument("xml/test/longCDATA.xml");
+    }
 }
 
 /*

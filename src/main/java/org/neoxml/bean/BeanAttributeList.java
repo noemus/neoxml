@@ -18,150 +18,149 @@ import org.neoxml.tree.DefaultNodeList;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.9 $
  */
-public class BeanAttributeList extends DefaultNodeList<Attribute>
-{
-  /**
-   * The BeanElement that this
-   */
-  private BeanElement parent;
+public class BeanAttributeList extends DefaultNodeList<Attribute> {
+    /**
+     * The BeanElement that this
+     */
+    private BeanElement parent;
 
-  /**
-   * The BeanElement that this
-   */
-  private BeanMetaData beanMetaData;
+    /**
+     * The BeanElement that this
+     */
+    private BeanMetaData beanMetaData;
 
-  /**
-   * The attributes
-   */
-  private BeanAttribute[] attributes;
+    /**
+     * The attributes
+     */
+    private BeanAttribute[] attributes;
 
-  public BeanAttributeList(BeanElement parent, BeanMetaData beanMetaData) {
-    super(parent);
-    this.parent = parent;
-    
-    this.beanMetaData = beanMetaData;
-    this.attributes = new BeanAttribute[beanMetaData.attributeCount()];
-  }
+    public BeanAttributeList(BeanElement parent, BeanMetaData beanMetaData) {
+        super(parent);
+        this.parent = parent;
 
-  public BeanAttributeList(BeanElement parent) {
-    super(parent);
-    this.parent = parent;
-
-    Object data = parent.getData();
-    Class<?> beanClass = (data != null) ? data.getClass() : null;
-    this.beanMetaData = BeanMetaData.get(beanClass);
-    this.attributes = new BeanAttribute[beanMetaData.attributeCount()];
-  }
-
-  public Attribute attribute(String name) {
-    int index = beanMetaData.getIndex(name);
-
-    return attribute(index);
-  }
-
-  public Attribute attribute(QName qname) {
-    int index = beanMetaData.getIndex(qname);
-
-    return attribute(index);
-  }
-
-  public BeanAttribute attribute(int index) {
-    if ((index >= 0) && (index <= attributes.length)) {
-      BeanAttribute attribute = attributes[index];
-
-      if (attribute == null) {
-        attribute = createAttribute(parent, index);
-        attributes[index] = attribute;
-      }
-
-      return attribute;
+        this.beanMetaData = beanMetaData;
+        this.attributes = new BeanAttribute[beanMetaData.attributeCount()];
     }
 
-    return null;
-  }
+    public BeanAttributeList(BeanElement parent) {
+        super(parent);
+        this.parent = parent;
 
-  @Override
-  public BeanElement getParent() {
-    return parent;
-  }
-
-  public QName getQName(int index) {
-    return beanMetaData.getQName(index);
-  }
-
-  public Object getData(int index) {
-    return beanMetaData.getData(index, parent.getData());
-  }
-
-  public void setData(int index, Object data) {
-    beanMetaData.setData(index, parent.getData(), data);
-  }
-
-  // List interface
-  // -------------------------------------------------------------------------
-
-  @Override
-  public int size() {
-    return attributes.length;
-  }
-
-  @Override
-  public BeanAttribute get(int index) {
-    BeanAttribute attribute = attributes[index];
-
-    if (attribute == null) {
-      attribute = createAttribute(parent, index);
-      attributes[index] = attribute;
+        Object data = parent.getData();
+        Class<?> beanClass = (data != null) ? data.getClass() : null;
+        this.beanMetaData = BeanMetaData.get(beanClass);
+        this.attributes = new BeanAttribute[beanMetaData.attributeCount()];
     }
 
-    return attribute;
-  }
+    public Attribute attribute(String name) {
+        int index = beanMetaData.getIndex(name);
 
-  @Override
-  public boolean add(Attribute object) {
-    throw new UnsupportedOperationException("add(BeanAttribute) unsupported");
-  }
+        return attribute(index);
+    }
 
-  @Override
-  public void add(int index, Attribute object) {
-    throw new UnsupportedOperationException("add(int,BeanAttribute) unsupported");
-  }
+    public Attribute attribute(QName qname) {
+        int index = beanMetaData.getIndex(qname);
 
-  @Override
-  public Attribute set(int index, Attribute object) {
-    throw new UnsupportedOperationException("set(int,BeanAttribute) unsupported");
-  }
+        return attribute(index);
+    }
 
-  @Override
-  public boolean remove(Object object) {
-    return false;
-  }
+    public BeanAttribute attribute(int index) {
+        if ((index >= 0) && (index <= attributes.length)) {
+            BeanAttribute attribute = attributes[index];
 
-  @Override
-  public Attribute remove(int index) {
-    BeanAttribute attribute = get(index);
-    attribute.setValue(null);
+            if (attribute == null) {
+                attribute = createAttribute(parent, index);
+                attributes[index] = attribute;
+            }
 
-    return attribute;
-  }
+            return attribute;
+        }
 
-  @Override
-  public void clear() {
-    for (int i = 0, size = attributes.length; i < size; i++) {
-      BeanAttribute attribute = attributes[i];
+        return null;
+    }
 
-      if (attribute != null) {
+    @Override
+    public BeanElement getParent() {
+        return parent;
+    }
+
+    public QName getQName(int index) {
+        return beanMetaData.getQName(index);
+    }
+
+    public Object getData(int index) {
+        return beanMetaData.getData(index, parent.getData());
+    }
+
+    public void setData(int index, Object data) {
+        beanMetaData.setData(index, parent.getData(), data);
+    }
+
+    // List interface
+    // -------------------------------------------------------------------------
+
+    @Override
+    public int size() {
+        return attributes.length;
+    }
+
+    @Override
+    public BeanAttribute get(int index) {
+        BeanAttribute attribute = attributes[index];
+
+        if (attribute == null) {
+            attribute = createAttribute(parent, index);
+            attributes[index] = attribute;
+        }
+
+        return attribute;
+    }
+
+    @Override
+    public boolean add(Attribute object) {
+        throw new UnsupportedOperationException("add(BeanAttribute) unsupported");
+    }
+
+    @Override
+    public void add(int index, Attribute object) {
+        throw new UnsupportedOperationException("add(int,BeanAttribute) unsupported");
+    }
+
+    @Override
+    public Attribute set(int index, Attribute object) {
+        throw new UnsupportedOperationException("set(int,BeanAttribute) unsupported");
+    }
+
+    @Override
+    public boolean remove(Object object) {
+        return false;
+    }
+
+    @Override
+    public Attribute remove(int index) {
+        BeanAttribute attribute = get(index);
         attribute.setValue(null);
-      }
+
+        return attribute;
     }
-  }
 
-  // Implementation methods
-  // -------------------------------------------------------------------------
+    @Override
+    public void clear() {
+        for (int i = 0, size = attributes.length; i < size; i++) {
+            BeanAttribute attribute = attributes[i];
 
-  protected BeanAttribute createAttribute(BeanElement element, int index) {
-    return new BeanAttribute(this, index);
-  }
+            if (attribute != null) {
+                attribute.setValue(null);
+            }
+        }
+    }
+
+    // Implementation methods
+    // -------------------------------------------------------------------------
+
+    protected BeanAttribute createAttribute(BeanElement element, int index) {
+        return new BeanAttribute(this, index);
+    }
 }
 
 /*

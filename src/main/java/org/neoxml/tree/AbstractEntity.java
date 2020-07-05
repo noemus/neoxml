@@ -22,59 +22,58 @@ import java.io.Writer;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.15 $
  */
-public abstract class AbstractEntity extends AbstractNode implements Entity
-{
-  public AbstractEntity() {}
+public abstract class AbstractEntity extends AbstractNode implements Entity {
+    public AbstractEntity() {}
 
-  @Override
-  public NodeType getNodeTypeEnum() {
-    return NodeType.ENTITY_REFERENCE_NODE;
-  }
+    @Override
+    public NodeType getNodeTypeEnum() {
+        return NodeType.ENTITY_REFERENCE_NODE;
+    }
 
-  @Override
-  public String getPath(Element context) {
-    // From XPaths perspective, entities are included in text
-    Element parent = getParent();
+    @Override
+    public String getPath(Element context) {
+        // From XPaths perspective, entities are included in text
+        Element parent = getParent();
 
-    return ((parent != null) && (parent != context)) ? (parent
-        .getPath(context) + "/text()") : "text()";
-  }
+        return ((parent != null) && (parent != context)) ? (parent
+                .getPath(context) + "/text()") : "text()";
+    }
 
-  @Override
-  public String getUniquePath(Element context) {
-    // From XPaths perspective, entities are included in text
-    Element parent = getParent();
+    @Override
+    public String getUniquePath(Element context) {
+        // From XPaths perspective, entities are included in text
+        Element parent = getParent();
 
-    return ((parent != null) && (parent != context)) ? (parent
-        .getUniquePath(context) + "/text()") : "text()";
-  }
+        return ((parent != null) && (parent != context)) ? (parent
+                .getUniquePath(context) + "/text()") : "text()";
+    }
 
-  @Override
-  public String toString() {
-    return super.toString() + " [Entity: &" + getName() + ";]";
-  }
+    @Override
+    public String toString() {
+        return super.toString() + " [Entity: &" + getName() + ";]";
+    }
 
-  @Override
-  public String getStringValue() {
-    return "&" + getName() + ";";
-  }
+    @Override
+    public String getStringValue() {
+        return "&" + getName() + ";";
+    }
 
-  @Override
-  public String asXML() {
-    return "&" + getName() + ";";
-  }
+    @Override
+    public String asXML() {
+        return "&" + getName() + ";";
+    }
 
-  @Override
-  public void write(Writer writer) throws IOException {
-    writer.write("&");
-    writer.write(getName());
-    writer.write(";");
-  }
+    @Override
+    public void write(Writer writer) throws IOException {
+        writer.write("&");
+        writer.write(getName());
+        writer.write(";");
+    }
 
-  @Override
-  public boolean accept(Visitor visitor) {
-    return visitor.visit(this);
-  }
+    @Override
+    public boolean accept(Visitor visitor) {
+        return visitor.visit(this);
+    }
 }
 
 /*

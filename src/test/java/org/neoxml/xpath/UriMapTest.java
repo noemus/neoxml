@@ -21,33 +21,32 @@ import java.util.Map;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.3 $
  */
-public class UriMapTest extends AbstractTestCase
-{
-  // Test case(s)
-  // -------------------------------------------------------------------------
+public class UriMapTest extends AbstractTestCase {
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testURIMap() throws Exception {
-    Map uris = new HashMap();
-    uris.put("SOAP-ENV", "http://schemas.xmlsoap.org/soap/envelope/");
-    uris.put("m", "urn:xmethodsBabelFish");
+    @Test
+    public void testURIMap() throws Exception {
+        Map uris = new HashMap();
+        uris.put("SOAP-ENV", "http://schemas.xmlsoap.org/soap/envelope/");
+        uris.put("m", "urn:xmethodsBabelFish");
 
-    String path = "/SOAP-ENV:Envelope/SOAP-ENV:Body/m:BabelFish";
-    XPath xpath = document.createXPath(path);
-    xpath.setNamespaceURIs(uris);
+        String path = "/SOAP-ENV:Envelope/SOAP-ENV:Body/m:BabelFish";
+        XPath xpath = document.createXPath(path);
+        xpath.setNamespaceURIs(uris);
 
-    Node babelfish = xpath.selectSingleNode(document);
+        Node babelfish = xpath.selectSingleNode(document);
 
-    // log( "Found: " + babelfish );
-    assertTrue("Found valid node", babelfish != null);
-  }
+        // log( "Found: " + babelfish );
+        assertTrue("Found valid node", babelfish != null);
+    }
 
-  @Override
-  @Before
-  public void setUp() throws Exception {
-    super.setUp();
-    document = getDocument("xml/soap.xml");
-  }
+    @Override
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        document = getDocument("xml/soap.xml");
+    }
 }
 
 /*

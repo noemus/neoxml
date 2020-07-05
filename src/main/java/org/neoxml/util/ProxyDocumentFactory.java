@@ -6,7 +6,19 @@
 
 package org.neoxml.util;
 
-import org.neoxml.*;
+import org.neoxml.Attribute;
+import org.neoxml.CDATA;
+import org.neoxml.Comment;
+import org.neoxml.DefaultDocumentFactory;
+import org.neoxml.Document;
+import org.neoxml.DocumentFactory;
+import org.neoxml.DocumentType;
+import org.neoxml.Element;
+import org.neoxml.Entity;
+import org.neoxml.Namespace;
+import org.neoxml.ProcessingInstruction;
+import org.neoxml.QName;
+import org.neoxml.Text;
 
 import java.util.Map;
 
@@ -21,111 +33,110 @@ import java.util.Map;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.13 $
  */
-public abstract class ProxyDocumentFactory
-{
-  private DocumentFactory proxy;
+public abstract class ProxyDocumentFactory {
+    private DocumentFactory proxy;
 
-  public ProxyDocumentFactory() {
-    // use default factory
-    this.proxy = DefaultDocumentFactory.getInstance();
-  }
-
-  public ProxyDocumentFactory(DocumentFactory proxy) {
-    this.proxy = proxy;
-  }
-
-  // Factory methods
-  // -------------------------------------------------------------------------
-
-  public Document createDocument() {
-    return proxy.createDocument();
-  }
-
-  public Document createDocument(Element rootElement) {
-    return proxy.createDocument(rootElement);
-  }
-
-  public DocumentType createDocType(String name, String publicId,
-      String systemId) {
-    return proxy.createDocType(name, publicId, systemId);
-  }
-
-  public Element createElement(QName qname) {
-    return proxy.createElement(qname);
-  }
-
-  public Element createElement(String name) {
-    return proxy.createElement(name);
-  }
-
-  public Attribute createAttribute(Element owner, QName qname, String value) {
-    return proxy.createAttribute(owner, qname, value);
-  }
-
-  public Attribute createAttribute(Element owner, String name, String value) {
-    return proxy.createAttribute(owner, name, value);
-  }
-
-  public CDATA createCDATA(String text) {
-    return proxy.createCDATA(text);
-  }
-
-  public Comment createComment(String text) {
-    return proxy.createComment(text);
-  }
-
-  public Text createText(String text) {
-    return proxy.createText(text);
-  }
-
-  public Entity createEntity(String name, String text) {
-    return proxy.createEntity(name, text);
-  }
-
-  public Namespace createNamespace(String prefix, String uri) {
-    return proxy.createNamespace(prefix, uri);
-  }
-
-  public ProcessingInstruction createProcessingInstruction(String target,
-      String data) {
-    return proxy.createProcessingInstruction(target, data);
-  }
-
-  public ProcessingInstruction createProcessingInstruction(String target, Map<String,String> data) {
-    return proxy.createProcessingInstruction(target, data);
-  }
-
-  public QName createQName(String localName, Namespace namespace) {
-    return proxy.createQName(localName, namespace);
-  }
-
-  public QName createQName(String localName) {
-    return proxy.createQName(localName);
-  }
-
-  public QName createQName(String name, String prefix, String uri) {
-    return proxy.createQName(name, prefix, uri);
-  }
-
-  public QName createQName(String qualifiedName, String uri) {
-    return proxy.createQName(qualifiedName, uri);
-  }
-
-  // Implementation methods
-  // -------------------------------------------------------------------------
-
-  protected DocumentFactory getProxy() {
-    return proxy;
-  }
-
-  protected void setProxy(DocumentFactory proxy) {
-    if (proxy == null) {
-      // use default factory
-      proxy = DefaultDocumentFactory.getInstance();
+    public ProxyDocumentFactory() {
+        // use default factory
+        this.proxy = DefaultDocumentFactory.getInstance();
     }
 
-    this.proxy = proxy;
-  }
+    public ProxyDocumentFactory(DocumentFactory proxy) {
+        this.proxy = proxy;
+    }
+
+    // Factory methods
+    // -------------------------------------------------------------------------
+
+    public Document createDocument() {
+        return proxy.createDocument();
+    }
+
+    public Document createDocument(Element rootElement) {
+        return proxy.createDocument(rootElement);
+    }
+
+    public DocumentType createDocType(String name, String publicId,
+                                      String systemId) {
+        return proxy.createDocType(name, publicId, systemId);
+    }
+
+    public Element createElement(QName qname) {
+        return proxy.createElement(qname);
+    }
+
+    public Element createElement(String name) {
+        return proxy.createElement(name);
+    }
+
+    public Attribute createAttribute(Element owner, QName qname, String value) {
+        return proxy.createAttribute(owner, qname, value);
+    }
+
+    public Attribute createAttribute(Element owner, String name, String value) {
+        return proxy.createAttribute(owner, name, value);
+    }
+
+    public CDATA createCDATA(String text) {
+        return proxy.createCDATA(text);
+    }
+
+    public Comment createComment(String text) {
+        return proxy.createComment(text);
+    }
+
+    public Text createText(String text) {
+        return proxy.createText(text);
+    }
+
+    public Entity createEntity(String name, String text) {
+        return proxy.createEntity(name, text);
+    }
+
+    public Namespace createNamespace(String prefix, String uri) {
+        return proxy.createNamespace(prefix, uri);
+    }
+
+    public ProcessingInstruction createProcessingInstruction(String target,
+                                                             String data) {
+        return proxy.createProcessingInstruction(target, data);
+    }
+
+    public ProcessingInstruction createProcessingInstruction(String target, Map<String, String> data) {
+        return proxy.createProcessingInstruction(target, data);
+    }
+
+    public QName createQName(String localName, Namespace namespace) {
+        return proxy.createQName(localName, namespace);
+    }
+
+    public QName createQName(String localName) {
+        return proxy.createQName(localName);
+    }
+
+    public QName createQName(String name, String prefix, String uri) {
+        return proxy.createQName(name, prefix, uri);
+    }
+
+    public QName createQName(String qualifiedName, String uri) {
+        return proxy.createQName(qualifiedName, uri);
+    }
+
+    // Implementation methods
+    // -------------------------------------------------------------------------
+
+    protected DocumentFactory getProxy() {
+        return proxy;
+    }
+
+    protected void setProxy(DocumentFactory proxy) {
+        if (proxy == null) {
+            // use default factory
+            proxy = DefaultDocumentFactory.getInstance();
+        }
+
+        this.proxy = proxy;
+    }
 }
 
 /*

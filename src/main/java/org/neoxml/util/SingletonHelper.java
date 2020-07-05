@@ -7,55 +7,50 @@
 package org.neoxml.util;
 
 
-
 /**
  * DOCUMENT ME!
  */
-public final class SingletonHelper
-{
-  public static <T> SingletonStrategy<T> getSingletonStrategy(String singletonStrategyProperty, String singletonProperty, Class<?> singletonClass) {
-    return getSingletonStrategy(singletonStrategyProperty, getSingletonClassName(singletonProperty, singletonClass));
-  }
-  
-  public static <T> SingletonStrategy<T> getSingletonStrategy(String singletonStrategyProperty, Class<?> singletonClass) {
-    return getSingletonStrategy(singletonStrategyProperty, singletonClass.getName());
-  }
-  
-  @SuppressWarnings("unchecked")
-  private static <T> SingletonStrategy<T> getSingletonStrategy(String singletonStrategyProperty, String singletonClassName) {
-    SingletonStrategy<T> singleton;
-    
-    try {
-      String singletonClass = System.getProperty(singletonStrategyProperty);
-      if (singletonClass != null) {
-        Class<?> clazz = Class.forName(singletonClass);
-        singleton = (SingletonStrategy<T>)clazz.newInstance();
-      }
-      else {
-        singleton = new SimpleSingleton<>();
-      }
+public final class SingletonHelper {
+    public static <T> SingletonStrategy<T> getSingletonStrategy(String singletonStrategyProperty, String singletonProperty, Class<?> singletonClass) {
+        return getSingletonStrategy(singletonStrategyProperty, getSingletonClassName(singletonProperty, singletonClass));
     }
-    catch (Exception exc1) {
-      singleton = new SimpleSingleton<>();
+
+    public static <T> SingletonStrategy<T> getSingletonStrategy(String singletonStrategyProperty, Class<?> singletonClass) {
+        return getSingletonStrategy(singletonStrategyProperty, singletonClass.getName());
     }
-      
-    singleton.setSingletonClassName(singletonClassName);
-    
-    return singleton;
-  }
-  
-  private static String getSingletonClassName(String singletonProperty, Class<?> defaultSingleton) {
-    try {
-      return System.getProperty(singletonProperty, defaultSingleton.getName());
+
+    @SuppressWarnings("unchecked")
+    private static <T> SingletonStrategy<T> getSingletonStrategy(String singletonStrategyProperty, String singletonClassName) {
+        SingletonStrategy<T> singleton;
+
+        try {
+            String singletonClass = System.getProperty(singletonStrategyProperty);
+            if (singletonClass != null) {
+                Class<?> clazz = Class.forName(singletonClass);
+                singleton = (SingletonStrategy<T>) clazz.newInstance();
+            } else {
+                singleton = new SimpleSingleton<>();
+            }
+        } catch (Exception exc1) {
+            singleton = new SimpleSingleton<>();
+        }
+
+        singleton.setSingletonClassName(singletonClassName);
+
+        return singleton;
     }
-    catch (Exception e) {
-      return defaultSingleton.getName();
+
+    private static String getSingletonClassName(String singletonProperty, Class<?> defaultSingleton) {
+        try {
+            return System.getProperty(singletonProperty, defaultSingleton.getName());
+        } catch (Exception e) {
+            return defaultSingleton.getName();
+        }
     }
-  }
-  
-  private SingletonHelper() {
-    throw new AssertionError();
-  }
+
+    private SingletonHelper() {
+        throw new AssertionError();
+    }
 }
 
 /*

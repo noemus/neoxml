@@ -25,155 +25,154 @@ import java.util.List;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.17 $
  */
-public abstract class AbstractDocumentType extends AbstractNode implements DocumentType
-{
-  public AbstractDocumentType() {}
+public abstract class AbstractDocumentType extends AbstractNode implements DocumentType {
+    public AbstractDocumentType() {}
 
-  @Override
-  public NodeType getNodeTypeEnum() {
-    return NodeType.DOCUMENT_TYPE_NODE;
-  }
-
-  @Override
-  public String getName() {
-    return getElementName();
-  }
-
-  @Override
-  public void setName(String name) {
-    setElementName(name);
-  }
-
-  @Override
-  public String getPath(Element context) {
-    // not available in XPath
-    return "";
-  }
-
-  @Override
-  public String getUniquePath(Element context) {
-    // not available in XPath
-    return "";
-  }
-
-  /**
-   * Returns the text format of the declarations if applicable, or the empty
-   * String
-   *
-   * @return DOCUMENT ME!
-   */
-  @Override
-  public String getText() {
-    List<InternalDeclaration> list = getInternalDeclarations();
-
-    if ((list != null) && (list.size() > 0)) {
-      StringBuilder builder = new StringBuilder();
-      for (InternalDeclaration decl : list) {
-        builder.append(decl.toString());
-        builder.append('\n');
-      }
-      if (builder.length() > 0) {
-        builder.setLength(builder.length() - 1);
-      }
-      return builder.toString();
+    @Override
+    public NodeType getNodeTypeEnum() {
+        return NodeType.DOCUMENT_TYPE_NODE;
     }
 
-    return "";
-  }
-
-  @Override
-  protected void toString(StringBuilder builder) {
-    super.toString(builder);
-    builder.append(" [DocumentType: ");
-    this.asXML(builder);
-    builder.append(']');
-  }
-
-  @Override
-  public String asXML() {
-    StringBuilder builder = new StringBuilder();
-    this.asXML(builder);
-    return builder.toString();
-  }
-
-  protected void asXML(StringBuilder builder) {
-    builder.append("<!DOCTYPE ");
-    builder.append(getElementName());
-
-    boolean hasPublicID = false;
-    String publicID = getPublicID();
-
-    if ((publicID != null) && (publicID.length() > 0)) {
-      builder.append(" PUBLIC ");
-      builder.append('"');
-      builder.append(publicID);
-      builder.append('"');
-      hasPublicID = true;
+    @Override
+    public String getName() {
+        return getElementName();
     }
 
-    String systemID = getSystemID();
-
-    if ((systemID != null) && (systemID.length() > 0)) {
-      if (!hasPublicID) {
-        builder.append(" SYSTEM");
-      }
-
-      builder.append(" \"");
-      builder.append(systemID);
-      builder.append('"');
+    @Override
+    public void setName(String name) {
+        setElementName(name);
     }
 
-    builder.append('>');
-  }
-
-  @Override
-  public void write(Writer writer) throws IOException {
-    writer.write("<!DOCTYPE ");
-    writer.write(getElementName());
-
-    boolean hasPublicID = false;
-    String publicID = getPublicID();
-
-    if ((publicID != null) && (publicID.length() > 0)) {
-      writer.write(" PUBLIC \"");
-      writer.write(publicID);
-      writer.write('\"');
-      hasPublicID = true;
+    @Override
+    public String getPath(Element context) {
+        // not available in XPath
+        return "";
     }
 
-    String systemID = getSystemID();
-
-    if ((systemID != null) && (systemID.length() > 0)) {
-      if (!hasPublicID) {
-        writer.write(" SYSTEM");
-      }
-
-      writer.write(" \"");
-      writer.write(systemID);
-      writer.write('\"');
+    @Override
+    public String getUniquePath(Element context) {
+        // not available in XPath
+        return "";
     }
 
-    List<InternalDeclaration> list = getInternalDeclarations();
+    /**
+     * Returns the text format of the declarations if applicable, or the empty
+     * String
+     *
+     * @return DOCUMENT ME!
+     */
+    @Override
+    public String getText() {
+        List<InternalDeclaration> list = getInternalDeclarations();
 
-    if ((list != null) && (list.size() > 0)) {
-      writer.write(" [");
+        if ((list != null) && (list.size() > 0)) {
+            StringBuilder builder = new StringBuilder();
+            for (InternalDeclaration decl : list) {
+                builder.append(decl.toString());
+                builder.append('\n');
+            }
+            if (builder.length() > 0) {
+                builder.setLength(builder.length() - 1);
+            }
+            return builder.toString();
+        }
 
-      for (Iterator<InternalDeclaration> iter = list.iterator(); iter.hasNext();) {
-        InternalDeclaration decl = iter.next();
-        writer.write("\n  ");
-        writer.write(decl.toString());
-      }
-
-      writer.write("\n]");
+        return "";
     }
 
-    writer.write('>');
-  }
+    @Override
+    protected void toString(StringBuilder builder) {
+        super.toString(builder);
+        builder.append(" [DocumentType: ");
+        this.asXML(builder);
+        builder.append(']');
+    }
 
-  @Override
-  public boolean accept(Visitor visitor) {
-    return visitor.visit(this);
-  }
+    @Override
+    public String asXML() {
+        StringBuilder builder = new StringBuilder();
+        this.asXML(builder);
+        return builder.toString();
+    }
+
+    protected void asXML(StringBuilder builder) {
+        builder.append("<!DOCTYPE ");
+        builder.append(getElementName());
+
+        boolean hasPublicID = false;
+        String publicID = getPublicID();
+
+        if ((publicID != null) && (publicID.length() > 0)) {
+            builder.append(" PUBLIC ");
+            builder.append('"');
+            builder.append(publicID);
+            builder.append('"');
+            hasPublicID = true;
+        }
+
+        String systemID = getSystemID();
+
+        if ((systemID != null) && (systemID.length() > 0)) {
+            if (!hasPublicID) {
+                builder.append(" SYSTEM");
+            }
+
+            builder.append(" \"");
+            builder.append(systemID);
+            builder.append('"');
+        }
+
+        builder.append('>');
+    }
+
+    @Override
+    public void write(Writer writer) throws IOException {
+        writer.write("<!DOCTYPE ");
+        writer.write(getElementName());
+
+        boolean hasPublicID = false;
+        String publicID = getPublicID();
+
+        if ((publicID != null) && (publicID.length() > 0)) {
+            writer.write(" PUBLIC \"");
+            writer.write(publicID);
+            writer.write('\"');
+            hasPublicID = true;
+        }
+
+        String systemID = getSystemID();
+
+        if ((systemID != null) && (systemID.length() > 0)) {
+            if (!hasPublicID) {
+                writer.write(" SYSTEM");
+            }
+
+            writer.write(" \"");
+            writer.write(systemID);
+            writer.write('\"');
+        }
+
+        List<InternalDeclaration> list = getInternalDeclarations();
+
+        if ((list != null) && (list.size() > 0)) {
+            writer.write(" [");
+
+            for (Iterator<InternalDeclaration> iter = list.iterator(); iter.hasNext(); ) {
+                InternalDeclaration decl = iter.next();
+                writer.write("\n  ");
+                writer.write(decl.toString());
+            }
+
+            writer.write("\n]");
+        }
+
+        writer.write('>');
+    }
+
+    @Override
+    public boolean accept(Visitor visitor) {
+        return visitor.visit(this);
+    }
 }
 
 /*

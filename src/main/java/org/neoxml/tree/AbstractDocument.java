@@ -6,7 +6,16 @@
 
 package org.neoxml.tree;
 
-import org.neoxml.*;
+import org.neoxml.Comment;
+import org.neoxml.Document;
+import org.neoxml.DocumentType;
+import org.neoxml.Element;
+import org.neoxml.IllegalAddException;
+import org.neoxml.Node;
+import org.neoxml.NodeType;
+import org.neoxml.ProcessingInstruction;
+import org.neoxml.QName;
+import org.neoxml.Visitor;
 import org.neoxml.io.OutputFormat;
 import org.neoxml.io.XMLWriter;
 
@@ -23,247 +32,245 @@ import java.util.Map;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.33 $
  */
-public abstract class AbstractDocument extends AbstractBranch implements Document
-{
-  /**
-   * The encoding of this document as stated in the XML declaration
-   */
-  protected String encoding;
+public abstract class AbstractDocument extends AbstractBranch implements Document {
+    /**
+     * The encoding of this document as stated in the XML declaration
+     */
+    protected String encoding;
 
-  public AbstractDocument() {}
+    public AbstractDocument() {}
 
-  @Override
-  public NodeType getNodeTypeEnum() {
-    return NodeType.DOCUMENT_NODE;
-  }
-
-  @Override
-  public String getPath(Element context) {
-    return "/";
-  }
-
-  @Override
-  public String getUniquePath(Element context) {
-    return "/";
-  }
-
-  @Override
-  public Document getDocument() {
-    return this;
-  }
-
-  @Override
-  public String getXMLEncoding() {
-    return null;
-  }
-
-  @Override
-  public String getStringValue() {
-    Element root = getRootElement();
-
-    return (root != null) ? root.getStringValue() : "";
-  }
-
-  @Override
-  public String asXML() {
-    OutputFormat format = new OutputFormat();
-    format.setEncoding(encoding);
-
-    StringWriter out = new StringWriter();
-
-    try (XMLWriter writer = new XMLWriter(out, format)) {
-
-      writer.write(this);
-      writer.flush();
-
-      return out.toString();
+    @Override
+    public NodeType getNodeTypeEnum() {
+        return NodeType.DOCUMENT_NODE;
     }
-    catch (IOException e) {
-      throw new RuntimeException("IOException while generating textual representation: " + e.getMessage());
+
+    @Override
+    public String getPath(Element context) {
+        return "/";
     }
-  }
 
-  @Override
-  public void write(Writer out) throws IOException {
-    OutputFormat format = new OutputFormat();
-    format.setEncoding(encoding);
-
-    try (XMLWriter writer = new XMLWriter(out, format)) {
-      writer.write(this);
+    @Override
+    public String getUniquePath(Element context) {
+        return "/";
     }
-  }
 
-  /**
-   * <p>
-   * <code>accept</code> method is the <code>Visitor Pattern</code> method.
-   * </p>
-   *
-   * @param visitor <code>Visitor</code> is the visitor.
-   */
-  @Override
-  public boolean accept(Visitor visitor) {
-    if (visitor.visitEnter(this)) {// enter this node?
-      if (!visitor.visit(this)) {
-        return false;
-      }
+    @Override
+    public Document getDocument() {
+        return this;
+    }
 
-      final DocumentType docType = getDocType();
+    @Override
+    public String getXMLEncoding() {
+        return null;
+    }
 
-      if (docType != null && !visitor.visit(docType)) {
-        return false;
-      }
+    @Override
+    public String getStringValue() {
+        Element root = getRootElement();
 
-      // visit content
-      for (Node node : safeContentList()) {
-        if (!node.accept(visitor)) {
-          break;
+        return (root != null) ? root.getStringValue() : "";
+    }
+
+    @Override
+    public String asXML() {
+        OutputFormat format = new OutputFormat();
+        format.setEncoding(encoding);
+
+        StringWriter out = new StringWriter();
+
+        try (XMLWriter writer = new XMLWriter(out, format)) {
+
+            writer.write(this);
+            writer.flush();
+
+            return out.toString();
+        } catch (IOException e) {
+            throw new RuntimeException("IOException while generating textual representation: " + e.getMessage());
         }
-      }
     }
 
-    // leave this node and indicate whether to stop processing (although it does not make sense in Document node)
-    return visitor.visitLeave(this);
-  }
+    @Override
+    public void write(Writer out) throws IOException {
+        OutputFormat format = new OutputFormat();
+        format.setEncoding(encoding);
 
-  @Override
-  protected void toString(StringBuilder builder) {
-    super.toString(builder);
-    builder.append(" [Document: name ");
-    builder.append(getName());
-    builder.append(']');
-  }
-
-  @Override
-  public void normalize() {
-    Element element = getRootElement();
-
-    if (element != null) {
-      element.normalize();
-    }
-  }
-
-  @Override
-  public Document addComment(String comment) {
-    Comment node = getDocumentFactory().createComment(comment);
-    add(node);
-
-    return this;
-  }
-
-  @Override
-  public Document addProcessingInstruction(String target, String data) {
-    ProcessingInstruction node = getDocumentFactory()
-        .createProcessingInstruction(target, data);
-    add(node);
-
-    return this;
-  }
-
-  @Override
-  public Document addProcessingInstruction(String target, Map<String,String> data) {
-    ProcessingInstruction node = getDocumentFactory().createProcessingInstruction(target, data);
-    add(node);
-
-    return this;
-  }
-
-  @Override
-  public Element addElement(String name) {
-    Element element = getDocumentFactory().createElement(name);
-    add(element);
-
-    return element;
-  }
-
-  @Override
-  public Element addElement(String qualifiedName, String namespaceURI) {
-    Element element = getDocumentFactory().createElement(qualifiedName,
-      namespaceURI);
-    add(element);
-
-    return element;
-  }
-
-  @Override
-  public Element addElement(QName qName) {
-    Element element = getDocumentFactory().createElement(qName);
-    add(element);
-
-    return element;
-  }
-
-  @Override
-  public final void setRootElement(Element rootElement) {
-    clearContent();
-
-    if (rootElement != null) {
-      super.add(rootElement);
-      rootElementAdded(rootElement);
-    }
-  }
-
-  @Override
-  public void add(Element element) {
-    checkAddElementAllowed(element);
-    super.add(element);
-    rootElementAdded(element);
-  }
-
-  @Override
-  public boolean remove(Element element) {
-    boolean answer = super.remove(element);
-    Element root = getRootElement();
-
-    if ((root != null) && answer) {
-      setRootElement(null);
+        try (XMLWriter writer = new XMLWriter(out, format)) {
+            writer.write(this);
+        }
     }
 
-    element.setDocument(null);
+    /**
+     * <p>
+     * <code>accept</code> method is the <code>Visitor Pattern</code> method.
+     * </p>
+     *
+     * @param visitor <code>Visitor</code> is the visitor.
+     */
+    @Override
+    public boolean accept(Visitor visitor) {
+        if (visitor.visitEnter(this)) {// enter this node?
+            if (!visitor.visit(this)) {
+                return false;
+            }
 
-    return answer;
-  }
+            final DocumentType docType = getDocType();
 
-  @Override
-  public Node asXPathResult(Element parent) {
-    return this;
-  }
+            if (docType != null && !visitor.visit(docType)) {
+                return false;
+            }
 
-  @Override
-  protected void childAdded(Node node) {
-    if (node != null) {
-      node.setDocument(this);
+            // visit content
+            for (Node node : safeContentList()) {
+                if (!node.accept(visitor)) {
+                    break;
+                }
+            }
+        }
+
+        // leave this node and indicate whether to stop processing (although it does not make sense in Document node)
+        return visitor.visitLeave(this);
     }
-  }
 
-  @Override
-  protected void childRemoved(Node node) {
-    if (node != null) {
-      node.setDocument(null);
+    @Override
+    protected void toString(StringBuilder builder) {
+        super.toString(builder);
+        builder.append(" [Document: name ");
+        builder.append(getName());
+        builder.append(']');
     }
-  }
 
-  protected void checkAddElementAllowed(Element element) {
-    Element root = getRootElement();
+    @Override
+    public void normalize() {
+        Element element = getRootElement();
 
-    if (root != null) {
-      throw new IllegalAddException(this, element,
-        "Cannot add another element to this "
-            + "Document as it already has a root "
-            + "element of: " + root.getQualifiedName());
+        if (element != null) {
+            element.normalize();
+        }
     }
-  }
 
-  /**
-   * Called to set the root element variable
-   *
-   * @param rootElement DOCUMENT ME!
-   */
-  protected abstract void rootElementAdded(Element rootElement);
+    @Override
+    public Document addComment(String comment) {
+        Comment node = getDocumentFactory().createComment(comment);
+        add(node);
 
-  @Override
-  public void setXMLEncoding(String enc) {
-    this.encoding = enc;
-  }
+        return this;
+    }
+
+    @Override
+    public Document addProcessingInstruction(String target, String data) {
+        ProcessingInstruction node = getDocumentFactory()
+                .createProcessingInstruction(target, data);
+        add(node);
+
+        return this;
+    }
+
+    @Override
+    public Document addProcessingInstruction(String target, Map<String, String> data) {
+        ProcessingInstruction node = getDocumentFactory().createProcessingInstruction(target, data);
+        add(node);
+
+        return this;
+    }
+
+    @Override
+    public Element addElement(String name) {
+        Element element = getDocumentFactory().createElement(name);
+        add(element);
+
+        return element;
+    }
+
+    @Override
+    public Element addElement(String qualifiedName, String namespaceURI) {
+        Element element = getDocumentFactory().createElement(qualifiedName,
+                                                             namespaceURI);
+        add(element);
+
+        return element;
+    }
+
+    @Override
+    public Element addElement(QName qName) {
+        Element element = getDocumentFactory().createElement(qName);
+        add(element);
+
+        return element;
+    }
+
+    @Override
+    public final void setRootElement(Element rootElement) {
+        clearContent();
+
+        if (rootElement != null) {
+            super.add(rootElement);
+            rootElementAdded(rootElement);
+        }
+    }
+
+    @Override
+    public void add(Element element) {
+        checkAddElementAllowed(element);
+        super.add(element);
+        rootElementAdded(element);
+    }
+
+    @Override
+    public boolean remove(Element element) {
+        boolean answer = super.remove(element);
+        Element root = getRootElement();
+
+        if ((root != null) && answer) {
+            setRootElement(null);
+        }
+
+        element.setDocument(null);
+
+        return answer;
+    }
+
+    @Override
+    public Node asXPathResult(Element parent) {
+        return this;
+    }
+
+    @Override
+    protected void childAdded(Node node) {
+        if (node != null) {
+            node.setDocument(this);
+        }
+    }
+
+    @Override
+    protected void childRemoved(Node node) {
+        if (node != null) {
+            node.setDocument(null);
+        }
+    }
+
+    protected void checkAddElementAllowed(Element element) {
+        Element root = getRootElement();
+
+        if (root != null) {
+            throw new IllegalAddException(this, element,
+                                          "Cannot add another element to this "
+                                                  + "Document as it already has a root "
+                                                  + "element of: " + root.getQualifiedName());
+        }
+    }
+
+    /**
+     * Called to set the root element variable
+     *
+     * @param rootElement DOCUMENT ME!
+     */
+    protected abstract void rootElementAdded(Element rootElement);
+
+    @Override
+    public void setXMLEncoding(String enc) {
+        this.encoding = enc;
+    }
 }
 
 /*

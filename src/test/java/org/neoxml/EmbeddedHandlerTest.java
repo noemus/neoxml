@@ -16,126 +16,121 @@ import java.io.File;
  *
  * @author <a href="mailto:franz.beil@temis-group.com">FB </a>
  */
-public class EmbeddedHandlerTest extends AbstractTestCase
-{
-  private static final int MAIN_READER = 0;
+public class EmbeddedHandlerTest extends AbstractTestCase {
+    private static final int MAIN_READER = 0;
 
-  private static final int ON_END_READER = 1;
+    private static final int ON_END_READER = 1;
 
-  protected String[] testDocuments = {
-    "xml/test/FranzBeilMain.xml"
-  };
+    protected String[] testDocuments = {
+            "xml/test/FranzBeilMain.xml"
+    };
 
-  private final StringBuilder[] results = {
-    new StringBuilder(), new StringBuilder()
-  };
+    private final StringBuilder[] results = {
+            new StringBuilder(), new StringBuilder()
+    };
 
-  protected int test;
+    protected int test;
 
-  // ---------------------------------------------
-  // Test case(s)
-  // ---------------------------------------------
+    // ---------------------------------------------
+    // Test case(s)
+    // ---------------------------------------------
 
-  @Test
-  public void testMainReader() throws Exception {
-    test = MAIN_READER;
-    readDocuments();
-  }
-
-  @Test
-  public void testOnEndReader() throws Exception {
-    test = ON_END_READER;
-    readDocuments();
-  }
-
-  @Test
-  public void testBothReaders() throws Exception {
-    testMainReader();
-    testOnEndReader();
-
-    if (!results[MAIN_READER].toString().equals(
-      results[ON_END_READER].toString())) {
-      final String msg = "Results of tests should be equal!\n" +
-                         "Results testMainReader():\n" + results[MAIN_READER].toString() +
-                         "Results testOnEndReader():\n" + results[ON_END_READER].toString();
-      fail(msg);
-    }
-  }
-
-  // ---------------------------------------------
-  // Implementation methods
-  // ---------------------------------------------
-
-  private void readDocuments() throws Exception {
-    for (String testDocument : testDocuments) {
-      File testDoc = getFile(testDocument);
-      String mainDir = testDoc.getParent();
-      SAXReader reader = new SAXReader();
-      ElementHandler mainHandler = new MainHandler(mainDir);
-      reader.addHandler("/main/import", mainHandler);
-      getDocument(testDocument, reader);
-    }
-  }
-
-  // Handler classes
-  // ---------------------------------------------
-
-  class MainHandler implements ElementHandler
-  {
-    private final SAXReader mainReader;
-
-    private final String mainDir;
-
-    public MainHandler(String dir) {
-      mainReader = new SAXReader();
-      mainDir = dir;
-      mainReader.addHandler("/import/stuff", new EmbeddedHandler());
+    @Test
+    public void testMainReader() throws Exception {
+        test = MAIN_READER;
+        readDocuments();
     }
 
-    @Override
-    public void onStart(ElementPath path) {}
+    @Test
+    public void testOnEndReader() throws Exception {
+        test = ON_END_READER;
+        readDocuments();
+    }
 
-    @Override
-    public void onEnd(ElementPath path) {
-      String href = path.getCurrent().attribute("href").getValue();
-      Element importRef = path.getCurrent();
-      Element parentElement = importRef.getParent();
-      SAXReader onEndReader = new SAXReader();
-      onEndReader.addHandler("/import/stuff", new EmbeddedHandler());
+    @Test
+    public void testBothReaders() throws Exception {
+        testMainReader();
+        testOnEndReader();
 
-      File file = new File(mainDir + File.separator + href);
-      Element importElement = null;
-
-      try {
-        if (test == MAIN_READER) {
-          importElement = mainReader.read(file).getRootElement();
+        if (!results[MAIN_READER].toString().equals(
+                results[ON_END_READER].toString())) {
+            final String msg = "Results of tests should be equal!\n" +
+                    "Results testMainReader():\n" + results[MAIN_READER].toString() +
+                    "Results testOnEndReader():\n" + results[ON_END_READER].toString();
+            fail(msg);
         }
-        else if (test == ON_END_READER) {
-          importElement = onEndReader.read(file).getRootElement();
+    }
+
+    // ---------------------------------------------
+    // Implementation methods
+    // ---------------------------------------------
+
+    private void readDocuments() throws Exception {
+        for (String testDocument : testDocuments) {
+            File testDoc = getFile(testDocument);
+            String mainDir = testDoc.getParent();
+            SAXReader reader = new SAXReader();
+            ElementHandler mainHandler = new MainHandler(mainDir);
+            reader.addHandler("/main/import", mainHandler);
+            getDocument(testDocument, reader);
         }
-      }
-      catch (Exception e) {
-        // too bad that it's not possible to throw the exception at the
-        // caller
-        e.printStackTrace();
-      }
-
-      // prune and replace
-      importRef.detach();
-      parentElement.add(importElement);
-    }
-  }
-
-  public class EmbeddedHandler implements ElementHandler
-  {
-    @Override
-    public void onStart(ElementPath path) {
-      results[test].append(path.getCurrent().attribute("name").getValue()).append("\n");
     }
 
-    @Override
-    public void onEnd(ElementPath path) {}
-  }
+    // Handler classes
+    // ---------------------------------------------
+
+    class MainHandler implements ElementHandler {
+        private final SAXReader mainReader;
+
+        private final String mainDir;
+
+        public MainHandler(String dir) {
+            mainReader = new SAXReader();
+            mainDir = dir;
+            mainReader.addHandler("/import/stuff", new EmbeddedHandler());
+        }
+
+        @Override
+        public void onStart(ElementPath path) {}
+
+        @Override
+        public void onEnd(ElementPath path) {
+            String href = path.getCurrent().attribute("href").getValue();
+            Element importRef = path.getCurrent();
+            Element parentElement = importRef.getParent();
+            SAXReader onEndReader = new SAXReader();
+            onEndReader.addHandler("/import/stuff", new EmbeddedHandler());
+
+            File file = new File(mainDir + File.separator + href);
+            Element importElement = null;
+
+            try {
+                if (test == MAIN_READER) {
+                    importElement = mainReader.read(file).getRootElement();
+                } else if (test == ON_END_READER) {
+                    importElement = onEndReader.read(file).getRootElement();
+                }
+            } catch (Exception e) {
+                // too bad that it's not possible to throw the exception at the
+                // caller
+                e.printStackTrace();
+            }
+
+            // prune and replace
+            importRef.detach();
+            parentElement.add(importElement);
+        }
+    }
+
+    public class EmbeddedHandler implements ElementHandler {
+        @Override
+        public void onStart(ElementPath path) {
+            results[test].append(path.getCurrent().attribute("name").getValue()).append("\n");
+        }
+
+        @Override
+        public void onEnd(ElementPath path) {}
+    }
 }
 
 /*

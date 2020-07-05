@@ -23,106 +23,103 @@ import java.util.function.Predicate;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.14 $
  */
-abstract class AbstractNodeListFacade<T extends Node> extends AbstractList<T> implements NodeList<T>
-{
-  /**
-   * The content of the Branch which is modified if I am modified
-   */
-  protected DefaultNodeList<T> nodeList;
+abstract class AbstractNodeListFacade<T extends Node> extends AbstractList<T> implements NodeList<T> {
+    /**
+     * The content of the Branch which is modified if I am modified
+     */
+    protected DefaultNodeList<T> nodeList;
 
-  AbstractNodeListFacade(DefaultNodeList<T> nodes) {
-    super();
-    Objects.requireNonNull(nodes);
-    this.nodeList = nodes;
-  }
-
-  @Override
-  @SafeVarargs
-  public final void add(T first, T... nodes) {
-    add(first);
-    
-    if (nodes != null) {
-      Collections.addAll(this, nodes);
+    AbstractNodeListFacade(DefaultNodeList<T> nodes) {
+        super();
+        Objects.requireNonNull(nodes);
+        this.nodeList = nodes;
     }
-  }
 
-  @Override
-  public NodeList<T> detach() {
-    nodeList.detach();
-    return this;
-  }
+    @Override
+    @SafeVarargs
+    public final void add(T first, T... nodes) {
+        add(first);
 
-  @Override
-  public NodeList<T> attach(Branch branch) {
-    nodeList.attach(branch);
-    return this;
-  }
-
-  @Override
-  public AbstractBranch getParent() {
-    return nodeList.getParent();
-  }
-
-  @Override
-  public T find(Predicate<? super T> cond) {
-    return nodeList.find(cond);
-  }
-
-  @Override
-  public <N extends T> N find(Predicate<? super T> cond, Class<N> nodeType) {
-    return nodeList.find(cond, nodeType);
-  }
-
-  @Override
-  public NodeList<T> filter(Predicate<? super T> cond) {
-    return nodeList.filter(cond);
-  }
-
-  @Override
-  public <N extends T> NodeList<N> filter(Predicate<? super T> cond, Class<N> nodeType) {
-    return nodeList.filter(cond, nodeType);
-  }
-  
-  @Override
-  public NodeList<T> remove(Predicate<? super T> cond) {
-    if (!nodeList.isEmpty()) {
-      removeIf(cond);
+        if (nodes != null) {
+            Collections.addAll(this, nodes);
+        }
     }
-    return this;
-  }
 
-  @Override
-  public NodeList<T> content() {
-    if (getParent() != null) {
-      return copy();
+    @Override
+    public NodeList<T> detach() {
+        nodeList.detach();
+        return this;
     }
-    return nodeList;
-  }
-  
-  @Override
-  public boolean isReadOnly() {
-    return nodeList.isReadOnly();
-  }
-  
-  @Override
-  public AbstractNodeListFacade<T> clone() {
-    if (isReadOnly()) {
-      return this;
+
+    @Override
+    public NodeList<T> attach(Branch branch) {
+        nodeList.attach(branch);
+        return this;
     }
-    else {
-      try {
-        @SuppressWarnings("unchecked")
-        AbstractNodeListFacade<T> answer = (AbstractNodeListFacade<T>)super.clone();
-        return answer;
-      }
-      catch (CloneNotSupportedException e) {
-        // should never happen
-        throw new AssertionError("This should never happen. Caught: ", e);
-      }
+
+    @Override
+    public AbstractBranch getParent() {
+        return nodeList.getParent();
     }
-  }
-  
-  void copyNodes() {}
+
+    @Override
+    public T find(Predicate<? super T> cond) {
+        return nodeList.find(cond);
+    }
+
+    @Override
+    public <N extends T> N find(Predicate<? super T> cond, Class<N> nodeType) {
+        return nodeList.find(cond, nodeType);
+    }
+
+    @Override
+    public NodeList<T> filter(Predicate<? super T> cond) {
+        return nodeList.filter(cond);
+    }
+
+    @Override
+    public <N extends T> NodeList<N> filter(Predicate<? super T> cond, Class<N> nodeType) {
+        return nodeList.filter(cond, nodeType);
+    }
+
+    @Override
+    public NodeList<T> remove(Predicate<? super T> cond) {
+        if (!nodeList.isEmpty()) {
+            removeIf(cond);
+        }
+        return this;
+    }
+
+    @Override
+    public NodeList<T> content() {
+        if (getParent() != null) {
+            return copy();
+        }
+        return nodeList;
+    }
+
+    @Override
+    public boolean isReadOnly() {
+        return nodeList.isReadOnly();
+    }
+
+    @Override
+    public AbstractNodeListFacade<T> clone() {
+        if (isReadOnly()) {
+            return this;
+        } else {
+            try {
+                @SuppressWarnings("unchecked")
+                AbstractNodeListFacade<T> answer = (AbstractNodeListFacade<T>) super.clone();
+                return answer;
+            } catch (CloneNotSupportedException e) {
+                // should never happen
+                throw new AssertionError("This should never happen. Caught: ", e);
+            }
+        }
+    }
+
+    void copyNodes() {}
 }
 
 /*

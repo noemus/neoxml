@@ -6,7 +6,19 @@
 
 package org.neoxml.dom;
 
-import org.neoxml.*;
+import org.neoxml.Attribute;
+import org.neoxml.CDATA;
+import org.neoxml.Comment;
+import org.neoxml.DefaultDocumentFactory;
+import org.neoxml.Document;
+import org.neoxml.DocumentFactory;
+import org.neoxml.DocumentType;
+import org.neoxml.Element;
+import org.neoxml.Entity;
+import org.neoxml.Namespace;
+import org.neoxml.ProcessingInstruction;
+import org.neoxml.QName;
+import org.neoxml.Text;
 import org.neoxml.util.SingletonHelper;
 import org.neoxml.util.SingletonStrategy;
 import org.w3c.dom.DOMException;
@@ -21,140 +33,137 @@ import java.util.Map;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.21 $
  */
-public class DOMDocumentFactory extends DefaultDocumentFactory implements org.w3c.dom.DOMImplementation
-{
+public class DOMDocumentFactory extends DefaultDocumentFactory implements org.w3c.dom.DOMImplementation {
 
-  /**
-   * The Singleton instance
-   */
-  private static SingletonStrategy<DOMDocumentFactory> singleton = SingletonHelper.getSingletonStrategy("org.neoxml.dom.DOMDocumentFactory.singleton.strategy", DOMDocumentFactory.class);
+    /**
+     * The Singleton instance
+     */
+    private static SingletonStrategy<DOMDocumentFactory> singleton = SingletonHelper.getSingletonStrategy("org.neoxml.dom.DOMDocumentFactory.singleton.strategy", DOMDocumentFactory.class);
 
-  /**
-   * <p>
-   * Access to the singleton instance of this factory.
-   * </p>
-   *
-   * @return the default singleon instance
-   */
-  @SuppressWarnings("sync-override")
-  public static DocumentFactory getInstance() {
-    return singleton.instance();
-  }
-
-  @Override
-  public Document createDocument() {
-    DOMDocument answer = new DOMDocument();
-    answer.setDocumentFactory(this);
-
-    return answer;
-  }
-
-  @Override
-  public DocumentType createDocType(String name, String publicId, String systemId) {
-    return new DOMDocumentType(name, publicId, systemId);
-  }
-
-  @Override
-  public Element createElement(QName qname) {
-    return new DOMElement(qname);
-  }
-
-  public Element createElement(QName qname, int attributeCount) {
-    return new DOMElement(qname, attributeCount);
-  }
-
-  @Override
-  public Attribute createAttribute(Element owner, QName qname, String value) {
-    return new DOMAttribute(qname, value);
-  }
-
-  @Override
-  public CDATA createCDATA(String text) {
-    return new DOMCDATA(text);
-  }
-
-  @Override
-  public Comment createComment(String text) {
-    return new DOMComment(text);
-  }
-
-  @Override
-  public Text createText(String text) {
-    return new DOMText(text);
-  }
-
-  public Entity createEntity(String name) {
-    return new DOMEntityReference(name);
-  }
-
-  @Override
-  public Entity createEntity(String name, String text) {
-    return new DOMEntityReference(name, text);
-  }
-
-  @Override
-  public Namespace createNamespace(String prefix, String uri) {
-    return new DOMNamespace(prefix, uri);
-  }
-
-  @Override
-  public ProcessingInstruction createProcessingInstruction(String target, String data) {
-    return new DOMProcessingInstruction(target, data);
-  }
-
-  @Override
-  public ProcessingInstruction createProcessingInstruction(String target, Map<String,String> data) {
-    return new DOMProcessingInstruction(target, data);
-  }
-
-  // org.w3c.dom.DOMImplementation interface
-
-  @Override
-  public boolean hasFeature(String feature, String version) {
-    if ("XML".equalsIgnoreCase(feature) || "Core".equalsIgnoreCase(feature)) {
-      return ((version == null) || (version.length() == 0) || "1.0".equals(version) || "2.0".equals(version));
+    /**
+     * <p>
+     * Access to the singleton instance of this factory.
+     * </p>
+     *
+     * @return the default singleon instance
+     */
+    @SuppressWarnings("sync-override")
+    public static DocumentFactory getInstance() {
+        return singleton.instance();
     }
 
-    return false;
-  }
+    @Override
+    public Document createDocument() {
+        DOMDocument answer = new DOMDocument();
+        answer.setDocumentFactory(this);
 
-  @Override
-  public org.w3c.dom.DocumentType createDocumentType(String qualifiedName, String publicId, String systemId) throws DOMException {
-    return new DOMDocumentType(qualifiedName, publicId, systemId);
-  }
-
-  @Override
-  public org.w3c.dom.Document createDocument(String namespaceURI, String qualifiedName, org.w3c.dom.DocumentType docType) throws org.w3c.dom.DOMException {
-    DOMDocument document;
-
-    if (docType != null) {
-      DOMDocumentType documentType = asDocumentType(docType);
-      document = new DOMDocument(documentType);
-    }
-    else {
-      document = new DOMDocument();
+        return answer;
     }
 
-    document.addElement(createQName(qualifiedName, namespaceURI));
-
-    return document;
-  }
-
-  // Implementation methods
-
-  protected DOMDocumentType asDocumentType(org.w3c.dom.DocumentType docType) {
-    if (docType instanceof DOMDocumentType) {
-      return (DOMDocumentType)docType;
+    @Override
+    public DocumentType createDocType(String name, String publicId, String systemId) {
+        return new DOMDocumentType(name, publicId, systemId);
     }
-    else {
-      return new DOMDocumentType(docType.getName(), docType.getPublicId(), docType.getSystemId());
-    }
-  }
 
-  @Override
-  public Object getFeature(String feature, String version) {
-    throw new UnsupportedOperationException("Not supported yet.");
-  }
+    @Override
+    public Element createElement(QName qname) {
+        return new DOMElement(qname);
+    }
+
+    public Element createElement(QName qname, int attributeCount) {
+        return new DOMElement(qname, attributeCount);
+    }
+
+    @Override
+    public Attribute createAttribute(Element owner, QName qname, String value) {
+        return new DOMAttribute(qname, value);
+    }
+
+    @Override
+    public CDATA createCDATA(String text) {
+        return new DOMCDATA(text);
+    }
+
+    @Override
+    public Comment createComment(String text) {
+        return new DOMComment(text);
+    }
+
+    @Override
+    public Text createText(String text) {
+        return new DOMText(text);
+    }
+
+    public Entity createEntity(String name) {
+        return new DOMEntityReference(name);
+    }
+
+    @Override
+    public Entity createEntity(String name, String text) {
+        return new DOMEntityReference(name, text);
+    }
+
+    @Override
+    public Namespace createNamespace(String prefix, String uri) {
+        return new DOMNamespace(prefix, uri);
+    }
+
+    @Override
+    public ProcessingInstruction createProcessingInstruction(String target, String data) {
+        return new DOMProcessingInstruction(target, data);
+    }
+
+    @Override
+    public ProcessingInstruction createProcessingInstruction(String target, Map<String, String> data) {
+        return new DOMProcessingInstruction(target, data);
+    }
+
+    // org.w3c.dom.DOMImplementation interface
+
+    @Override
+    public boolean hasFeature(String feature, String version) {
+        if ("XML".equalsIgnoreCase(feature) || "Core".equalsIgnoreCase(feature)) {
+            return ((version == null) || (version.length() == 0) || "1.0".equals(version) || "2.0".equals(version));
+        }
+
+        return false;
+    }
+
+    @Override
+    public org.w3c.dom.DocumentType createDocumentType(String qualifiedName, String publicId, String systemId) throws DOMException {
+        return new DOMDocumentType(qualifiedName, publicId, systemId);
+    }
+
+    @Override
+    public org.w3c.dom.Document createDocument(String namespaceURI, String qualifiedName, org.w3c.dom.DocumentType docType) throws org.w3c.dom.DOMException {
+        DOMDocument document;
+
+        if (docType != null) {
+            DOMDocumentType documentType = asDocumentType(docType);
+            document = new DOMDocument(documentType);
+        } else {
+            document = new DOMDocument();
+        }
+
+        document.addElement(createQName(qualifiedName, namespaceURI));
+
+        return document;
+    }
+
+    // Implementation methods
+
+    protected DOMDocumentType asDocumentType(org.w3c.dom.DocumentType docType) {
+        if (docType instanceof DOMDocumentType) {
+            return (DOMDocumentType) docType;
+        } else {
+            return new DOMDocumentType(docType.getName(), docType.getPublicId(), docType.getSystemId());
+        }
+    }
+
+    @Override
+    public Object getFeature(String feature, String version) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
 
 

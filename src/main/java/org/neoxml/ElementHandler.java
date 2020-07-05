@@ -16,23 +16,22 @@ package org.neoxml;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.8 $
  */
-public interface ElementHandler
-{
-  /**
-   * Called by an event based processor when an elements openning tag is
-   * encountered.
-   *
-   * @param elementPath is the current <code>ElementPath</code> to process
-   */
-  void onStart(ElementPath elementPath);
+public interface ElementHandler {
+    /**
+     * Called by an event based processor when an elements openning tag is
+     * encountered.
+     *
+     * @param elementPath is the current <code>ElementPath</code> to process
+     */
+    void onStart(ElementPath elementPath);
 
-  /**
-   * Called by an event based processor when an elements closing tag is
-   * encountered.
-   *
-   * @param elementPath is the current <code>ElementPath</code> to process
-   */
-  void onEnd(ElementPath elementPath);
+    /**
+     * Called by an event based processor when an elements closing tag is
+     * encountered.
+     *
+     * @param elementPath is the current <code>ElementPath</code> to process
+     */
+    void onEnd(ElementPath elementPath);
 }
 
 /*

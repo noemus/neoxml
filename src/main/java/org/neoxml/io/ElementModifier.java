@@ -16,23 +16,22 @@ import org.neoxml.Element;
  *
  * @author Wonne Keysers (Realsoftware.be)
  */
-public interface ElementModifier
-{
-  /**
-   * Called by an event based processor when an elements closing tag is
-   * encountered. This method must return the modified version of the provided {@link org.neoxml.Element}or null if it
-   * has to be removed from the
-   * document. <br>
-   * The incoming {@link org.neoxml.Element}is disconnected from the DOM4J
-   * tree. This means that navigation to the elements parent {@link org.neoxml.Element} and {@link org.neoxml.Document}are
-   * not available. Only
-   * the element itself can be modified!
-   *
-   * @param element {@link org.neoxml.Element}to be parsed
-   * @return the modified {@link org.neoxml.Element}
-   * @throws Exception of any kind
-   */
-  Element modifyElement(Element element) throws Exception;
+public interface ElementModifier {
+    /**
+     * Called by an event based processor when an elements closing tag is
+     * encountered. This method must return the modified version of the provided {@link org.neoxml.Element}or null if it
+     * has to be removed from the
+     * document. <br>
+     * The incoming {@link org.neoxml.Element}is disconnected from the DOM4J
+     * tree. This means that navigation to the elements parent {@link org.neoxml.Element} and {@link org.neoxml.Document}are
+     * not available. Only
+     * the element itself can be modified!
+     *
+     * @param element {@link org.neoxml.Element}to be parsed
+     * @return the modified {@link org.neoxml.Element}
+     * @throws Exception of any kind
+     */
+    Element modifyElement(Element element) throws Exception;
 }
 
 /*

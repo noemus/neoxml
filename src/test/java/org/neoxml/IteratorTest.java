@@ -18,130 +18,128 @@ import java.util.List;
  * @author <a href="mailto:jdoughty@jdoughty@cs.gmu.edu">Jonathan Doughty </a>
  * @version $Revision: 1.4 $
  */
-public class IteratorTest extends AbstractTestCase
-{
-  private static final int NUMELE = 10;
+public class IteratorTest extends AbstractTestCase {
+    private static final int NUMELE = 10;
 
-  protected Document iterDocument;
+    protected Document iterDocument;
 
-  @Override
-  @Before
-  public void setUp() throws Exception {
-    super.setUp();
-    iterDocument = DocumentHelper.createDocument();
+    @Override
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        iterDocument = DocumentHelper.createDocument();
 
-    Element root = iterDocument.addElement("root");
+        Element root = iterDocument.addElement("root");
 
-    for (int i = 0; i < NUMELE; i++) {
-      root.addElement("iterator test").addAttribute("instance",
-        Integer.toString(i));
-    }
-  }
-
-  // Test case(s)
-  // -------------------------------------------------------------------------
-
-  @Test
-  public void testElementCount() throws Exception {
-    Element root = iterDocument.getRootElement();
-    assertTrue("Has root element", root != null);
-
-    List elements = root.elements("iterator test");
-    int elementSize = elements.size();
-    assertTrue("Root has " + elementSize + " children", (elements != null)
-      && (elementSize == NUMELE));
-  }
-
-  @Test
-  public void testPlainIteration() throws Exception {
-    Element root = iterDocument.getRootElement();
-    List elements = root.elements("iterator test");
-    Iterator iter = root.elementIterator("iterator test");
-    int elementSize = elements.size();
-
-    int count = 0;
-
-    for (; iter.hasNext();) {
-      Element e = (Element)iter.next();
-      assertEquals("instance " + e.attribute("instance").getValue()
-        + " equals " + count, e.attribute("instance").getValue(),
-        Integer.toString(count));
-      count++;
+        for (int i = 0; i < NUMELE; i++) {
+            root.addElement("iterator test").addAttribute("instance",
+                                                          Integer.toString(i));
+        }
     }
 
-    assertTrue(elementSize + " elements iterated", count == elementSize);
-  }
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testSkipAlternates() throws Exception {
-    Element root = iterDocument.getRootElement();
-    List elements = root.elements("iterator test");
-    Iterator iter = root.elementIterator("iterator test");
-    int elementSize = elements.size();
-    int count = 0;
+    @Test
+    public void testElementCount() throws Exception {
+        Element root = iterDocument.getRootElement();
+        assertTrue("Has root element", root != null);
 
-    for (; iter.hasNext();) {
-      Element e = (Element)iter.next();
-      assertEquals("instance " + e.attribute("instance").getValue()
-        + " equals " + (count * 2), e.attribute("instance")
-        .getValue(), Integer.toString(count * 2));
-      iter.next();
-      count++;
+        List elements = root.elements("iterator test");
+        int elementSize = elements.size();
+        assertTrue("Root has " + elementSize + " children", (elements != null)
+                && (elementSize == NUMELE));
     }
 
-    assertTrue((elementSize / 2) + " alternate elements iterated",
-      count == (elementSize / 2));
-  }
+    @Test
+    public void testPlainIteration() throws Exception {
+        Element root = iterDocument.getRootElement();
+        List elements = root.elements("iterator test");
+        Iterator iter = root.elementIterator("iterator test");
+        int elementSize = elements.size();
 
-  @Test
-  public void testNoHasNext() throws Exception {
-    Element root = iterDocument.getRootElement();
-    List elements = root.elements("iterator test");
-    Iterator iter = root.elementIterator("iterator test");
-    int elementSize = elements.size();
-    int count = 0;
-    Element e = null;
+        int count = 0;
 
-    for (; count < elementSize;) {
-      e = (Element)iter.next();
-      assertEquals("instance " + e.attribute("instance").getValue()+ " equals " + count, e.attribute("instance").getValue(), Integer.toString(count));
-      System.out.println("instance " + e.attribute("instance").getValue() + " equals " + count);
-      count++;
+        for (; iter.hasNext(); ) {
+            Element e = (Element) iter.next();
+            assertEquals("instance " + e.attribute("instance").getValue()
+                                 + " equals " + count, e.attribute("instance").getValue(),
+                         Integer.toString(count));
+            count++;
+        }
+
+        assertTrue(elementSize + " elements iterated", count == elementSize);
     }
 
-    try {
-      e = (Element)iter.next();
+    @Test
+    public void testSkipAlternates() throws Exception {
+        Element root = iterDocument.getRootElement();
+        List elements = root.elements("iterator test");
+        Iterator iter = root.elementIterator("iterator test");
+        int elementSize = elements.size();
+        int count = 0;
 
-      if (e != null) {
-        // Real Iterators wouldn't get here
-        assertTrue("no more elements,value instead is " + e.attribute("instance").getValue(), e == null);
-      }
-    }
-    catch (Exception exp) {
-      assertTrue("Real iterators throw NoSuchElementException", exp instanceof java.util.NoSuchElementException);
-    }
-  }
+        for (; iter.hasNext(); ) {
+            Element e = (Element) iter.next();
+            assertEquals("instance " + e.attribute("instance").getValue()
+                                 + " equals " + (count * 2), e.attribute("instance")
+                                                              .getValue(), Integer.toString(count * 2));
+            iter.next();
+            count++;
+        }
 
-  @Test
-  public void testExtraHasNexts() throws Exception {
-    Element root = iterDocument.getRootElement();
-    List elements = root.elements("iterator test");
-    Iterator iter = root.elementIterator("iterator test");
-    int elementSize = elements.size();
-    int count = 0;
-
-    for (; iter.hasNext();) {
-      Element e = (Element)iter.next();
-      assertEquals("instance " + e.attribute("instance").getValue()
-        + " equals " + count, e.attribute("instance").getValue(),
-        Integer.toString(count));
-      iter.hasNext();
-      count++;
+        assertTrue((elementSize / 2) + " alternate elements iterated",
+                   count == (elementSize / 2));
     }
 
-    assertTrue(elementSize + " elements iterated with extra hasNexts",
-      count == elementSize);
-  }
+    @Test
+    public void testNoHasNext() throws Exception {
+        Element root = iterDocument.getRootElement();
+        List elements = root.elements("iterator test");
+        Iterator iter = root.elementIterator("iterator test");
+        int elementSize = elements.size();
+        int count = 0;
+        Element e = null;
+
+        for (; count < elementSize; ) {
+            e = (Element) iter.next();
+            assertEquals("instance " + e.attribute("instance").getValue() + " equals " + count, e.attribute("instance").getValue(), Integer.toString(count));
+            System.out.println("instance " + e.attribute("instance").getValue() + " equals " + count);
+            count++;
+        }
+
+        try {
+            e = (Element) iter.next();
+
+            if (e != null) {
+                // Real Iterators wouldn't get here
+                assertTrue("no more elements,value instead is " + e.attribute("instance").getValue(), e == null);
+            }
+        } catch (Exception exp) {
+            assertTrue("Real iterators throw NoSuchElementException", exp instanceof java.util.NoSuchElementException);
+        }
+    }
+
+    @Test
+    public void testExtraHasNexts() throws Exception {
+        Element root = iterDocument.getRootElement();
+        List elements = root.elements("iterator test");
+        Iterator iter = root.elementIterator("iterator test");
+        int elementSize = elements.size();
+        int count = 0;
+
+        for (; iter.hasNext(); ) {
+            Element e = (Element) iter.next();
+            assertEquals("instance " + e.attribute("instance").getValue()
+                                 + " equals " + count, e.attribute("instance").getValue(),
+                         Integer.toString(count));
+            iter.hasNext();
+            count++;
+        }
+
+        assertTrue(elementSize + " elements iterated with extra hasNexts",
+                   count == elementSize);
+    }
 }
 
 /*

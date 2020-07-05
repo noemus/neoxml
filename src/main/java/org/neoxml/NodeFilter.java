@@ -15,17 +15,16 @@ package org.neoxml;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.7 $
  */
-public interface NodeFilter
-{
-  /**
-   * <p>
-   * <code>matches</code> returns true if the given node matches the filter condition.
-   * </p>
-   *
-   * @param node DOCUMENT ME!
-   * @return true if this filter matches the given node
-   */
-  boolean matches(Node node);
+public interface NodeFilter {
+    /**
+     * <p>
+     * <code>matches</code> returns true if the given node matches the filter condition.
+     * </p>
+     *
+     * @param node DOCUMENT ME!
+     * @return true if this filter matches the given node
+     */
+    boolean matches(Node node);
 }
 
 /*

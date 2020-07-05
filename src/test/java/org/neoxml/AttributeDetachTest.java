@@ -18,43 +18,42 @@ import java.util.List;
  * @version $Revision: 1.3 $
  */
 @SuppressWarnings("rawtypes")
-public class AttributeDetachTest extends AbstractTestCase
-{
-  // Test case(s)
-  // -------------------------------------------------------------------------
+public class AttributeDetachTest extends AbstractTestCase {
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testDetachAttribute() throws Exception {
-    List attributes = document.selectNodes("//@name");
+    @Test
+    public void testDetachAttribute() throws Exception {
+        List attributes = document.selectNodes("//@name");
 
-    assertTrue("Found more than one attribute: ", attributes.size() > 0);
+        assertTrue("Found more than one attribute: ", attributes.size() > 0);
 
-    for (Iterator iter = attributes.iterator(); iter.hasNext();) {
-      Attribute attribute = (Attribute)iter.next();
-      Element element = attribute.getParent();
+        for (Iterator iter = attributes.iterator(); iter.hasNext(); ) {
+            Attribute attribute = (Attribute) iter.next();
+            Element element = attribute.getParent();
 
-      assertTrue("Attribute: " + attribute + " has parent: " + element, attribute.getParent() == element);
+            assertTrue("Attribute: " + attribute + " has parent: " + element, attribute.getParent() == element);
 
-      QName qname = attribute.getQName();
+            QName qname = attribute.getQName();
 
-      Attribute attribute2 = element.attribute(qname);
+            Attribute attribute2 = element.attribute(qname);
 
-      String value = attribute.getValue();
-      String value2 = element.attributeValue(qname);
+            String value = attribute.getValue();
+            String value2 = element.attributeValue(qname);
 
-      assertEquals("Attribute and Element have same attrbute value",
-        value, value2);
+            assertEquals("Attribute and Element have same attrbute value",
+                         value, value2);
 
-      attribute.detach();
+            attribute.detach();
 
-      attribute2 = element.attribute(qname);
-      value2 = element.attributeValue(qname);
+            attribute2 = element.attribute(qname);
+            value2 = element.attributeValue(qname);
 
-      assertTrue("Element now has no value: " + value2, value2 == null);
-      assertTrue("Element now has no attribute: " + attribute2,
-        attribute2 == null);
+            assertTrue("Element now has no value: " + value2, value2 == null);
+            assertTrue("Element now has no attribute: " + attribute2,
+                       attribute2 == null);
+        }
     }
-  }
 }
 
 /*

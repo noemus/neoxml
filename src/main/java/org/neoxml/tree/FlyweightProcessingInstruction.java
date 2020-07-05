@@ -25,92 +25,91 @@ import java.util.Map;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.7 $
  */
-public class FlyweightProcessingInstruction extends AbstractProcessingInstruction
-{
-  /**
-   * The target of the PI
-   */
-  protected String target;
+public class FlyweightProcessingInstruction extends AbstractProcessingInstruction {
+    /**
+     * The target of the PI
+     */
+    protected String target;
 
-  /**
-   * The values for the PI as a String
-   */
-  protected String text;
+    /**
+     * The values for the PI as a String
+     */
+    protected String text;
 
-  /**
-   * The values for the PI in name/value pairs
-   */
-  protected Map<String,String> values;
+    /**
+     * The values for the PI in name/value pairs
+     */
+    protected Map<String, String> values;
 
-  /**
-   * A default constructor for implementors to use.
-   */
-  public FlyweightProcessingInstruction() {}
+    /**
+     * A default constructor for implementors to use.
+     */
+    public FlyweightProcessingInstruction() {}
 
-  /**
-   * <p>
-   * This will create a new PI with the given target and values
-   * </p>
-   *
-   * @param target is the name of the PI
-   * @param values is the <code>Map</code> of the values for the PI
-   */
-  public FlyweightProcessingInstruction(String target, Map<String,String> values) {
-    this.target = target;
-    this.values = values;
-    this.text = toString(values);
-  }
-
-  /**
-   * <p>
-   * This will create a new PI with the given target and values
-   * </p>
-   *
-   * @param target is the name of the PI
-   * @param text is the values for the PI as text
-   */
-  public FlyweightProcessingInstruction(String target, String text) {
-    this.target = target;
-    this.text = text;
-    this.values = parseValues(text);
-  }
-
-  @Override
-  public String getTarget() {
-    return target;
-  }
-
-  @Override
-  public void setTarget(String target) {
-    throw new UnsupportedOperationException("This PI is read-only and "
-        + "cannot be modified");
-  }
-
-  @Override
-  public String getText() {
-    return text;
-  }
-
-  @Override
-  public String getValue(String name) {
-    String answer = values.get(name);
-
-    if (answer == null) {
-      return "";
+    /**
+     * <p>
+     * This will create a new PI with the given target and values
+     * </p>
+     *
+     * @param target is the name of the PI
+     * @param values is the <code>Map</code> of the values for the PI
+     */
+    public FlyweightProcessingInstruction(String target, Map<String, String> values) {
+        this.target = target;
+        this.values = values;
+        this.text = toString(values);
     }
 
-    return answer;
-  }
+    /**
+     * <p>
+     * This will create a new PI with the given target and values
+     * </p>
+     *
+     * @param target is the name of the PI
+     * @param text   is the values for the PI as text
+     */
+    public FlyweightProcessingInstruction(String target, String text) {
+        this.target = target;
+        this.text = text;
+        this.values = parseValues(text);
+    }
 
-  @Override
-  public Map<String,String> getValues() {
-    return Collections.unmodifiableMap(values);
-  }
+    @Override
+    public String getTarget() {
+        return target;
+    }
 
-  @Override
-  protected Node createXPathResult(Element parent) {
-    return new DefaultProcessingInstruction(parent, getTarget(), getText());
-  }
+    @Override
+    public void setTarget(String target) {
+        throw new UnsupportedOperationException("This PI is read-only and "
+                                                        + "cannot be modified");
+    }
+
+    @Override
+    public String getText() {
+        return text;
+    }
+
+    @Override
+    public String getValue(String name) {
+        String answer = values.get(name);
+
+        if (answer == null) {
+            return "";
+        }
+
+        return answer;
+    }
+
+    @Override
+    public Map<String, String> getValues() {
+        return Collections.unmodifiableMap(values);
+    }
+
+    @Override
+    protected Node createXPathResult(Element parent) {
+        return new DefaultProcessingInstruction(parent, getTarget(), getText());
+    }
 }
 
 /*

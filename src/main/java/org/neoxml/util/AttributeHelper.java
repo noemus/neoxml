@@ -18,41 +18,38 @@ import org.neoxml.QName;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.7 $
  */
-public class AttributeHelper
-{
-  protected AttributeHelper() {}
+public class AttributeHelper {
+    protected AttributeHelper() {}
 
-  public static boolean booleanValue(Element element, String attributeName) {
-    return booleanValue(element.attribute(attributeName));
-  }
-
-  public static boolean booleanValue(Element element, QName attributeQName) {
-    return booleanValue(element.attribute(attributeQName));
-  }
-
-  protected static boolean booleanValue(Attribute attribute) {
-    if (attribute == null) {
-      return false;
+    public static boolean booleanValue(Element element, String attributeName) {
+        return booleanValue(element.attribute(attributeName));
     }
 
-    Object value = attribute.getData();
-
-    if (value == null) {
-      return false;
+    public static boolean booleanValue(Element element, QName attributeQName) {
+        return booleanValue(element.attribute(attributeQName));
     }
-    else if (value instanceof Boolean) {
-      Boolean b = (Boolean)value;
 
-      return b.booleanValue();
-    }
-    else {
-      return "true".equalsIgnoreCase(value.toString());
-    }
-  }
+    protected static boolean booleanValue(Attribute attribute) {
+        if (attribute == null) {
+            return false;
+        }
 
-  public static String getAttributeValue(Attribute attribute, String defaultValue) {
-    return attribute == null ? defaultValue : attribute.getValue();
-  }
+        Object value = attribute.getData();
+
+        if (value == null) {
+            return false;
+        } else if (value instanceof Boolean) {
+            Boolean b = (Boolean) value;
+
+            return b.booleanValue();
+        } else {
+            return "true".equalsIgnoreCase(value.toString());
+        }
+    }
+
+    public static String getAttributeValue(Attribute attribute, String defaultValue) {
+        return attribute == null ? defaultValue : attribute.getValue();
+    }
 }
 
 /*

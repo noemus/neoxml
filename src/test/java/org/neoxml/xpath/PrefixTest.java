@@ -22,50 +22,49 @@ import java.util.List;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.3 $
  */
-public class PrefixTest extends AbstractTestCase
-{
-  protected static String[] paths = {
-    "//xplt:anyElement", "//xpl:insertText",
-    "/Template/Application1/xpl:insertText",
-    "/Template/Application2/xpl:insertText"
-  };
+public class PrefixTest extends AbstractTestCase {
+    protected static String[] paths = {
+            "//xplt:anyElement", "//xpl:insertText",
+            "/Template/Application1/xpl:insertText",
+            "/Template/Application2/xpl:insertText"
+    };
 
-  // Test case(s)
-  // -------------------------------------------------------------------------
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testXPaths() throws Exception {
-    int size = paths.length;
+    @Test
+    public void testXPaths() throws Exception {
+        int size = paths.length;
 
-    for (int i = 0; i < size; i++) {
-      testXPath(paths[i]);
+        for (int i = 0; i < size; i++) {
+            testXPath(paths[i]);
+        }
     }
-  }
 
-  // Implementation methods
-  // -------------------------------------------------------------------------
+    // Implementation methods
+    // -------------------------------------------------------------------------
 
-  protected void testXPath(String xpathText) {
-    XPath xpath = DocumentHelper.createXPath(xpathText);
+    protected void testXPath(String xpathText) {
+        XPath xpath = DocumentHelper.createXPath(xpathText);
 
-    SimpleNamespaceContext context = new SimpleNamespaceContext();
-    context.addNamespace("xplt", "www.xxxx.com");
-    context.addNamespace("xpl", "www.xxxx.com");
-    ((DefaultXPath)xpath).setNamespaceContext(context);
+        SimpleNamespaceContext context = new SimpleNamespaceContext();
+        context.addNamespace("xplt", "www.xxxx.com");
+        context.addNamespace("xpl", "www.xxxx.com");
+        ((DefaultXPath) xpath).setNamespaceContext(context);
 
-    List<Node> list = xpath.selectNodes(document);
+        List<Node> list = xpath.selectNodes(document);
 
-    log("Searched path: " + xpathText + " found: " + list.size() + " result(s)");
+        log("Searched path: " + xpathText + " found: " + list.size() + " result(s)");
 
-    assertTrue("Should have found at lest one result", list.size() > 0);
-  }
+        assertTrue("Should have found at lest one result", list.size() > 0);
+    }
 
-  @Override
-  @Before
-  public void setUp() throws Exception {
-    super.setUp();
-    document = getDocument("xml/testNamespaces.xml");
-  }
+    @Override
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        document = getDocument("xml/testNamespaces.xml");
+    }
 }
 
 /*

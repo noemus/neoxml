@@ -22,53 +22,52 @@ import java.io.Writer;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.13 $
  */
-public abstract class AbstractComment extends AbstractCharacterData implements Comment
-{
-  public AbstractComment() {}
+public abstract class AbstractComment extends AbstractCharacterData implements Comment {
+    public AbstractComment() {}
 
-  @Override
-  public NodeType getNodeTypeEnum() {
-    return NodeType.COMMENT_NODE;
-  }
+    @Override
+    public NodeType getNodeTypeEnum() {
+        return NodeType.COMMENT_NODE;
+    }
 
-  @Override
-  public String getPath(Element context) {
-    Element parent = getParent();
+    @Override
+    public String getPath(Element context) {
+        Element parent = getParent();
 
-    return ((parent != null) && (parent != context)) ? (parent.getPath(context) + "/comment()") : "comment()";
-  }
+        return ((parent != null) && (parent != context)) ? (parent.getPath(context) + "/comment()") : "comment()";
+    }
 
-  @Override
-  public String getUniquePath(Element context) {
-    Element parent = getParent();
+    @Override
+    public String getUniquePath(Element context) {
+        Element parent = getParent();
 
-    return ((parent != null) && (parent != context)) ? (parent.getUniquePath(context) + "/comment()") : "comment()";
-  }
+        return ((parent != null) && (parent != context)) ? (parent.getUniquePath(context) + "/comment()") : "comment()";
+    }
 
-  @Override
-  protected void toString(StringBuilder builder) {
-    super.toString(builder);
-    builder.append(" [Comment: \"");
-    builder.append(getText());
-    builder.append("\"]");
-  }
+    @Override
+    protected void toString(StringBuilder builder) {
+        super.toString(builder);
+        builder.append(" [Comment: \"");
+        builder.append(getText());
+        builder.append("\"]");
+    }
 
-  @Override
-  public String asXML() {
-    return "<!--" + getText() + "-->";
-  }
+    @Override
+    public String asXML() {
+        return "<!--" + getText() + "-->";
+    }
 
-  @Override
-  public void write(Writer writer) throws IOException {
-    writer.write("<!--");
-    writer.write(getText());
-    writer.write("-->");
-  }
+    @Override
+    public void write(Writer writer) throws IOException {
+        writer.write("<!--");
+        writer.write(getText());
+        writer.write("-->");
+    }
 
-  @Override
-  public boolean accept(Visitor visitor) {
-    return visitor.visit(this);
-  }
+    @Override
+    public boolean accept(Visitor visitor) {
+        return visitor.visit(this);
+    }
 }
 
 /*

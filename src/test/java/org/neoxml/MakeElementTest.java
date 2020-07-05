@@ -14,67 +14,66 @@ import org.junit.Test;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.3 $
  */
-public class MakeElementTest extends AbstractTestCase
-{
-  // Test case(s)
-  // -------------------------------------------------------------------------
+public class MakeElementTest extends AbstractTestCase {
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testMakeElement() throws Exception {
-    Document doc = DocumentHelper.createDocument();
+    @Test
+    public void testMakeElement() throws Exception {
+        Document doc = DocumentHelper.createDocument();
 
-    Element c = DocumentHelper.makeElement(doc, "a/b/c");
-    assertTrue("Should return a valid element", c != null);
+        Element c = DocumentHelper.makeElement(doc, "a/b/c");
+        assertTrue("Should return a valid element", c != null);
 
-    Element c2 = DocumentHelper.makeElement(doc, "a/b/c");
+        Element c2 = DocumentHelper.makeElement(doc, "a/b/c");
 
-    assertTrue("Found same element again", c == c2);
+        assertTrue("Found same element again", c == c2);
 
-    c.addAttribute("x", "123");
+        c.addAttribute("x", "123");
 
-    Node found = doc.selectSingleNode("/a/b/c[@x='123']");
+        Node found = doc.selectSingleNode("/a/b/c[@x='123']");
 
-    assertEquals("Found same node via XPath", c, found);
+        assertEquals("Found same node via XPath", c, found);
 
-    Element b = c.getParent();
+        Element b = c.getParent();
 
-    Element e = DocumentHelper.makeElement(b, "c/d/e");
+        Element e = DocumentHelper.makeElement(b, "c/d/e");
 
-    assertTrue("Should return a valid element", e != null);
+        assertTrue("Should return a valid element", e != null);
 
-    Element e2 = DocumentHelper.makeElement(b, "c/d/e");
+        Element e2 = DocumentHelper.makeElement(b, "c/d/e");
 
-    assertTrue("Found same element again", e == e2);
+        assertTrue("Found same element again", e == e2);
 
-    e.addAttribute("y", "456");
+        e.addAttribute("y", "456");
 
-    found = b.selectSingleNode("c/d/e[@y='456']");
+        found = b.selectSingleNode("c/d/e[@y='456']");
 
-    assertEquals("Found same node via XPath", e, found);
-  }
+        assertEquals("Found same node via XPath", e, found);
+    }
 
-  @Test
-  public void testMakeQualifiedElement() throws Exception {
-    Document doc = DocumentHelper.createDocument();
-    Element root = doc.addElement("root");
-    root.addNamespace("", "defaultURI");
-    root.addNamespace("foo", "fooURI");
-    root.addNamespace("bar", "barURI");
+    @Test
+    public void testMakeQualifiedElement() throws Exception {
+        Document doc = DocumentHelper.createDocument();
+        Element root = doc.addElement("root");
+        root.addNamespace("", "defaultURI");
+        root.addNamespace("foo", "fooURI");
+        root.addNamespace("bar", "barURI");
 
-    Element c = DocumentHelper.makeElement(doc, "root/foo:b/bar:c");
-    assertTrue("Should return a valid element", c != null);
+        Element c = DocumentHelper.makeElement(doc, "root/foo:b/bar:c");
+        assertTrue("Should return a valid element", c != null);
 
-    assertEquals("c has a valid namespace", "barURI", c.getNamespaceURI());
+        assertEquals("c has a valid namespace", "barURI", c.getNamespaceURI());
 
-    Element b = c.getParent();
+        Element b = c.getParent();
 
-    assertEquals("b has a valid namespace", "fooURI", b.getNamespaceURI());
+        assertEquals("b has a valid namespace", "fooURI", b.getNamespaceURI());
 
-    log("Created: " + c);
+        log("Created: " + c);
 
-    Element c2 = DocumentHelper.makeElement(doc, "root/foo:b/bar:c");
-    assertTrue("Found same element again", c == c2);
-  }
+        Element c2 = DocumentHelper.makeElement(doc, "root/foo:b/bar:c");
+        assertTrue("Found same element again", c == c2);
+    }
 }
 
 /*

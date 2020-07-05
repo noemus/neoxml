@@ -17,207 +17,206 @@ import java.util.List;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.3 $
  */
-public class ContentTest extends AbstractTestCase
-{
-  protected DocumentFactory factory = new DefaultDocumentFactory();
+public class ContentTest extends AbstractTestCase {
+    protected DocumentFactory factory = new DefaultDocumentFactory();
 
-  // Test case(s)
-  // -------------------------------------------------------------------------
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testRoot() throws Exception {
-    Element root = document.getRootElement();
-    assertNotNull("Has root element", root);
+    @Test
+    public void testRoot() throws Exception {
+        Element root = document.getRootElement();
+        assertNotNull("Has root element", root);
 
-    List<Element> authors = root.elements("author");
-    assertNotNull("Root has children", authors);
-    assertTrue("Root has children", authors.size() == 2);
+        List<Element> authors = root.elements("author");
+        assertNotNull("Root has children", authors);
+        assertTrue("Root has children", authors.size() == 2);
 
-    Element author1 = authors.get(0);
-    Element author2 = authors.get(1);
+        Element author1 = authors.get(0);
+        Element author2 = authors.get(1);
 
-    assertTrue("Author1 is James", author1.attributeValue("name").equals("James"));
-    assertTrue("Author2 is Bob", author2.attributeValue("name").equals("Bob"));
+        assertTrue("Author1 is James", author1.attributeValue("name").equals("James"));
+        assertTrue("Author2 is Bob", author2.attributeValue("name").equals("Bob"));
 
-    testGetAttributes(author1);
-    testGetAttributes(author2);
-  }
-
-  @Test
-  public void testContent() throws Exception {
-    Element root = document.getRootElement();
-    assertNotNull("Has root element", root);
-
-    List<Node> content = root.content();
-    assertNotNull("Root has content", content);
-    assertTrue("Root has content", content.size() >= 2);
-
-    int iterated = 0;
-
-    for (Iterator<Node> iter = content.iterator(); iter.hasNext();) {
-      Object object = iter.next();
-      assertTrue("Content object is a node", object instanceof Node);
-      ++iterated;
+        testGetAttributes(author1);
+        testGetAttributes(author2);
     }
 
-    assertEquals("Iteration completed", content.size(), iterated);
-  }
+    @Test
+    public void testContent() throws Exception {
+        Element root = document.getRootElement();
+        assertNotNull("Has root element", root);
 
-  @Test
-  public void testGetNode() throws Exception {
-    Element root = document.getRootElement();
-    assertNotNull("Has root element", root);
+        List<Node> content = root.content();
+        assertNotNull("Root has content", content);
+        assertTrue("Root has content", content.size() >= 2);
 
-    int count = root.nodeCount();
-    assertTrue("Root has correct node count", count == 2);
+        int iterated = 0;
 
-    boolean iterated = false;
+        for (Iterator<Node> iter = content.iterator(); iter.hasNext(); ) {
+            Object object = iter.next();
+            assertTrue("Content object is a node", object instanceof Node);
+            ++iterated;
+        }
 
-    for (int i = 0; i < count; i++) {
-      Node node = root.node(i);
-      assertTrue("Valid node returned from node()", node != null);
-      iterated = true;
+        assertEquals("Iteration completed", content.size(), iterated);
     }
 
-    assertTrue("Iteration completed", iterated);
-  }
+    @Test
+    public void testGetNode() throws Exception {
+        Element root = document.getRootElement();
+        assertNotNull("Has root element", root);
 
-  @Test
-  public void testGetXPathNode() throws Exception {
-    Element root = document.getRootElement();
-    assertNotNull("Has root element", root);
+        int count = root.nodeCount();
+        assertTrue("Root has correct node count", count == 2);
 
-    int count = root.nodeCount();
-    assertTrue("Root has correct node count", count == 2);
+        boolean iterated = false;
 
-    boolean iterated = false;
+        for (int i = 0; i < count; i++) {
+            Node node = root.node(i);
+            assertTrue("Valid node returned from node()", node != null);
+            iterated = true;
+        }
 
-    for (int i = 0; i < count; i++) {
-      Node node = root.getXPathResult(i);
-      assertNotNull("Valid node returned from node()", node);
-      assertTrue("Node supports the parent relationship", node.supportsParent());
-      iterated = true;
+        assertTrue("Iteration completed", iterated);
     }
 
-    assertTrue("Iteration completed", iterated);
-  }
+    @Test
+    public void testGetXPathNode() throws Exception {
+        Element root = document.getRootElement();
+        assertNotNull("Has root element", root);
 
-  @Test
-  public void testOrderOfPI() throws Exception {
-    Document doc = factory.createDocument();
-    doc.addProcessingInstruction("xml-stylesheet", "type=\"text/xsl\" href=\"...\"");
-    doc.addElement("root");
+        int count = root.nodeCount();
+        assertTrue("Root has correct node count", count == 2);
 
-    List<Node> list = doc.content();
+        boolean iterated = false;
 
-    assertNotNull(list);
-    assertEquals(2, list.size());
+        for (int i = 0; i < count; i++) {
+            Node node = root.getXPathResult(i);
+            assertNotNull("Valid node returned from node()", node);
+            assertTrue("Node supports the parent relationship", node.supportsParent());
+            iterated = true;
+        }
 
-    Object pi = list.get(0);
-    Object root = list.get(1);
+        assertTrue("Iteration completed", iterated);
+    }
 
-    assertTrue("First element is not a PI",
-      pi instanceof ProcessingInstruction);
-    assertTrue("Second element is an element", root instanceof Element);
+    @Test
+    public void testOrderOfPI() throws Exception {
+        Document doc = factory.createDocument();
+        doc.addProcessingInstruction("xml-stylesheet", "type=\"text/xsl\" href=\"...\"");
+        doc.addElement("root");
 
-    String xml = "<?xml version=\"1.0\" ?>\n"
-        + "<?xml-stylesheet type=\"text/xsl\" href=\"foo\" ?>\n"
-        + "<root/>";
-    doc = DocumentHelper.parseText(xml);
+        List<Node> list = doc.content();
 
-    list = doc.content();
+        assertNotNull(list);
+        assertEquals(2, list.size());
 
-    assertNotNull(list);
-    assertEquals(2, list.size());
-    pi = list.get(0);
-    root = list.get(1);
+        Object pi = list.get(0);
+        Object root = list.get(1);
 
-    assertTrue("First element is not a PI",
-      pi instanceof ProcessingInstruction);
-    assertTrue("Second element is an element", root instanceof Element);
-  }
+        assertTrue("First element is not a PI",
+                   pi instanceof ProcessingInstruction);
+        assertTrue("Second element is an element", root instanceof Element);
 
-  @Test
-  public void testAddingInTheMiddle() throws Exception {
-    Document doc = factory.createDocument();
-    Element root = doc.addElement("html");
-    Element header = root.addElement("header");
-    Element footer = root.addElement("footer");
+        String xml = "<?xml version=\"1.0\" ?>\n"
+                + "<?xml-stylesheet type=\"text/xsl\" href=\"foo\" ?>\n"
+                + "<root/>";
+        doc = DocumentHelper.parseText(xml);
 
-    // now lets add <foo> in between header & footer
-    List<Node> list = root.content();
-    Element foo = factory.createElement("foo");
-    list.add(1, foo);
+        list = doc.content();
 
-    // assertions
-    assertTrue(list.size() == 3);
-    assertTrue(list.get(0) == header);
-    assertTrue(list.get(1) == foo);
-    assertTrue(list.get(2) == footer);
-  }
+        assertNotNull(list);
+        assertEquals(2, list.size());
+        pi = list.get(0);
+        root = list.get(1);
 
-  @Test
-  public void testAddAtIndex() throws Exception {
-    Document doc = factory.createDocument();
-    Element root = doc.addElement("html");
-    Element header = root.addElement("header");
-    Element body = root.addElement("body");
+        assertTrue("First element is not a PI",
+                   pi instanceof ProcessingInstruction);
+        assertTrue("Second element is an element", root instanceof Element);
+    }
 
-    Element foo = factory.createElement("foo");
-    Element bar = factory.createElement("bar");
+    @Test
+    public void testAddingInTheMiddle() throws Exception {
+        Document doc = factory.createDocument();
+        Element root = doc.addElement("html");
+        Element header = root.addElement("header");
+        Element footer = root.addElement("footer");
 
-    List<Node> content = header.content();
-    content.add(0, foo);
-    content.add(0, bar);
+        // now lets add <foo> in between header & footer
+        List<Node> list = root.content();
+        Element foo = factory.createElement("foo");
+        list.add(1, foo);
 
-    assertEquals("foo", header.node(1).getName());
-    assertEquals("bar", header.node(0).getName());
+        // assertions
+        assertTrue(list.size() == 3);
+        assertTrue(list.get(0) == header);
+        assertTrue(list.get(1) == foo);
+        assertTrue(list.get(2) == footer);
+    }
 
-    foo = factory.createElement("foo");
-    bar = factory.createElement("bar");
+    @Test
+    public void testAddAtIndex() throws Exception {
+        Document doc = factory.createDocument();
+        Element root = doc.addElement("html");
+        Element header = root.addElement("header");
+        Element body = root.addElement("body");
 
-    content = body.content();
-    content.add(0, foo);
-    content.add(1, bar);
+        Element foo = factory.createElement("foo");
+        Element bar = factory.createElement("bar");
 
-    assertEquals("foo", body.node(0).getName());
-    assertEquals("bar", body.node(1).getName());
-  }
+        List<Node> content = header.content();
+        content.add(0, foo);
+        content.add(0, bar);
 
-  @Test
-  public void testAddAtIndex2() throws Exception {
-    Document doc = factory.createDocument();
-    Element parent = doc.addElement("parent");
-    Element child = parent.addElement("child");
-    Element anotherChild = factory.createElement("child2");
+        assertEquals("foo", header.node(1).getName());
+        assertEquals("bar", header.node(0).getName());
 
-    List<Element> elements = parent.elements();
-    int index = elements.indexOf(child);
+        foo = factory.createElement("foo");
+        bar = factory.createElement("bar");
 
-    assertEquals(0, index);
+        content = body.content();
+        content.add(0, foo);
+        content.add(1, bar);
 
-    elements.add(1, anotherChild);
-    elements = parent.elements();
-    assertEquals(child, elements.get(0));
-    assertEquals(anotherChild, elements.get(1));
-  }
+        assertEquals("foo", body.node(0).getName());
+        assertEquals("bar", body.node(1).getName());
+    }
 
-  // Implementation methods
-  // -------------------------------------------------------------------------
+    @Test
+    public void testAddAtIndex2() throws Exception {
+        Document doc = factory.createDocument();
+        Element parent = doc.addElement("parent");
+        Element child = parent.addElement("child");
+        Element anotherChild = factory.createElement("child2");
 
-  protected void testGetAttributes(Element author) throws Exception {
-    String definedName = "name";
-    String undefinedName = "undefined-attribute-name";
-    String defaultValue = "** Default Value **";
+        List<Element> elements = parent.elements();
+        int index = elements.indexOf(child);
 
-    String value = author.attributeValue(definedName, defaultValue);
-    assertTrue("Defined value doesn't return specified default value",
-      value != defaultValue);
+        assertEquals(0, index);
 
-    value = author.attributeValue(undefinedName, defaultValue);
-    assertTrue("Undefined value returns specified default value",
-      value == defaultValue);
-  }
+        elements.add(1, anotherChild);
+        elements = parent.elements();
+        assertEquals(child, elements.get(0));
+        assertEquals(anotherChild, elements.get(1));
+    }
+
+    // Implementation methods
+    // -------------------------------------------------------------------------
+
+    protected void testGetAttributes(Element author) throws Exception {
+        String definedName = "name";
+        String undefinedName = "undefined-attribute-name";
+        String defaultValue = "** Default Value **";
+
+        String value = author.attributeValue(definedName, defaultValue);
+        assertTrue("Defined value doesn't return specified default value",
+                   value != defaultValue);
+
+        value = author.attributeValue(undefinedName, defaultValue);
+        assertTrue("Undefined value returns specified default value",
+                   value == defaultValue);
+    }
 }
 
 /*

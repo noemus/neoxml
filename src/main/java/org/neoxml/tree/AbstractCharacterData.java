@@ -18,31 +18,30 @@ import org.neoxml.Element;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.12 $
  */
-public abstract class AbstractCharacterData extends AbstractNode implements CharacterData
-{
-  public AbstractCharacterData() {}
+public abstract class AbstractCharacterData extends AbstractNode implements CharacterData {
+    public AbstractCharacterData() {}
 
-  @Override
-  public String getPath(Element context) {
-    Element parent = getParent();
+    @Override
+    public String getPath(Element context) {
+        Element parent = getParent();
 
-    return ((parent != null) && (parent != context)) ? (parent
-        .getPath(context) + "/text()") : "text()";
-  }
+        return ((parent != null) && (parent != context)) ? (parent
+                .getPath(context) + "/text()") : "text()";
+    }
 
-  @Override
-  public String getUniquePath(Element context) {
-    Element parent = getParent();
+    @Override
+    public String getUniquePath(Element context) {
+        Element parent = getParent();
 
-    return ((parent != null) && (parent != context)) ? (parent
-        .getUniquePath(context) + "/text()") : "text()";
-  }
+        return ((parent != null) && (parent != context)) ? (parent
+                .getUniquePath(context) + "/text()") : "text()";
+    }
 
-  @Override
-  public void appendText(String text) {
-    //TODO inefficient implementation
-    setText(getText() + text);
-  }
+    @Override
+    public void appendText(String text) {
+        //TODO inefficient implementation
+        setText(getText() + text);
+    }
 }
 
 /*

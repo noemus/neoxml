@@ -6,7 +6,11 @@
 
 package org.neoxml.util;
 
-import org.neoxml.*;
+import org.neoxml.Attribute;
+import org.neoxml.DefaultDocumentFactory;
+import org.neoxml.DocumentFactory;
+import org.neoxml.Element;
+import org.neoxml.QName;
 
 /**
  * <p>
@@ -19,37 +23,36 @@ import org.neoxml.*;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.11 $
  */
-public class UserDataDocumentFactory extends DefaultDocumentFactory
-{
-  /**
-   * The Singleton instance
-   */
-  protected static transient UserDataDocumentFactory singleton = new UserDataDocumentFactory();
+public class UserDataDocumentFactory extends DefaultDocumentFactory {
+    /**
+     * The Singleton instance
+     */
+    protected static transient UserDataDocumentFactory singleton = new UserDataDocumentFactory();
 
-  /**
-   * <p>
-   * Access to the singleton instance of this factory.
-   * </p>
-   *
-   * @return the default singleon instance
-   */
-  @SuppressWarnings("sync-override")
-  public static DocumentFactory getInstance() {
-    return singleton;
-  }
+    /**
+     * <p>
+     * Access to the singleton instance of this factory.
+     * </p>
+     *
+     * @return the default singleon instance
+     */
+    @SuppressWarnings("sync-override")
+    public static DocumentFactory getInstance() {
+        return singleton;
+    }
 
-  // DefaultDocumentFactory methods
-  // -------------------------------------------------------------------------
+    // DefaultDocumentFactory methods
+    // -------------------------------------------------------------------------
 
-  @Override
-  public Element createElement(QName qname) {
-    return new UserDataElement(qname);
-  }
+    @Override
+    public Element createElement(QName qname) {
+        return new UserDataElement(qname);
+    }
 
-  @Override
-  public Attribute createAttribute(Element owner, QName qname, String value) {
-    return new UserDataAttribute(qname, value);
-  }
+    @Override
+    public Attribute createAttribute(Element owner, QName qname, String value) {
+        return new UserDataAttribute(qname, value);
+    }
 }
 
 /*

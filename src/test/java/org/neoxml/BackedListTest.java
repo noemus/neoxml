@@ -16,79 +16,78 @@ import java.util.List;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.3 $
  */
-public class BackedListTest extends AbstractTestCase
-{
-  // Test case(s)
-  // -------------------------------------------------------------------------
+public class BackedListTest extends AbstractTestCase {
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testXPaths() {
-    Element element = (Element)document.selectSingleNode("/root");
-    mutate(element);
-    element = (Element)document.selectSingleNode("//author");
-    mutate(element);
-  }
+    @Test
+    public void testXPaths() {
+        Element element = (Element) document.selectSingleNode("/root");
+        mutate(element);
+        element = (Element) document.selectSingleNode("//author");
+        mutate(element);
+    }
 
-  @Test(expected = IllegalAddException.class)
-  public void testAddRemove() {
-    Element parentElement = (Element)document.selectSingleNode("/root");
-    List<Element> children = parentElement.elements();
-    int lastPos = children.size() - 1;
-    Element child = children.get(lastPos);
+    @Test(expected = IllegalAddException.class)
+    public void testAddRemove() {
+        Element parentElement = (Element) document.selectSingleNode("/root");
+        List<Element> children = parentElement.elements();
+        int lastPos = children.size() - 1;
+        Element child = children.get(lastPos);
 
-    // should throw an exception cause we cannot add same child twice
-    children.add(0, child);
-  }
+        // should throw an exception cause we cannot add same child twice
+        children.add(0, child);
+    }
 
-  @Test
-  public void testAddWithIndex() {
-    DocumentFactory factory = DefaultDocumentFactory.getInstance();
+    @Test
+    public void testAddWithIndex() {
+        DocumentFactory factory = DefaultDocumentFactory.getInstance();
 
-    Element root = (Element)document.selectSingleNode("/root");
-    List<Element> children = root.elements(); // return a list of 2 author
-    // elements
+        Element root = (Element) document.selectSingleNode("/root");
+        List<Element> children = root.elements(); // return a list of 2 author
+        // elements
 
-    assertEquals(2, children.size());
+        assertEquals(2, children.size());
 
-    children.add(1, factory.createElement("dummy1"));
-    children = root.elements();
+        children.add(1, factory.createElement("dummy1"));
+        children = root.elements();
 
-    assertEquals(3, children.size());
+        assertEquals(3, children.size());
 
-    children = root.elements("author");
+        children = root.elements("author");
 
-    assertEquals(2, children.size());
+        assertEquals(2, children.size());
 
-    children.add(1, factory.createElement("dummy2"));
+        children.add(1, factory.createElement("dummy2"));
 
-    children = root.elements();
+        children = root.elements();
 
-    assertEquals(4, children.size());
-    assertEquals("dummy1", children.get(1).getName());
-    assertEquals("dummy2", children.get(2).getName());
+        assertEquals(4, children.size());
+        assertEquals("dummy1", children.get(1).getName());
+        assertEquals("dummy2", children.get(2).getName());
 
-    /*
-     * Some tests for issue reported at http://tinyurl.com/4jxrc
-     */
-    children.add(children.size(), factory.createElement("dummy3"));
-    children = root.elements("author");
-    children.add(children.size(), factory.createElement("dummy4"));
-  }
+        /*
+         * Some tests for issue reported at http://tinyurl.com/4jxrc
+         */
+        children.add(children.size(), factory.createElement("dummy3"));
+        children = root.elements("author");
+        children.add(children.size(), factory.createElement("dummy4"));
+    }
 
-  // Implementation methods
-  // -------------------------------------------------------------------------
+    // Implementation methods
+    // -------------------------------------------------------------------------
 
-  protected void mutate(Element element) {
-    DocumentFactory factory = DefaultDocumentFactory.getInstance();
+    protected void mutate(Element element) {
+        DocumentFactory factory = DefaultDocumentFactory.getInstance();
 
-    List<Element> list = element.elements();
-    list.add(factory.createElement("last"));
-    list.add(0, factory.createElement("first"));
+        List<Element> list = element.elements();
+        list.add(factory.createElement("last"));
+        list.add(0, factory.createElement("first"));
 
-    List<Element> list2 = element.elements();
+        List<Element> list2 = element.elements();
 
-    assertEquals("Both lists should contain same number of elements", list.size(), list2.size());
-  }
+        assertEquals("Both lists should contain same number of elements", list.size(), list2.size());
+    }
 }
 
 /*

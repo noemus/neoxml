@@ -20,80 +20,79 @@ import org.neoxml.tree.DefaultElement;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.12 $
  */
-public class UserDataElement extends DefaultElement
-{
-  /**
-   * The user data object
-   */
-  private Object data;
+public class UserDataElement extends DefaultElement {
+    /**
+     * The user data object
+     */
+    private Object data;
 
-  public UserDataElement(String name) {
-    super(name);
-  }
-
-  public UserDataElement(QName qname) {
-    super(qname);
-  }
-
-  @Override
-  public Object getData() {
-    return data;
-  }
-
-  @Override
-  public void setData(Object data) {
-    this.data = data;
-  }
-
-  @Override
-  public String toString() {
-    return super.toString() + " userData: " + data;
-  }
-
-  @Override
-  public UserDataElement clone() {
-    UserDataElement answer = (UserDataElement)super.clone();
-
-    if (answer != this) {
-      answer.data = getCopyOfUserData();
+    public UserDataElement(String name) {
+        super(name);
     }
 
-    return answer;
-  }
+    public UserDataElement(QName qname) {
+        super(qname);
+    }
 
-  // Implementation methods
-  // -------------------------------------------------------------------------
+    @Override
+    public Object getData() {
+        return data;
+    }
 
-  /**
-   * If a deep copy of user data is required whenever the clone() or
-   * createCopy() methods are called on this element then this method should
-   * return a clone of the user data
-   *
-   * @return DOCUMENT ME!
-   */
-  protected Object getCopyOfUserData() {
-    return data;
-  }
+    @Override
+    public void setData(Object data) {
+        this.data = data;
+    }
 
-  @Override
-  protected Element createElement(String name) {
-    Element answer = getDocumentFactory().createElement(name);
-    answer.setData(getCopyOfUserData());
+    @Override
+    public String toString() {
+        return super.toString() + " userData: " + data;
+    }
 
-    return answer;
-  }
+    @Override
+    public UserDataElement clone() {
+        UserDataElement answer = (UserDataElement) super.clone();
 
-  @Override
-  protected Element createElement(QName qName) {
-    Element answer = getDocumentFactory().createElement(qName);
-    answer.setData(getCopyOfUserData());
+        if (answer != this) {
+            answer.data = getCopyOfUserData();
+        }
 
-    return answer;
-  }
+        return answer;
+    }
 
-  // protected DefaultDocumentFactory getDocumentFactory() {
-  // return DOCUMENT_FACTORY;
-  // }
+    // Implementation methods
+    // -------------------------------------------------------------------------
+
+    /**
+     * If a deep copy of user data is required whenever the clone() or
+     * createCopy() methods are called on this element then this method should
+     * return a clone of the user data
+     *
+     * @return DOCUMENT ME!
+     */
+    protected Object getCopyOfUserData() {
+        return data;
+    }
+
+    @Override
+    protected Element createElement(String name) {
+        Element answer = getDocumentFactory().createElement(name);
+        answer.setData(getCopyOfUserData());
+
+        return answer;
+    }
+
+    @Override
+    protected Element createElement(QName qName) {
+        Element answer = getDocumentFactory().createElement(qName);
+        answer.setData(getCopyOfUserData());
+
+        return answer;
+    }
+
+    // protected DefaultDocumentFactory getDocumentFactory() {
+    // return DOCUMENT_FACTORY;
+    // }
 }
 
 /*

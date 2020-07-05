@@ -17,46 +17,45 @@ import java.util.List;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.4 $
  */
-public class GetQNamesTest extends AbstractTestCase
-{
-  // Test case(s)
-  // -------------------------------------------------------------------------
+public class GetQNamesTest extends AbstractTestCase {
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testQNames() throws Exception {
-    DocumentFactory factory = new DefaultDocumentFactory();
+    @Test
+    public void testQNames() throws Exception {
+        DocumentFactory factory = new DefaultDocumentFactory();
 
-    SAXReader reader = new SAXReader();
-    reader.setDocumentFactory(factory);
-    getDocument("/src/test/xml/test/soap2.xml", reader);
+        SAXReader reader = new SAXReader();
+        reader.setDocumentFactory(factory);
+        getDocument("/src/test/xml/test/soap2.xml", reader);
 
-    List qnames = factory.getQNames();
-    assertEquals("Number of QNames not correct", 15, qnames.size());
-  }
+        List qnames = factory.getQNames();
+        assertEquals("Number of QNames not correct", 15, qnames.size());
+    }
 
-  /**
-   * Test the element rename functionality which was lacking as spotted by Rob
-   * Lebowitz
-   *
-   * @throws Exception DOCUMENT ME!
-   */
-  @Test
-  public void testRename() throws Exception {
-    Document doc = DocumentHelper.createDocument();
-    Element root = doc.addElement("foo");
+    /**
+     * Test the element rename functionality which was lacking as spotted by Rob
+     * Lebowitz
+     *
+     * @throws Exception DOCUMENT ME!
+     */
+    @Test
+    public void testRename() throws Exception {
+        Document doc = DocumentHelper.createDocument();
+        Element root = doc.addElement("foo");
 
-    assertEquals("named correctly", "foo", root.getName());
+        assertEquals("named correctly", "foo", root.getName());
 
-    root.setName("bar");
+        root.setName("bar");
 
-    assertEquals("named correctly", "bar", root.getName());
+        assertEquals("named correctly", "bar", root.getName());
 
-    QName xyz = root.getQName("xyz");
+        QName xyz = root.getQName("xyz");
 
-    root.setQName(xyz);
+        root.setQName(xyz);
 
-    assertEquals("QNamed correctly", xyz, root.getQName());
-  }
+        assertEquals("QNamed correctly", xyz, root.getQName());
+    }
 }
 
 /*

@@ -6,11 +6,20 @@
 
 package org.neoxml.jaxb;
 
-import org.neoxml.*;
+import org.neoxml.Document;
+import org.neoxml.DocumentException;
+import org.neoxml.Element;
+import org.neoxml.ElementHandler;
+import org.neoxml.ElementPath;
 import org.neoxml.io.SAXReader;
 import org.xml.sax.InputSource;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
 
@@ -24,322 +33,307 @@ import java.nio.charset.Charset;
  * @see org.neoxml.io.SAXReader
  * @see javax.xml.bind.JAXBContext
  */
-public class JAXBReader extends JAXBSupport
-{
-  private SAXReader reader;
+public class JAXBReader extends JAXBSupport {
+    private SAXReader reader;
 
-  private boolean pruneElements;
+    private boolean pruneElements;
 
-  /**
-   * Creates a new JAXBReader for the given JAXB context path. This is the
-   * Java package where JAXB can find the generated XML classes. This package
-   * MUST contain jaxb.properties!
-   *
-   * @param contextPath context path to be used
-   * @see javax.xml.bind.JAXBContext
-   */
-  public JAXBReader(String contextPath) {
-    super(contextPath);
-  }
-
-  /**
-   * Creates a new JAXBReader for the given JAXB context path, using the
-   * specified {@link java.lang.Classloader}. This is the Java package where
-   * JAXB can find the generated XML classes. This package MUST contain
-   * jaxb.properties!
-   *
-   * @param contextPath to be used
-   * @param classloader to be used
-   * @see javax.xml.bind.JAXBContext
-   */
-  public JAXBReader(String contextPath, ClassLoader classloader) {
-    super(contextPath, classloader);
-  }
-
-  /**
-   * Parses the specified {@link java.io.File}
-   *
-   * @param source the file to parse
-   * @return the resulting neoxml document
-   * @throws DocumentException when an error occurs while parsing
-   */
-  public Document read(File source) throws DocumentException {
-    return getReader().read(source);
-  }
-
-  /**
-   * Parses the specified {@link java.io.File}, using the given {@link java.nio.charset.Charset}.
-   *
-   * @param file the file to parse
-   * @param charset the charset to be used
-   * @return the resulting neoxml document
-   * @throws DocumentException when an error occurs while parsing
-   */
-  public Document read(File file, Charset charset) throws DocumentException {
-    try (Reader xmlReader = new InputStreamReader(new FileInputStream(file), charset)) {
-      return getReader().read(xmlReader);
-    }
-    catch (JAXBRuntimeException ex) {
-      Throwable cause = ex.getCause();
-      throw new DocumentException(cause.getMessage(), cause);
-    }
-    catch (IOException ex) {
-      throw new DocumentException(ex.getMessage(), ex);
-    }
-  }
-
-  /**
-   * Parses the specified {@link org.xml.sax.InputSource}
-   *
-   * @param source the source to parse
-   * @return the resulting neoxml document
-   * @throws DocumentException when an error occurs while parsing
-   */
-  public Document read(InputSource source) throws DocumentException {
-    try {
-      return getReader().read(source);
-    }
-    catch (JAXBRuntimeException ex) {
-      Throwable cause = ex.getCause();
-      throw new DocumentException(cause.getMessage(), cause);
-    }
-  }
-
-  /**
-   * Parses the specified {@link java.io.InputStream}
-   *
-   * @param source the input stream to parse
-   * @return the resulting neoxml document
-   * @throws DocumentException when an error occurs while parsing
-   */
-  public Document read(InputStream source) throws DocumentException {
-    try {
-      return getReader().read(source);
-    }
-    catch (JAXBRuntimeException ex) {
-      Throwable cause = ex.getCause();
-      throw new DocumentException(cause.getMessage(), cause);
-    }
-  }
-
-  /**
-   * Parses the specified {@link java.io.InputStream}
-   *
-   * @param source the input stream to parse
-   * @param systemId is the URI for the input
-   * @return the resulting neoxml document
-   * @throws DocumentException when an error occurs while parsing
-   */
-  public Document read(InputStream source, String systemId) throws DocumentException {
-    try {
-      return getReader().read(source);
-    }
-    catch (JAXBRuntimeException ex) {
-      Throwable cause = ex.getCause();
-      throw new DocumentException(cause.getMessage(), cause);
-    }
-  }
-
-  /**
-   * Parses the specified {@link java.io.Reader}
-   *
-   * @param source the input reader to use
-   * @return the resulting neoxml document
-   * @throws DocumentException when an error occurs while parsing
-   */
-  public Document read(Reader source) throws DocumentException {
-    try {
-      return getReader().read(source);
-    }
-    catch (JAXBRuntimeException ex) {
-      Throwable cause = ex.getCause();
-      throw new DocumentException(cause.getMessage(), cause);
-    }
-  }
-
-  /**
-   * Parses the specified {@link java.io.Reader}
-   *
-   * @param source the input reader to parse
-   * @param systemId is the URI for the input
-   * @return the resulting neoxml document
-   * @throws DocumentException when an error occurs while parsing
-   */
-  public Document read(Reader source, String systemId) throws DocumentException {
-    try {
-      return getReader().read(source);
-    }
-    catch (JAXBRuntimeException ex) {
-      Throwable cause = ex.getCause();
-      throw new DocumentException(cause.getMessage(), cause);
-    }
-  }
-
-  /**
-   * Parses the the given URL or filename.
-   *
-   * @param source the location to parse
-   * @return the resulting neoxml document
-   * @throws DocumentException when an error occurs while parsing
-   */
-  public Document read(String source) throws DocumentException {
-    try {
-      return getReader().read(source);
-    }
-    catch (JAXBRuntimeException ex) {
-      Throwable cause = ex.getCause();
-      throw new DocumentException(cause.getMessage(), cause);
-    }
-  }
-
-  /**
-   * Parses the the given URL.
-   *
-   * @param source the URL to parse
-   * @return the resulting neoxml document
-   * @throws DocumentException when an error occurs while parsing
-   */
-  public Document read(URL source) throws DocumentException {
-    try {
-      return getReader().read(source);
-    }
-    catch (JAXBRuntimeException ex) {
-      Throwable cause = ex.getCause();
-      throw new DocumentException(cause.getMessage(), cause);
-    }
-  }
-
-  /**
-   * Registers a {@link JAXBObjectHandler}that will be supplied with the
-   * unmarshalled representation of the xml fragment whenever the specified
-   * path is encounted.
-   *
-   * @param path the path to listen for
-   * @param handler the handler to be notified
-   */
-  public void addObjectHandler(String path, JAXBObjectHandler handler) {
-    ElementHandler eHandler = new UnmarshalElementHandler(this, handler);
-    getReader().addHandler(path, eHandler);
-  }
-
-  /**
-   * Removes the {@link JAXBObjectHandler}from the event based processor, for
-   * the specified element path.
-   *
-   * @param path The path to remove the {@link JAXBObjectHandler}for
-   */
-  public void removeObjectHandler(String path) {
-    getReader().removeHandler(path);
-  }
-
-  /**
-   * Adds the <code>ElementHandler</code> to be called when the specified
-   * path is encounted.
-   *
-   * @param path is the path to be handled
-   * @param handler is the <code>ElementHandler</code> to be called by the event
-   *          based processor.
-   */
-  public void addHandler(String path, ElementHandler handler) {
-    getReader().addHandler(path, handler);
-  }
-
-  /**
-   * Removes the <code>ElementHandler</code> from the event based processor,
-   * for the specified path.
-   *
-   * @param path is the path to remove the <code>ElementHandler</code> for.
-   */
-  public void removeHandler(String path) {
-    getReader().removeHandler(path);
-  }
-
-  /**
-   * Removes all registered {@link JAXBObjectHandler}and {@link org.neoxml.ElementHandler} instances from the event based
-   * processor.
-   */
-  public void resetHandlers() {
-    getReader().resetHandlers();
-  }
-
-  /**
-   * When 'true', the neoxml document will not be kept in memory while parsing.
-   *
-   * @return Returns the pruneElements.
-   */
-  public boolean isPruneElements() {
-    return pruneElements;
-  }
-
-  /**
-   * Set to true when neoxml elements must immediately be pruned from the tree.
-   * The {@link Document}will not be available afterwards!
-   *
-   * @param pruneElements
-   */
-  public void setPruneElements(boolean pruneElements) {
-    this.pruneElements = pruneElements;
-
-    if (pruneElements) {
-      getReader().setDefaultHandler(new PruningElementHandler());
-    }
-  }
-
-  private SAXReader getReader() {
-    if (reader == null) {
-      reader = new SAXReader();
+    /**
+     * Creates a new JAXBReader for the given JAXB context path. This is the
+     * Java package where JAXB can find the generated XML classes. This package
+     * MUST contain jaxb.properties!
+     *
+     * @param contextPath context path to be used
+     * @see javax.xml.bind.JAXBContext
+     */
+    public JAXBReader(String contextPath) {
+        super(contextPath);
     }
 
-    return reader;
-  }
-
-  private class UnmarshalElementHandler implements ElementHandler
-  {
-    private JAXBReader jaxbReader;
-
-    private JAXBObjectHandler handler;
-
-    public UnmarshalElementHandler(JAXBReader documentReader, JAXBObjectHandler handler) {
-      this.jaxbReader = documentReader;
-      this.handler = handler;
+    /**
+     * Creates a new JAXBReader for the given JAXB context path, using the
+     * specified {@link java.lang.Classloader}. This is the Java package where
+     * JAXB can find the generated XML classes. This package MUST contain
+     * jaxb.properties!
+     *
+     * @param contextPath to be used
+     * @param classloader to be used
+     * @see javax.xml.bind.JAXBContext
+     */
+    public JAXBReader(String contextPath, ClassLoader classloader) {
+        super(contextPath, classloader);
     }
 
-    @Override
-    public void onStart(ElementPath elementPath) {}
+    /**
+     * Parses the specified {@link java.io.File}
+     *
+     * @param source the file to parse
+     * @return the resulting neoxml document
+     * @throws DocumentException when an error occurs while parsing
+     */
+    public Document read(File source) throws DocumentException {
+        return getReader().read(source);
+    }
 
-    @Override
-    public void onEnd(ElementPath elementPath) {
-      try {
-        org.neoxml.Element elem = elementPath.getCurrent();
+    /**
+     * Parses the specified {@link java.io.File}, using the given {@link java.nio.charset.Charset}.
+     *
+     * @param file    the file to parse
+     * @param charset the charset to be used
+     * @return the resulting neoxml document
+     * @throws DocumentException when an error occurs while parsing
+     */
+    public Document read(File file, Charset charset) throws DocumentException {
+        try (Reader xmlReader = new InputStreamReader(new FileInputStream(file), charset)) {
+            return getReader().read(xmlReader);
+        } catch (JAXBRuntimeException ex) {
+            Throwable cause = ex.getCause();
+            throw new DocumentException(cause.getMessage(), cause);
+        } catch (IOException ex) {
+            throw new DocumentException(ex.getMessage(), ex);
+        }
+    }
 
-        javax.xml.bind.Element jaxbObject = jaxbReader.unmarshal(elem);
+    /**
+     * Parses the specified {@link org.xml.sax.InputSource}
+     *
+     * @param source the source to parse
+     * @return the resulting neoxml document
+     * @throws DocumentException when an error occurs while parsing
+     */
+    public Document read(InputSource source) throws DocumentException {
+        try {
+            return getReader().read(source);
+        } catch (JAXBRuntimeException ex) {
+            Throwable cause = ex.getCause();
+            throw new DocumentException(cause.getMessage(), cause);
+        }
+    }
 
-        if (jaxbReader.isPruneElements()) {
-          elem.detach();
+    /**
+     * Parses the specified {@link java.io.InputStream}
+     *
+     * @param source the input stream to parse
+     * @return the resulting neoxml document
+     * @throws DocumentException when an error occurs while parsing
+     */
+    public Document read(InputStream source) throws DocumentException {
+        try {
+            return getReader().read(source);
+        } catch (JAXBRuntimeException ex) {
+            Throwable cause = ex.getCause();
+            throw new DocumentException(cause.getMessage(), cause);
+        }
+    }
+
+    /**
+     * Parses the specified {@link java.io.InputStream}
+     *
+     * @param source   the input stream to parse
+     * @param systemId is the URI for the input
+     * @return the resulting neoxml document
+     * @throws DocumentException when an error occurs while parsing
+     */
+    public Document read(InputStream source, String systemId) throws DocumentException {
+        try {
+            return getReader().read(source);
+        } catch (JAXBRuntimeException ex) {
+            Throwable cause = ex.getCause();
+            throw new DocumentException(cause.getMessage(), cause);
+        }
+    }
+
+    /**
+     * Parses the specified {@link java.io.Reader}
+     *
+     * @param source the input reader to use
+     * @return the resulting neoxml document
+     * @throws DocumentException when an error occurs while parsing
+     */
+    public Document read(Reader source) throws DocumentException {
+        try {
+            return getReader().read(source);
+        } catch (JAXBRuntimeException ex) {
+            Throwable cause = ex.getCause();
+            throw new DocumentException(cause.getMessage(), cause);
+        }
+    }
+
+    /**
+     * Parses the specified {@link java.io.Reader}
+     *
+     * @param source   the input reader to parse
+     * @param systemId is the URI for the input
+     * @return the resulting neoxml document
+     * @throws DocumentException when an error occurs while parsing
+     */
+    public Document read(Reader source, String systemId) throws DocumentException {
+        try {
+            return getReader().read(source);
+        } catch (JAXBRuntimeException ex) {
+            Throwable cause = ex.getCause();
+            throw new DocumentException(cause.getMessage(), cause);
+        }
+    }
+
+    /**
+     * Parses the the given URL or filename.
+     *
+     * @param source the location to parse
+     * @return the resulting neoxml document
+     * @throws DocumentException when an error occurs while parsing
+     */
+    public Document read(String source) throws DocumentException {
+        try {
+            return getReader().read(source);
+        } catch (JAXBRuntimeException ex) {
+            Throwable cause = ex.getCause();
+            throw new DocumentException(cause.getMessage(), cause);
+        }
+    }
+
+    /**
+     * Parses the the given URL.
+     *
+     * @param source the URL to parse
+     * @return the resulting neoxml document
+     * @throws DocumentException when an error occurs while parsing
+     */
+    public Document read(URL source) throws DocumentException {
+        try {
+            return getReader().read(source);
+        } catch (JAXBRuntimeException ex) {
+            Throwable cause = ex.getCause();
+            throw new DocumentException(cause.getMessage(), cause);
+        }
+    }
+
+    /**
+     * Registers a {@link JAXBObjectHandler}that will be supplied with the
+     * unmarshalled representation of the xml fragment whenever the specified
+     * path is encounted.
+     *
+     * @param path    the path to listen for
+     * @param handler the handler to be notified
+     */
+    public void addObjectHandler(String path, JAXBObjectHandler handler) {
+        ElementHandler eHandler = new UnmarshalElementHandler(this, handler);
+        getReader().addHandler(path, eHandler);
+    }
+
+    /**
+     * Removes the {@link JAXBObjectHandler}from the event based processor, for
+     * the specified element path.
+     *
+     * @param path The path to remove the {@link JAXBObjectHandler}for
+     */
+    public void removeObjectHandler(String path) {
+        getReader().removeHandler(path);
+    }
+
+    /**
+     * Adds the <code>ElementHandler</code> to be called when the specified
+     * path is encounted.
+     *
+     * @param path    is the path to be handled
+     * @param handler is the <code>ElementHandler</code> to be called by the event
+     *                based processor.
+     */
+    public void addHandler(String path, ElementHandler handler) {
+        getReader().addHandler(path, handler);
+    }
+
+    /**
+     * Removes the <code>ElementHandler</code> from the event based processor,
+     * for the specified path.
+     *
+     * @param path is the path to remove the <code>ElementHandler</code> for.
+     */
+    public void removeHandler(String path) {
+        getReader().removeHandler(path);
+    }
+
+    /**
+     * Removes all registered {@link JAXBObjectHandler}and {@link org.neoxml.ElementHandler} instances from the event based
+     * processor.
+     */
+    public void resetHandlers() {
+        getReader().resetHandlers();
+    }
+
+    /**
+     * When 'true', the neoxml document will not be kept in memory while parsing.
+     *
+     * @return Returns the pruneElements.
+     */
+    public boolean isPruneElements() {
+        return pruneElements;
+    }
+
+    /**
+     * Set to true when neoxml elements must immediately be pruned from the tree.
+     * The {@link Document}will not be available afterwards!
+     */
+    public void setPruneElements(boolean pruneElements) {
+        this.pruneElements = pruneElements;
+
+        if (pruneElements) {
+            getReader().setDefaultHandler(new PruningElementHandler());
+        }
+    }
+
+    private SAXReader getReader() {
+        if (reader == null) {
+            reader = new SAXReader();
         }
 
-        handler.handleObject(jaxbObject);
-      }
-      catch (Exception ex) {
-        throw new JAXBRuntimeException(ex);
-      }
+        return reader;
     }
-  }
 
-  private class PruningElementHandler implements ElementHandler
-  {
-    public PruningElementHandler() {}
+    private class UnmarshalElementHandler implements ElementHandler {
+        private JAXBReader jaxbReader;
 
-    @Override
-    public void onStart(ElementPath parm1) {}
+        private JAXBObjectHandler handler;
 
-    @Override
-    public void onEnd(ElementPath elementPath) {
-      Element elem = elementPath.getCurrent();
-      elem.detach();
-      elem = null;
+        public UnmarshalElementHandler(JAXBReader documentReader, JAXBObjectHandler handler) {
+            this.jaxbReader = documentReader;
+            this.handler = handler;
+        }
+
+        @Override
+        public void onStart(ElementPath elementPath) {}
+
+        @Override
+        public void onEnd(ElementPath elementPath) {
+            try {
+                org.neoxml.Element elem = elementPath.getCurrent();
+
+                javax.xml.bind.Element jaxbObject = jaxbReader.unmarshal(elem);
+
+                if (jaxbReader.isPruneElements()) {
+                    elem.detach();
+                }
+
+                handler.handleObject(jaxbObject);
+            } catch (Exception ex) {
+                throw new JAXBRuntimeException(ex);
+            }
+        }
     }
-  }
+
+    private class PruningElementHandler implements ElementHandler {
+        public PruningElementHandler() {}
+
+        @Override
+        public void onStart(ElementPath parm1) {}
+
+        @Override
+        public void onEnd(ElementPath elementPath) {
+            Element elem = elementPath.getCurrent();
+            elem.detach();
+            elem = null;
+        }
+    }
 }
 
 /*

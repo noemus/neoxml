@@ -17,66 +17,64 @@ import java.util.List;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.3 $
  */
-public class ParentTest extends AbstractTestCase
-{
+public class ParentTest extends AbstractTestCase {
 
-  // Test case(s)
-  // -------------------------------------------------------------------------
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testDocument() throws Exception {
-    testParentRelationship(document.getRootElement());
-  }
-
-  @Test
-  public void testFragment() throws Exception {
-    DocumentFactory factory = new DefaultDocumentFactory();
-    Element root = factory.createElement("root");
-    Element first = root.addElement("child");
-    Element second = root.addElement("child");
-
-    testXPathNode(root, first);
-    testXPathNode(root, second);
-  }
-
-  // Implementation methods
-  // -------------------------------------------------------------------------
-
-  protected void testParentRelationship(Element parent, List content) {
-    for (Iterator iter = content.iterator(); iter.hasNext();) {
-      Object object = iter.next();
-
-      if (object instanceof Element) {
-        testParentRelationship((Element)object);
-      }
-
-      testXPathNode(parent, (Node)object);
+    @Test
+    public void testDocument() throws Exception {
+        testParentRelationship(document.getRootElement());
     }
-  }
 
-  protected void testParentRelationship(Element element) {
-    testParentRelationship(element, element.attributes());
-    testParentRelationship(element, element.content());
-  }
+    @Test
+    public void testFragment() throws Exception {
+        DocumentFactory factory = new DefaultDocumentFactory();
+        Element root = factory.createElement("root");
+        Element first = root.addElement("child");
+        Element second = root.addElement("child");
 
-  protected void testXPathNode(Element parent, Node node) {
-    if (node.supportsParent()) {
-      log("Node: " + node);
-      log("Parent: " + parent);
-      log("getParent(): " + node.getParent());
-
-      assertTrue("getParent() returns parent for: " + node, node
-        .getParent() == parent);
+        testXPathNode(root, first);
+        testXPathNode(root, second);
     }
-    else {
-      // lets create an XPath node
-      Node xpathNode = node.asXPathResult(parent);
-      assertTrue("XPath Node supports parent for: " + xpathNode,
-        xpathNode.supportsParent());
-      assertTrue("getParent() returns parent for: " + xpathNode,
-        xpathNode.getParent() == parent);
+
+    // Implementation methods
+    // -------------------------------------------------------------------------
+
+    protected void testParentRelationship(Element parent, List content) {
+        for (Iterator iter = content.iterator(); iter.hasNext(); ) {
+            Object object = iter.next();
+
+            if (object instanceof Element) {
+                testParentRelationship((Element) object);
+            }
+
+            testXPathNode(parent, (Node) object);
+        }
     }
-  }
+
+    protected void testParentRelationship(Element element) {
+        testParentRelationship(element, element.attributes());
+        testParentRelationship(element, element.content());
+    }
+
+    protected void testXPathNode(Element parent, Node node) {
+        if (node.supportsParent()) {
+            log("Node: " + node);
+            log("Parent: " + parent);
+            log("getParent(): " + node.getParent());
+
+            assertTrue("getParent() returns parent for: " + node, node
+                    .getParent() == parent);
+        } else {
+            // lets create an XPath node
+            Node xpathNode = node.asXPathResult(parent);
+            assertTrue("XPath Node supports parent for: " + xpathNode,
+                       xpathNode.supportsParent());
+            assertTrue("getParent() returns parent for: " + xpathNode,
+                       xpathNode.getParent() == parent);
+        }
+    }
 }
 
 /*

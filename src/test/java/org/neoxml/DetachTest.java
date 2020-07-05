@@ -14,48 +14,47 @@ import org.junit.Test;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.3 $
  */
-public class DetachTest extends AbstractTestCase
-{
-  // Test case(s)
-  // -------------------------------------------------------------------------
+public class DetachTest extends AbstractTestCase {
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testRoot() throws Exception {
-    document.setName("doc1");
+    @Test
+    public void testRoot() throws Exception {
+        document.setName("doc1");
 
-    Element root = document.getRootElement();
-    assertNotNull("Has root element", root);
-    assertNull("Root has no parent", root.getParent());
+        Element root = document.getRootElement();
+        assertNotNull("Has root element", root);
+        assertNull("Root has no parent", root.getParent());
 
-    root.detach();
+        root.detach();
 
-    assertNull("Detached root now has no document", root.getDocument());
-    assertNull("Original doc now has no root element", document.getRootElement());
+        assertNull("Detached root now has no document", root.getDocument());
+        assertNull("Original doc now has no root element", document.getRootElement());
 
-    Document doc2 = DocumentHelper.createDocument();
-    doc2.setName("doc2");
+        Document doc2 = DocumentHelper.createDocument();
+        doc2.setName("doc2");
 
-    assertNull("Doc2 has no root element", doc2.getRootElement());
+        assertNull("Doc2 has no root element", doc2.getRootElement());
 
-    doc2.setRootElement(root);
+        doc2.setRootElement(root);
 
-    assertSame("Doc2 has now has root element", doc2.getRootElement(), root);
-    assertSame("Root element now has document", root.getDocument(), doc2);
+        assertSame("Doc2 has now has root element", doc2.getRootElement(), root);
+        assertSame("Root element now has document", root.getDocument(), doc2);
 
-    Document doc3 = DocumentHelper.createDocument();
-    doc3.setName("doc3");
-    doc3.addElement("foo");
+        Document doc3 = DocumentHelper.createDocument();
+        doc3.setName("doc3");
+        doc3.addElement("foo");
 
-    assertNotNull("Doc3 has root element", doc3.getRootElement());
+        assertNotNull("Doc3 has root element", doc3.getRootElement());
 
-    root = doc2.getRootElement();
-    root.detach();
-    doc3.setRootElement(root);
+        root = doc2.getRootElement();
+        root.detach();
+        doc3.setRootElement(root);
 
-    assertSame("Doc3 now has root element", doc3.getRootElement(), root);
-    assertSame("Root element now has a document", root.getDocument(), doc3);
-    assertNull("Doc2 has no root element", doc2.getRootElement());
-  }
+        assertSame("Doc3 now has root element", doc3.getRootElement(), root);
+        assertSame("Root element now has a document", root.getDocument(), doc3);
+        assertNull("Doc2 has no root element", doc2.getRootElement());
+    }
 }
 
 /*

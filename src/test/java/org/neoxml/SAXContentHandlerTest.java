@@ -15,63 +15,62 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.util.List;
 
-public class SAXContentHandlerTest extends AbstractTestCase
-{
-  private XMLReader xmlReader;
+public class SAXContentHandlerTest extends AbstractTestCase {
+    private XMLReader xmlReader;
 
-  protected String[] testDocuments = {
-    "/src/test/xml/test/test_schema.xml",
-    "/src/test/xml/test/encode.xml", "/src/test/xml/fibo.xml",
-    "/src/test/xml/test/schema/personal-prefix.xsd", "/src/test/xml/test/soap2.xml"
-  };
+    protected String[] testDocuments = {
+            "/src/test/xml/test/test_schema.xml",
+            "/src/test/xml/test/encode.xml", "/src/test/xml/fibo.xml",
+            "/src/test/xml/test/schema/personal-prefix.xsd", "/src/test/xml/test/soap2.xml"
+    };
 
-  @Override
-  @Before
-  public void setUp() throws Exception {
-    super.setUp();
+    @Override
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
 
-    SAXParserFactory spf = SAXParserFactory.newInstance();
-    spf.setNamespaceAware(true);
+        SAXParserFactory spf = SAXParserFactory.newInstance();
+        spf.setNamespaceAware(true);
 
-    SAXParser parser = spf.newSAXParser();
-    xmlReader = parser.getXMLReader();
-  }
-
-  @Test
-  public void testSAXContentHandler() throws Exception {
-    SAXContentHandler contentHandler = new SAXContentHandler();
-    xmlReader.setContentHandler(contentHandler);
-    xmlReader.setDTDHandler(contentHandler);
-    xmlReader.setProperty("http://xml.org/sax/properties/lexical-handler",
-      contentHandler);
-
-    for (int i = 0, size = testDocuments.length; i < size; i++) {
-      Document docFromSAXReader = getDocument(testDocuments[i]);
-
-      xmlReader.parse(getFile(testDocuments[i]).toURI().toURL().toExternalForm());
-
-      Document docFromSAXContentHandler = contentHandler.getDocument();
-
-      docFromSAXContentHandler.setName(docFromSAXReader.getName());
-
-      assertDocumentsEqual(docFromSAXReader, docFromSAXContentHandler);
-      assertEquals(docFromSAXReader.asXML(), docFromSAXContentHandler
-        .asXML());
+        SAXParser parser = spf.newSAXParser();
+        xmlReader = parser.getXMLReader();
     }
-  }
 
-  @Test
-  public void testBug926713() throws Exception {
-    Document doc = getDocument("/src/test/xml/test/cdata.xml");
-    Element foo = doc.getRootElement();
-    Element bar = foo.element("bar");
-    List content = bar.content();
-    assertEquals(3, content.size());
-    assertEquals(NodeType.TEXT_NODE, ((Node)content.get(0)).getNodeTypeEnum());
-    assertEquals(NodeType.CDATA_SECTION_NODE, ((Node)content.get(1))
-      .getNodeTypeEnum());
-    assertEquals(NodeType.TEXT_NODE, ((Node)content.get(2)).getNodeTypeEnum());
-  }
+    @Test
+    public void testSAXContentHandler() throws Exception {
+        SAXContentHandler contentHandler = new SAXContentHandler();
+        xmlReader.setContentHandler(contentHandler);
+        xmlReader.setDTDHandler(contentHandler);
+        xmlReader.setProperty("http://xml.org/sax/properties/lexical-handler",
+                              contentHandler);
+
+        for (int i = 0, size = testDocuments.length; i < size; i++) {
+            Document docFromSAXReader = getDocument(testDocuments[i]);
+
+            xmlReader.parse(getFile(testDocuments[i]).toURI().toURL().toExternalForm());
+
+            Document docFromSAXContentHandler = contentHandler.getDocument();
+
+            docFromSAXContentHandler.setName(docFromSAXReader.getName());
+
+            assertDocumentsEqual(docFromSAXReader, docFromSAXContentHandler);
+            assertEquals(docFromSAXReader.asXML(), docFromSAXContentHandler
+                    .asXML());
+        }
+    }
+
+    @Test
+    public void testBug926713() throws Exception {
+        Document doc = getDocument("/src/test/xml/test/cdata.xml");
+        Element foo = doc.getRootElement();
+        Element bar = foo.element("bar");
+        List content = bar.content();
+        assertEquals(3, content.size());
+        assertEquals(NodeType.TEXT_NODE, ((Node) content.get(0)).getNodeTypeEnum());
+        assertEquals(NodeType.CDATA_SECTION_NODE, ((Node) content.get(1))
+                .getNodeTypeEnum());
+        assertEquals(NodeType.TEXT_NODE, ((Node) content.get(2)).getNodeTypeEnum());
+    }
 }
 
 /*

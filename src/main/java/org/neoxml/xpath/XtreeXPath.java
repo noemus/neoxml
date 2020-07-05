@@ -3,7 +3,8 @@ package org.neoxml.xpath;
 import org.jaxen.BaseXPath;
 import org.jaxen.JaxenException;
 
-/** An XPath implementation for the neoxml model
+/**
+ * An XPath implementation for the neoxml model
  *
  * <p>This is the main entry point for matching an XPath against a DOM
  * tree.  You create a compiled XPath object, then match it against
@@ -16,26 +17,22 @@ import org.jaxen.JaxenException;
  * List results = path.selectNodes(node);
  * </pre>
  *
- * @see BaseXPath
- * 
  * @author <a href="mailto:bob@werken.com">bob mcwhirter</a>
  * @author <a href="mailto:jstachan@apache.org">James Strachan</a>
- *
  * @version $Revision: 1162 $
+ * @see BaseXPath
  */
-class XtreeXPath extends BaseXPath
-{
+class XtreeXPath extends BaseXPath {
     private static final long serialVersionUID = 1;
 
-    /** Construct given an XPath expression string.
+    /**
+     * Construct given an XPath expression string.
      *
-     *  @param xpathExpr the XPath expression
-     *
-     *  @throws JaxenException if there is a syntax error while
-     *          parsing the expression
+     * @param xpathExpr the XPath expression
+     * @throws JaxenException if there is a syntax error while
+     *                        parsing the expression
      */
-    public XtreeXPath(String xpathExpr) throws JaxenException
-    {
-        super( xpathExpr, DocumentNavigator.getInstance() );
+    public XtreeXPath(String xpathExpr) throws JaxenException {
+        super(xpathExpr, DocumentNavigator.getInstance());
     }
 }

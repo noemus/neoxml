@@ -6,7 +6,13 @@
 
 package org.neoxml.xpath;
 
-import org.jaxen.*;
+import org.jaxen.Context;
+import org.jaxen.ContextSupport;
+import org.jaxen.JaxenException;
+import org.jaxen.SimpleNamespaceContext;
+import org.jaxen.SimpleVariableContext;
+import org.jaxen.VariableContext;
+import org.jaxen.XPathFunctionContext;
 import org.jaxen.pattern.Pattern;
 import org.jaxen.pattern.PatternParser;
 import org.jaxen.saxpath.SAXPathException;
@@ -25,104 +31,100 @@ import java.util.ArrayList;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.18 $
  */
-public class XPathPattern implements org.neoxml.rule.Pattern
-{
-  private String text;
+public class XPathPattern implements org.neoxml.rule.Pattern {
+    private String text;
 
-  private Pattern pattern;
+    private Pattern pattern;
 
-  private Context context;
+    private Context context;
 
-  public XPathPattern(Pattern pattern) {
-    this.pattern = pattern;
-    this.text = pattern.getText();
-    this.context = new Context(getContextSupport());
-  }
-
-  public XPathPattern(String text) {
-    this.text = text;
-    this.context = new Context(getContextSupport());
-
-    try {
-      this.pattern = PatternParser.parse(text);
-    }
-    catch (SAXPathException e) {
-      throw new InvalidXPathException(text, e.getMessage());
-    }
-    catch (RuntimeException e) {
-      throw new InvalidXPathException(text);
-    }
-  }
-
-  @Override
-  public boolean matches(Node node) {
-    try {
-      ArrayList<Node> list = new ArrayList<>(1);
-      list.add(node);
-      context.setNodeSet(list);
-
-      return pattern.matches(node, context);
-    }
-    catch (JaxenException e) {
-      handleJaxenException(e);
-
-      return false;
-    }
-  }
-
-  public String getText() {
-    return text;
-  }
-
-  @Override
-  public double getPriority() {
-    return pattern.getPriority();
-  }
-
-  @Override
-  public org.neoxml.rule.Pattern[] getUnionPatterns() {
-    Pattern[] patterns = pattern.getUnionPatterns();
-
-    if (patterns != null) {
-      int size = patterns.length;
-      XPathPattern[] answer = new XPathPattern[size];
-
-      for (int i = 0; i < size; i++) {
-        answer[i] = new XPathPattern(patterns[i]);
-      }
-
-      return answer;
+    public XPathPattern(Pattern pattern) {
+        this.pattern = pattern;
+        this.text = pattern.getText();
+        this.context = new Context(getContextSupport());
     }
 
-    return null;
-  }
+    public XPathPattern(String text) {
+        this.text = text;
+        this.context = new Context(getContextSupport());
 
-  @Override
-  public NodeType getMatchType() {
-    return NodeType.byCode(pattern.getMatchType());
-  }
+        try {
+            this.pattern = PatternParser.parse(text);
+        } catch (SAXPathException e) {
+            throw new InvalidXPathException(text, e.getMessage());
+        } catch (RuntimeException e) {
+            throw new InvalidXPathException(text);
+        }
+    }
 
-  @Override
-  public String getMatchesNodeName() {
-    return pattern.getMatchesNodeName();
-  }
+    @Override
+    public boolean matches(Node node) {
+        try {
+            ArrayList<Node> list = new ArrayList<>(1);
+            list.add(node);
+            context.setNodeSet(list);
 
-  public void setVariableContext(VariableContext variableContext) {
-    context.getContextSupport().setVariableContext(variableContext);
-  }
+            return pattern.matches(node, context);
+        } catch (JaxenException e) {
+            handleJaxenException(e);
 
-  @Override
-  public String toString() {
-    return "[XPathPattern: text: " + text + " Pattern: " + pattern + "]";
-  }
+            return false;
+        }
+    }
 
-  protected ContextSupport getContextSupport() {
-    return new ContextSupport(new SimpleNamespaceContext(), XPathFunctionContext.getInstance(), new SimpleVariableContext(), DocumentNavigator.getInstance());
-  }
+    public String getText() {
+        return text;
+    }
 
-  protected void handleJaxenException(JaxenException exception) throws XPathException {
-    throw new XPathException(text, exception);
-  }
+    @Override
+    public double getPriority() {
+        return pattern.getPriority();
+    }
+
+    @Override
+    public org.neoxml.rule.Pattern[] getUnionPatterns() {
+        Pattern[] patterns = pattern.getUnionPatterns();
+
+        if (patterns != null) {
+            int size = patterns.length;
+            XPathPattern[] answer = new XPathPattern[size];
+
+            for (int i = 0; i < size; i++) {
+                answer[i] = new XPathPattern(patterns[i]);
+            }
+
+            return answer;
+        }
+
+        return null;
+    }
+
+    @Override
+    public NodeType getMatchType() {
+        return NodeType.byCode(pattern.getMatchType());
+    }
+
+    @Override
+    public String getMatchesNodeName() {
+        return pattern.getMatchesNodeName();
+    }
+
+    public void setVariableContext(VariableContext variableContext) {
+        context.getContextSupport().setVariableContext(variableContext);
+    }
+
+    @Override
+    public String toString() {
+        return "[XPathPattern: text: " + text + " Pattern: " + pattern + "]";
+    }
+
+    protected ContextSupport getContextSupport() {
+        return new ContextSupport(new SimpleNamespaceContext(), XPathFunctionContext.getInstance(), new SimpleVariableContext(), DocumentNavigator.getInstance());
+    }
+
+    protected void handleJaxenException(JaxenException exception) throws XPathException {
+        throw new XPathException(text, exception);
+    }
 }
 
 /*

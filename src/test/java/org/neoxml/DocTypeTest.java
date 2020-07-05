@@ -19,38 +19,37 @@ import java.util.List;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.4 $
  */
-public class DocTypeTest extends AbstractTestCase
-{
-  /**
-   * Input XML file to read
-   */
-  protected static final String INPUT_XML_FILE = "/src/test/xml/dtd/internal.xml";
+public class DocTypeTest extends AbstractTestCase {
+    /**
+     * Input XML file to read
+     */
+    protected static final String INPUT_XML_FILE = "/src/test/xml/dtd/internal.xml";
 
-  // Test case(s)
-  // -------------------------------------------------------------------------
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testDocType() throws Exception {
-    SAXReader reader = new SAXReader();
-    reader.setIncludeInternalDTDDeclarations(true);
+    @Test
+    public void testDocType() throws Exception {
+        SAXReader reader = new SAXReader();
+        reader.setIncludeInternalDTDDeclarations(true);
 
-    Document doc = getDocument(INPUT_XML_FILE, reader);
+        Document doc = getDocument(INPUT_XML_FILE, reader);
 
-    DocumentType docType = doc.getDocType();
-    assertNotNull("Has DOCTYPE", docType);
+        DocumentType docType = doc.getDocType();
+        assertNotNull("Has DOCTYPE", docType);
 
-    List<InternalDeclaration> declarations = docType.getInternalDeclarations();
-    assertNotNull("DOCTYPE has declarations", declarations);
-    assertTrue("DOCTYPE has declarations", !declarations.isEmpty());
+        List<InternalDeclaration> declarations = docType.getInternalDeclarations();
+        assertNotNull("DOCTYPE has declarations", declarations);
+        assertTrue("DOCTYPE has declarations", !declarations.isEmpty());
 
-    ElementDecl decl = (ElementDecl)declarations.get(0);
+        ElementDecl decl = (ElementDecl) declarations.get(0);
 
-    assertEquals("name is correct", "greeting", decl.getName());
-    assertEquals("model is correct", "(#PCDATA)", decl.getModel());
+        assertEquals("name is correct", "greeting", decl.getName());
+        assertEquals("model is correct", "(#PCDATA)", decl.getModel());
 
-    String expected = "<!ELEMENT " + decl.getName() + " " + decl.getModel() + ">";
-    assertEquals("toString() is correct", expected, decl.toString());
-  }
+        String expected = "<!ELEMENT " + decl.getName() + " " + decl.getModel() + ">";
+        assertEquals("toString() is correct", expected, decl.toString());
+    }
 }
 
 /*

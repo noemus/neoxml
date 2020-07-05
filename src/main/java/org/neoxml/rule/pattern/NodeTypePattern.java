@@ -18,68 +18,67 @@ import org.neoxml.rule.Pattern;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.7 $
  */
-public class NodeTypePattern implements Pattern
-{
-  /**
-   * A pattern which matches any Attribute node
-   */
-  public static final NodeTypePattern ANY_ATTRIBUTE = new NodeTypePattern(NodeType.ATTRIBUTE_NODE);
-  
-  /**
-   * A pattern which matches any Comment node
-   */
-  public static final NodeTypePattern ANY_COMMENT = new NodeTypePattern(NodeType.COMMENT_NODE);
-  
-  /**
-   * A pattern which matches any Document node
-   */
-  public static final NodeTypePattern ANY_DOCUMENT = new NodeTypePattern(NodeType.DOCUMENT_NODE);
-  
-  /**
-   * A pattern which matches any Element node
-   */
-  public static final NodeTypePattern ANY_ELEMENT = new NodeTypePattern(NodeType.ELEMENT_NODE);
-  
-  /**
-   * A pattern which matches any ProcessingInstruction node
-   */
-  public static final NodeTypePattern ANY_PROCESSING_INSTRUCTION = new NodeTypePattern(NodeType.PROCESSING_INSTRUCTION_NODE);
-  
-  /**
-   * A pattern which matches any Text node
-   */
-  public static final NodeTypePattern ANY_TEXT = new NodeTypePattern(NodeType.TEXT_NODE);
-  
-  private final NodeType nodeType;
-  
-  public NodeTypePattern(NodeType nodeType) {
-    this.nodeType = nodeType;
-  }
-  
-  @Override
-  public boolean matches(Node node) {
-    return node.getNodeTypeEnum() == nodeType;
-  }
-  
-  @Override
-  public double getPriority() {
-    return Pattern.DEFAULT_PRIORITY;
-  }
-  
-  @Override
-  public Pattern[] getUnionPatterns() {
-    return null;
-  }
-  
-  @Override
-  public NodeType getMatchType() {
-    return nodeType;
-  }
-  
-  @Override
-  public String getMatchesNodeName() {
-    return null;
-  }
+public class NodeTypePattern implements Pattern {
+    /**
+     * A pattern which matches any Attribute node
+     */
+    public static final NodeTypePattern ANY_ATTRIBUTE = new NodeTypePattern(NodeType.ATTRIBUTE_NODE);
+
+    /**
+     * A pattern which matches any Comment node
+     */
+    public static final NodeTypePattern ANY_COMMENT = new NodeTypePattern(NodeType.COMMENT_NODE);
+
+    /**
+     * A pattern which matches any Document node
+     */
+    public static final NodeTypePattern ANY_DOCUMENT = new NodeTypePattern(NodeType.DOCUMENT_NODE);
+
+    /**
+     * A pattern which matches any Element node
+     */
+    public static final NodeTypePattern ANY_ELEMENT = new NodeTypePattern(NodeType.ELEMENT_NODE);
+
+    /**
+     * A pattern which matches any ProcessingInstruction node
+     */
+    public static final NodeTypePattern ANY_PROCESSING_INSTRUCTION = new NodeTypePattern(NodeType.PROCESSING_INSTRUCTION_NODE);
+
+    /**
+     * A pattern which matches any Text node
+     */
+    public static final NodeTypePattern ANY_TEXT = new NodeTypePattern(NodeType.TEXT_NODE);
+
+    private final NodeType nodeType;
+
+    public NodeTypePattern(NodeType nodeType) {
+        this.nodeType = nodeType;
+    }
+
+    @Override
+    public boolean matches(Node node) {
+        return node.getNodeTypeEnum() == nodeType;
+    }
+
+    @Override
+    public double getPriority() {
+        return Pattern.DEFAULT_PRIORITY;
+    }
+
+    @Override
+    public Pattern[] getUnionPatterns() {
+        return null;
+    }
+
+    @Override
+    public NodeType getMatchType() {
+        return nodeType;
+    }
+
+    @Override
+    public String getMatchesNodeName() {
+        return null;
+    }
 }
 
 /*

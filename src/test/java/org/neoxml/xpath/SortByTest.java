@@ -18,30 +18,29 @@ import java.util.List;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.3 $
  */
-public class SortByTest extends AbstractTestCase
-{
-  // Test case(s)
-  // -------------------------------------------------------------------------
+public class SortByTest extends AbstractTestCase {
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testXPaths() throws Exception {
-    List list = document.selectNodes("//SPEAKER", "NAME");
+    @Test
+    public void testXPaths() throws Exception {
+        List list = document.selectNodes("//SPEAKER", "NAME");
 
-    log("Number of SPEAKER instances: " + list.size());
+        log("Number of SPEAKER instances: " + list.size());
 
-    List noDuplicates = document.selectNodes("//SPEAKER", ".", true);
+        List noDuplicates = document.selectNodes("//SPEAKER", ".", true);
 
-    log("Number of distinct SPEAKER instances: " + noDuplicates.size());
+        log("Number of distinct SPEAKER instances: " + noDuplicates.size());
 
-    log("Number of distinct SPEAKER instances: " + noDuplicates.size());
-  }
+        log("Number of distinct SPEAKER instances: " + noDuplicates.size());
+    }
 
-  @Override
-  @Before
-  public void setUp() throws Exception {
-    super.setUp();
-    document = getDocument("xml/much_ado.xml");
-  }
+    @Override
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        document = getDocument("xml/much_ado.xml");
+    }
 }
 
 /*

@@ -17,56 +17,55 @@ import java.io.StringWriter;
  *
  * @author Maarten
  */
-public class DOMWriterTest extends AbstractTestCase
-{
+public class DOMWriterTest extends AbstractTestCase {
 
-  @Test
-  public void testNamespaceBug() throws Exception {
-    org.neoxml.Document doc = getDocument("/src/test/xml/namespaces.xml");
-    DOMWriter writer = new DOMWriter(org.neoxml.dom.DOMDocument.class);
-    org.w3c.dom.Document result = writer.write(doc);
+    @Test
+    public void testNamespaceBug() throws Exception {
+        org.neoxml.Document doc = getDocument("/src/test/xml/namespaces.xml");
+        DOMWriter writer = new DOMWriter(org.neoxml.dom.DOMDocument.class);
+        org.w3c.dom.Document result = writer.write(doc);
 
-    NamedNodeMap atts = result.getDocumentElement().getAttributes();
-    assertEquals(4, atts.getLength());
+        NamedNodeMap atts = result.getDocumentElement().getAttributes();
+        assertEquals(4, atts.getLength());
 
-    XMLWriter wr = new XMLWriter();
-    wr.setOutputStream(System.out);
-    wr.write((org.neoxml.Document)result);
-  }
+        XMLWriter wr = new XMLWriter();
+        wr.setOutputStream(System.out);
+        wr.write((org.neoxml.Document) result);
+    }
 
-  @Test
-  public void testBug905745() throws Exception {
-    org.neoxml.Document doc = getDocument("/src/test/xml/namespaces.xml");
-    DOMWriter writer = new DOMWriter();
-    org.w3c.dom.Document result = writer.write(doc);
+    @Test
+    public void testBug905745() throws Exception {
+        org.neoxml.Document doc = getDocument("/src/test/xml/namespaces.xml");
+        DOMWriter writer = new DOMWriter();
+        org.w3c.dom.Document result = writer.write(doc);
 
-    NamedNodeMap atts = result.getDocumentElement().getAttributes();
-    org.w3c.dom.Node versionAttr = atts.getNamedItem("version");
-    assertNotNull(versionAttr);
-    assertNotNull(versionAttr.getLocalName());
-    assertEquals("version", versionAttr.getLocalName());
-    assertEquals("version", versionAttr.getNodeName());
-  }
+        NamedNodeMap atts = result.getDocumentElement().getAttributes();
+        org.w3c.dom.Node versionAttr = atts.getNamedItem("version");
+        assertNotNull(versionAttr);
+        assertNotNull(versionAttr.getLocalName());
+        assertEquals("version", versionAttr.getLocalName());
+        assertEquals("version", versionAttr.getNodeName());
+    }
 
-  @Test
-  public void testBug926752() throws Exception {
-    org.neoxml.Document doc = getDocument("/src/test/xml/test/defaultNamespace.xml");
-    DOMWriter writer = new DOMWriter(org.neoxml.dom.DOMDocument.class);
-    org.w3c.dom.Document result = writer.write(doc);
+    @Test
+    public void testBug926752() throws Exception {
+        org.neoxml.Document doc = getDocument("/src/test/xml/test/defaultNamespace.xml");
+        DOMWriter writer = new DOMWriter(org.neoxml.dom.DOMDocument.class);
+        org.w3c.dom.Document result = writer.write(doc);
 
-    NamedNodeMap atts = result.getDocumentElement().getAttributes();
-    assertEquals(1, atts.getLength());
+        NamedNodeMap atts = result.getDocumentElement().getAttributes();
+        assertEquals(1, atts.getLength());
 
-    OutputFormat format = OutputFormat.createCompactFormat();
-    format.setSuppressDeclaration(true);
+        OutputFormat format = OutputFormat.createCompactFormat();
+        format.setSuppressDeclaration(true);
 
-    XMLWriter wr = new XMLWriter(format);
-    StringWriter strWriter = new StringWriter();
-    wr.setWriter(strWriter);
-    wr.write((org.neoxml.Document)result);
-    assertEquals("<a xmlns=\"dummyNamespace\"><b><c>Hello</c></b></a>",
-      strWriter.toString());
-  }
+        XMLWriter wr = new XMLWriter(format);
+        StringWriter strWriter = new StringWriter();
+        wr.setWriter(strWriter);
+        wr.write((org.neoxml.Document) result);
+        assertEquals("<a xmlns=\"dummyNamespace\"><b><c>Hello</c></b></a>",
+                     strWriter.toString());
+    }
 }
 
 /*

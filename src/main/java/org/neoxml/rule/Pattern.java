@@ -18,63 +18,62 @@ import org.neoxml.NodeType;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.6 $
  */
-public interface Pattern extends NodeFilter
-{
-  // These node numbers are compatable with DOM4J's Node types
+public interface Pattern extends NodeFilter {
+    // These node numbers are compatable with DOM4J's Node types
 
-  /**
-   * According to the <a href="http://www.w3.org/TR/xslt11/#conflict">spec
-   * </a> we should return 0.5 if we cannot determine the priority
-   */
-  double DEFAULT_PRIORITY = 0.5;
+    /**
+     * According to the <a href="http://www.w3.org/TR/xslt11/#conflict">spec
+     * </a> we should return 0.5 if we cannot determine the priority
+     */
+    double DEFAULT_PRIORITY = 0.5;
 
-  /**
-   * DOCUMENT ME!
-   *
-   * @param node DOCUMENT ME!
-   * @return true if the pattern matches the given neoxml node.
-   */
-  @Override
-  boolean matches(Node node);
+    /**
+     * DOCUMENT ME!
+     *
+     * @param node DOCUMENT ME!
+     * @return true if the pattern matches the given neoxml node.
+     */
+    @Override
+    boolean matches(Node node);
 
-  /**
-   * Returns the default resolution policy of the pattern according to the <a
-   * href="http://www.w3.org/TR/xslt11/#conflict"> XSLT conflict resolution
-   * spec </a>.
-   *
-   * @return DOCUMENT ME!
-   */
-  double getPriority();
+    /**
+     * Returns the default resolution policy of the pattern according to the <a
+     * href="http://www.w3.org/TR/xslt11/#conflict"> XSLT conflict resolution
+     * spec </a>.
+     *
+     * @return DOCUMENT ME!
+     */
+    double getPriority();
 
-  /**
-   * If this pattern is a union pattern then this method should return an
-   * array of patterns which describe the union pattern, which should contain
-   * more than one pattern. Otherwise this method should return null.
-   *
-   * @return an array of the patterns which make up this union pattern or null
-   *         if this pattern is not a union pattern
-   */
-  Pattern[] getUnionPatterns();
+    /**
+     * If this pattern is a union pattern then this method should return an
+     * array of patterns which describe the union pattern, which should contain
+     * more than one pattern. Otherwise this method should return null.
+     *
+     * @return an array of the patterns which make up this union pattern or null
+     * if this pattern is not a union pattern
+     */
+    Pattern[] getUnionPatterns();
 
-  /**
-   * DOCUMENT ME!
-   *
-   * @return the type of node the pattern matches which by default should
-   *         return ANY_NODE if it can match any kind of node.
-   */
-  NodeType getMatchType();
+    /**
+     * DOCUMENT ME!
+     *
+     * @return the type of node the pattern matches which by default should
+     * return ANY_NODE if it can match any kind of node.
+     */
+    NodeType getMatchType();
 
-  /**
-   * For patterns which only match an ATTRIBUTE_NODE or an ELEMENT_NODE then
-   * this pattern may return the name of the element or attribute it matches.
-   * This allows a more efficient rule matching algorithm to be performed,
-   * rather than a brute force approach of evaluating every pattern for a
-   * given Node.
-   *
-   * @return the name of the element or attribute this pattern matches or null
-   *         if this pattern matches any or more than one name.
-   */
-  String getMatchesNodeName();
+    /**
+     * For patterns which only match an ATTRIBUTE_NODE or an ELEMENT_NODE then
+     * this pattern may return the name of the element or attribute it matches.
+     * This allows a more efficient rule matching algorithm to be performed,
+     * rather than a brute force approach of evaluating every pattern for a
+     * given Node.
+     *
+     * @return the name of the element or attribute this pattern matches or null
+     * if this pattern matches any or more than one name.
+     */
+    String getMatchesNodeName();
 }
 
 /*

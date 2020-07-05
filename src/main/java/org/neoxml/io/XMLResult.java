@@ -24,56 +24,55 @@ import java.io.Writer;
  * @version $Revision: 1.9 $
  */
 @SuppressWarnings("resource")
-public class XMLResult extends SAXResult
-{
-  private XMLWriter xmlWriter;
+public class XMLResult extends SAXResult {
+    private XMLWriter xmlWriter;
 
-  public XMLResult() {
-    this(new XMLWriter());
-  }
+    public XMLResult() {
+        this(new XMLWriter());
+    }
 
-  public XMLResult(Writer writer) {
-    this(new XMLWriter(writer));
-  }
+    public XMLResult(Writer writer) {
+        this(new XMLWriter(writer));
+    }
 
-  public XMLResult(Writer writer, OutputFormat format) {
-    this(new XMLWriter(writer, format));
-  }
+    public XMLResult(Writer writer, OutputFormat format) {
+        this(new XMLWriter(writer, format));
+    }
 
-  public XMLResult(OutputStream out) throws UnsupportedEncodingException {
-    this(new XMLWriter(out));
-  }
+    public XMLResult(OutputStream out) throws UnsupportedEncodingException {
+        this(new XMLWriter(out));
+    }
 
-  public XMLResult(OutputStream out, OutputFormat format)
-      throws UnsupportedEncodingException {
-    this(new XMLWriter(out, format));
-  }
+    public XMLResult(OutputStream out, OutputFormat format)
+            throws UnsupportedEncodingException {
+        this(new XMLWriter(out, format));
+    }
 
-  public XMLResult(XMLWriter xmlWriter) {
-    super(xmlWriter);
-    this.xmlWriter = xmlWriter;
-    setLexicalHandler(xmlWriter);
-  }
+    public XMLResult(XMLWriter xmlWriter) {
+        super(xmlWriter);
+        this.xmlWriter = xmlWriter;
+        setLexicalHandler(xmlWriter);
+    }
 
-  public XMLWriter getXMLWriter() {
-    return xmlWriter;
-  }
+    public XMLWriter getXMLWriter() {
+        return xmlWriter;
+    }
 
-  public void setXMLWriter(XMLWriter writer) {
-    this.xmlWriter = writer;
-    setHandler(xmlWriter);
-    setLexicalHandler(xmlWriter);
-  }
+    public void setXMLWriter(XMLWriter writer) {
+        this.xmlWriter = writer;
+        setHandler(xmlWriter);
+        setLexicalHandler(xmlWriter);
+    }
 
-  @Override
-  public ContentHandler getHandler() {
-    return xmlWriter;
-  }
+    @Override
+    public ContentHandler getHandler() {
+        return xmlWriter;
+    }
 
-  @Override
-  public LexicalHandler getLexicalHandler() {
-    return xmlWriter;
-  }
+    @Override
+    public LexicalHandler getLexicalHandler() {
+        return xmlWriter;
+    }
 }
 
 /*

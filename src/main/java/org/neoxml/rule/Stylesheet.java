@@ -21,203 +21,199 @@ import java.util.List;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.14 $
  */
-public class Stylesheet
-{
-  private final RuleManager ruleManager = new RuleManager();
+public class Stylesheet {
+    private final RuleManager ruleManager = new RuleManager();
 
-  /**
-   * Holds value of property mode.
-   */
-  private String modeName;
+    /**
+     * Holds value of property mode.
+     */
+    private String modeName;
 
-  /**
-   * Creates a new empty stylesheet.
-   */
-  public Stylesheet() {}
+    /**
+     * Creates a new empty stylesheet.
+     */
+    public Stylesheet() {}
 
-  /**
-   * Add a rule to this stylesheet.
-   *
-   * @param rule the rule to add
-   */
-  public void addRule(Rule rule) {
-    ruleManager.addRule(rule);
-  }
-
-  /**
-   * Removes the specified rule from this stylesheet.
-   *
-   * @param rule the rule to remove
-   */
-  public void removeRule(Rule rule) {
-    ruleManager.removeRule(rule);
-  }
-
-  /**
-   * Runs this stylesheet on the given input which should be either a Node or
-   * a List of Node objects.
-   *
-   * @param input the input to run this stylesheet on
-   * @throws Exception if something goes wrong
-   */
-  public void run(Object input) throws Exception {
-    run(input, this.modeName);
-  }
-
-  @SuppressWarnings("unchecked")
-  public void run(Object input, String mode) throws Exception {
-    if (input instanceof Node) {
-      run((Node)input, mode);
+    /**
+     * Add a rule to this stylesheet.
+     *
+     * @param rule the rule to add
+     */
+    public void addRule(Rule rule) {
+        ruleManager.addRule(rule);
     }
-    else if (input instanceof List<?>) {
-      run((List<Object>)input, mode);
+
+    /**
+     * Removes the specified rule from this stylesheet.
+     *
+     * @param rule the rule to remove
+     */
+    public void removeRule(Rule rule) {
+        ruleManager.removeRule(rule);
     }
-  }
 
-  public void run(List<Object> list) throws Exception {
-    run(list, this.modeName);
-  }
-
-  public void run(List<Object> list, String mode) throws Exception {
-    for (Object object : list) {
-      if (object instanceof Node) {
-        run((Node)object, mode);
-      }
+    /**
+     * Runs this stylesheet on the given input which should be either a Node or
+     * a List of Node objects.
+     *
+     * @param input the input to run this stylesheet on
+     * @throws Exception if something goes wrong
+     */
+    public void run(Object input) throws Exception {
+        run(input, this.modeName);
     }
-  }
 
-  public void run(Node node) throws Exception {
-    run(node, this.modeName);
-  }
-
-  public void run(Node node, String mode) throws Exception {
-    Mode mod = ruleManager.getMode(mode);
-    mod.fireRule(node);
-  }
-
-  /**
-   * Processes the result of the xpath expression. The xpath expression is
-   * evaluated against the provided input object.
-   *
-   * @param input the input object
-   * @param xpath the xpath expression
-   * @throws Exception if something goes wrong
-   */
-  public void applyTemplates(Object input, XPath xpath) throws Exception {
-    applyTemplates(input, xpath, this.modeName);
-  }
-
-  /**
-   * Processes the result of the xpath expression in the given mode. The xpath
-   * expression is evaluated against the provided input object.
-   *
-   * @param input the input object
-   * @param xpath the xpath expression
-   * @param mode the mode
-   * @throws Exception if something goes wrong
-   */
-  public void applyTemplates(Object input, XPath xpath, String mode) throws Exception {
-    Mode mod = ruleManager.getMode(mode);
-
-    for (Node current : xpath.selectNodes(input)) {
-      mod.fireRule(current);
-    }
-  }
-
-  /**
-   * If input is a <code>Node</code>, this will processes all of the
-   * children of that node. If input is a <code>List</code> of <code>Nodes</code>s, these nodes will be iterated and all
-   * children of
-   * each node will be processed.
-   *
-   * @param input the input object, this can either be a <code>Node</code> or
-   *          a <code>List</code>
-   * @throws Exception if something goes wrong
-   */
-  public void applyTemplates(Object input) throws Exception {
-    applyTemplates(input, this.modeName);
-  }
-
-  /**
-   * Processes the input object in the given mode. If input is a <code>Node</code>, this will processes all of the
-   * children of that
-   * node. If input is a <code>List</code> of <code>Nodes</code>s, these
-   * nodes will be iterated and all children of each node will be processed.
-   *
-   * @param input the input object, this can either be a <code>Node</code> or
-   *          a <code>List</code>
-   * @param mode the mode
-   * @throws Exception if something goes wrong
-   */
-  public void applyTemplates(Object input, String mode) throws Exception {
-    final Mode mod = ruleManager.getMode(mode);
-
-    if (input instanceof Branch) {
-      // iterate through all children
-      applyTemplates((Branch)input, mod);
-    }
-    else if (input instanceof List<?>) {
-      @SuppressWarnings("unchecked")
-      final List<Object> list = (List<Object>)input;
-
-      for (Object object : list) {
-        if (object instanceof Branch) {
-          applyTemplates((Branch)object, mod);
+    @SuppressWarnings("unchecked")
+    public void run(Object input, String mode) throws Exception {
+        if (input instanceof Node) {
+            run((Node) input, mode);
+        } else if (input instanceof List<?>) {
+            run((List<Object>) input, mode);
         }
-      }
     }
-  }
 
-  private void applyTemplates(Branch input, Mode mode) throws Exception {
-    for (Node node : input) {
-      mode.fireRule(node);
+    public void run(List<Object> list) throws Exception {
+        run(list, this.modeName);
     }
-  }
 
-  public void clear() {
-    ruleManager.clear();
-  }
+    public void run(List<Object> list, String mode) throws Exception {
+        for (Object object : list) {
+            if (object instanceof Node) {
+                run((Node) object, mode);
+            }
+        }
+    }
 
-  // Properties
-  // -------------------------------------------------------------------------
+    public void run(Node node) throws Exception {
+        run(node, this.modeName);
+    }
 
-  /**
-   * DOCUMENT ME!
-   *
-   * @return the name of the mode the stylesheet uses by default
-   */
-  public String getModeName() {
-    return modeName;
-  }
+    public void run(Node node, String mode) throws Exception {
+        Mode mod = ruleManager.getMode(mode);
+        mod.fireRule(node);
+    }
 
-  /**
-   * Sets the name of the mode that the stylesheet uses by default.
-   *
-   * @param modeName DOCUMENT ME!
-   */
-  public void setModeName(String modeName) {
-    this.modeName = modeName;
-  }
+    /**
+     * Processes the result of the xpath expression. The xpath expression is
+     * evaluated against the provided input object.
+     *
+     * @param input the input object
+     * @param xpath the xpath expression
+     * @throws Exception if something goes wrong
+     */
+    public void applyTemplates(Object input, XPath xpath) throws Exception {
+        applyTemplates(input, xpath, this.modeName);
+    }
 
-  /**
-   * DOCUMENT ME!
-   *
-   * @return the default value-of action which is used in the default rules
-   *         for the pattern "text()|&#64;"
-   */
-  public Action getValueOfAction() {
-    return ruleManager.getValueOfAction();
-  }
+    /**
+     * Processes the result of the xpath expression in the given mode. The xpath
+     * expression is evaluated against the provided input object.
+     *
+     * @param input the input object
+     * @param xpath the xpath expression
+     * @param mode  the mode
+     * @throws Exception if something goes wrong
+     */
+    public void applyTemplates(Object input, XPath xpath, String mode) throws Exception {
+        Mode mod = ruleManager.getMode(mode);
 
-  /**
-   * Sets the default value-of action which is used in the default rules for
-   * the pattern "text()|&#64;"
-   *
-   * @param valueOfAction DOCUMENT ME!
-   */
-  public void setValueOfAction(Action valueOfAction) {
-    ruleManager.setValueOfAction(valueOfAction);
-  }
+        for (Node current : xpath.selectNodes(input)) {
+            mod.fireRule(current);
+        }
+    }
+
+    /**
+     * If input is a <code>Node</code>, this will processes all of the
+     * children of that node. If input is a <code>List</code> of <code>Nodes</code>s, these nodes will be iterated and all
+     * children of
+     * each node will be processed.
+     *
+     * @param input the input object, this can either be a <code>Node</code> or
+     *              a <code>List</code>
+     * @throws Exception if something goes wrong
+     */
+    public void applyTemplates(Object input) throws Exception {
+        applyTemplates(input, this.modeName);
+    }
+
+    /**
+     * Processes the input object in the given mode. If input is a <code>Node</code>, this will processes all of the
+     * children of that
+     * node. If input is a <code>List</code> of <code>Nodes</code>s, these
+     * nodes will be iterated and all children of each node will be processed.
+     *
+     * @param input the input object, this can either be a <code>Node</code> or
+     *              a <code>List</code>
+     * @param mode  the mode
+     * @throws Exception if something goes wrong
+     */
+    public void applyTemplates(Object input, String mode) throws Exception {
+        final Mode mod = ruleManager.getMode(mode);
+
+        if (input instanceof Branch) {
+            // iterate through all children
+            applyTemplates((Branch) input, mod);
+        } else if (input instanceof List<?>) {
+            @SuppressWarnings("unchecked") final List<Object> list = (List<Object>) input;
+
+            for (Object object : list) {
+                if (object instanceof Branch) {
+                    applyTemplates((Branch) object, mod);
+                }
+            }
+        }
+    }
+
+    private void applyTemplates(Branch input, Mode mode) throws Exception {
+        for (Node node : input) {
+            mode.fireRule(node);
+        }
+    }
+
+    public void clear() {
+        ruleManager.clear();
+    }
+
+    // Properties
+    // -------------------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return the name of the mode the stylesheet uses by default
+     */
+    public String getModeName() {
+        return modeName;
+    }
+
+    /**
+     * Sets the name of the mode that the stylesheet uses by default.
+     *
+     * @param modeName DOCUMENT ME!
+     */
+    public void setModeName(String modeName) {
+        this.modeName = modeName;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return the default value-of action which is used in the default rules
+     * for the pattern "text()|&#64;"
+     */
+    public Action getValueOfAction() {
+        return ruleManager.getValueOfAction();
+    }
+
+    /**
+     * Sets the default value-of action which is used in the default rules for
+     * the pattern "text()|&#64;"
+     *
+     * @param valueOfAction DOCUMENT ME!
+     */
+    public void setValueOfAction(Action valueOfAction) {
+        ruleManager.setValueOfAction(valueOfAction);
+    }
 }
 
 /*

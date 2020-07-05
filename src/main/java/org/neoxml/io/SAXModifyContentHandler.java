@@ -23,235 +23,232 @@ import java.io.IOException;
  * @author Wonne Keysers (Realsoftware.be)
  * @see org.neoxml.io.SAXContentHandler
  */
-class SAXModifyContentHandler extends SAXContentHandler
-{
-  private XMLWriter xmlWriter;
+class SAXModifyContentHandler extends SAXContentHandler {
+    private XMLWriter xmlWriter;
 
-  public SAXModifyContentHandler() {}
+    public SAXModifyContentHandler() {}
 
-  public SAXModifyContentHandler(DocumentFactory documentFactory) {
-    super(documentFactory);
-  }
-
-  public SAXModifyContentHandler(DocumentFactory documentFactory, ElementHandler elementHandler) {
-    super(documentFactory, elementHandler);
-  }
-
-  public SAXModifyContentHandler(DocumentFactory documentFactory, ElementHandler elementHandler, ElementStack elementStack) {
-    super(documentFactory, elementHandler, elementStack);
-  }
-
-  public void setXMLWriter(XMLWriter writer) {
-    this.xmlWriter = writer;
-  }
-
-  @Override
-  public void startCDATA() throws SAXException {
-    super.startCDATA();
-
-    if (!activeHandlers() && (xmlWriter != null)) {
-      xmlWriter.startCDATA();
+    public SAXModifyContentHandler(DocumentFactory documentFactory) {
+        super(documentFactory);
     }
-  }
 
-  @Override
-  public void startDTD(String name, String publicId, String systemId) throws SAXException {
-    super.startDTD(name, publicId, systemId);
-
-    if (xmlWriter != null) {
-      xmlWriter.startDTD(name, publicId, systemId);
+    public SAXModifyContentHandler(DocumentFactory documentFactory, ElementHandler elementHandler) {
+        super(documentFactory, elementHandler);
     }
-  }
 
-  @Override
-  public void endDTD() throws SAXException {
-    super.endDTD();
-
-    if (xmlWriter != null) {
-      xmlWriter.endDTD();
+    public SAXModifyContentHandler(DocumentFactory documentFactory, ElementHandler elementHandler, ElementStack elementStack) {
+        super(documentFactory, elementHandler, elementStack);
     }
-  }
 
-  @Override
-  public void comment(char[] characters, int parm2, int parm3)
-      throws SAXException {
-    super.comment(characters, parm2, parm3);
-
-    if (!activeHandlers() && (xmlWriter != null)) {
-      xmlWriter.comment(characters, parm2, parm3);
+    public void setXMLWriter(XMLWriter writer) {
+        this.xmlWriter = writer;
     }
-  }
 
-  @Override
-  public void startEntity(String name) throws SAXException {
-    super.startEntity(name);
+    @Override
+    public void startCDATA() throws SAXException {
+        super.startCDATA();
 
-    if (xmlWriter != null) {
-      xmlWriter.startEntity(name);
-    }
-  }
-
-  @Override
-  public void endCDATA() throws SAXException {
-    super.endCDATA();
-
-    if (!activeHandlers() && (xmlWriter != null)) {
-      xmlWriter.endCDATA();
-    }
-  }
-
-  @Override
-  public void endEntity(String name) throws SAXException {
-    super.endEntity(name);
-
-    if (xmlWriter != null) {
-      xmlWriter.endEntity(name);
-    }
-  }
-
-  @Override
-  public void unparsedEntityDecl(String name, String publicId, String systemId, String notation) throws SAXException {
-    super.unparsedEntityDecl(name, publicId, systemId, notation);
-
-    if (!activeHandlers() && (xmlWriter != null)) {
-      xmlWriter.unparsedEntityDecl(name, publicId, systemId, notation);
-    }
-  }
-
-  @Override
-  public void notationDecl(String name, String publicId, String systemId) throws SAXException {
-    super.notationDecl(name, publicId, systemId);
-
-    if (xmlWriter != null) {
-      xmlWriter.notationDecl(name, publicId, systemId);
-    }
-  }
-
-  @Override
-  public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
-    super.startElement(uri, localName, qName, atts);
-
-    if (!activeHandlers() && (xmlWriter != null)) {
-      xmlWriter.startElement(uri, localName, qName, atts);
-    }
-  }
-
-  @Override
-  public void startDocument() throws SAXException {
-    super.startDocument();
-
-    if (xmlWriter != null) {
-      xmlWriter.startDocument();
-    }
-  }
-
-  @Override
-  public void ignorableWhitespace(char[] parm1, int parm2, int parm3) throws SAXException {
-    super.ignorableWhitespace(parm1, parm2, parm3);
-
-    if (!activeHandlers() && (xmlWriter != null)) {
-      xmlWriter.ignorableWhitespace(parm1, parm2, parm3);
-    }
-  }
-
-  @Override
-  public void processingInstruction(String target, String data) throws SAXException {
-    super.processingInstruction(target, data);
-
-    if (!activeHandlers() && (xmlWriter != null)) {
-      xmlWriter.processingInstruction(target, data);
-    }
-  }
-
-  @Override
-  public void setDocumentLocator(Locator locator) {
-    super.setDocumentLocator(locator);
-
-    if (xmlWriter != null) {
-      xmlWriter.setDocumentLocator(locator);
-    }
-  }
-
-  @Override
-  public void skippedEntity(String name) throws SAXException {
-    super.skippedEntity(name);
-
-    if (!activeHandlers() && (xmlWriter != null)) {
-      xmlWriter.skippedEntity(name);
-    }
-  }
-
-  @Override
-  public void endDocument() throws SAXException {
-    super.endDocument();
-
-    if (xmlWriter != null) {
-      xmlWriter.endDocument();
-    }
-  }
-
-  @Override
-  public void startPrefixMapping(String prefix, String uri) throws SAXException {
-    super.startPrefixMapping(prefix, uri);
-
-    if (xmlWriter != null) {
-      xmlWriter.startPrefixMapping(prefix, uri);
-    }
-  }
-
-  @Override
-  public void endElement(String uri, String localName, String qName) throws SAXException {
-    ElementHandler currentHandler = getElementStack().getDispatchHandler().getHandler(getElementStack().getPath());
-
-    super.endElement(uri, localName, qName);
-
-    if (!activeHandlers()) {
-      if (xmlWriter != null) {
-        if (currentHandler == null) {
-          xmlWriter.endElement(uri, localName, qName);
+        if (!activeHandlers() && (xmlWriter != null)) {
+            xmlWriter.startCDATA();
         }
-        else if (currentHandler instanceof SAXModifyElementHandler) {
-          SAXModifyElementHandler modifyHandler = (SAXModifyElementHandler)currentHandler;
-          Element modifiedElement = modifyHandler.getModifiedElement();
+    }
 
-          try {
-            xmlWriter.write(modifiedElement);
-          }
-          catch (IOException ex) {
-            throw new SAXModifyException(ex);
-          }
+    @Override
+    public void startDTD(String name, String publicId, String systemId) throws SAXException {
+        super.startDTD(name, publicId, systemId);
+
+        if (xmlWriter != null) {
+            xmlWriter.startDTD(name, publicId, systemId);
         }
-      }
     }
-  }
 
-  @Override
-  public void endPrefixMapping(String prefix) throws SAXException {
-    super.endPrefixMapping(prefix);
+    @Override
+    public void endDTD() throws SAXException {
+        super.endDTD();
 
-    if (xmlWriter != null) {
-      xmlWriter.endPrefixMapping(prefix);
+        if (xmlWriter != null) {
+            xmlWriter.endDTD();
+        }
     }
-  }
 
-  @Override
-  public void characters(char[] parm1, int parm2, int parm3) throws SAXException {
-    super.characters(parm1, parm2, parm3);
+    @Override
+    public void comment(char[] characters, int parm2, int parm3)
+            throws SAXException {
+        super.comment(characters, parm2, parm3);
 
-    if (!activeHandlers() && (xmlWriter != null)) {
-      xmlWriter.characters(parm1, parm2, parm3);
+        if (!activeHandlers() && (xmlWriter != null)) {
+            xmlWriter.comment(characters, parm2, parm3);
+        }
     }
-  }
 
-  protected XMLWriter getXMLWriter() {
-    return this.xmlWriter;
-  }
+    @Override
+    public void startEntity(String name) throws SAXException {
+        super.startEntity(name);
 
-  private boolean activeHandlers() {
-    DispatchHandler handler = getElementStack().getDispatchHandler();
+        if (xmlWriter != null) {
+            xmlWriter.startEntity(name);
+        }
+    }
 
-    return handler.getActiveHandlerCount() > 0;
-  }
+    @Override
+    public void endCDATA() throws SAXException {
+        super.endCDATA();
+
+        if (!activeHandlers() && (xmlWriter != null)) {
+            xmlWriter.endCDATA();
+        }
+    }
+
+    @Override
+    public void endEntity(String name) throws SAXException {
+        super.endEntity(name);
+
+        if (xmlWriter != null) {
+            xmlWriter.endEntity(name);
+        }
+    }
+
+    @Override
+    public void unparsedEntityDecl(String name, String publicId, String systemId, String notation) throws SAXException {
+        super.unparsedEntityDecl(name, publicId, systemId, notation);
+
+        if (!activeHandlers() && (xmlWriter != null)) {
+            xmlWriter.unparsedEntityDecl(name, publicId, systemId, notation);
+        }
+    }
+
+    @Override
+    public void notationDecl(String name, String publicId, String systemId) throws SAXException {
+        super.notationDecl(name, publicId, systemId);
+
+        if (xmlWriter != null) {
+            xmlWriter.notationDecl(name, publicId, systemId);
+        }
+    }
+
+    @Override
+    public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
+        super.startElement(uri, localName, qName, atts);
+
+        if (!activeHandlers() && (xmlWriter != null)) {
+            xmlWriter.startElement(uri, localName, qName, atts);
+        }
+    }
+
+    @Override
+    public void startDocument() throws SAXException {
+        super.startDocument();
+
+        if (xmlWriter != null) {
+            xmlWriter.startDocument();
+        }
+    }
+
+    @Override
+    public void ignorableWhitespace(char[] parm1, int parm2, int parm3) throws SAXException {
+        super.ignorableWhitespace(parm1, parm2, parm3);
+
+        if (!activeHandlers() && (xmlWriter != null)) {
+            xmlWriter.ignorableWhitespace(parm1, parm2, parm3);
+        }
+    }
+
+    @Override
+    public void processingInstruction(String target, String data) throws SAXException {
+        super.processingInstruction(target, data);
+
+        if (!activeHandlers() && (xmlWriter != null)) {
+            xmlWriter.processingInstruction(target, data);
+        }
+    }
+
+    @Override
+    public void setDocumentLocator(Locator locator) {
+        super.setDocumentLocator(locator);
+
+        if (xmlWriter != null) {
+            xmlWriter.setDocumentLocator(locator);
+        }
+    }
+
+    @Override
+    public void skippedEntity(String name) throws SAXException {
+        super.skippedEntity(name);
+
+        if (!activeHandlers() && (xmlWriter != null)) {
+            xmlWriter.skippedEntity(name);
+        }
+    }
+
+    @Override
+    public void endDocument() throws SAXException {
+        super.endDocument();
+
+        if (xmlWriter != null) {
+            xmlWriter.endDocument();
+        }
+    }
+
+    @Override
+    public void startPrefixMapping(String prefix, String uri) throws SAXException {
+        super.startPrefixMapping(prefix, uri);
+
+        if (xmlWriter != null) {
+            xmlWriter.startPrefixMapping(prefix, uri);
+        }
+    }
+
+    @Override
+    public void endElement(String uri, String localName, String qName) throws SAXException {
+        ElementHandler currentHandler = getElementStack().getDispatchHandler().getHandler(getElementStack().getPath());
+
+        super.endElement(uri, localName, qName);
+
+        if (!activeHandlers()) {
+            if (xmlWriter != null) {
+                if (currentHandler == null) {
+                    xmlWriter.endElement(uri, localName, qName);
+                } else if (currentHandler instanceof SAXModifyElementHandler) {
+                    SAXModifyElementHandler modifyHandler = (SAXModifyElementHandler) currentHandler;
+                    Element modifiedElement = modifyHandler.getModifiedElement();
+
+                    try {
+                        xmlWriter.write(modifiedElement);
+                    } catch (IOException ex) {
+                        throw new SAXModifyException(ex);
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void endPrefixMapping(String prefix) throws SAXException {
+        super.endPrefixMapping(prefix);
+
+        if (xmlWriter != null) {
+            xmlWriter.endPrefixMapping(prefix);
+        }
+    }
+
+    @Override
+    public void characters(char[] parm1, int parm2, int parm3) throws SAXException {
+        super.characters(parm1, parm2, parm3);
+
+        if (!activeHandlers() && (xmlWriter != null)) {
+            xmlWriter.characters(parm1, parm2, parm3);
+        }
+    }
+
+    protected XMLWriter getXMLWriter() {
+        return this.xmlWriter;
+    }
+
+    private boolean activeHandlers() {
+        DispatchHandler handler = getElementStack().getDispatchHandler();
+
+        return handler.getActiveHandlerCount() > 0;
+    }
 }
 
 /*

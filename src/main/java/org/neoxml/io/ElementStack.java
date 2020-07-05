@@ -22,171 +22,167 @@ import java.util.Arrays;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.14 $
  */
-class ElementStack implements ElementPath
-{
-  /**
-   * stack of <code>Element</code> objects
-   */
-  protected Element[] stack;
+class ElementStack implements ElementPath {
+    /**
+     * stack of <code>Element</code> objects
+     */
+    protected Element[] stack;
 
-  /**
-   * index of the item at the top of the stack or -1 if the stack is empty
-   */
-  protected int lastElementIndex = -1;
+    /**
+     * index of the item at the top of the stack or -1 if the stack is empty
+     */
+    protected int lastElementIndex = -1;
 
-  private DispatchHandler handler = null;
+    private DispatchHandler handler = null;
 
-  public ElementStack() {
-    this(64);
-  }
-
-  public ElementStack(int defaultCapacity) {
-    stack = new Element[defaultCapacity];
-  }
-
-  public void setDispatchHandler(DispatchHandler dispatchHandler) {
-    this.handler = dispatchHandler;
-  }
-
-  public DispatchHandler getDispatchHandler() {
-    return this.handler;
-  }
-
-  /**
-   * Peeks at the top element on the stack without changing the contents of
-   * the stack.
-   */
-  public void clear() {
-    lastElementIndex = -1;
-  }
-
-  /**
-   * Peeks at the top element on the stack without changing the contents of
-   * the stack.
-   *
-   * @return the current element on the stack
-   */
-  public Element peekElement() {
-    if (lastElementIndex < 0) {
-      return null;
+    public ElementStack() {
+        this(64);
     }
 
-    return stack[lastElementIndex];
-  }
-
-  /**
-   * Pops the element off the stack
-   *
-   * @return the element that has just been popped off the stack
-   */
-  public Element popElement() {
-    if (lastElementIndex < 0) {
-      return null;
+    public ElementStack(int defaultCapacity) {
+        stack = new Element[defaultCapacity];
     }
 
-    return stack[lastElementIndex--];
-  }
-
-  /**
-   * Pushes a new element onto the stack
-   *
-   * @param element DOCUMENT ME!
-   */
-  public void pushElement(Element element) {
-    int length = stack.length;
-
-    if (++lastElementIndex >= length) {
-      reallocate(length * 2);
+    public void setDispatchHandler(DispatchHandler dispatchHandler) {
+        this.handler = dispatchHandler;
     }
 
-    stack[lastElementIndex] = element;
-  }
-
-  /**
-   * Reallocates the stack to the given size
-   *
-   * @param size DOCUMENT ME!
-   */
-  protected void reallocate(int size) {
-    stack = Arrays.copyOf(stack, size);
-  }
-
-  // The ElementPath Interface
-  //
-
-  @Override
-  public int size() {
-    return lastElementIndex + 1;
-  }
-
-  @Override
-  public Element getElement(int depth) {
-    Element element;
-
-    try {
-      element = stack[depth];
-    }
-    catch (ArrayIndexOutOfBoundsException e) {
-      element = null;
+    public DispatchHandler getDispatchHandler() {
+        return this.handler;
     }
 
-    return element;
-  }
-
-  @Override
-  public String getPath() {
-    if (handler == null) {
-      setDispatchHandler(new DispatchHandler());
+    /**
+     * Peeks at the top element on the stack without changing the contents of
+     * the stack.
+     */
+    public void clear() {
+        lastElementIndex = -1;
     }
 
-    return handler.getPath();
-  }
+    /**
+     * Peeks at the top element on the stack without changing the contents of
+     * the stack.
+     *
+     * @return the current element on the stack
+     */
+    public Element peekElement() {
+        if (lastElementIndex < 0) {
+            return null;
+        }
 
-  @Override
-  public Element getCurrent() {
-    return peekElement();
-  }
-
-  @Override
-  public void addHandler(String path, ElementHandler elementHandler) {
-    this.handler.addHandler(getHandlerPath(path), elementHandler);
-  }
-
-  @Override
-  public void removeHandler(String path) {
-    this.handler.removeHandler(getHandlerPath(path));
-  }
-
-  /**
-   * DOCUMENT ME!
-   *
-   * @param path DOCUMENT ME!
-   * @return true when an <code>ElementHandler</code> is registered for the
-   *         specified path.
-   */
-  public boolean containsHandler(String path) {
-    return this.handler.containsHandler(path);
-  }
-
-  private String getHandlerPath(String path) {
-    String handlerPath;
-
-    if (this.handler == null) {
-      setDispatchHandler(new DispatchHandler());
+        return stack[lastElementIndex];
     }
 
-    if (path.startsWith("/")) {
-      handlerPath = path;
-    }
-    else if (getPath().equals("/")) {
-      handlerPath = getPath() + path;
-    }
-    else {
-      handlerPath = getPath() + "/" + path;
+    /**
+     * Pops the element off the stack
+     *
+     * @return the element that has just been popped off the stack
+     */
+    public Element popElement() {
+        if (lastElementIndex < 0) {
+            return null;
+        }
+
+        return stack[lastElementIndex--];
     }
 
-    return handlerPath;
-  }
+    /**
+     * Pushes a new element onto the stack
+     *
+     * @param element DOCUMENT ME!
+     */
+    public void pushElement(Element element) {
+        int length = stack.length;
+
+        if (++lastElementIndex >= length) {
+            reallocate(length * 2);
+        }
+
+        stack[lastElementIndex] = element;
+    }
+
+    /**
+     * Reallocates the stack to the given size
+     *
+     * @param size DOCUMENT ME!
+     */
+    protected void reallocate(int size) {
+        stack = Arrays.copyOf(stack, size);
+    }
+
+    // The ElementPath Interface
+    //
+
+    @Override
+    public int size() {
+        return lastElementIndex + 1;
+    }
+
+    @Override
+    public Element getElement(int depth) {
+        Element element;
+
+        try {
+            element = stack[depth];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            element = null;
+        }
+
+        return element;
+    }
+
+    @Override
+    public String getPath() {
+        if (handler == null) {
+            setDispatchHandler(new DispatchHandler());
+        }
+
+        return handler.getPath();
+    }
+
+    @Override
+    public Element getCurrent() {
+        return peekElement();
+    }
+
+    @Override
+    public void addHandler(String path, ElementHandler elementHandler) {
+        this.handler.addHandler(getHandlerPath(path), elementHandler);
+    }
+
+    @Override
+    public void removeHandler(String path) {
+        this.handler.removeHandler(getHandlerPath(path));
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param path DOCUMENT ME!
+     * @return true when an <code>ElementHandler</code> is registered for the
+     * specified path.
+     */
+    public boolean containsHandler(String path) {
+        return this.handler.containsHandler(path);
+    }
+
+    private String getHandlerPath(String path) {
+        String handlerPath;
+
+        if (this.handler == null) {
+            setDispatchHandler(new DispatchHandler());
+        }
+
+        if (path.startsWith("/")) {
+            handlerPath = path;
+        } else if (getPath().equals("/")) {
+            handlerPath = getPath() + path;
+        } else {
+            handlerPath = getPath() + "/" + path;
+        }
+
+        return handlerPath;
+    }
 }
 
 /*

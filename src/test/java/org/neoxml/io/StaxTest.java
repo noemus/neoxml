@@ -23,44 +23,42 @@ import java.io.StringWriter;
  * @author <a href="mailto:maartenc@sourceforge.net">Maarten Coene </a>
  * @author Christian Niles
  */
-public class StaxTest extends AbstractTestCase
-{
-  // Test case(s)
-  // -------------------------------------------------------------------------
+public class StaxTest extends AbstractTestCase {
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  /**
-   * Tests that the encoding specified in the XML declaration is exposed in
-   * the Document read via StAX, and also that it gets output when writing.
-   */
-  @Test
-  public void testEncoding() throws XMLStreamException, FileNotFoundException {
-    /*
-     * only execute if a reference implementation is available
+    /**
+     * Tests that the encoding specified in the XML declaration is exposed in
+     * the Document read via StAX, and also that it gets output when writing.
      */
-    try {
-      XMLInputFactory.newInstance();
+    @Test
+    public void testEncoding() throws XMLStreamException, FileNotFoundException {
+        /*
+         * only execute if a reference implementation is available
+         */
+        try {
+            XMLInputFactory.newInstance();
+        } catch (javax.xml.stream.FactoryConfigurationError e) {
+            // no implementation found, stop the test.
+            return;
+        }
+
+        File file = getFile("/src/test/xml/russArticle.xml");
+        STAXEventReader xmlReader = new STAXEventReader();
+        Document doc = xmlReader.readDocument(new FileInputStream(file));
+
+        assertEquals("russArticle.xml encoding wasn't correct", "koi8-r", doc.getXMLEncoding());
+
+        StringWriter writer = new StringWriter();
+        STAXEventWriter xmlWriter = new STAXEventWriter(writer);
+        xmlWriter.writeDocument(doc);
+
+        String output = writer.toString();
+        String xmlDecl = output.substring(0, output.indexOf("?>") + 2);
+        String expected = "<?xml version=\"1.0\" encoding=\"koi8-r\"?>";
+        assertEquals("Unexpected xml declaration", expected, xmlDecl);
+        System.out.println(output);
     }
-    catch (javax.xml.stream.FactoryConfigurationError e) {
-      // no implementation found, stop the test.
-      return;
-    }
-
-    File file = getFile("/src/test/xml/russArticle.xml");
-    STAXEventReader xmlReader = new STAXEventReader();
-    Document doc = xmlReader.readDocument(new FileInputStream(file));
-
-    assertEquals("russArticle.xml encoding wasn't correct", "koi8-r", doc.getXMLEncoding());
-
-    StringWriter writer = new StringWriter();
-    STAXEventWriter xmlWriter = new STAXEventWriter(writer);
-    xmlWriter.writeDocument(doc);
-
-    String output = writer.toString();
-    String xmlDecl = output.substring(0, output.indexOf("?>") + 2);
-    String expected = "<?xml version=\"1.0\" encoding=\"koi8-r\"?>";
-    assertEquals("Unexpected xml declaration", expected, xmlDecl);
-    System.out.println(output);
-  }
 }
 
 /*

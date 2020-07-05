@@ -21,85 +21,84 @@ import java.util.Collections;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.3 $
  */
-public class RuleTest extends AbstractTestCase
-{
-  protected DocumentFactory factory = new DefaultDocumentFactory();
+public class RuleTest extends AbstractTestCase {
+    protected DocumentFactory factory = new DefaultDocumentFactory();
 
-  @Test
-  public void testOrder() throws Exception {
-    testGreater("foo", "*");
-  }
+    @Test
+    public void testOrder() throws Exception {
+        testGreater("foo", "*");
+    }
 
-  protected void testGreater(String expr1, String expr2) throws Exception {
-    System.out.println("parsing: " + expr1 + " and " + expr2);
+    protected void testGreater(String expr1, String expr2) throws Exception {
+        System.out.println("parsing: " + expr1 + " and " + expr2);
 
-    Rule r1 = createRule(expr1);
-    Rule r2 = createRule(expr2);
+        Rule r1 = createRule(expr1);
+        Rule r2 = createRule(expr2);
 
-    System.out.println("rule1: " + r1 + " rule2: " + r2);
+        System.out.println("rule1: " + r1 + " rule2: " + r2);
 
-    assertTrue("r1 > r2", r1.compareTo(r2) > 0);
-    assertTrue("r2 < r1", r2.compareTo(r1) < 0);
-    assertTrue("r1 == r1", r1.compareTo(r1) == 0);
-    assertTrue("r2 == r2", r2.compareTo(r2) == 0);
+        assertTrue("r1 > r2", r1.compareTo(r2) > 0);
+        assertTrue("r2 < r1", r2.compareTo(r1) < 0);
+        assertTrue("r1 == r1", r1.compareTo(r1) == 0);
+        assertTrue("r2 == r2", r2.compareTo(r2) == 0);
 
-    ArrayList<Rule> list = new ArrayList<>();
-    list.add(r1);
-    list.add(r2);
+        ArrayList<Rule> list = new ArrayList<>();
+        list.add(r1);
+        list.add(r2);
 
-    Collections.sort(list);
+        Collections.sort(list);
 
-    assertTrue("r2 should be first", list.get(0) == r2);
-    assertTrue("r1 should be next", list.get(1) == r1);
+        assertTrue("r2 should be first", list.get(0) == r2);
+        assertTrue("r1 should be next", list.get(1) == r1);
 
-    list = new ArrayList<>();
-    list.add(r2);
-    list.add(r1);
+        list = new ArrayList<>();
+        list.add(r2);
+        list.add(r1);
 
-    Collections.sort(list);
+        Collections.sort(list);
 
-    assertTrue("r2 should be first", list.get(0) == r2);
-    assertTrue("r1 should be next", list.get(1) == r1);
+        assertTrue("r2 should be first", list.get(0) == r2);
+        assertTrue("r1 should be next", list.get(1) == r1);
 
-    /*
-     * TreeSet set = new TreeSet(); set.add( r1 ); set.add( r2 );
-     * assertTrue( "r2 should be first", set.first() == r2 ); assertTrue(
-     * "r1 should be next", set.last() == r1 );
-     * Object[] array = set.toArray();
-     * assertTrue( "r2 should be first", array[0] == r2 ); assertTrue( "r1
-     * should be next", array[1] == r1 );
-     * set = new TreeSet(); set.add( r2 ); set.add( r1 );
-     * assertTrue( "r2 should be first", set.first() == r2 ); assertTrue(
-     * "r1 should be next", set.last() == r1 );
-     * array = set.toArray();
-     * assertTrue( "r2 should be first", array[0] == r2 ); assertTrue( "r1
-     * should be next", array[1] == r1 );
-     */
-  }
+        /*
+         * TreeSet set = new TreeSet(); set.add( r1 ); set.add( r2 );
+         * assertTrue( "r2 should be first", set.first() == r2 ); assertTrue(
+         * "r1 should be next", set.last() == r1 );
+         * Object[] array = set.toArray();
+         * assertTrue( "r2 should be first", array[0] == r2 ); assertTrue( "r1
+         * should be next", array[1] == r1 );
+         * set = new TreeSet(); set.add( r2 ); set.add( r1 );
+         * assertTrue( "r2 should be first", set.first() == r2 ); assertTrue(
+         * "r1 should be next", set.last() == r1 );
+         * array = set.toArray();
+         * assertTrue( "r2 should be first", array[0] == r2 ); assertTrue( "r1
+         * should be next", array[1] == r1 );
+         */
+    }
 
-  @Test
-  public void testDocument() {
-    Rule rule = createRule("/");
-    document = factory.createDocument();
-    document.addElement("foo");
+    @Test
+    public void testDocument() {
+        Rule rule = createRule("/");
+        document = factory.createDocument();
+        document.addElement("foo");
 
-    assertTrue("/ matches document", rule.matches(document));
-    assertTrue("/ does not match root element", !rule.matches(document.getRootElement()));
-  }
+        assertTrue("/ matches document", rule.matches(document));
+        assertTrue("/ does not match root element", !rule.matches(document.getRootElement()));
+    }
 
-  @Test
-  public void testTextMatchesCDATA() {
-    CDATA cdata = factory.createCDATA("<>&");
-    Rule rule = createRule("text()");
+    @Test
+    public void testTextMatchesCDATA() {
+        CDATA cdata = factory.createCDATA("<>&");
+        Rule rule = createRule("text()");
 
-    assertTrue("text() matches CDATA", rule.matches(cdata));
-  }
+        assertTrue("text() matches CDATA", rule.matches(cdata));
+    }
 
-  protected Rule createRule(String expr) {
-    Pattern pattern = factory.createPattern(expr);
+    protected Rule createRule(String expr) {
+        Pattern pattern = factory.createPattern(expr);
 
-    return new Rule(pattern);
-  }
+        return new Rule(pattern);
+    }
 }
 
 /*

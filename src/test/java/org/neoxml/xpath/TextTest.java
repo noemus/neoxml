@@ -19,48 +19,47 @@ import java.util.List;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.3 $
  */
-public class TextTest extends AbstractTestCase
-{
-  protected static String[] paths = {
-    "text()", "//author/text()"
-  };
+public class TextTest extends AbstractTestCase {
+    protected static String[] paths = {
+            "text()", "//author/text()"
+    };
 
-  // Test case(s)
-  // -------------------------------------------------------------------------
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testXPaths() throws Exception {
-    int size = paths.length;
+    @Test
+    public void testXPaths() throws Exception {
+        int size = paths.length;
 
-    for (int i = 0; i < size; i++) {
-      testXPath(paths[i]);
+        for (int i = 0; i < size; i++) {
+            testXPath(paths[i]);
+        }
     }
-  }
 
-  // Implementation methods
-  // -------------------------------------------------------------------------
+    // Implementation methods
+    // -------------------------------------------------------------------------
 
-  protected void testXPath(String xpath) {
-    List list = document.selectNodes(xpath);
+    protected void testXPath(String xpath) {
+        List list = document.selectNodes(xpath);
 
-    for (Iterator iter = list.iterator(); iter.hasNext();) {
-      Object object = iter.next();
+        for (Iterator iter = list.iterator(); iter.hasNext(); ) {
+            Object object = iter.next();
 
-      log("Found Result: " + object);
+            log("Found Result: " + object);
 
-      assertTrue("Results not Text objects", object instanceof Text);
+            assertTrue("Results not Text objects", object instanceof Text);
 
-      Text text = (Text)object;
+            Text text = (Text) object;
 
-      assertTrue("Results should support the parent relationship", text
-        .supportsParent());
-      assertTrue(
-        "Results should contain reference to the parent element",
-        text.getParent() != null);
-      assertTrue("Results should not reference to the owning document",
-        text.getDocument() != null);
+            assertTrue("Results should support the parent relationship", text
+                    .supportsParent());
+            assertTrue(
+                    "Results should contain reference to the parent element",
+                    text.getParent() != null);
+            assertTrue("Results should not reference to the owning document",
+                       text.getDocument() != null);
+        }
     }
-  }
 }
 
 /*

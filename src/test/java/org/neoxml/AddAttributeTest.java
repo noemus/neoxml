@@ -13,43 +13,42 @@ import org.junit.Test;
  *
  * @author <a href="mailto:maartenc@users.sourceforge.net">Maarten Coene </a>
  */
-public class AddAttributeTest extends AbstractTestCase
-{
-  // Test case(s)
-  // -------------------------------------------------------------------------
+public class AddAttributeTest extends AbstractTestCase {
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testAddAttributeNormalValue() {
-    String testAttributeName = "testAtt";
-    String testAttributeValue = "testValue";
+    @Test
+    public void testAddAttributeNormalValue() {
+        String testAttributeName = "testAtt";
+        String testAttributeValue = "testValue";
 
-    Node authorNode = document.selectSingleNode("//root/author[1]");
+        Node authorNode = document.selectSingleNode("//root/author[1]");
 
-    assertTrue(authorNode instanceof Element);
+        assertTrue(authorNode instanceof Element);
 
-    Element authorEl = (Element)authorNode;
-    authorEl.addAttribute(testAttributeName, testAttributeValue);
+        Element authorEl = (Element) authorNode;
+        authorEl.addAttribute(testAttributeName, testAttributeValue);
 
-    assertEquals(3, authorEl.attributeCount());
-    assertEquals(testAttributeValue, authorEl
-      .attributeValue(testAttributeName));
-  }
+        assertEquals(3, authorEl.attributeCount());
+        assertEquals(testAttributeValue, authorEl
+                .attributeValue(testAttributeName));
+    }
 
-  @Test
-  public void testAddAttributeNullValue() {
-    String testAttributeName = "location";
-    String testAttributeValue = null;
+    @Test
+    public void testAddAttributeNullValue() {
+        String testAttributeName = "location";
+        String testAttributeValue = null;
 
-    Node authorNode = document.selectSingleNode("//root/author[1]");
+        Node authorNode = document.selectSingleNode("//root/author[1]");
 
-    assertTrue(authorNode instanceof Element);
+        assertTrue(authorNode instanceof Element);
 
-    Element authorEl = (Element)authorNode;
-    authorEl.addAttribute(testAttributeName, testAttributeValue);
+        Element authorEl = (Element) authorNode;
+        authorEl.addAttribute(testAttributeName, testAttributeValue);
 
-    assertEquals(1, authorEl.attributeCount());
-    assertNull(authorEl.attributeValue(testAttributeName));
-  }
+        assertEquals(1, authorEl.attributeCount());
+        assertNull(authorEl.attributeValue(testAttributeName));
+    }
 }
 
 /*

@@ -21,44 +21,43 @@ import java.util.List;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.3 $
  */
-public class BooleanTest extends AbstractTestCase
-{
-  protected static String[] paths = {
-    ".[name()='author']",
-    ".[.='James Strachan']", ".[name()='XXXX']", ".[.='XXXX']",
-    "name()='author'", "name()='XXXX'", ".='James Strachan'",
-    ".='XXXX'"
-  };
+public class BooleanTest extends AbstractTestCase {
+    protected static String[] paths = {
+            ".[name()='author']",
+            ".[.='James Strachan']", ".[name()='XXXX']", ".[.='XXXX']",
+            "name()='author'", "name()='XXXX'", ".='James Strachan'",
+            ".='XXXX'"
+    };
 
-  // Test case(s)
-  // -------------------------------------------------------------------------
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testXPaths() throws Exception {
-    int size = paths.length;
+    @Test
+    public void testXPaths() throws Exception {
+        int size = paths.length;
 
-    for (int i = 0; i < size; i++) {
-      testXPath(paths[i]);
+        for (int i = 0; i < size; i++) {
+            testXPath(paths[i]);
+        }
     }
-  }
 
-  protected void testXPath(String xpathExpression) {
-    XPath xpath = DocumentHelper.createXPath(xpathExpression);
-    assertTrue("No xpath object was created", xpath != null);
+    protected void testXPath(String xpathExpression) {
+        XPath xpath = DocumentHelper.createXPath(xpathExpression);
+        assertTrue("No xpath object was created", xpath != null);
 
-    log("Evaluating xpath: " + xpath);
+        log("Evaluating xpath: " + xpath);
 
-    List list = document.selectNodes("//author");
+        List list = document.selectNodes("//author");
 
-    for (Iterator iter = list.iterator(); iter.hasNext();) {
-      Node node = (Node)iter.next();
-      testXPath(node, xpath);
+        for (Iterator iter = list.iterator(); iter.hasNext(); ) {
+            Node node = (Node) iter.next();
+            testXPath(node, xpath);
+        }
     }
-  }
 
-  protected void testXPath(Node node, XPath xpath) {
-    List list = xpath.selectNodes(node);
-  }
+    protected void testXPath(Node node, XPath xpath) {
+        List list = xpath.selectNodes(node);
+    }
 }
 
 /*

@@ -14,72 +14,71 @@ import org.junit.Test;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.3 $
  */
-public class NullAttributesTest extends AbstractTestCase
-{
-  protected DocumentFactory factory = DefaultDocumentFactory.getInstance();
+public class NullAttributesTest extends AbstractTestCase {
+    protected DocumentFactory factory = DefaultDocumentFactory.getInstance();
 
-  protected Document document = factory.createDocument();
+    protected Document document = factory.createDocument();
 
-  protected Element element = document.addElement("root");
+    protected Element element = document.addElement("root");
 
-  // Test case(s)
-  // -------------------------------------------------------------------------
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testStringNames() throws Exception {
-    element.addAttribute("foo", null);
+    @Test
+    public void testStringNames() throws Exception {
+        element.addAttribute("foo", null);
 
-    Attribute attribute = element.attribute("foo");
-    assertTrue(attribute == null);
+        Attribute attribute = element.attribute("foo");
+        assertTrue(attribute == null);
 
-    element.addAttribute("foo", "123");
-    attribute = element.attribute("foo");
-    assertTrue(attribute != null);
+        element.addAttribute("foo", "123");
+        attribute = element.attribute("foo");
+        assertTrue(attribute != null);
 
-    element.addAttribute("foo", null);
-    attribute = element.attribute("foo");
-    assertTrue(attribute == null);
-  }
+        element.addAttribute("foo", null);
+        attribute = element.attribute("foo");
+        assertTrue(attribute == null);
+    }
 
-  @Test
-  public void testQNames() throws Exception {
-    QName bar = QName.get("bar");
+    @Test
+    public void testQNames() throws Exception {
+        QName bar = QName.get("bar");
 
-    element.addAttribute(bar, null);
+        element.addAttribute(bar, null);
 
-    Attribute attribute = element.attribute(bar);
-    assertTrue(attribute == null);
+        Attribute attribute = element.attribute(bar);
+        assertTrue(attribute == null);
 
-    element.addAttribute(bar, "123");
-    attribute = element.attribute(bar);
-    assertTrue(attribute != null);
+        element.addAttribute(bar, "123");
+        attribute = element.attribute(bar);
+        assertTrue(attribute != null);
 
-    element.addAttribute(bar, null);
-    attribute = element.attribute(bar);
-    assertTrue(attribute == null);
-  }
+        element.addAttribute(bar, null);
+        attribute = element.attribute(bar);
+        assertTrue(attribute == null);
+    }
 
-  @Test
-  public void testAttributes() throws Exception {
-    Attribute attribute = factory.createAttribute(element, "v", null);
+    @Test
+    public void testAttributes() throws Exception {
+        Attribute attribute = factory.createAttribute(element, "v", null);
 
-    assertTrue(attribute.getText() == null);
-    assertTrue(attribute.getValue() == null);
+        assertTrue(attribute.getText() == null);
+        assertTrue(attribute.getValue() == null);
 
-    element.add(attribute);
-    attribute = element.attribute("v");
-    assertTrue(attribute == null);
+        element.add(attribute);
+        attribute = element.attribute("v");
+        assertTrue(attribute == null);
 
-    attribute = factory.createAttribute(element, "v", "123");
-    element.add(attribute);
-    attribute = element.attribute("v");
-    assertTrue(attribute != null);
+        attribute = factory.createAttribute(element, "v", "123");
+        element.add(attribute);
+        attribute = element.attribute("v");
+        assertTrue(attribute != null);
 
-    attribute = factory.createAttribute(element, "v", null);
-    element.add(attribute);
-    attribute = element.attribute("v");
-    assertTrue(attribute == null);
-  }
+        attribute = factory.createAttribute(element, "v", null);
+        element.add(attribute);
+        attribute = element.attribute("v");
+        assertTrue(attribute == null);
+    }
 }
 
 /*

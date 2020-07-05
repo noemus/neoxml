@@ -21,36 +21,35 @@ import org.neoxml.QName;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.9 $
  */
-public class IndexedDocumentFactory extends DefaultDocumentFactory
-{
-  /**
-   * The Singleton instance
-   */
-  protected static transient IndexedDocumentFactory singleton = new IndexedDocumentFactory();
+public class IndexedDocumentFactory extends DefaultDocumentFactory {
+    /**
+     * The Singleton instance
+     */
+    protected static transient IndexedDocumentFactory singleton = new IndexedDocumentFactory();
 
-  /**
-   * <p>
-   * Access to the singleton instance of this factory.
-   * </p>
-   *
-   * @return the default singleon instance
-   */
-  @SuppressWarnings("sync-override")
-  public static DocumentFactory getInstance() {
-    return singleton;
-  }
+    /**
+     * <p>
+     * Access to the singleton instance of this factory.
+     * </p>
+     *
+     * @return the default singleon instance
+     */
+    @SuppressWarnings("sync-override")
+    public static DocumentFactory getInstance() {
+        return singleton;
+    }
 
-  // DefaultDocumentFactory methods
-  // -------------------------------------------------------------------------
+    // DefaultDocumentFactory methods
+    // -------------------------------------------------------------------------
 
-  @Override
-  public Element createElement(QName qname) {
-    return new IndexedElement(qname);
-  }
+    @Override
+    public Element createElement(QName qname) {
+        return new IndexedElement(qname);
+    }
 
-  public Element createElement(QName qname, int attributeCount) {
-    return new IndexedElement(qname, attributeCount);
-  }
+    public Element createElement(QName qname, int attributeCount) {
+        return new IndexedElement(qname, attributeCount);
+    }
 }
 
 /*

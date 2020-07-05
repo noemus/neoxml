@@ -22,65 +22,64 @@ import java.util.List;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.4 $
  */
-public class VariableTest extends AbstractTestCase
-{
-  // TODO: uncomment these if jaxen bug is fixed
-  // http://jira.codehaus.org/browse/JAXEN-73
-  protected static String[] paths = {
-    "$author",
-    //            "$author/@name",
-    //            "$root/author",
-    //            "$root/author[1]",
-    //            "$root/author[1]/@name",
-    //            "$author/@name"
-  };
+public class VariableTest extends AbstractTestCase {
+    // TODO: uncomment these if jaxen bug is fixed
+    // http://jira.codehaus.org/browse/JAXEN-73
+    protected static String[] paths = {
+            "$author",
+            //            "$author/@name",
+            //            "$root/author",
+            //            "$root/author[1]",
+            //            "$root/author[1]/@name",
+            //            "$author/@name"
+    };
 
-  private SimpleVariableContext variableContext = new SimpleVariableContext();
+    private SimpleVariableContext variableContext = new SimpleVariableContext();
 
-  private Node rootNode;
+    private Node rootNode;
 
-  private Node authorNode;
+    private Node authorNode;
 
-  // Test case(s)
-  // -------------------------------------------------------------------------
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testXPaths() {
-    int size = paths.length;
+    @Test
+    public void testXPaths() {
+        int size = paths.length;
 
-    for (int i = 0; i < size; i++) {
-      testXPath(paths[i]);
+        for (int i = 0; i < size; i++) {
+            testXPath(paths[i]);
+        }
     }
-  }
 
-  protected void testXPath(String xpathText) {
-    XPath xpath = createXPath(xpathText);
-    List list = xpath.selectNodes(document);
+    protected void testXPath(String xpathText) {
+        XPath xpath = createXPath(xpathText);
+        List list = xpath.selectNodes(document);
 
-    log("Searched path: " + xpathText + " found: " + list.size()
-      + " result(s)");
+        log("Searched path: " + xpathText + " found: " + list.size()
+                    + " result(s)");
 
-    assertTrue("Results should not contain the root node", !list
-      .contains(rootNode));
-  }
+        assertTrue("Results should not contain the root node", !list
+                .contains(rootNode));
+    }
 
-  protected XPath createXPath(String xpath) {
-    final XPath result = DocumentHelper.createXPath(xpath);
-    ((DefaultXPath)result).setVariableContext(variableContext);
-    return result;
-  }
+    protected XPath createXPath(String xpath) {
+        final XPath result = DocumentHelper.createXPath(xpath);
+        ((DefaultXPath) result).setVariableContext(variableContext);
+        return result;
+    }
 
-  @Override
-  @Before
-  public void setUp() throws Exception {
-    super.setUp();
+    @Override
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
 
-    rootNode = document.selectSingleNode("/root");
-    authorNode = document.selectSingleNode("/root/author[1]");
+        rootNode = document.selectSingleNode("/root");
+        authorNode = document.selectSingleNode("/root/author[1]");
 
-    variableContext.setVariableValue("root", rootNode);
-    variableContext.setVariableValue("author", authorNode);
-  }
+        variableContext.setVariableValue("root", rootNode);
+        variableContext.setVariableValue("author", authorNode);
+    }
 }
 
 /*

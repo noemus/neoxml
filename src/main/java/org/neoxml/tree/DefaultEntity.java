@@ -17,73 +17,72 @@ import org.neoxml.Element;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.11 $
  */
-public class DefaultEntity extends FlyweightEntity
-{
-  /**
-   * The parent of this node
-   */
-  private Element parent;
+public class DefaultEntity extends FlyweightEntity {
+    /**
+     * The parent of this node
+     */
+    private Element parent;
 
-  /**
-   * Creates the <code>Entity</code> with the specified name
-   *
-   * @param name is the name of the entity
-   */
-  public DefaultEntity(String name) {
-    super(name);
-  }
+    /**
+     * Creates the <code>Entity</code> with the specified name
+     *
+     * @param name is the name of the entity
+     */
+    public DefaultEntity(String name) {
+        super(name);
+    }
 
-  /**
-   * Creates the <code>Entity</code> with the specified name and text.
-   *
-   * @param name is the name of the entity
-   * @param text is the text of the entity
-   */
-  public DefaultEntity(String name, String text) {
-    super(name, text);
-  }
+    /**
+     * Creates the <code>Entity</code> with the specified name and text.
+     *
+     * @param name is the name of the entity
+     * @param text is the text of the entity
+     */
+    public DefaultEntity(String name, String text) {
+        super(name, text);
+    }
 
-  /**
-   * Creates the <code>Entity</code> with the specified name and text.
-   *
-   * @param parent is the parent element
-   * @param name is the name of the entity
-   * @param text is the text of the entity
-   */
-  public DefaultEntity(Element parent, String name, String text) {
-    super(name, text);
-    this.parent = parent;
-  }
+    /**
+     * Creates the <code>Entity</code> with the specified name and text.
+     *
+     * @param parent is the parent element
+     * @param name   is the name of the entity
+     * @param text   is the text of the entity
+     */
+    public DefaultEntity(Element parent, String name, String text) {
+        super(name, text);
+        this.parent = parent;
+    }
 
-  @Override
-  public void setName(String name) {
-    this.name = name;
-  }
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  @Override
-  public void setText(String text) {
-    this.text = text;
-  }
+    @Override
+    public void setText(String text) {
+        this.text = text;
+    }
 
-  @Override
-  public Element getParent() {
-    return parent;
-  }
+    @Override
+    public Element getParent() {
+        return parent;
+    }
 
-  @Override
-  public void setParent(Element parent) {
-    this.parent = parent;
-  }
+    @Override
+    public void setParent(Element parent) {
+        this.parent = parent;
+    }
 
-  @Override
-  public boolean supportsParent() {
-    return true;
-  }
+    @Override
+    public boolean supportsParent() {
+        return true;
+    }
 
-  @Override
-  public boolean isReadOnly() {
-    return false;
-  }
+    @Override
+    public boolean isReadOnly() {
+        return false;
+    }
 }
 
 /*

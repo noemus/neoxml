@@ -22,67 +22,66 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Brett Finnell
  * @version $Revision: 1.15 $
  */
-public class NamespaceCache
-{
-  /**
-   * Cache of {@link Map}instances indexed by URI which contain caches of {@link Namespace}for each prefix
-   */
-  protected static final Map<String,Map<String,Namespace>> cache = new ConcurrentHashMap<>(11, 0.75f, 1);
+public class NamespaceCache {
+    /**
+     * Cache of {@link Map}instances indexed by URI which contain caches of {@link Namespace}for each prefix
+     */
+    protected static final Map<String, Map<String, Namespace>> cache = new ConcurrentHashMap<>(11, 0.75f, 1);
 
-  /**
-   * Cache of {@link Namespace}instances indexed by URI for default
-   * namespaces with no prefixes
-   */
-  protected static final Map<String,Namespace> noPrefixCache = new ConcurrentHashMap<>(11, 0.75f, 1);
+    /**
+     * Cache of {@link Namespace}instances indexed by URI for default
+     * namespaces with no prefixes
+     */
+    protected static final Map<String, Namespace> noPrefixCache = new ConcurrentHashMap<>(11, 0.75f, 1);
 
-  /**
-   * DOCUMENT ME!
-   *
-   * @param prefix DOCUMENT ME!
-   * @param uri DOCUMENT ME!
-   * @return the namespace for the given prefix and uri
-   */
-  public Namespace get(String prefix, String uri) {
-    final Map<String,Namespace> uriCache = getURICache(uri);
-    return uriCache.computeIfAbsent(prefix, _prefix -> createNamespace(_prefix, uri));
-    //return createNamespace(prefix, uri);
-  }
-
-  /**
-   * DOCUMENT ME!
-   *
-   * @param uri DOCUMENT ME!
-   * @return the name model for the given name and namepsace
-   */
-  public Namespace get(String uri) {
-    return noPrefixCache.computeIfAbsent(uri, _uri -> createNamespace("", _uri));
-    //return createNamespace("", uri);
-  }
-
-  /**
-   * DOCUMENT ME!
-   *
-   * @param uri DOCUMENT ME!
-   * @return the cache for the given namespace URI. If one does not currently
-   *         exist it is created.
-   */
-  protected Map<String,Namespace> getURICache(String uri) {
-    return cache.computeIfAbsent(uri, _uri -> new ConcurrentHashMap<>());
-  }
-
-  /**
-   * A factory method to create {@link Namespace}instance
-   *
-   * @param prefix DOCUMENT ME!
-   * @param uri DOCUMENT ME!
-   * @return a newly created {@link Namespace}instance.
-   */
-  protected Namespace createNamespace(String prefix, String uri) {
-    if (prefix.isEmpty() && uri.isEmpty()) {
-      return Namespace.NO_NAMESPACE;
+    /**
+     * DOCUMENT ME!
+     *
+     * @param prefix DOCUMENT ME!
+     * @param uri    DOCUMENT ME!
+     * @return the namespace for the given prefix and uri
+     */
+    public Namespace get(String prefix, String uri) {
+        final Map<String, Namespace> uriCache = getURICache(uri);
+        return uriCache.computeIfAbsent(prefix, _prefix -> createNamespace(_prefix, uri));
+        //return createNamespace(prefix, uri);
     }
-    return new Namespace(prefix, uri);
-  }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param uri DOCUMENT ME!
+     * @return the name model for the given name and namepsace
+     */
+    public Namespace get(String uri) {
+        return noPrefixCache.computeIfAbsent(uri, _uri -> createNamespace("", _uri));
+        //return createNamespace("", uri);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param uri DOCUMENT ME!
+     * @return the cache for the given namespace URI. If one does not currently
+     * exist it is created.
+     */
+    protected Map<String, Namespace> getURICache(String uri) {
+        return cache.computeIfAbsent(uri, _uri -> new ConcurrentHashMap<>());
+    }
+
+    /**
+     * A factory method to create {@link Namespace}instance
+     *
+     * @param prefix DOCUMENT ME!
+     * @param uri    DOCUMENT ME!
+     * @return a newly created {@link Namespace}instance.
+     */
+    protected Namespace createNamespace(String prefix, String uri) {
+        if (prefix.isEmpty() && uri.isEmpty()) {
+            return Namespace.NO_NAMESPACE;
+        }
+        return new Namespace(prefix, uri);
+    }
 }
 
 /*

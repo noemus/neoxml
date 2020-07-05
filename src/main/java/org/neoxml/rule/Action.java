@@ -17,9 +17,8 @@ import org.neoxml.Node;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.7 $
  */
-public interface Action
-{
-  void run(Node node) throws Exception;
+public interface Action {
+    void run(Node node) throws Exception;
 }
 
 /*

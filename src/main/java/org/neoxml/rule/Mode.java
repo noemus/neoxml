@@ -5,7 +5,11 @@
  */
 package org.neoxml.rule;
 
-import org.neoxml.*;
+import org.neoxml.Attribute;
+import org.neoxml.Document;
+import org.neoxml.Element;
+import org.neoxml.Node;
+import org.neoxml.NodeType;
 
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -21,233 +25,232 @@ import java.util.Map;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.9 $
  */
-public class Mode
-{
+public class Mode {
 
-  private final EnumMap<NodeType,RuleSet> ruleSets = new EnumMap<>(NodeType.class);
-  /**
-   * Map of exact (local) element names to RuleSet instances
-   */
-  private Map<String,RuleSet> elementNameRuleSets;
-  /**
-   * Map of exact (local) attribute names to RuleSet instances
-   */
-  private Map<String,RuleSet> attributeNameRuleSets;
+    private final EnumMap<NodeType, RuleSet> ruleSets = new EnumMap<>(NodeType.class);
+    /**
+     * Map of exact (local) element names to RuleSet instances
+     */
+    private Map<String, RuleSet> elementNameRuleSets;
+    /**
+     * Map of exact (local) attribute names to RuleSet instances
+     */
+    private Map<String, RuleSet> attributeNameRuleSets;
 
-  public Mode() {}
+    public Mode() {}
 
-  /**
-   * Runs the actions associated with the given node
-   *
-   * @param node DOCUMENT ME!
-   * @throws Exception DOCUMENT ME!
-   */
-  public void fireRule(Node node) throws Exception {
-    if (node != null) {
-      Rule rule = getMatchingRule(node);
+    /**
+     * Runs the actions associated with the given node
+     *
+     * @param node DOCUMENT ME!
+     * @throws Exception DOCUMENT ME!
+     */
+    public void fireRule(Node node) throws Exception {
+        if (node != null) {
+            Rule rule = getMatchingRule(node);
 
-      if (rule != null) {
-        Action action = rule.getAction();
+            if (rule != null) {
+                Action action = rule.getAction();
 
-        if (action != null) {
-          action.run(node);
+                if (action != null) {
+                    action.run(node);
+                }
+            }
         }
-      }
-    }
-  }
-
-  public void applyTemplates(Element element) throws Exception {
-    for (int i = 0, size = element.attributeCount(); i < size; i++) {
-      Attribute attribute = element.attribute(i);
-      fireRule(attribute);
     }
 
-    for (int i = 0, size = element.nodeCount(); i < size; i++) {
-      Node node = element.node(i);
-      fireRule(node);
-    }
-  }
+    public void applyTemplates(Element element) throws Exception {
+        for (int i = 0, size = element.attributeCount(); i < size; i++) {
+            Attribute attribute = element.attribute(i);
+            fireRule(attribute);
+        }
 
-  public void applyTemplates(Document document) throws Exception {
-    for (int i = 0, size = document.nodeCount(); i < size; i++) {
-      Node node = document.node(i);
-      fireRule(node);
-    }
-  }
-
-  public void addRule(Rule rule) {
-    final NodeType matchType = rule.getMatchType();
-    final String name = rule.getMatchesNodeName();
-
-    if (name != null) {
-      switch (matchType) {
-        case ELEMENT_NODE:
-          elementNameRuleSets = addToNameMap(elementNameRuleSets, name, rule);
-          break;
-        case ATTRIBUTE_NODE:
-          attributeNameRuleSets = addToNameMap(attributeNameRuleSets, name, rule);
-          break;
-
-        default:
-          break;
-      }
+        for (int i = 0, size = element.nodeCount(); i < size; i++) {
+            Node node = element.node(i);
+            fireRule(node);
+        }
     }
 
-    if (matchType == NodeType.ANY_NODE) {
-      // add rule to all other RuleSets if they exist
-      for (RuleSet ruleSet : this.ruleSets.values()) {
+    public void applyTemplates(Document document) throws Exception {
+        for (int i = 0, size = document.nodeCount(); i < size; i++) {
+            Node node = document.node(i);
+            fireRule(node);
+        }
+    }
+
+    public void addRule(Rule rule) {
+        final NodeType matchType = rule.getMatchType();
+        final String name = rule.getMatchesNodeName();
+
+        if (name != null) {
+            switch (matchType) {
+                case ELEMENT_NODE:
+                    elementNameRuleSets = addToNameMap(elementNameRuleSets, name, rule);
+                    break;
+                case ATTRIBUTE_NODE:
+                    attributeNameRuleSets = addToNameMap(attributeNameRuleSets, name, rule);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        if (matchType == NodeType.ANY_NODE) {
+            // add rule to all other RuleSets if they exist
+            for (RuleSet ruleSet : this.ruleSets.values()) {
+                ruleSet.addRule(rule);
+            }
+        }
+
+        getRuleSet(matchType).addRule(rule);
+    }
+
+    public void removeRule(Rule rule) {
+        NodeType matchType = rule.getMatchType();
+        String name = rule.getMatchesNodeName();
+
+        if (name != null) {
+            switch (matchType) {
+                case ELEMENT_NODE:
+                    removeFromNameMap(elementNameRuleSets, name, rule);
+                    break;
+                case ATTRIBUTE_NODE:
+                    removeFromNameMap(attributeNameRuleSets, name, rule);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        getRuleSet(matchType).removeRule(rule);
+
+        if (matchType != NodeType.ANY_NODE) {
+            getRuleSet(NodeType.ANY_NODE).removeRule(rule);
+        }
+    }
+
+    /**
+     * Performs an XSLT processing model match for the rule which matches the
+     * given Node the best.
+     *
+     * @param node is the neoxml node to match against
+     * @return the matching Rule or no rule if none matched
+     */
+    public Rule getMatchingRule(Node node) {
+        NodeType matchType = node.getNodeTypeEnum();
+
+        switch (matchType) {
+            case ELEMENT_NODE:
+                if (elementNameRuleSets != null) {
+                    String name = node.getName();
+                    RuleSet ruleSet = elementNameRuleSets.get(name);
+
+                    if (ruleSet != null) {
+                        Rule answer = ruleSet.getMatchingRule(node);
+
+                        if (answer != null) {
+                            return answer;
+                        }
+                    }
+                }
+                break;
+            case ATTRIBUTE_NODE:
+                if (attributeNameRuleSets != null) {
+                    String name = node.getName();
+                    RuleSet ruleSet = attributeNameRuleSets.get(name);
+
+                    if (ruleSet != null) {
+                        Rule answer = ruleSet.getMatchingRule(node);
+
+                        if (answer != null) {
+                            return answer;
+                        }
+                    }
+                }
+                break;
+
+            default:
+                break;
+        }
+
+        Rule answer = null;
+        RuleSet ruleSet = ruleSets.get(matchType);
+
+        if (ruleSet != null) {
+            // try rules that match this kind of node first
+            answer = ruleSet.getMatchingRule(node);
+        }
+
+        if ((answer == null) && (matchType != NodeType.ANY_NODE)) {
+            // try general rules that match any kind of node
+            ruleSet = ruleSets.get(NodeType.ANY_NODE);
+
+            if (ruleSet != null) {
+                answer = ruleSet.getMatchingRule(node);
+            }
+        }
+
+        return answer;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param matchType DOCUMENT ME!
+     * @return the RuleSet for the given matching type. This method will never
+     * return null, a new instance will be created.
+     */
+    protected RuleSet getRuleSet(NodeType matchType) {
+        RuleSet ruleSet = ruleSets.get(matchType);
+
+        if (ruleSet == null) {
+            ruleSet = new RuleSet();
+            ruleSets.put(matchType, ruleSet);
+
+            // add the patterns that match any node
+            if (matchType != NodeType.ANY_NODE) {
+                RuleSet allRules = ruleSets.get(NodeType.ANY_NODE);
+
+                if (allRules != null) {
+                    ruleSet.addAll(allRules);
+                }
+            }
+        }
+
+        return ruleSet;
+    }
+
+    /**
+     * Adds the Rule to a RuleSet for the given name.
+     *
+     * @param map  DOCUMENT ME!
+     * @param name DOCUMENT ME!
+     * @param rule DOCUMENT ME!
+     * @return the Map (which will be created if the given map was null
+     */
+    protected Map<String, RuleSet> addToNameMap(Map<String, RuleSet> map, String name, Rule rule) {
+        if (map == null) {
+            map = new HashMap<>();
+        }
+
+        RuleSet ruleSet = map.computeIfAbsent(name, n -> new RuleSet());
+
         ruleSet.addRule(rule);
-      }
+
+        return map;
     }
 
-    getRuleSet(matchType).addRule(rule);
-  }
+    protected void removeFromNameMap(Map<String, RuleSet> map, String name, Rule rule) {
+        if (map != null) {
+            RuleSet ruleSet = map.get(name);
 
-  public void removeRule(Rule rule) {
-    NodeType matchType = rule.getMatchType();
-    String name = rule.getMatchesNodeName();
-
-    if (name != null) {
-      switch (matchType) {
-        case ELEMENT_NODE:
-          removeFromNameMap(elementNameRuleSets, name, rule);
-          break;
-        case ATTRIBUTE_NODE:
-          removeFromNameMap(attributeNameRuleSets, name, rule);
-          break;
-
-        default:
-          break;
-      }
-    }
-
-    getRuleSet(matchType).removeRule(rule);
-
-    if (matchType != NodeType.ANY_NODE) {
-      getRuleSet(NodeType.ANY_NODE).removeRule(rule);
-    }
-  }
-
-  /**
-   * Performs an XSLT processing model match for the rule which matches the
-   * given Node the best.
-   *
-   * @param node is the neoxml node to match against
-   * @return the matching Rule or no rule if none matched
-   */
-  public Rule getMatchingRule(Node node) {
-    NodeType matchType = node.getNodeTypeEnum();
-
-    switch (matchType) {
-      case ELEMENT_NODE:
-        if (elementNameRuleSets != null) {
-          String name = node.getName();
-          RuleSet ruleSet = elementNameRuleSets.get(name);
-
-          if (ruleSet != null) {
-            Rule answer = ruleSet.getMatchingRule(node);
-
-            if (answer != null) {
-              return answer;
+            if (ruleSet != null) {
+                ruleSet.removeRule(rule);
             }
-          }
         }
-        break;
-      case ATTRIBUTE_NODE:
-        if (attributeNameRuleSets != null) {
-          String name = node.getName();
-          RuleSet ruleSet = attributeNameRuleSets.get(name);
-
-          if (ruleSet != null) {
-            Rule answer = ruleSet.getMatchingRule(node);
-
-            if (answer != null) {
-              return answer;
-            }
-          }
-        }
-        break;
-
-      default:
-        break;
     }
-
-    Rule answer = null;
-    RuleSet ruleSet = ruleSets.get(matchType);
-
-    if (ruleSet != null) {
-      // try rules that match this kind of node first
-      answer = ruleSet.getMatchingRule(node);
-    }
-
-    if ((answer == null) && (matchType != NodeType.ANY_NODE)) {
-      // try general rules that match any kind of node
-      ruleSet = ruleSets.get(NodeType.ANY_NODE);
-
-      if (ruleSet != null) {
-        answer = ruleSet.getMatchingRule(node);
-      }
-    }
-
-    return answer;
-  }
-
-  /**
-   * DOCUMENT ME!
-   *
-   * @param matchType DOCUMENT ME!
-   * @return the RuleSet for the given matching type. This method will never
-   *         return null, a new instance will be created.
-   */
-  protected RuleSet getRuleSet(NodeType matchType) {
-    RuleSet ruleSet = ruleSets.get(matchType);
-
-    if (ruleSet == null) {
-      ruleSet = new RuleSet();
-      ruleSets.put(matchType, ruleSet);
-
-      // add the patterns that match any node
-      if (matchType != NodeType.ANY_NODE) {
-        RuleSet allRules = ruleSets.get(NodeType.ANY_NODE);
-
-        if (allRules != null) {
-          ruleSet.addAll(allRules);
-        }
-      }
-    }
-
-    return ruleSet;
-  }
-
-  /**
-   * Adds the Rule to a RuleSet for the given name.
-   *
-   * @param map DOCUMENT ME!
-   * @param name DOCUMENT ME!
-   * @param rule DOCUMENT ME!
-   * @return the Map (which will be created if the given map was null
-   */
-  protected Map<String,RuleSet> addToNameMap(Map<String,RuleSet> map, String name, Rule rule) {
-    if (map == null) {
-      map = new HashMap<>();
-    }
-
-    RuleSet ruleSet = map.computeIfAbsent(name, n -> new RuleSet());
-
-    ruleSet.addRule(rule);
-
-    return map;
-  }
-
-  protected void removeFromNameMap(Map<String,RuleSet> map, String name, Rule rule) {
-    if (map != null) {
-      RuleSet ruleSet = map.get(name);
-
-      if (ruleSet != null) {
-        ruleSet.removeRule(rule);
-      }
-    }
-  }
 }
 
 /*

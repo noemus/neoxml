@@ -14,8 +14,7 @@ package org.neoxml;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.7 $
  */
-public interface Text extends CharacterData
-{
+public interface Text extends CharacterData {
 }
 
 /*

@@ -9,7 +9,14 @@ package org.neoxml;
 import org.junit.Test;
 import org.junit.runners.JUnit4;
 import org.junit.runners.model.InitializationError;
-import org.neoxml.io.*;
+import org.neoxml.io.DOMReader;
+import org.neoxml.io.DOMWriter;
+import org.neoxml.io.DocumentResult;
+import org.neoxml.io.DocumentSource;
+import org.neoxml.io.SAXContentHandler;
+import org.neoxml.io.SAXReader;
+import org.neoxml.io.SAXWriter;
+import org.neoxml.io.XMLWriter;
 
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
@@ -24,173 +31,172 @@ import java.io.StringWriter;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.4 $
  */
-public class RoundTripTest extends AbstractTestCase
-{
-  protected String[] testDocuments = {
-    "/src/test/xml/test/encode.xml",
-    "/src/test/xml/fibo.xml", "/src/test/xml/test/schema/personal-prefix.xsd",
-    "/src/test/xml/test/soap2.xml", "/src/test/xml/test/test_schema.xml"
-  };
+public class RoundTripTest extends AbstractTestCase {
+    protected String[] testDocuments = {
+            "/src/test/xml/test/encode.xml",
+            "/src/test/xml/fibo.xml", "/src/test/xml/test/schema/personal-prefix.xsd",
+            "/src/test/xml/test/soap2.xml", "/src/test/xml/test/test_schema.xml"
+    };
 
-  public static void main(String[] args) throws InitializationError {
-    new JUnit4(RoundTripTest.class).run(null);
-  }
-
-  // Test case(s)
-  // -------------------------------------------------------------------------
-
-  @Test
-  public void testTextRoundTrip() throws Exception {
-    for (int i = 0, size = testDocuments.length; i < size; i++) {
-      Document doc = getDocument(testDocuments[i]);
-      roundTripText(doc);
+    public static void main(String[] args) throws InitializationError {
+        new JUnit4(RoundTripTest.class).run(null);
     }
-  }
 
-  @Test
-  public void testSAXRoundTrip() throws Exception {
-    for (int i = 0, size = testDocuments.length; i < size; i++) {
-      Document doc = getDocument(testDocuments[i]);
-      roundTripSAX(doc);
+    // Test case(s)
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void testTextRoundTrip() throws Exception {
+        for (int i = 0, size = testDocuments.length; i < size; i++) {
+            Document doc = getDocument(testDocuments[i]);
+            roundTripText(doc);
+        }
     }
-  }
 
-  @Test
-  public void testDOMRoundTrip() throws Exception {
-    for (int i = 0, size = testDocuments.length; i < size; i++) {
-      Document doc = getDocument(testDocuments[i]);
-      roundTripDOM(doc);
+    @Test
+    public void testSAXRoundTrip() throws Exception {
+        for (int i = 0, size = testDocuments.length; i < size; i++) {
+            Document doc = getDocument(testDocuments[i]);
+            roundTripSAX(doc);
+        }
     }
-  }
 
-  @Test
-  public void testJAXPRoundTrip() throws Exception {
-    for (int i = 0, size = testDocuments.length; i < size; i++) {
-      Document doc = getDocument(testDocuments[i]);
-      roundTripJAXP(doc);
+    @Test
+    public void testDOMRoundTrip() throws Exception {
+        for (int i = 0, size = testDocuments.length; i < size; i++) {
+            Document doc = getDocument(testDocuments[i]);
+            roundTripDOM(doc);
+        }
     }
-  }
 
-  @Test
-  public void testFullRoundTrip() throws Exception {
-    for (int i = 0, size = testDocuments.length; i < size; i++) {
-      Document doc = getDocument(testDocuments[i]);
-      roundTripFull(doc);
+    @Test
+    public void testJAXPRoundTrip() throws Exception {
+        for (int i = 0, size = testDocuments.length; i < size; i++) {
+            Document doc = getDocument(testDocuments[i]);
+            roundTripJAXP(doc);
+        }
     }
-  }
 
-  @Test
-  public void testRoundTrip() throws Exception {
-    Document document = getDocument("/src/test/xml/xmlspec.xml");
+    @Test
+    public void testFullRoundTrip() throws Exception {
+        for (int i = 0, size = testDocuments.length; i < size; i++) {
+            Document doc = getDocument(testDocuments[i]);
+            roundTripFull(doc);
+        }
+    }
 
-    // Document doc1 = roundTripText( document );
-    Document doc1 = roundTripSAX(document);
-    Document doc2 = roundTripDOM(doc1);
-    Document doc3 = roundTripSAX(doc2);
-    Document doc4 = roundTripText(doc3);
-    Document doc5 = roundTripDOM(doc4);
+    @Test
+    public void testRoundTrip() throws Exception {
+        Document document = getDocument("/src/test/xml/xmlspec.xml");
 
-    // Document doc5 = roundTripDOM( doc3 );
-    assertDocumentsEqual(document, doc5);
-  }
+        // Document doc1 = roundTripText( document );
+        Document doc1 = roundTripSAX(document);
+        Document doc2 = roundTripDOM(doc1);
+        Document doc3 = roundTripSAX(doc2);
+        Document doc4 = roundTripText(doc3);
+        Document doc5 = roundTripDOM(doc4);
 
-  // Implementation methods
-  // -------------------------------------------------------------------------
+        // Document doc5 = roundTripDOM( doc3 );
+        assertDocumentsEqual(document, doc5);
+    }
 
-  protected Document roundTripDOM(Document document) throws Exception {
-    // now lets make a DOM object
-    DOMWriter domWriter = new DOMWriter();
-    org.w3c.dom.Document domDocument = domWriter.write(document);
+    // Implementation methods
+    // -------------------------------------------------------------------------
 
-    // now lets read it back as a neoxml object
-    DOMReader domReader = new DOMReader();
-    Document newDocument = domReader.read(domDocument);
+    protected Document roundTripDOM(Document document) throws Exception {
+        // now lets make a DOM object
+        DOMWriter domWriter = new DOMWriter();
+        org.w3c.dom.Document domDocument = domWriter.write(document);
 
-    // lets ensure names are same
-    newDocument.setName(document.getName());
+        // now lets read it back as a neoxml object
+        DOMReader domReader = new DOMReader();
+        Document newDocument = domReader.read(domDocument);
 
-    assertDocumentsEqual(document, newDocument);
+        // lets ensure names are same
+        newDocument.setName(document.getName());
 
-    return newDocument;
-  }
+        assertDocumentsEqual(document, newDocument);
 
-  protected Document roundTripJAXP(Document document) throws Exception {
-    // output the document to a text buffer via JAXP
-    TransformerFactory factory = TransformerFactory.newInstance();
-    Transformer transformer = factory.newTransformer();
+        return newDocument;
+    }
 
-    StringWriter buffer = new StringWriter();
-    StreamResult streamResult = new StreamResult(buffer);
-    DocumentSource documentSource = new DocumentSource(document);
+    protected Document roundTripJAXP(Document document) throws Exception {
+        // output the document to a text buffer via JAXP
+        TransformerFactory factory = TransformerFactory.newInstance();
+        Transformer transformer = factory.newTransformer();
 
-    transformer.transform(documentSource, streamResult);
+        StringWriter buffer = new StringWriter();
+        StreamResult streamResult = new StreamResult(buffer);
+        DocumentSource documentSource = new DocumentSource(document);
 
-    // now lets parse it back again via JAXP
-    DocumentResult documentResult = new DocumentResult();
-    StreamSource streamSource = new StreamSource(new StringReader(buffer
-      .toString()));
+        transformer.transform(documentSource, streamResult);
 
-    transformer.transform(streamSource, documentResult);
+        // now lets parse it back again via JAXP
+        DocumentResult documentResult = new DocumentResult();
+        StreamSource streamSource = new StreamSource(new StringReader(buffer
+                                                                              .toString()));
 
-    Document newDocument = documentResult.getDocument();
+        transformer.transform(streamSource, documentResult);
 
-    // lets ensure names are same
-    newDocument.setName(document.getName());
+        Document newDocument = documentResult.getDocument();
 
-    assertDocumentsEqual(document, newDocument);
+        // lets ensure names are same
+        newDocument.setName(document.getName());
 
-    return newDocument;
-  }
+        assertDocumentsEqual(document, newDocument);
 
-  protected Document roundTripSAX(Document document) throws Exception {
-    // now lets write it back as SAX events to
-    // a SAX ContentHandler which should build up a new document
-    SAXContentHandler contentHandler = new SAXContentHandler();
-    SAXWriter saxWriter = new SAXWriter(contentHandler, contentHandler,
-      contentHandler);
+        return newDocument;
+    }
 
-    saxWriter.write(document);
+    protected Document roundTripSAX(Document document) throws Exception {
+        // now lets write it back as SAX events to
+        // a SAX ContentHandler which should build up a new document
+        SAXContentHandler contentHandler = new SAXContentHandler();
+        SAXWriter saxWriter = new SAXWriter(contentHandler, contentHandler,
+                                            contentHandler);
 
-    Document newDocument = contentHandler.getDocument();
+        saxWriter.write(document);
 
-    // lets ensure names are same
-    newDocument.setName(document.getName());
+        Document newDocument = contentHandler.getDocument();
 
-    assertDocumentsEqual(document, newDocument);
+        // lets ensure names are same
+        newDocument.setName(document.getName());
 
-    return newDocument;
-  }
+        assertDocumentsEqual(document, newDocument);
 
-  protected Document roundTripText(Document document) throws Exception {
-    StringWriter out = new StringWriter();
-    XMLWriter xmlWriter = new XMLWriter(out);
+        return newDocument;
+    }
 
-    xmlWriter.write(document);
+    protected Document roundTripText(Document document) throws Exception {
+        StringWriter out = new StringWriter();
+        XMLWriter xmlWriter = new XMLWriter(out);
 
-    // now lets read it back
-    String xml = out.toString();
+        xmlWriter.write(document);
 
-    StringReader in = new StringReader(xml);
-    SAXReader reader = new SAXReader();
-    Document newDocument = reader.read(in);
+        // now lets read it back
+        String xml = out.toString();
 
-    // lets ensure names are same
-    newDocument.setName(document.getName());
+        StringReader in = new StringReader(xml);
+        SAXReader reader = new SAXReader();
+        Document newDocument = reader.read(in);
 
-    assertDocumentsEqual(document, newDocument);
+        // lets ensure names are same
+        newDocument.setName(document.getName());
 
-    return newDocument;
-  }
+        assertDocumentsEqual(document, newDocument);
 
-  protected Document roundTripFull(Document document) throws Exception {
-    Document doc2 = roundTripDOM(document);
-    Document doc3 = roundTripSAX(doc2);
-    Document doc4 = roundTripText(doc3);
+        return newDocument;
+    }
 
-    assertDocumentsEqual(document, doc4);
+    protected Document roundTripFull(Document document) throws Exception {
+        Document doc2 = roundTripDOM(document);
+        Document doc3 = roundTripSAX(doc2);
+        Document doc4 = roundTripText(doc3);
 
-    return doc4;
-  }
+        assertDocumentsEqual(document, doc4);
+
+        return doc4;
+    }
 }
 
 /*

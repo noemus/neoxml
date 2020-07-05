@@ -23,185 +23,184 @@ package org.neoxml;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.8 $
  */
-public interface Visitor
-{
-  default boolean visit(Node node) {
-    return true;
-  }
+public interface Visitor {
+    default boolean visit(Node node) {
+        return true;
+    }
 
-  default boolean visitEnter(Node node) {
-    return true;
-  }
+    default boolean visitEnter(Node node) {
+        return true;
+    }
 
-  default boolean visitLeave(Node node) {
-    return true;
-  }
-  
-  default boolean visit(Branch node) {
-    return visit((Node)node);
-  }
+    default boolean visitLeave(Node node) {
+        return true;
+    }
 
-  default boolean visitEnter(Branch node) {
-    return visitEnter((Node)node);
-  }
+    default boolean visit(Branch node) {
+        return visit((Node) node);
+    }
 
-  default boolean visitLeave(Branch node) {
-    return visitLeave((Node)node);
-  }
-  
-  /**
-   * <p>
-   * Visits the given <code>Document</code>
-   * </p>
-   *
-   * @param document is the <code>Document</code> node to visit.
-   * @return false to indicate that processing stopped at some point
-   */
-  default boolean visit(Document document) {
-    return visit((Branch)document);
-  }
+    default boolean visitEnter(Branch node) {
+        return visitEnter((Node) node);
+    }
 
-  /**
-   * <p>
-   * Called before visiting <code>Document</code>. It is possibble to suppress processing of subnodes.
-   * </p>
-   *
-   * @param document is the <code>Document</code> node to visit.
-   * @return true if subnodes should be processed
-   */
-  default boolean visitEnter(Document document) {
-    return visitEnter((Branch)document);
-  }
+    default boolean visitLeave(Branch node) {
+        return visitLeave((Node) node);
+    }
 
-  /**
-   * <p>
-   * Called after processing all nodes of <code>Document</code>.
-   * </p>
-   *
-   * @param document is the <code>Document</code> node to visit.
-   * @return false to indicate that processing stopped at some point
-   */
-  default boolean visitLeave(Document document) {
-    return visitLeave((Branch)document);
-  }
+    /**
+     * <p>
+     * Visits the given <code>Document</code>
+     * </p>
+     *
+     * @param document is the <code>Document</code> node to visit.
+     * @return false to indicate that processing stopped at some point
+     */
+    default boolean visit(Document document) {
+        return visit((Branch) document);
+    }
 
-  /**
-   * <p>
-   * Visits the given <code>DocumentType</code>
-   * </p>
-   *
-   * @param documentType is the <code>DocumentType</code> node to visit.
-   */
-  default boolean visit(DocumentType documentType) {
-    return visit((Node)documentType);
-  }
+    /**
+     * <p>
+     * Called before visiting <code>Document</code>. It is possibble to suppress processing of subnodes.
+     * </p>
+     *
+     * @param document is the <code>Document</code> node to visit.
+     * @return true if subnodes should be processed
+     */
+    default boolean visitEnter(Document document) {
+        return visitEnter((Branch) document);
+    }
 
-  /**
-   * <p>
-   * Visits the given <code>Element</code>
-   * </p>
-   *
-   * @param node is the <code>Element</code> node to visit.
-   */
-  default boolean visit(Element node) {
-    return visit((Branch)node);
-  }
+    /**
+     * <p>
+     * Called after processing all nodes of <code>Document</code>.
+     * </p>
+     *
+     * @param document is the <code>Document</code> node to visit.
+     * @return false to indicate that processing stopped at some point
+     */
+    default boolean visitLeave(Document document) {
+        return visitLeave((Branch) document);
+    }
 
-  default boolean visitEnter(Element node) {
-    return visitEnter((Branch)node);
-  }
+    /**
+     * <p>
+     * Visits the given <code>DocumentType</code>
+     * </p>
+     *
+     * @param documentType is the <code>DocumentType</code> node to visit.
+     */
+    default boolean visit(DocumentType documentType) {
+        return visit((Node) documentType);
+    }
 
-  default boolean visitLeave(Element node) {
-    return visitLeave((Branch)node);
-  }
+    /**
+     * <p>
+     * Visits the given <code>Element</code>
+     * </p>
+     *
+     * @param node is the <code>Element</code> node to visit.
+     */
+    default boolean visit(Element node) {
+        return visit((Branch) node);
+    }
 
-  /**
-   * <p>
-   * Visits the given <code>Attribute</code>
-   * </p>
-   *
-   * @param node is the <code>Attribute</code> node to visit.
-   */
-  default boolean visit(Attribute node) {
-    return visit((Node)node);
-  }
+    default boolean visitEnter(Element node) {
+        return visitEnter((Branch) node);
+    }
 
-  /**
-   * <p>
-   * Visits the <code>CDATA</code> or <code>Comment</code> node
-   * </p>
-   *
-   * @param node is node to visit.
-   */
-  default boolean visit(CharacterData node) {
-    return visit((Node)node);
-  }
-  
-  /**
-   * <p>
-   * Visits the given <code>CDATA</code>
-   * </p>
-   *
-   * @param node is the <code>CDATA</code> node to visit.
-   */
-  default boolean visit(CDATA node) {
-    return visit((CharacterData)node);
-  }
+    default boolean visitLeave(Element node) {
+        return visitLeave((Branch) node);
+    }
 
-  /**
-   * <p>
-   * Visits the given <code>Comment</code>
-   * </p>
-   *
-   * @param node is the <code>Comment</code> node to visit.
-   */
-  default boolean visit(Comment node) {
-    return visit((CharacterData)node);
-  }
+    /**
+     * <p>
+     * Visits the given <code>Attribute</code>
+     * </p>
+     *
+     * @param node is the <code>Attribute</code> node to visit.
+     */
+    default boolean visit(Attribute node) {
+        return visit((Node) node);
+    }
 
-  /**
-   * <p>
-   * Visits the given <code>Entity</code>
-   * </p>
-   *
-   * @param node is the <code>Entity</code> node to visit.
-   */
-  default boolean visit(Entity node) {
-    return visit((Node)node);
-  }
+    /**
+     * <p>
+     * Visits the <code>CDATA</code> or <code>Comment</code> node
+     * </p>
+     *
+     * @param node is node to visit.
+     */
+    default boolean visit(CharacterData node) {
+        return visit((Node) node);
+    }
 
-  /**
-   * <p>
-   * Visits the given <code>Namespace</code>
-   * </p>
-   *
-   * @param namespace is the <code>Namespace</code> node to visit.
-   */
-  default boolean visit(Namespace namespace) {
-    return visit((Node)namespace);
-  }
+    /**
+     * <p>
+     * Visits the given <code>CDATA</code>
+     * </p>
+     *
+     * @param node is the <code>CDATA</code> node to visit.
+     */
+    default boolean visit(CDATA node) {
+        return visit((CharacterData) node);
+    }
 
-  /**
-   * <p>
-   * Visits the given <code>ProcessingInstruction</code>
-   * </p>
-   *
-   * @param node is the <code>ProcessingInstruction</code> node to visit.
-   */
-  default boolean visit(ProcessingInstruction node) {
-    return visit((Node)node);
-  }
+    /**
+     * <p>
+     * Visits the given <code>Comment</code>
+     * </p>
+     *
+     * @param node is the <code>Comment</code> node to visit.
+     */
+    default boolean visit(Comment node) {
+        return visit((CharacterData) node);
+    }
 
-  /**
-   * <p>
-   * Visits the given <code>Text</code>
-   * </p>
-   *
-   * @param node is the <code>Text</code> node to visit.
-   */
-  default boolean visit(Text node) {
-    return visit((CharacterData)node);
-  }
+    /**
+     * <p>
+     * Visits the given <code>Entity</code>
+     * </p>
+     *
+     * @param node is the <code>Entity</code> node to visit.
+     */
+    default boolean visit(Entity node) {
+        return visit((Node) node);
+    }
+
+    /**
+     * <p>
+     * Visits the given <code>Namespace</code>
+     * </p>
+     *
+     * @param namespace is the <code>Namespace</code> node to visit.
+     */
+    default boolean visit(Namespace namespace) {
+        return visit((Node) namespace);
+    }
+
+    /**
+     * <p>
+     * Visits the given <code>ProcessingInstruction</code>
+     * </p>
+     *
+     * @param node is the <code>ProcessingInstruction</code> node to visit.
+     */
+    default boolean visit(ProcessingInstruction node) {
+        return visit((Node) node);
+    }
+
+    /**
+     * <p>
+     * Visits the given <code>Text</code>
+     * </p>
+     *
+     * @param node is the <code>Text</code> node to visit.
+     */
+    default boolean visit(Text node) {
+        return visit((CharacterData) node);
+    }
 }
 
 /*

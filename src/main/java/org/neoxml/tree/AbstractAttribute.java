@@ -5,7 +5,12 @@
  */
 package org.neoxml.tree;
 
-import org.neoxml.*;
+import org.neoxml.Attribute;
+import org.neoxml.Element;
+import org.neoxml.Namespace;
+import org.neoxml.Node;
+import org.neoxml.NodeType;
+import org.neoxml.Visitor;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -18,156 +23,153 @@ import java.io.Writer;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.21 $
  */
-public abstract class AbstractAttribute extends AbstractNode implements Attribute
-{
-  @Override
-  public NodeType getNodeTypeEnum() {
-    return NodeType.ATTRIBUTE_NODE;
-  }
-
-  @Override
-  public void setNamespace(Namespace namespace) {
-    String msg = "This Attribute is read only and cannot be changed";
-    throw new UnsupportedOperationException(msg);
-  }
-
-  @Override
-  public String getText() {
-    return getValue();
-  }
-
-  @Override
-  public void setText(String text) {
-    setValue(text);
-  }
-
-  @Override
-  public void setValue(String value) {
-    String msg = "This Attribute is read only and cannot be changed";
-    throw new UnsupportedOperationException(msg);
-  }
-
-  @Override
-  public Object getData() {
-    return getValue();
-  }
-
-  @Override
-  public void setData(Object data) {
-    setValue((data == null) ? null : data.toString());
-  }
-
-  @Override
-  protected void toString(StringBuilder builder) {
-    super.toString(builder);
-    builder.append(" [Attribute: name ");
-    builder.append(getQualifiedName());
-    builder.append(" value \"");
-    builder.append(getValue());
-    builder.append("\"]");
-  }
-
-  @Override
-  public String asXML() {
-    return getQualifiedName() + "=\"" + getValue() + "\"";
-  }
-
-  @Override
-  public void write(Writer writer) throws IOException {
-    writer.write(getQualifiedName());
-    writer.write("=\"");
-    writer.write(getValue());
-    writer.write("\"");
-  }
-
-  @Override
-  public boolean accept(Visitor visitor) {
-    return visitor.visit(this);
-  }
-
-  // QName methods
-
-  @Override
-  public Namespace getNamespace() {
-    return getQName().getNamespace();
-  }
-
-  @Override
-  public String getName() {
-    return getQName().getName();
-  }
-
-  @Override
-  public String getNamespacePrefix() {
-    return getQName().getNamespacePrefix();
-  }
-
-  @Override
-  public String getNamespaceURI() {
-    return getQName().getNamespaceURI();
-  }
-
-  @Override
-  public String getQualifiedName() {
-    return getQName().getQualifiedName();
-  }
-
-  @Override
-  public String getPath(Element context) {
-    StringBuilder result = new StringBuilder();
-
-    Element parent = getParent();
-
-    if ((parent != null) && (parent != context)) {
-      result.append(parent.getPath(context));
-      result.append("/");
+public abstract class AbstractAttribute extends AbstractNode implements Attribute {
+    @Override
+    public NodeType getNodeTypeEnum() {
+        return NodeType.ATTRIBUTE_NODE;
     }
 
-    result.append("@");
-
-    String uri = getNamespaceURI();
-    String prefix = getNamespacePrefix();
-
-    if ((uri == null) || (uri.length() == 0) || (prefix == null) || (prefix.length() == 0)) {
-      result.append(getName());
-    }
-    else {
-      result.append(getQualifiedName());
+    @Override
+    public void setNamespace(Namespace namespace) {
+        String msg = "This Attribute is read only and cannot be changed";
+        throw new UnsupportedOperationException(msg);
     }
 
-    return result.toString();
-  }
-
-  @Override
-  public String getUniquePath(Element context) {
-    StringBuilder result = new StringBuilder();
-
-    Element parent = getParent();
-
-    if ((parent != null) && (parent != context)) {
-      result.append(parent.getUniquePath(context));
-      result.append("/");
+    @Override
+    public String getText() {
+        return getValue();
     }
 
-    result.append("@");
-
-    String uri = getNamespaceURI();
-    String prefix = getNamespacePrefix();
-
-    if ((uri == null) || (uri.length() == 0) || (prefix == null) || (prefix.length() == 0)) {
-      result.append(getName());
-    }
-    else {
-      result.append(getQualifiedName());
+    @Override
+    public void setText(String text) {
+        setValue(text);
     }
 
-    return result.toString();
-  }
+    @Override
+    public void setValue(String value) {
+        String msg = "This Attribute is read only and cannot be changed";
+        throw new UnsupportedOperationException(msg);
+    }
 
-  @Override
-  protected Node createXPathResult(Element parent) {
-    return new DefaultAttribute(parent, getQName(), getValue());
-  }
+    @Override
+    public Object getData() {
+        return getValue();
+    }
+
+    @Override
+    public void setData(Object data) {
+        setValue((data == null) ? null : data.toString());
+    }
+
+    @Override
+    protected void toString(StringBuilder builder) {
+        super.toString(builder);
+        builder.append(" [Attribute: name ");
+        builder.append(getQualifiedName());
+        builder.append(" value \"");
+        builder.append(getValue());
+        builder.append("\"]");
+    }
+
+    @Override
+    public String asXML() {
+        return getQualifiedName() + "=\"" + getValue() + "\"";
+    }
+
+    @Override
+    public void write(Writer writer) throws IOException {
+        writer.write(getQualifiedName());
+        writer.write("=\"");
+        writer.write(getValue());
+        writer.write("\"");
+    }
+
+    @Override
+    public boolean accept(Visitor visitor) {
+        return visitor.visit(this);
+    }
+
+    // QName methods
+
+    @Override
+    public Namespace getNamespace() {
+        return getQName().getNamespace();
+    }
+
+    @Override
+    public String getName() {
+        return getQName().getName();
+    }
+
+    @Override
+    public String getNamespacePrefix() {
+        return getQName().getNamespacePrefix();
+    }
+
+    @Override
+    public String getNamespaceURI() {
+        return getQName().getNamespaceURI();
+    }
+
+    @Override
+    public String getQualifiedName() {
+        return getQName().getQualifiedName();
+    }
+
+    @Override
+    public String getPath(Element context) {
+        StringBuilder result = new StringBuilder();
+
+        Element parent = getParent();
+
+        if ((parent != null) && (parent != context)) {
+            result.append(parent.getPath(context));
+            result.append("/");
+        }
+
+        result.append("@");
+
+        String uri = getNamespaceURI();
+        String prefix = getNamespacePrefix();
+
+        if ((uri == null) || (uri.length() == 0) || (prefix == null) || (prefix.length() == 0)) {
+            result.append(getName());
+        } else {
+            result.append(getQualifiedName());
+        }
+
+        return result.toString();
+    }
+
+    @Override
+    public String getUniquePath(Element context) {
+        StringBuilder result = new StringBuilder();
+
+        Element parent = getParent();
+
+        if ((parent != null) && (parent != context)) {
+            result.append(parent.getUniquePath(context));
+            result.append("/");
+        }
+
+        result.append("@");
+
+        String uri = getNamespaceURI();
+        String prefix = getNamespacePrefix();
+
+        if ((uri == null) || (uri.length() == 0) || (prefix == null) || (prefix.length() == 0)) {
+            result.append(getName());
+        } else {
+            result.append(getQualifiedName());
+        }
+
+        return result.toString();
+    }
+
+    @Override
+    protected Node createXPathResult(Element parent) {
+        return new DefaultAttribute(parent, getQName(), getValue());
+    }
 }
 
 /*

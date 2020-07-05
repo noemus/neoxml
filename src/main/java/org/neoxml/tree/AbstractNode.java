@@ -6,7 +6,20 @@
 
 package org.neoxml.tree;
 
-import org.neoxml.*;
+import org.neoxml.CDATA;
+import org.neoxml.Comment;
+import org.neoxml.DefaultDocumentFactory;
+import org.neoxml.Document;
+import org.neoxml.DocumentFactory;
+import org.neoxml.Element;
+import org.neoxml.Namespace;
+import org.neoxml.Node;
+import org.neoxml.NodeFilter;
+import org.neoxml.NodeType;
+import org.neoxml.ProcessingInstruction;
+import org.neoxml.QName;
+import org.neoxml.Text;
+import org.neoxml.XPath;
 import org.neoxml.rule.Pattern;
 
 import java.io.IOException;
@@ -23,409 +36,395 @@ import java.util.function.Predicate;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.31 $
  */
-public abstract class AbstractNode implements Node, Serializable
-{
-  /**
-   * The <code>DefaultDocumentFactory</code> instance used by default
-   */
-  private static final DocumentFactory DOCUMENT_FACTORY = DefaultDocumentFactory.getInstance();
-  
-  public AbstractNode() {}
+public abstract class AbstractNode implements Node, Serializable {
+    /**
+     * The <code>DefaultDocumentFactory</code> instance used by default
+     */
+    private static final DocumentFactory DOCUMENT_FACTORY = DefaultDocumentFactory.getInstance();
 
-  @Override
-  public NodeType getNodeTypeEnum() {
-    return NodeType.UNKNOWN_NODE;
-  }
+    public AbstractNode() {}
 
-  @Override
-  public short getNodeType() {
-    return this.getNodeTypeEnum().getCode();
-  }
-
-  @Override
-  public String getNodeTypeName() {
-    return this.getNodeTypeEnum().getName();
-  }
-
-  @Override
-  public Document getDocument() {
-    Element element = getParent();
-
-    return (element != null) ? element.getDocument() : null;
-  }
-
-  @Override
-  public void setDocument(Document document) {
-    // XXX maybe throw UnsupportedOperationException ?
-  }
-
-  @Override
-  public Element getParent() {
-    return null;
-  }
-
-  @Override
-  public void setParent(Element parent) {
-    // XXX maybe throw UnsupportedOperationException ?
-  }
-
-  @Override
-  public boolean supportsParent() {
-    return false;
-  }
-
-  @Override
-  public boolean isReadOnly() {
-    return true;
-  }
-
-  @Override
-  public boolean hasContent() {
-    return false;
-  }
-
-  @Override
-  public String getPath() {
-    return getPath(null);
-  }
-
-  @Override
-  public String getUniquePath() {
-    return getUniquePath(null);
-  }
-
-  @Override
-  public AbstractNode clone() {
-    if (isReadOnly()) {
-      return this;
+    @Override
+    public NodeType getNodeTypeEnum() {
+        return NodeType.UNKNOWN_NODE;
     }
-    else {
-      try {
-        AbstractNode answer = (AbstractNode)super.clone();
-        if (answer.supportsParent()) {
-          answer.setParent(null);
-          answer.setDocument(null);
+
+    @Override
+    public short getNodeType() {
+        return this.getNodeTypeEnum().getCode();
+    }
+
+    @Override
+    public String getNodeTypeName() {
+        return this.getNodeTypeEnum().getName();
+    }
+
+    @Override
+    public Document getDocument() {
+        Element element = getParent();
+
+        return (element != null) ? element.getDocument() : null;
+    }
+
+    @Override
+    public void setDocument(Document document) {
+        // XXX maybe throw UnsupportedOperationException ?
+    }
+
+    @Override
+    public Element getParent() {
+        return null;
+    }
+
+    @Override
+    public void setParent(Element parent) {
+        // XXX maybe throw UnsupportedOperationException ?
+    }
+
+    @Override
+    public boolean supportsParent() {
+        return false;
+    }
+
+    @Override
+    public boolean isReadOnly() {
+        return true;
+    }
+
+    @Override
+    public boolean hasContent() {
+        return false;
+    }
+
+    @Override
+    public String getPath() {
+        return getPath(null);
+    }
+
+    @Override
+    public String getUniquePath() {
+        return getUniquePath(null);
+    }
+
+    @Override
+    public AbstractNode clone() {
+        if (isReadOnly()) {
+            return this;
+        } else {
+            try {
+                AbstractNode answer = (AbstractNode) super.clone();
+                if (answer.supportsParent()) {
+                    answer.setParent(null);
+                    answer.setDocument(null);
+                }
+
+                return answer;
+            } catch (CloneNotSupportedException e) {
+                // should never happen
+                throw new AssertionError("This should never happen. Caught: ", e);
+            }
+        }
+    }
+
+    @Override
+    public Node detach() {
+        Element parent = getParent();
+
+        if (parent != null) {
+            parent.remove(this);
+        } else {
+            Document document = getDocument();
+
+            if (document != null) {
+                document.remove(this);
+            }
         }
 
-        return answer;
-      }
-      catch (CloneNotSupportedException e) {
-        // should never happen
-        throw new AssertionError("This should never happen. Caught: ", e);
-      }
-    }
-  }
+        setParent(null);
+        setDocument(null);
 
-  @Override
-  public Node detach() {
-    Element parent = getParent();
-
-    if (parent != null) {
-      parent.remove(this);
-    }
-    else {
-      Document document = getDocument();
-
-      if (document != null) {
-        document.remove(this);
-      }
-    }
-
-    setParent(null);
-    setDocument(null);
-
-    return this;
-  }
-
-  @Override
-  public String getName() {
-    return null;
-  }
-
-  @Override
-  public void setName(String name) {
-    throw new UnsupportedOperationException("This node cannot be modified");
-  }
-
-  @Override
-  public String getText() {
-    return null;
-  }
-
-  @Override
-  public String getStringValue() {
-    return getText();
-  }
-
-  @Override
-  public void setText(String text) {
-    throw new UnsupportedOperationException("This node cannot be modified");
-  }
-
-  @Override
-  public void write(Writer writer) throws IOException {
-    writer.write(asXML());
-  }
-
-  // XPath methods
-
-  @Override
-  public Object selectObject(String xpathExpression) {
-    XPath xpath = createXPath(xpathExpression);
-
-    return xpath.evaluate(this);
-  }
-
-  @Override
-  public List<Node> selectNodes(String xpathExpression) {
-    XPath xpath = createXPath(xpathExpression);
-
-    return xpath.selectNodes(this);
-  }
-
-  @Override
-  public List<Node> selectNodes(String xpathExpression, String comparisonXPathExpression) {
-    return selectNodes(xpathExpression, comparisonXPathExpression, false);
-  }
-
-  @Override
-  public List<Node> selectNodes(String xpathExpression, String comparisonXPathExpression, boolean removeDuplicates) {
-    XPath xpath = createXPath(xpathExpression);
-    XPath sortBy = createXPath(comparisonXPathExpression);
-
-    return xpath.selectNodes(this, sortBy, removeDuplicates);
-  }
-
-  @Override
-  public Node selectSingleNode(String xpathExpression) {
-    XPath xpath = createXPath(xpathExpression);
-
-    return xpath.selectSingleNode(this);
-  }
-
-  @Override
-  public String valueOf(String xpathExpression) {
-    XPath xpath = createXPath(xpathExpression);
-
-    return xpath.valueOf(this);
-  }
-
-  @Override
-  public Number numberValueOf(String xpathExpression) {
-    XPath xpath = createXPath(xpathExpression);
-
-    return xpath.numberValueOf(this);
-  }
-
-  @Override
-  public boolean matches(String patternText) {
-    NodeFilter filter = createXPathFilter(patternText);
-
-    return filter.matches(this);
-  }
-
-  @Override
-  public XPath createXPath(String xpathExpression) {
-    return getDocumentFactory().createXPath(xpathExpression);
-  }
-
-  public NodeFilter createXPathFilter(String patternText) {
-    return getDocumentFactory().createXPathFilter(patternText);
-  }
-
-  public Pattern createPattern(String patternText) {
-    return getDocumentFactory().createPattern(patternText);
-  }
-
-  @Override
-  public Node asXPathResult(Element parent) {
-    if (supportsParent()) {
-      return this;
-    }
-
-    return createXPathResult(parent);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    this.toString(builder);
-    return builder.toString();
-  }
-
-  protected void toString(StringBuilder builder) {
-    builder.append(super.toString());
-  }
-
-  protected DocumentFactory getDocumentFactory() {
-    return DOCUMENT_FACTORY;
-  }
-  
-  protected Node createXPathResult(Element parent) {
-    throw new RuntimeException("asXPathResult() not yet implemented fully for: " + this);
-  }
-
-  protected static final Predicate<Node> ELEMENT_CONDITION = new ElementCondition();
-  protected static final Predicate<Node> NAMESPACE_CONDITION = new NamespaceCondition();
-  protected static final Predicate<Node> TEXT_CONDITION = new TextCondition();
-  protected static final Predicate<Node> CDATA_CONDITION = new CDATACondition();
-  protected static final Predicate<Node> COMMENT_CONDITION = new CommentCondition();
-  protected static final Predicate<Node> PI_CONDITION = new ProcessingInstructionCondition();
-
-  protected static class NodeNameCondition implements Predicate<Node>
-  {
-    protected final String name;
-
-    protected NodeNameCondition(String name) {
-      this.name = name;
+        return this;
     }
 
     @Override
-    public boolean test(Node node) {
-      return name == null || name.equals(node.getName());
-    }
-  }
-
-  protected static class ElementQNameCondition implements Predicate<Node>
-  {
-    protected final QName qName;
-
-    protected ElementQNameCondition(QName qName) {
-      this.qName = qName;
+    public String getName() {
+        return null;
     }
 
     @Override
-    public boolean test(Node node) {
-      if (node instanceof Element) {
-        return qName == null || qName.equals(((Element)node).getQName());
-      }
-      return false;
-    }
-  }
-  
-  protected static class ElementCondition extends NodeNameCondition
-  {
-    protected ElementCondition() {
-      super(null);
-    }
-
-    protected ElementCondition(String name) {
-      super(name);
+    public void setName(String name) {
+        throw new UnsupportedOperationException("This node cannot be modified");
     }
 
     @Override
-    public boolean test(Node node) {
-      return node instanceof Element && super.test(node);
-    }
-  }
-
-  protected static class NamespacePrefixCondition implements Predicate<Node>
-  {
-    protected final String prefix;
-
-    protected NamespacePrefixCondition(String prefix) {
-      this.prefix = prefix;
+    public String getText() {
+        return null;
     }
 
     @Override
-    public boolean test(Node node) {
-      return node instanceof Namespace && (prefix == null || prefix.equals(((Namespace)node).getPrefix()));
-    }
-  }
-
-  protected static class NamespaceCondition implements Predicate<Node>
-  {
-    protected final String uri;
-
-    protected NamespaceCondition() {
-      this(null);
-    }
-
-    protected NamespaceCondition(String uri) {
-      this.uri = uri;
+    public String getStringValue() {
+        return getText();
     }
 
     @Override
-    public boolean test(Node node) {
-      return node instanceof Namespace && (uri == null || uri.equals(((Namespace)node).getURI()));
-    }
-  }
-
-  protected static class AdditionalNamespaceCondition implements Predicate<Node>
-  {
-    protected final String defaultNamespaceUri;
-    protected final Namespace namespace;
-
-    protected AdditionalNamespaceCondition(Namespace namespace) {
-      this.defaultNamespaceUri = null;
-      this.namespace = namespace;
-    }
-
-    protected AdditionalNamespaceCondition(String defaultNamespaceUri) {
-      this.defaultNamespaceUri = defaultNamespaceUri;
-      this.namespace = null;
+    public void setText(String text) {
+        throw new UnsupportedOperationException("This node cannot be modified");
     }
 
     @Override
-    public boolean test(Node node) {
-      if (node instanceof Namespace) {
-        if (namespace != null) {
-          return !namespace.equals(node);
+    public void write(Writer writer) throws IOException {
+        writer.write(asXML());
+    }
+
+    // XPath methods
+
+    @Override
+    public Object selectObject(String xpathExpression) {
+        XPath xpath = createXPath(xpathExpression);
+
+        return xpath.evaluate(this);
+    }
+
+    @Override
+    public List<Node> selectNodes(String xpathExpression) {
+        XPath xpath = createXPath(xpathExpression);
+
+        return xpath.selectNodes(this);
+    }
+
+    @Override
+    public List<Node> selectNodes(String xpathExpression, String comparisonXPathExpression) {
+        return selectNodes(xpathExpression, comparisonXPathExpression, false);
+    }
+
+    @Override
+    public List<Node> selectNodes(String xpathExpression, String comparisonXPathExpression, boolean removeDuplicates) {
+        XPath xpath = createXPath(xpathExpression);
+        XPath sortBy = createXPath(comparisonXPathExpression);
+
+        return xpath.selectNodes(this, sortBy, removeDuplicates);
+    }
+
+    @Override
+    public Node selectSingleNode(String xpathExpression) {
+        XPath xpath = createXPath(xpathExpression);
+
+        return xpath.selectSingleNode(this);
+    }
+
+    @Override
+    public String valueOf(String xpathExpression) {
+        XPath xpath = createXPath(xpathExpression);
+
+        return xpath.valueOf(this);
+    }
+
+    @Override
+    public Number numberValueOf(String xpathExpression) {
+        XPath xpath = createXPath(xpathExpression);
+
+        return xpath.numberValueOf(this);
+    }
+
+    @Override
+    public boolean matches(String patternText) {
+        NodeFilter filter = createXPathFilter(patternText);
+
+        return filter.matches(this);
+    }
+
+    @Override
+    public XPath createXPath(String xpathExpression) {
+        return getDocumentFactory().createXPath(xpathExpression);
+    }
+
+    public NodeFilter createXPathFilter(String patternText) {
+        return getDocumentFactory().createXPathFilter(patternText);
+    }
+
+    public Pattern createPattern(String patternText) {
+        return getDocumentFactory().createPattern(patternText);
+    }
+
+    @Override
+    public Node asXPathResult(Element parent) {
+        if (supportsParent()) {
+            return this;
         }
-        if (defaultNamespaceUri != null) {
-          return !defaultNamespaceUri.equals(((Namespace)node).getURI());
+
+        return createXPathResult(parent);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        this.toString(builder);
+        return builder.toString();
+    }
+
+    protected void toString(StringBuilder builder) {
+        builder.append(super.toString());
+    }
+
+    protected DocumentFactory getDocumentFactory() {
+        return DOCUMENT_FACTORY;
+    }
+
+    protected Node createXPathResult(Element parent) {
+        throw new RuntimeException("asXPathResult() not yet implemented fully for: " + this);
+    }
+
+    protected static final Predicate<Node> ELEMENT_CONDITION = new ElementCondition();
+    protected static final Predicate<Node> NAMESPACE_CONDITION = new NamespaceCondition();
+    protected static final Predicate<Node> TEXT_CONDITION = new TextCondition();
+    protected static final Predicate<Node> CDATA_CONDITION = new CDATACondition();
+    protected static final Predicate<Node> COMMENT_CONDITION = new CommentCondition();
+    protected static final Predicate<Node> PI_CONDITION = new ProcessingInstructionCondition();
+
+    protected static class NodeNameCondition implements Predicate<Node> {
+        protected final String name;
+
+        protected NodeNameCondition(String name) {
+            this.name = name;
         }
-      }
 
-      return false;
-    }
-  }
-
-  protected static class CommentCondition implements Predicate<Node>
-  {
-    protected CommentCondition() {}
-
-    @Override
-    public boolean test(Node node) {
-      return node instanceof Comment;
-    }
-  }
-
-  protected static class CDATACondition implements Predicate<Node>
-  {
-    protected CDATACondition() {}
-
-    @Override
-    public boolean test(Node node) {
-      return node instanceof CDATA;
-    }
-  }
-
-  protected static class TextCondition implements Predicate<Node>
-  {
-    protected TextCondition() {}
-
-    @Override
-    public boolean test(Node node) {
-      return node instanceof Text;
-    }
-  }
-
-  protected static class ProcessingInstructionCondition extends NodeNameCondition
-  {
-    protected ProcessingInstructionCondition() {
-      super(null);
+        @Override
+        public boolean test(Node node) {
+            return name == null || name.equals(node.getName());
+        }
     }
 
-    protected ProcessingInstructionCondition(String name) {
-      super(name);
+    protected static class ElementQNameCondition implements Predicate<Node> {
+        protected final QName qName;
+
+        protected ElementQNameCondition(QName qName) {
+            this.qName = qName;
+        }
+
+        @Override
+        public boolean test(Node node) {
+            if (node instanceof Element) {
+                return qName == null || qName.equals(((Element) node).getQName());
+            }
+            return false;
+        }
     }
 
-    @Override
-    public boolean test(Node node) {
-      return node instanceof ProcessingInstruction && super.test(node);
+    protected static class ElementCondition extends NodeNameCondition {
+        protected ElementCondition() {
+            super(null);
+        }
+
+        protected ElementCondition(String name) {
+            super(name);
+        }
+
+        @Override
+        public boolean test(Node node) {
+            return node instanceof Element && super.test(node);
+        }
     }
-  }
+
+    protected static class NamespacePrefixCondition implements Predicate<Node> {
+        protected final String prefix;
+
+        protected NamespacePrefixCondition(String prefix) {
+            this.prefix = prefix;
+        }
+
+        @Override
+        public boolean test(Node node) {
+            return node instanceof Namespace && (prefix == null || prefix.equals(((Namespace) node).getPrefix()));
+        }
+    }
+
+    protected static class NamespaceCondition implements Predicate<Node> {
+        protected final String uri;
+
+        protected NamespaceCondition() {
+            this(null);
+        }
+
+        protected NamespaceCondition(String uri) {
+            this.uri = uri;
+        }
+
+        @Override
+        public boolean test(Node node) {
+            return node instanceof Namespace && (uri == null || uri.equals(((Namespace) node).getURI()));
+        }
+    }
+
+    protected static class AdditionalNamespaceCondition implements Predicate<Node> {
+        protected final String defaultNamespaceUri;
+        protected final Namespace namespace;
+
+        protected AdditionalNamespaceCondition(Namespace namespace) {
+            this.defaultNamespaceUri = null;
+            this.namespace = namespace;
+        }
+
+        protected AdditionalNamespaceCondition(String defaultNamespaceUri) {
+            this.defaultNamespaceUri = defaultNamespaceUri;
+            this.namespace = null;
+        }
+
+        @Override
+        public boolean test(Node node) {
+            if (node instanceof Namespace) {
+                if (namespace != null) {
+                    return !namespace.equals(node);
+                }
+                if (defaultNamespaceUri != null) {
+                    return !defaultNamespaceUri.equals(((Namespace) node).getURI());
+                }
+            }
+
+            return false;
+        }
+    }
+
+    protected static class CommentCondition implements Predicate<Node> {
+        protected CommentCondition() {}
+
+        @Override
+        public boolean test(Node node) {
+            return node instanceof Comment;
+        }
+    }
+
+    protected static class CDATACondition implements Predicate<Node> {
+        protected CDATACondition() {}
+
+        @Override
+        public boolean test(Node node) {
+            return node instanceof CDATA;
+        }
+    }
+
+    protected static class TextCondition implements Predicate<Node> {
+        protected TextCondition() {}
+
+        @Override
+        public boolean test(Node node) {
+            return node instanceof Text;
+        }
+    }
+
+    protected static class ProcessingInstructionCondition extends NodeNameCondition {
+        protected ProcessingInstructionCondition() {
+            super(null);
+        }
+
+        protected ProcessingInstructionCondition(String name) {
+            super(name);
+        }
+
+        @Override
+        public boolean test(Node node) {
+            return node instanceof ProcessingInstruction && super.test(node);
+        }
+    }
 }
 
 /*

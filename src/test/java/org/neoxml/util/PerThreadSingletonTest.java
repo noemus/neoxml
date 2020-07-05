@@ -32,71 +32,69 @@ import static org.junit.Assert.fail;
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(ConcurrentTestRunner.class)
-public class PerThreadSingletonTest
-{
-  private static SingletonStrategy singleton = new PerThreadSingleton();
-  private static ThreadLocal reference = new ThreadLocal();
+public class PerThreadSingletonTest {
+    private static SingletonStrategy singleton = new PerThreadSingleton();
+    private static ThreadLocal reference = new ThreadLocal();
 
-  @Rule
-  public RepeatingRule repeating = new RepeatingRule();
+    @Rule
+    public RepeatingRule repeating = new RepeatingRule();
 
-  @Rule
-  public ConcurrentRule concurrent = new ConcurrentRule();
+    @Rule
+    public ConcurrentRule concurrent = new ConcurrentRule();
 
-  static {
-    singleton.setSingletonClassName(HashMap.class.getName());
-  }
-
-  @Test
-  @Repeating(repetition = 100)
-  public void test_1_repeatedTest() throws Exception {
-    testInstance();
-  }
-
-  @Test
-  @Concurrent(count = 5)
-  @Repeating(repetition = 100)
-  public void test_2_loadTest() throws Exception {
-    testInstance();
-  }
-
-  @Test(timeout = 1200 + (1000 * 5 * 100))
-  @Concurrent(count = 5)
-  @Repeating(repetition = 100)
-  public void test_3_timedTest() throws Exception {
-    testInstance();
-  }
-
-  protected void testInstance() throws Exception {
-    String tid = Thread.currentThread().getName();
-    Map map = (Map)singleton.instance();
-
-    String expected = "new value";
-    if (!map.containsKey(tid) && reference.get() != null) {
-      System.out.println("tid=" + tid + " map=" + map);
-      System.out.println("reference=" + reference);
-      System.out.println("singleton=" + singleton);
-      fail("created singleton more than once");
-    }
-    else {
-      map.put(tid, expected);
-      reference.set(map);
+    static {
+        singleton.setSingletonClassName(HashMap.class.getName());
     }
 
-    String actual = (String)map.get(tid);
-    // System.out.println("tid="+tid+ " map="+map);
-    assertEquals("testInstance", actual, expected);
+    @Test
+    @Repeating(repetition = 100)
+    public void test_1_repeatedTest() throws Exception {
+        testInstance();
+    }
 
-    map = (Map)singleton.instance();
-    expected = "new value";
-    actual = (String)map.get(tid);
-    // System.out.println("tid="+tid+ " map="+map);
-    // System.out.println("reference="+reference);
-    // System.out.println("singleton="+singleton);
-    assertEquals("testInstance", actual, expected);
-    assertEquals("testInstance reference", map, reference.get());
+    @Test
+    @Concurrent(count = 5)
+    @Repeating(repetition = 100)
+    public void test_2_loadTest() throws Exception {
+        testInstance();
+    }
 
-  }
+    @Test(timeout = 1200 + (1000 * 5 * 100))
+    @Concurrent(count = 5)
+    @Repeating(repetition = 100)
+    public void test_3_timedTest() throws Exception {
+        testInstance();
+    }
+
+    protected void testInstance() throws Exception {
+        String tid = Thread.currentThread().getName();
+        Map map = (Map) singleton.instance();
+
+        String expected = "new value";
+        if (!map.containsKey(tid) && reference.get() != null) {
+            System.out.println("tid=" + tid + " map=" + map);
+            System.out.println("reference=" + reference);
+            System.out.println("singleton=" + singleton);
+            fail("created singleton more than once");
+        } else {
+            map.put(tid, expected);
+            reference.set(map);
+        }
+
+        String actual = (String) map.get(tid);
+        // System.out.println("tid="+tid+ " map="+map);
+        assertEquals("testInstance", actual, expected);
+
+        map = (Map) singleton.instance();
+        expected = "new value";
+        actual = (String) map.get(tid);
+        // System.out.println("tid="+tid+ " map="+map);
+        // System.out.println("reference="+reference);
+        // System.out.println("singleton="+singleton);
+        assertEquals("testInstance", actual, expected);
+        assertEquals("testInstance reference", map, reference.get());
+
+    }
 }
 
 /*

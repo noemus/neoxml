@@ -13,16 +13,15 @@ package org.neoxml.jaxb;
  *
  * @author Wonne Keysers (Realsoftware.be)
  */
-class JAXBRuntimeException extends RuntimeException
-{
-  /**
-   * DOCUMENT ME!
-   *
-   * @param cause The causing {@link java.lang.Throwable}
-   */
-  protected JAXBRuntimeException(Throwable cause) {
-    super(cause);
-  }
+class JAXBRuntimeException extends RuntimeException {
+    /**
+     * DOCUMENT ME!
+     *
+     * @param cause The causing {@link java.lang.Throwable}
+     */
+    protected JAXBRuntimeException(Throwable cause) {
+        super(cause);
+    }
 }
 
 /*

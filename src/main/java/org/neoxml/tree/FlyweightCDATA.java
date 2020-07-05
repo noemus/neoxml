@@ -21,31 +21,30 @@ import org.neoxml.Node;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.8 $
  */
-public class FlyweightCDATA extends AbstractCDATA
-{
-  /**
-   * Text of the <code>CDATA</code> node
-   */
-  protected String text;
+public class FlyweightCDATA extends AbstractCDATA {
+    /**
+     * Text of the <code>CDATA</code> node
+     */
+    protected String text;
 
-  /**
-   * DOCUMENT ME!
-   *
-   * @param text is the CDATA text
-   */
-  public FlyweightCDATA(String text) {
-    this.text = text;
-  }
+    /**
+     * DOCUMENT ME!
+     *
+     * @param text is the CDATA text
+     */
+    public FlyweightCDATA(String text) {
+        this.text = text;
+    }
 
-  @Override
-  public String getText() {
-    return text;
-  }
+    @Override
+    public String getText() {
+        return text;
+    }
 
-  @Override
-  protected Node createXPathResult(Element parent) {
-    return new DefaultCDATA(parent, getText());
-  }
+    @Override
+    protected Node createXPathResult(Element parent) {
+        return new DefaultCDATA(parent, getText());
+    }
 }
 
 /*

@@ -19,106 +19,105 @@ import java.util.RandomAccess;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.14 $
  */
-class NodeListFacade<T extends Node> extends AbstractNodeListFacade<T> implements RandomAccess
-{
-  NodeListFacade(DefaultNodeList<T> nodes) {
-    super(nodes);
-  }
-
-  @Override
-  public boolean add(T node) {
-    nodeList.addNode(node);
-    return true;
-  }
-  
-  @Override
-  public void add(int index, T node) {
-    nodeList.addNode(index, node);
-  }
-
-  @Override
-  public T set(int index, T node) {
-    return nodeList.setNode(index, node);
-  }
-
-  @Override
-  public boolean remove(Object node) {
-    if (node instanceof Node) {
-      return nodeList.removeNode((Node)node);
+class NodeListFacade<T extends Node> extends AbstractNodeListFacade<T> implements RandomAccess {
+    NodeListFacade(DefaultNodeList<T> nodes) {
+        super(nodes);
     }
-    return false;
-  }
 
-  @Override
-  public T remove(int index) {
-    return nodeList.removeNode(index);
-  }
-  
-  @Override
-  public int indexOf(Object element) {
-    return nodeList.indexOf(element);
-  }
-
-  @Override
-  public int lastIndexOf(Object element) {
-    return nodeList.lastIndexOf(element);
-  }
-
-  @Override
-  public void clear() {
-    nodeList.clearNodes();
-  }
-
-  @Override
-  public AbstractBranch getParent() {
-    return nodeList.getParent();
-  }
-
-  @Override
-  public T get(int index) {
-    return nodeList.get(index);
-  }
-
-  @Override
-  public int size() {
-    return nodeList.size();
-  }
-
-  @Override
-  public boolean isEmpty() {
-    return nodeList.isEmpty();
-  }
-
-  @Override
-  public NodeList<T> facade() {
-    return nodeList.facade();
-  }
-
-  @Override
-  public NodeList<T> duplicate() {
-    return nodeList.duplicate().facade();
-  }
-
-  @Override
-  public NodeList<T> copy() {
-    return nodeList.copy();
-  }
-  
-  @Override
-  public NodeList<T> content() {
-    if (getParent() != null) {
-      return copy();
+    @Override
+    public boolean add(T node) {
+        nodeList.addNode(node);
+        return true;
     }
-    return nodeList;
-  }
 
-  /**
-   * Called on nodeList modification
-   */
-  @Override
-  void copyNodes() {
-    //nodeList = nodeList.duplicate();
-  }
+    @Override
+    public void add(int index, T node) {
+        nodeList.addNode(index, node);
+    }
+
+    @Override
+    public T set(int index, T node) {
+        return nodeList.setNode(index, node);
+    }
+
+    @Override
+    public boolean remove(Object node) {
+        if (node instanceof Node) {
+            return nodeList.removeNode((Node) node);
+        }
+        return false;
+    }
+
+    @Override
+    public T remove(int index) {
+        return nodeList.removeNode(index);
+    }
+
+    @Override
+    public int indexOf(Object element) {
+        return nodeList.indexOf(element);
+    }
+
+    @Override
+    public int lastIndexOf(Object element) {
+        return nodeList.lastIndexOf(element);
+    }
+
+    @Override
+    public void clear() {
+        nodeList.clearNodes();
+    }
+
+    @Override
+    public AbstractBranch getParent() {
+        return nodeList.getParent();
+    }
+
+    @Override
+    public T get(int index) {
+        return nodeList.get(index);
+    }
+
+    @Override
+    public int size() {
+        return nodeList.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return nodeList.isEmpty();
+    }
+
+    @Override
+    public NodeList<T> facade() {
+        return nodeList.facade();
+    }
+
+    @Override
+    public NodeList<T> duplicate() {
+        return nodeList.duplicate().facade();
+    }
+
+    @Override
+    public NodeList<T> copy() {
+        return nodeList.copy();
+    }
+
+    @Override
+    public NodeList<T> content() {
+        if (getParent() != null) {
+            return copy();
+        }
+        return nodeList;
+    }
+
+    /**
+     * Called on nodeList modification
+     */
+    @Override
+    void copyNodes() {
+        //nodeList = nodeList.duplicate();
+    }
 }
 
 /*

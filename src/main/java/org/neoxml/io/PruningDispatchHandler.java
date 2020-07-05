@@ -15,16 +15,15 @@ import org.neoxml.ElementPath;
  *
  * @author Wonne keysers (Realsoftware)
  */
-class PruningDispatchHandler extends DispatchHandler
-{
-  @Override
-  public void onEnd(ElementPath elementPath) {
-    super.onEnd(elementPath);
+class PruningDispatchHandler extends DispatchHandler {
+    @Override
+    public void onEnd(ElementPath elementPath) {
+        super.onEnd(elementPath);
 
-    if (getActiveHandlerCount() == 0) {
-      elementPath.getCurrent().detach();
+        if (getActiveHandlerCount() == 0) {
+            elementPath.getCurrent().detach();
+        }
     }
-  }
 }
 
 /*

@@ -5,14 +5,13 @@ import org.neoxml.Document;
 
 import static org.junit.Assert.assertEquals;
 
-public class XMLHelperTest
-{
+public class XMLHelperTest {
 
-  @Test
-  public void testCreateDocumentFromResourceString() throws Exception {
-    final Document doc = XMLHelper.createDocumentFromResource("test.xml");
-    assertEquals("root", doc.getRootElement().getName());
-  }
+    @Test
+    public void testCreateDocumentFromResourceString() throws Exception {
+        final Document doc = XMLHelper.createDocumentFromResource("test.xml");
+        assertEquals("root", doc.getRootElement().getName());
+    }
 
   /*
   @Test

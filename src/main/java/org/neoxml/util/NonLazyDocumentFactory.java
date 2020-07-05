@@ -21,32 +21,31 @@ import org.neoxml.QName;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.9 $
  */
-public class NonLazyDocumentFactory extends DefaultDocumentFactory
-{
-  /**
-   * The Singleton instance
-   */
-  protected static transient NonLazyDocumentFactory singleton = new NonLazyDocumentFactory();
+public class NonLazyDocumentFactory extends DefaultDocumentFactory {
+    /**
+     * The Singleton instance
+     */
+    protected static transient NonLazyDocumentFactory singleton = new NonLazyDocumentFactory();
 
-  /**
-   * <p>
-   * Access to the singleton instance of this factory.
-   * </p>
-   *
-   * @return the default singleon instance
-   */
-  @SuppressWarnings("sync-override")
-  public static DocumentFactory getInstance() {
-    return singleton;
-  }
+    /**
+     * <p>
+     * Access to the singleton instance of this factory.
+     * </p>
+     *
+     * @return the default singleon instance
+     */
+    @SuppressWarnings("sync-override")
+    public static DocumentFactory getInstance() {
+        return singleton;
+    }
 
-  // DefaultDocumentFactory methods
-  // -------------------------------------------------------------------------
+    // DefaultDocumentFactory methods
+    // -------------------------------------------------------------------------
 
-  @Override
-  public Element createElement(QName qname) {
-    return new NonLazyElement(qname);
-  }
+    @Override
+    public Element createElement(QName qname) {
+        return new NonLazyElement(qname);
+    }
 }
 
 /*

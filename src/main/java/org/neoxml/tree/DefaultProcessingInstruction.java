@@ -20,93 +20,92 @@ import java.util.Map;
  * @version $Revision: 1.13 $
  */
 @SuppressWarnings("serial")
-public class DefaultProcessingInstruction extends org.neoxml.tree.FlyweightProcessingInstruction
-{
-  /**
-   * The parent of this node
-   */
-  private Element parent;
+public class DefaultProcessingInstruction extends org.neoxml.tree.FlyweightProcessingInstruction {
+    /**
+     * The parent of this node
+     */
+    private Element parent;
 
-  /**
-   * <p>
-   * This will create a new PI with the given target and values
-   * </p>
-   *
-   * @param target is the name of the PI
-   * @param values is the <code>Map</code> values for the PI
-   */
-  public DefaultProcessingInstruction(String target, Map<String,String> values) {
-    super(target, values);
-  }
+    /**
+     * <p>
+     * This will create a new PI with the given target and values
+     * </p>
+     *
+     * @param target is the name of the PI
+     * @param values is the <code>Map</code> values for the PI
+     */
+    public DefaultProcessingInstruction(String target, Map<String, String> values) {
+        super(target, values);
+    }
 
-  /**
-   * <p>
-   * This will create a new PI with the given target and values
-   * </p>
-   *
-   * @param target is the name of the PI
-   * @param values is the values for the PI
-   */
-  public DefaultProcessingInstruction(String target, String values) {
-    super(target, values);
-  }
+    /**
+     * <p>
+     * This will create a new PI with the given target and values
+     * </p>
+     *
+     * @param target is the name of the PI
+     * @param values is the values for the PI
+     */
+    public DefaultProcessingInstruction(String target, String values) {
+        super(target, values);
+    }
 
-  /**
-   * <p>
-   * This will create a new PI with the given target and values
-   * </p>
-   *
-   * @param parent is the parent element
-   * @param target is the name of the PI
-   * @param values is the values for the PI
-   */
-  public DefaultProcessingInstruction(Element parent, String target,
-      String values) {
-    super(target, values);
-    this.parent = parent;
-  }
+    /**
+     * <p>
+     * This will create a new PI with the given target and values
+     * </p>
+     *
+     * @param parent is the parent element
+     * @param target is the name of the PI
+     * @param values is the values for the PI
+     */
+    public DefaultProcessingInstruction(Element parent, String target,
+                                        String values) {
+        super(target, values);
+        this.parent = parent;
+    }
 
-  @Override
-  public void setTarget(String target) {
-    this.target = target;
-  }
+    @Override
+    public void setTarget(String target) {
+        this.target = target;
+    }
 
-  @Override
-  public void setText(String text) {
-    this.text = text;
-    this.values = parseValues(text);
-  }
+    @Override
+    public void setText(String text) {
+        this.text = text;
+        this.values = parseValues(text);
+    }
 
-  @Override
-  public void setValues(Map<String,String> values) {
-    this.values = values;
-    this.text = toString(values);
-  }
+    @Override
+    public void setValues(Map<String, String> values) {
+        this.values = values;
+        this.text = toString(values);
+    }
 
-  @Override
-  public void setValue(String name, String value) {
-    values.put(name, value);
-  }
+    @Override
+    public void setValue(String name, String value) {
+        values.put(name, value);
+    }
 
-  @Override
-  public Element getParent() {
-    return parent;
-  }
+    @Override
+    public Element getParent() {
+        return parent;
+    }
 
-  @Override
-  public void setParent(Element parent) {
-    this.parent = parent;
-  }
+    @Override
+    public void setParent(Element parent) {
+        this.parent = parent;
+    }
 
-  @Override
-  public boolean supportsParent() {
-    return true;
-  }
+    @Override
+    public boolean supportsParent() {
+        return true;
+    }
 
-  @Override
-  public boolean isReadOnly() {
-    return false;
-  }
+    @Override
+    public boolean isReadOnly() {
+        return false;
+    }
 }
 
 /*

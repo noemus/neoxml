@@ -15,22 +15,20 @@ import org.neoxml.io.SAXReader;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.3 $
  */
-public class ValidationTest extends AbstractTestCase
-{
-  // Test case(s)
-  // -------------------------------------------------------------------------
+public class ValidationTest extends AbstractTestCase {
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testValidation() throws Exception {
-    try {
-      SAXReader reader = new SAXReader(true);
-      reader.read("test");
-      fail();
+    @Test
+    public void testValidation() throws Exception {
+        try {
+            SAXReader reader = new SAXReader(true);
+            reader.read("test");
+            fail();
+        } catch (DocumentException e) {
+            // internal parser is non validating, so OK
+        }
     }
-    catch (DocumentException e) {
-      // internal parser is non validating, so OK
-    }
-  }
 }
 
 /*

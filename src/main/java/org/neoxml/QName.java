@@ -24,228 +24,222 @@ import java.io.Serializable;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  */
 @SuppressWarnings({
-  "serial", "null", "unchecked"
-})
-public class QName implements Serializable
-{
-  /**
-   * The Singleton instance
-   */
-  private final static SingletonStrategy<QNameCache> singleton = SingletonHelper.getSingletonStrategy("org.neoxml.QName.singleton.strategy", QNameCache.class);
+                          "serial", "null", "unchecked"
+                  })
+public class QName implements Serializable {
+    /**
+     * The Singleton instance
+     */
+    private final static SingletonStrategy<QNameCache> singleton = SingletonHelper.getSingletonStrategy("org.neoxml.QName.singleton.strategy", QNameCache.class);
 
-  /**
-   * The local name of the element or attribute
-   */
-  private final String name;
+    /**
+     * The local name of the element or attribute
+     */
+    private final String name;
 
-  /**
-   * The Namespace of this element or attribute
-   */
-  private transient Namespace namespace;
+    /**
+     * The Namespace of this element or attribute
+     */
+    private transient Namespace namespace;
 
-  /**
-   * The qualified name of the element or attribute
-   */
-  private String qualifiedName;
+    /**
+     * The qualified name of the element or attribute
+     */
+    private String qualifiedName;
 
-  /**
-   * A cached version of the hashcode for efficiency
-   */
-  private int hashCode;
+    /**
+     * A cached version of the hashcode for efficiency
+     */
+    private int hashCode;
 
-  /**
-   * The document factory used for this QName if specified or null
-   */
-  private DocumentFactory documentFactory;
+    /**
+     * The document factory used for this QName if specified or null
+     */
+    private DocumentFactory documentFactory;
 
-  public QName(String name) {
-    this(name, Namespace.NO_NAMESPACE);
-  }
-
-  public QName(String name, Namespace namespace) {
-    this.name = (name == null) ? "" : name;
-    this.namespace = (namespace == null) ? Namespace.NO_NAMESPACE : namespace;
-  }
-
-  public QName(String name, Namespace namespace, String qualifiedName) {
-    this.name = (name == null) ? "" : name;
-    this.qualifiedName = qualifiedName;
-    this.namespace = (namespace == null) ? Namespace.NO_NAMESPACE : namespace;
-  }
-
-  public static QName get(String name) {
-    return getCache().get(name);
-  }
-
-  public static QName get(String name, Namespace namespace) {
-    return getCache().get(name, namespace);
-  }
-
-  public static QName get(String name, String prefix, String uri) {
-    if (uri == null) {
-      return QName.get(name);
-    }
-    else if ((prefix == null) || (prefix.length() == 0)) {
-      return getCache().get(name, Namespace.get(uri));
-    }
-    else {
-      return getCache().get(name, Namespace.get(prefix, uri));
-    }
-  }
-
-  public static QName get(String qualifiedName, String uri) {
-    if (uri == null) {
-      return getCache().get(qualifiedName);
-    }
-    else {
-      return getCache().get(qualifiedName, uri);
-    }
-  }
-
-  public static QName get(String localName, Namespace namespace, String qualifiedName) {
-    return getCache().get(localName, namespace, qualifiedName);
-  }
-
-  /**
-   * DOCUMENT ME!
-   *
-   * @return the local name
-   */
-  public String getName() {
-    return name;
-  }
-
-  /**
-   * DOCUMENT ME!
-   *
-   * @return the qualified name in the format <code>prefix:localName</code>
-   */
-  public String getQualifiedName() {
-    if (qualifiedName == null) {
-      String prefix = getNamespacePrefix();
-
-      if ((prefix != null) && (prefix.length() > 0)) {
-        qualifiedName = prefix + ":" + name;
-      }
-      else {
-        qualifiedName = name;
-      }
+    public QName(String name) {
+        this(name, Namespace.NO_NAMESPACE);
     }
 
-    return qualifiedName;
-  }
-
-  /**
-   * DOCUMENT ME!
-   *
-   * @return the namespace of this QName
-   */
-  public Namespace getNamespace() {
-    return namespace;
-  }
-
-  /**
-   * DOCUMENT ME!
-   *
-   * @return the namespace URI of this QName
-   */
-  public String getNamespacePrefix() {
-    if (namespace == null) {
-      return "";
+    public QName(String name, Namespace namespace) {
+        this.name = (name == null) ? "" : name;
+        this.namespace = (namespace == null) ? Namespace.NO_NAMESPACE : namespace;
     }
 
-    return namespace.getPrefix();
-  }
-
-  /**
-   * DOCUMENT ME!
-   *
-   * @return the namespace URI of this QName
-   */
-  public String getNamespaceURI() {
-    if (namespace == null) {
-      return "";
+    public QName(String name, Namespace namespace, String qualifiedName) {
+        this.name = (name == null) ? "" : name;
+        this.qualifiedName = qualifiedName;
+        this.namespace = (namespace == null) ? Namespace.NO_NAMESPACE : namespace;
     }
 
-    return namespace.getURI();
-  }
-
-  /**
-   * DOCUMENT ME!
-   *
-   * @return the hash code based on the qualified name and the URI of the
-   *         namespace.
-   */
-  @Override
-  public int hashCode() {
-    if (hashCode == 0) {
-      hashCode = getName().hashCode() ^ getNamespaceURI().hashCode();
-
-      if (hashCode == 0) {
-        hashCode = 0xbabe;
-      }
+    public static QName get(String name) {
+        return getCache().get(name);
     }
 
-    return hashCode;
-  }
-
-  @Override
-  public boolean equals(Object object) {
-    if (this == object) {
-      return true;
-    }
-    else if (object instanceof QName) {
-      QName that = (QName)object;
-
-      // we cache hash codes so this should be quick
-      if (hashCode() == that.hashCode()) {
-        return getName().equals(that.getName()) && getNamespaceURI().equals(that.getNamespaceURI());
-      }
+    public static QName get(String name, Namespace namespace) {
+        return getCache().get(name, namespace);
     }
 
-    return false;
-  }
+    public static QName get(String name, String prefix, String uri) {
+        if (uri == null) {
+            return QName.get(name);
+        } else if ((prefix == null) || (prefix.length() == 0)) {
+            return getCache().get(name, Namespace.get(uri));
+        } else {
+            return getCache().get(name, Namespace.get(prefix, uri));
+        }
+    }
 
-  @Override
-  public String toString() {
-    return super.toString() + " [name: " + getName() + " namespace: \"" + getNamespace() + "\"]";
-  }
+    public static QName get(String qualifiedName, String uri) {
+        if (uri == null) {
+            return getCache().get(qualifiedName);
+        } else {
+            return getCache().get(qualifiedName, uri);
+        }
+    }
 
-  /**
-   * DOCUMENT ME!
-   *
-   * @return the factory that should be used for Elements of this QName
-   */
-  public DocumentFactory getDocumentFactory() {
-    return documentFactory;
-  }
+    public static QName get(String localName, Namespace namespace, String qualifiedName) {
+        return getCache().get(localName, namespace, qualifiedName);
+    }
 
-  public void setDocumentFactory(DocumentFactory documentFactory) {
-    this.documentFactory = documentFactory;
-  }
+    /**
+     * DOCUMENT ME!
+     *
+     * @return the local name
+     */
+    public String getName() {
+        return name;
+    }
 
-  private void writeObject(ObjectOutputStream out) throws IOException {
-    // We use writeObject() and not writeUTF() to minimize space
-    // This allows for writing pointers to already written strings
-    out.writeObject(namespace.getPrefix());
-    out.writeObject(namespace.getURI());
+    /**
+     * DOCUMENT ME!
+     *
+     * @return the qualified name in the format <code>prefix:localName</code>
+     */
+    public String getQualifiedName() {
+        if (qualifiedName == null) {
+            String prefix = getNamespacePrefix();
 
-    out.defaultWriteObject();
-  }
+            if ((prefix != null) && (prefix.length() > 0)) {
+                qualifiedName = prefix + ":" + name;
+            } else {
+                qualifiedName = name;
+            }
+        }
 
-  private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-    String prefix = (String)in.readObject();
-    String uri = (String)in.readObject();
+        return qualifiedName;
+    }
 
-    in.defaultReadObject();
+    /**
+     * DOCUMENT ME!
+     *
+     * @return the namespace of this QName
+     */
+    public Namespace getNamespace() {
+        return namespace;
+    }
 
-    namespace = Namespace.get(prefix, uri);
-  }
+    /**
+     * DOCUMENT ME!
+     *
+     * @return the namespace URI of this QName
+     */
+    public String getNamespacePrefix() {
+        if (namespace == null) {
+            return "";
+        }
 
-  private static QNameCache getCache() {
-    QNameCache cache = singleton.instance();
-    return cache;
-  }
+        return namespace.getPrefix();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return the namespace URI of this QName
+     */
+    public String getNamespaceURI() {
+        if (namespace == null) {
+            return "";
+        }
+
+        return namespace.getURI();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return the hash code based on the qualified name and the URI of the
+     * namespace.
+     */
+    @Override
+    public int hashCode() {
+        if (hashCode == 0) {
+            hashCode = getName().hashCode() ^ getNamespaceURI().hashCode();
+
+            if (hashCode == 0) {
+                hashCode = 0xbabe;
+            }
+        }
+
+        return hashCode;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        } else if (object instanceof QName) {
+            QName that = (QName) object;
+
+            // we cache hash codes so this should be quick
+            if (hashCode() == that.hashCode()) {
+                return getName().equals(that.getName()) && getNamespaceURI().equals(that.getNamespaceURI());
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " [name: " + getName() + " namespace: \"" + getNamespace() + "\"]";
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return the factory that should be used for Elements of this QName
+     */
+    public DocumentFactory getDocumentFactory() {
+        return documentFactory;
+    }
+
+    public void setDocumentFactory(DocumentFactory documentFactory) {
+        this.documentFactory = documentFactory;
+    }
+
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        // We use writeObject() and not writeUTF() to minimize space
+        // This allows for writing pointers to already written strings
+        out.writeObject(namespace.getPrefix());
+        out.writeObject(namespace.getURI());
+
+        out.defaultWriteObject();
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        String prefix = (String) in.readObject();
+        String uri = (String) in.readObject();
+
+        in.defaultReadObject();
+
+        namespace = Namespace.get(prefix, uri);
+    }
+
+    private static QNameCache getCache() {
+        QNameCache cache = singleton.instance();
+        return cache;
+    }
 }
 
 

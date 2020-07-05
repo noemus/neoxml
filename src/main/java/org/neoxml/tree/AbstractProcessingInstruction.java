@@ -25,176 +25,173 @@ import java.util.StringTokenizer;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.17 $
  */
-public abstract class AbstractProcessingInstruction extends AbstractNode implements ProcessingInstruction
-{
-  public AbstractProcessingInstruction() {}
+public abstract class AbstractProcessingInstruction extends AbstractNode implements ProcessingInstruction {
+    public AbstractProcessingInstruction() {}
 
-  @Override
-  public NodeType getNodeTypeEnum() {
-    return NodeType.PROCESSING_INSTRUCTION_NODE;
-  }
-
-  @Override
-  public String getPath(Element context) {
-    Element parent = getParent();
-
-    return ((parent != null) && (parent != context)) ? (parent.getPath(context) + "/processing-instruction()")
-        : "processing-instruction()";
-  }
-
-  @Override
-  public String getUniquePath(Element context) {
-    Element parent = getParent();
-
-    return ((parent != null) && (parent != context)) ? (parent.getUniquePath(context) + "/processing-instruction()")
-        : "processing-instruction()";
-  }
-
-  @Override
-  public String toString() {
-    return super.toString() + " [ProcessingInstruction: &" + getName() + ";]";
-  }
-
-  @Override
-  public String asXML() {
-    return "<?" + getName() + " " + getText() + "?>";
-  }
-
-  @Override
-  public void write(Writer writer) throws IOException {
-    writer.write("<?");
-    writer.write(getName());
-    writer.write(" ");
-    writer.write(getText());
-    writer.write("?>");
-  }
-
-  @Override
-  public boolean accept(Visitor visitor) {
-    return visitor.visit(this);
-  }
-
-  @Override
-  public void setValue(String name, String value) {
-    throw new UnsupportedOperationException("This PI is read-only and " + "cannot be modified");
-  }
-
-  @Override
-  public void setValues(Map<String,String> data) {
-    throw new UnsupportedOperationException("This PI is read-only and " + "cannot be modified");
-  }
-
-  @Override
-  public String getName() {
-    return getTarget();
-  }
-
-  @Override
-  public void setName(String name) {
-    setTarget(name);
-  }
-
-  @Override
-  public boolean removeValue(String name) {
-    return false;
-  }
-
-  // Helper methods
-
-  /**
-   * <p>
-   * This will convert the Map to a string representation.
-   * </p>
-   *
-   * @param values is a <code>Map</code> of PI data to convert
-   * @return DOCUMENT ME!
-   */
-  protected String toString(Map<String,String> values) {
-    StringBuilder builder = new StringBuilder();
-
-    for (Map.Entry<String,String> entry : values.entrySet()) {
-      String name = entry.getKey();
-      String value = entry.getValue();
-
-      builder.append(name);
-      builder.append("=\"");
-      builder.append(value);
-      builder.append("\" ");
+    @Override
+    public NodeType getNodeTypeEnum() {
+        return NodeType.PROCESSING_INSTRUCTION_NODE;
     }
 
-    // remove the last space
-    builder.setLength(builder.length() - 1);
+    @Override
+    public String getPath(Element context) {
+        Element parent = getParent();
 
-    return builder.toString();
-  }
-
-  /**
-   * <p>
-   * Parses the raw data of PI as a <code>Map</code>.
-   * </p>
-   *
-   * @param text <code>String</code> PI data to parse
-   * @return DOCUMENT ME!
-   */
-  protected Map<String,String> parseValues(String text) {
-    Map<String,String> data = new HashMap<>();
-
-    StringTokenizer s = new StringTokenizer(text, " =\'\"", true);
-
-    while (s.hasMoreTokens()) {
-      String name = getName(s);
-
-      if (s.hasMoreTokens()) {
-        String value = getValue(s);
-        data.put(name, value);
-      }
+        return ((parent != null) && (parent != context)) ? (parent.getPath(context) + "/processing-instruction()")
+                                                         : "processing-instruction()";
     }
 
-    return data;
-  }
+    @Override
+    public String getUniquePath(Element context) {
+        Element parent = getParent();
 
-  private String getName(StringTokenizer tokenizer) {
-    String token = tokenizer.nextToken();
-    StringBuilder name = new StringBuilder(token);
-
-    while (tokenizer.hasMoreTokens()) {
-      token = tokenizer.nextToken();
-
-      if (!token.equals("=")) {
-        name.append(token);
-      }
-      else {
-        break;
-      }
+        return ((parent != null) && (parent != context)) ? (parent.getUniquePath(context) + "/processing-instruction()")
+                                                         : "processing-instruction()";
     }
 
-    return name.toString().trim();
-  }
-
-  private String getValue(StringTokenizer tokenizer) {
-    String token = tokenizer.nextToken();
-    StringBuilder value = new StringBuilder();
-
-    /* get the quote */
-    while (tokenizer.hasMoreTokens() && !token.equals("\'") && !token.equals("\"")) {
-      token = tokenizer.nextToken();
+    @Override
+    public String toString() {
+        return super.toString() + " [ProcessingInstruction: &" + getName() + ";]";
     }
 
-    String quote = token;
-
-    while (tokenizer.hasMoreTokens()) {
-      token = tokenizer.nextToken();
-
-      if (!quote.equals(token)) {
-        value.append(token);
-      }
-      else {
-        break;
-      }
+    @Override
+    public String asXML() {
+        return "<?" + getName() + " " + getText() + "?>";
     }
 
-    return value.toString();
-  }
+    @Override
+    public void write(Writer writer) throws IOException {
+        writer.write("<?");
+        writer.write(getName());
+        writer.write(" ");
+        writer.write(getText());
+        writer.write("?>");
+    }
+
+    @Override
+    public boolean accept(Visitor visitor) {
+        return visitor.visit(this);
+    }
+
+    @Override
+    public void setValue(String name, String value) {
+        throw new UnsupportedOperationException("This PI is read-only and " + "cannot be modified");
+    }
+
+    @Override
+    public void setValues(Map<String, String> data) {
+        throw new UnsupportedOperationException("This PI is read-only and " + "cannot be modified");
+    }
+
+    @Override
+    public String getName() {
+        return getTarget();
+    }
+
+    @Override
+    public void setName(String name) {
+        setTarget(name);
+    }
+
+    @Override
+    public boolean removeValue(String name) {
+        return false;
+    }
+
+    // Helper methods
+
+    /**
+     * <p>
+     * This will convert the Map to a string representation.
+     * </p>
+     *
+     * @param values is a <code>Map</code> of PI data to convert
+     * @return DOCUMENT ME!
+     */
+    protected String toString(Map<String, String> values) {
+        StringBuilder builder = new StringBuilder();
+
+        for (Map.Entry<String, String> entry : values.entrySet()) {
+            String name = entry.getKey();
+            String value = entry.getValue();
+
+            builder.append(name);
+            builder.append("=\"");
+            builder.append(value);
+            builder.append("\" ");
+        }
+
+        // remove the last space
+        builder.setLength(builder.length() - 1);
+
+        return builder.toString();
+    }
+
+    /**
+     * <p>
+     * Parses the raw data of PI as a <code>Map</code>.
+     * </p>
+     *
+     * @param text <code>String</code> PI data to parse
+     * @return DOCUMENT ME!
+     */
+    protected Map<String, String> parseValues(String text) {
+        Map<String, String> data = new HashMap<>();
+
+        StringTokenizer s = new StringTokenizer(text, " =\'\"", true);
+
+        while (s.hasMoreTokens()) {
+            String name = getName(s);
+
+            if (s.hasMoreTokens()) {
+                String value = getValue(s);
+                data.put(name, value);
+            }
+        }
+
+        return data;
+    }
+
+    private String getName(StringTokenizer tokenizer) {
+        String token = tokenizer.nextToken();
+        StringBuilder name = new StringBuilder(token);
+
+        while (tokenizer.hasMoreTokens()) {
+            token = tokenizer.nextToken();
+
+            if (!token.equals("=")) {
+                name.append(token);
+            } else {
+                break;
+            }
+        }
+
+        return name.toString().trim();
+    }
+
+    private String getValue(StringTokenizer tokenizer) {
+        String token = tokenizer.nextToken();
+        StringBuilder value = new StringBuilder();
+
+        /* get the quote */
+        while (tokenizer.hasMoreTokens() && !token.equals("\'") && !token.equals("\"")) {
+            token = tokenizer.nextToken();
+        }
+
+        String quote = token;
+
+        while (tokenizer.hasMoreTokens()) {
+            token = tokenizer.nextToken();
+
+            if (!quote.equals(token)) {
+                value.append(token);
+            } else {
+                break;
+            }
+        }
+
+        return value.toString();
+    }
 }
 
 /*

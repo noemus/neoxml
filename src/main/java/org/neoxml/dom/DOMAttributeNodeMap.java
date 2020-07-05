@@ -18,80 +18,77 @@ import org.w3c.dom.Node;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.8 $
  */
-public class DOMAttributeNodeMap implements org.w3c.dom.NamedNodeMap
-{
-  private DOMElement element;
+public class DOMAttributeNodeMap implements org.w3c.dom.NamedNodeMap {
+    private DOMElement element;
 
-  public DOMAttributeNodeMap(DOMElement element) {
-    this.element = element;
-  }
-
-  @Override
-  public Node getNamedItem(String name) {
-    return element.getAttributeNode(name);
-  }
-
-  @Override
-  public Node setNamedItem(Node arg) throws DOMException {
-    if (arg instanceof Attr) {
-      return element.setAttributeNode((org.w3c.dom.Attr)arg);
-    }
-    else {
-      throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
-        "Node is not an Attr: " + arg);
-    }
-  }
-
-  @Override
-  public Node removeNamedItem(String name) throws DOMException {
-    org.w3c.dom.Attr attr = element.getAttributeNode(name);
-
-    if (attr == null) {
-      throw new DOMException(DOMException.NOT_FOUND_ERR,
-        "No attribute named " + name);
+    public DOMAttributeNodeMap(DOMElement element) {
+        this.element = element;
     }
 
-    return element.removeAttributeNode(attr);
-  }
-
-  @Override
-  public Node item(int index) {
-    return DOMNodeHelper.asDOMAttr(element.attribute(index));
-  }
-
-  @Override
-  public int getLength() {
-    return element.attributeCount();
-  }
-
-  @Override
-  public Node getNamedItemNS(String namespaceURI, String localName) {
-    return element.getAttributeNodeNS(namespaceURI, localName);
-  }
-
-  @Override
-  public Node setNamedItemNS(Node arg) throws DOMException {
-    if (arg instanceof Attr) {
-      return element.setAttributeNodeNS((org.w3c.dom.Attr)arg);
-    }
-    else {
-      throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
-        "Node is not an Attr: " + arg);
-    }
-  }
-
-  @Override
-  public Node removeNamedItemNS(String namespaceURI, String localName)
-      throws DOMException {
-    org.w3c.dom.Attr attr = element.getAttributeNodeNS(namespaceURI,
-      localName);
-
-    if (attr != null) {
-      return element.removeAttributeNode(attr);
+    @Override
+    public Node getNamedItem(String name) {
+        return element.getAttributeNode(name);
     }
 
-    return attr;
-  }
+    @Override
+    public Node setNamedItem(Node arg) throws DOMException {
+        if (arg instanceof Attr) {
+            return element.setAttributeNode((org.w3c.dom.Attr) arg);
+        } else {
+            throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
+                                   "Node is not an Attr: " + arg);
+        }
+    }
+
+    @Override
+    public Node removeNamedItem(String name) throws DOMException {
+        org.w3c.dom.Attr attr = element.getAttributeNode(name);
+
+        if (attr == null) {
+            throw new DOMException(DOMException.NOT_FOUND_ERR,
+                                   "No attribute named " + name);
+        }
+
+        return element.removeAttributeNode(attr);
+    }
+
+    @Override
+    public Node item(int index) {
+        return DOMNodeHelper.asDOMAttr(element.attribute(index));
+    }
+
+    @Override
+    public int getLength() {
+        return element.attributeCount();
+    }
+
+    @Override
+    public Node getNamedItemNS(String namespaceURI, String localName) {
+        return element.getAttributeNodeNS(namespaceURI, localName);
+    }
+
+    @Override
+    public Node setNamedItemNS(Node arg) throws DOMException {
+        if (arg instanceof Attr) {
+            return element.setAttributeNodeNS((org.w3c.dom.Attr) arg);
+        } else {
+            throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
+                                   "Node is not an Attr: " + arg);
+        }
+    }
+
+    @Override
+    public Node removeNamedItemNS(String namespaceURI, String localName)
+            throws DOMException {
+        org.w3c.dom.Attr attr = element.getAttributeNodeNS(namespaceURI,
+                                                           localName);
+
+        if (attr != null) {
+            return element.removeAttributeNode(attr);
+        }
+
+        return attr;
+    }
 }
 
 /*

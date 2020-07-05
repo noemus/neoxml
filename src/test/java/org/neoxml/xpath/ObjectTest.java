@@ -19,37 +19,36 @@ import org.neoxml.XPath;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.3 $
  */
-public class ObjectTest extends AbstractTestCase
-{
-  protected static String[] paths = {
-    "name(/.)", "name()"
-  };
+public class ObjectTest extends AbstractTestCase {
+    protected static String[] paths = {
+            "name(/.)", "name()"
+    };
 
-  public static void main(String[] args) throws InitializationError {
-    new JUnit4(ObjectTest.class).run(null);
-  }
-
-  // Test case(s)
-  // -------------------------------------------------------------------------
-
-  @Test
-  public void testXPaths() throws Exception {
-    Node element = document.selectSingleNode("//author");
-    int size = paths.length;
-
-    for (int i = 0; i < size; i++) {
-      testXPath(document, paths[i]);
-      testXPath(element, paths[i]);
+    public static void main(String[] args) throws InitializationError {
+        new JUnit4(ObjectTest.class).run(null);
     }
-  }
 
-  // Implementation methods
-  // -------------------------------------------------------------------------
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  protected void testXPath(Node node, String xpathText) {
-    XPath xpath = node.createXPath(xpathText);
-    Object object = xpath.evaluate(node);
-  }
+    @Test
+    public void testXPaths() throws Exception {
+        Node element = document.selectSingleNode("//author");
+        int size = paths.length;
+
+        for (int i = 0; i < size; i++) {
+            testXPath(document, paths[i]);
+            testXPath(element, paths[i]);
+        }
+    }
+
+    // Implementation methods
+    // -------------------------------------------------------------------------
+
+    protected void testXPath(Node node, String xpathText) {
+        XPath xpath = node.createXPath(xpathText);
+        Object object = xpath.evaluate(node);
+    }
 }
 
 /*

@@ -18,50 +18,49 @@ import org.neoxml.Node;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.4 $
  */
-public class SelectSingleNodeTest extends AbstractTestCase
-{
-  // Test case(s)
-  // -------------------------------------------------------------------------
+public class SelectSingleNodeTest extends AbstractTestCase {
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testSelectSingleNode() throws Exception {
-    Document document = getDocument("/src/test/xml/test/jimBrain.xml");
-    Node node = document.selectSingleNode("/properties/client/threadsafe");
-    assertTrue("Found a valid node", node != null);
+    @Test
+    public void testSelectSingleNode() throws Exception {
+        Document document = getDocument("/src/test/xml/test/jimBrain.xml");
+        Node node = document.selectSingleNode("/properties/client/threadsafe");
+        assertTrue("Found a valid node", node != null);
 
-    Element server = (Element)document
-        .selectSingleNode("/properties/server");
-    assertTrue("Found a valid server", server != null);
+        Element server = (Element) document
+                .selectSingleNode("/properties/server");
+        assertTrue("Found a valid server", server != null);
 
-    Element root = document.getRootElement();
-    server = (Element)root.selectSingleNode("/properties/server");
-    assertTrue("Found a valid server", server != null);
+        Element root = document.getRootElement();
+        server = (Element) root.selectSingleNode("/properties/server");
+        assertTrue("Found a valid server", server != null);
 
-    // try finding it via a relative path
-    server = (Element)document.selectSingleNode("properties/server");
-    assertTrue("Found a valid server", server != null);
+        // try finding it via a relative path
+        server = (Element) document.selectSingleNode("properties/server");
+        assertTrue("Found a valid server", server != null);
 
-    // now lets use a relative path
-    Element connection = (Element)server.selectSingleNode("db/connection");
-    assertTrue("Found a valid connection", connection != null);
-  }
+        // now lets use a relative path
+        Element connection = (Element) server.selectSingleNode("db/connection");
+        assertTrue("Found a valid connection", connection != null);
+    }
 
-  /**
-   * Test out Steen's bug
-   *
-   * @throws Exception DOCUMENT ME!
-   */
-  @Test
-  public void testSteensBug() throws Exception {
-    Document document = getDocument("/src/test/xml/schema/personal.xsd");
+    /**
+     * Test out Steen's bug
+     *
+     * @throws Exception DOCUMENT ME!
+     */
+    @Test
+    public void testSteensBug() throws Exception {
+        Document document = getDocument("/src/test/xml/schema/personal.xsd");
 
-    String xpath = "/xs:schema/xs:element[@name='person']";
-    assertNotNull("element is null", document.selectSingleNode(xpath));
+        String xpath = "/xs:schema/xs:element[@name='person']";
+        assertNotNull("element is null", document.selectSingleNode(xpath));
 
-    Element root = document.getRootElement();
+        Element root = document.getRootElement();
 
-    assertNotNull("element is null", root.selectSingleNode(xpath));
-  }
+        assertNotNull("element is null", root.selectSingleNode(xpath));
+    }
 }
 
 /*

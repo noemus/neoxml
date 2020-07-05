@@ -19,233 +19,230 @@ import org.neoxml.tree.NamespaceCache;
  * @version $Revision: 1.22 $
  */
 @SuppressWarnings("serial")
-public class Namespace extends AbstractNode
-{
-  /**
-   * Cache of Namespace instances
-   */
-  protected static final NamespaceCache CACHE = new NamespaceCache();
+public class Namespace extends AbstractNode {
+    /**
+     * Cache of Namespace instances
+     */
+    protected static final NamespaceCache CACHE = new NamespaceCache();
 
-  /**
-   * XML Namespace
-   */
-  public static final Namespace XML_NAMESPACE = CACHE.get("xml", "http://www.w3.org/XML/1998/namespace");
+    /**
+     * XML Namespace
+     */
+    public static final Namespace XML_NAMESPACE = CACHE.get("xml", "http://www.w3.org/XML/1998/namespace");
 
-  /**
-   * No Namespace present
-   */
-  public static final Namespace NO_NAMESPACE = new Namespace("", "");
+    /**
+     * No Namespace present
+     */
+    public static final Namespace NO_NAMESPACE = new Namespace("", "");
 
-  /**
-   * The prefix mapped to this namespace
-   */
-  private final String prefix;
+    /**
+     * The prefix mapped to this namespace
+     */
+    private final String prefix;
 
-  /**
-   * The URI for this namespace
-   */
-  private final String uri;
+    /**
+     * The URI for this namespace
+     */
+    private final String uri;
 
-  /**
-   * A cached version of the hashcode for efficiency
-   */
-  private int hashCode;
+    /**
+     * A cached version of the hashcode for efficiency
+     */
+    private int hashCode;
 
-  /**
-   * DOCUMENT ME!
-   *
-   * @param prefix is the prefix for this namespace
-   * @param uri is the URI for this namespace
-   */
-  public Namespace(String prefix, String uri) {
-    this.prefix = (prefix != null) ? prefix : "";
-    this.uri = (uri != null) ? uri : "";
-  }
-
-  /**
-   * A helper method to return the Namespace instance for the given prefix and
-   * URI
-   *
-   * @param prefix DOCUMENT ME!
-   * @param uri DOCUMENT ME!
-   * @return an interned Namespace object
-   */
-  public static Namespace get(String prefix, String uri) {
-    return CACHE.get(prefix, uri);
-  }
-
-  /**
-   * A helper method to return the Namespace instance for no prefix and the
-   * URI
-   *
-   * @param uri DOCUMENT ME!
-   * @return an interned Namespace object
-   */
-  public static Namespace get(String uri) {
-    return CACHE.get(uri);
-  }
-
-  @Override
-  public NodeType getNodeTypeEnum() {
-    return NodeType.NAMESPACE_NODE;
-  }
-
-  /**
-   * DOCUMENT ME!
-   *
-   * @return the hash code based on the qualified name and the URI of the
-   *         namespace.
-   */
-  @Override
-  public int hashCode() {
-    if (hashCode == 0) {
-      hashCode = createHashCode();
+    /**
+     * DOCUMENT ME!
+     *
+     * @param prefix is the prefix for this namespace
+     * @param uri    is the URI for this namespace
+     */
+    public Namespace(String prefix, String uri) {
+        this.prefix = (prefix != null) ? prefix : "";
+        this.uri = (uri != null) ? uri : "";
     }
 
-    return hashCode;
-  }
-
-  /**
-   * Factory method to create the hashcode allowing derived classes to change
-   * the behaviour
-   *
-   * @return DOCUMENT ME!
-   */
-  protected int createHashCode() {
-    int result = uri.hashCode() ^ prefix.hashCode();
-
-    if (result == 0) {
-      result = 0xbabe;
+    /**
+     * A helper method to return the Namespace instance for the given prefix and
+     * URI
+     *
+     * @param prefix DOCUMENT ME!
+     * @param uri    DOCUMENT ME!
+     * @return an interned Namespace object
+     */
+    public static Namespace get(String prefix, String uri) {
+        return CACHE.get(prefix, uri);
     }
 
-    return result;
-  }
-
-  /**
-   * Checks whether this Namespace equals the given Namespace. Two Namespaces
-   * are equals if their URI and prefix are equal.
-   *
-   * @param object DOCUMENT ME!
-   * @return DOCUMENT ME!
-   */
-  @Override
-  public boolean equals(Object object) {
-    if (this == object) {
-      return true;
-    }
-    else if (object instanceof Namespace) {
-      Namespace that = (Namespace)object;
-
-      // we cache hash codes so this should be quick
-      if (hashCode() == that.hashCode()) {
-        return uri.equals(that.getURI())
-            && prefix.equals(that.getPrefix());
-      }
+    /**
+     * A helper method to return the Namespace instance for no prefix and the
+     * URI
+     *
+     * @param uri DOCUMENT ME!
+     * @return an interned Namespace object
+     */
+    public static Namespace get(String uri) {
+        return CACHE.get(uri);
     }
 
-    return false;
-  }
-
-  @Override
-  public String getText() {
-    return uri;
-  }
-
-  @Override
-  public String getStringValue() {
-    return uri;
-  }
-
-  /**
-   * DOCUMENT ME!
-   *
-   * @return the prefix for this <code>Namespace</code>.
-   */
-  public String getPrefix() {
-    return prefix;
-  }
-
-  /**
-   * DOCUMENT ME!
-   *
-   * @return the URI for this <code>Namespace</code>.
-   */
-  public String getURI() {
-    return uri;
-  }
-
-  public String getXPathNameStep() {
-    if ((prefix != null) && !"".equals(prefix)) {
-      return "namespace::" + prefix;
+    @Override
+    public NodeType getNodeTypeEnum() {
+        return NodeType.NAMESPACE_NODE;
     }
 
-    return "namespace::*[name()='']";
-  }
+    /**
+     * DOCUMENT ME!
+     *
+     * @return the hash code based on the qualified name and the URI of the
+     * namespace.
+     */
+    @Override
+    public int hashCode() {
+        if (hashCode == 0) {
+            hashCode = createHashCode();
+        }
 
-  @Override
-  public String getPath(Element context) {
-    final StringBuilder path = new StringBuilder(30);
-    final Element parent = getParent();
-
-    if ((parent != null) && (parent != context)) {
-      path.append(parent.getPath(context));
-      path.append('/');
+        return hashCode;
     }
 
-    path.append(getXPathNameStep());
+    /**
+     * Factory method to create the hashcode allowing derived classes to change
+     * the behaviour
+     *
+     * @return DOCUMENT ME!
+     */
+    protected int createHashCode() {
+        int result = uri.hashCode() ^ prefix.hashCode();
 
-    return path.toString();
-  }
+        if (result == 0) {
+            result = 0xbabe;
+        }
 
-  @Override
-  public String getUniquePath(Element context) {
-    final StringBuilder path = new StringBuilder(30);
-    final Element parent = getParent();
-
-    if ((parent != null) && (parent != context)) {
-      path.append(parent.getUniquePath(context));
-      path.append('/');
+        return result;
     }
 
-    path.append(getXPathNameStep());
+    /**
+     * Checks whether this Namespace equals the given Namespace. Two Namespaces
+     * are equals if their URI and prefix are equal.
+     *
+     * @param object DOCUMENT ME!
+     * @return DOCUMENT ME!
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        } else if (object instanceof Namespace) {
+            Namespace that = (Namespace) object;
 
-    return path.toString();
-  }
+            // we cache hash codes so this should be quick
+            if (hashCode() == that.hashCode()) {
+                return uri.equals(that.getURI())
+                        && prefix.equals(that.getPrefix());
+            }
+        }
 
-  @Override
-  public String toString() {
-    return super.toString() + " [Namespace: prefix " + getPrefix() + " mapped to URI \"" + getURI() + "\"]";
-  }
-
-  @Override
-  public String asXML() {
-    final StringBuilder asxml = new StringBuilder(50);
-    final String pref = getPrefix();
-
-    if ((pref != null) && (pref.length() > 0)) {
-      asxml.append("xmlns:");
-      asxml.append(pref);
-      asxml.append("=\"");
+        return false;
     }
-    else {
-      asxml.append("xmlns=\"");
+
+    @Override
+    public String getText() {
+        return uri;
     }
 
-    asxml.append(getURI());
-    asxml.append("\"");
+    @Override
+    public String getStringValue() {
+        return uri;
+    }
 
-    return asxml.toString();
-  }
+    /**
+     * DOCUMENT ME!
+     *
+     * @return the prefix for this <code>Namespace</code>.
+     */
+    public String getPrefix() {
+        return prefix;
+    }
 
-  @Override
-  public boolean accept(Visitor visitor) {
-    return visitor.visit(this);
-  }
+    /**
+     * DOCUMENT ME!
+     *
+     * @return the URI for this <code>Namespace</code>.
+     */
+    public String getURI() {
+        return uri;
+    }
 
-  @Override
-  protected Node createXPathResult(Element parent) {
-    return new DefaultNamespace(parent, getPrefix(), getURI());
-  }
+    public String getXPathNameStep() {
+        if ((prefix != null) && !"".equals(prefix)) {
+            return "namespace::" + prefix;
+        }
+
+        return "namespace::*[name()='']";
+    }
+
+    @Override
+    public String getPath(Element context) {
+        final StringBuilder path = new StringBuilder(30);
+        final Element parent = getParent();
+
+        if ((parent != null) && (parent != context)) {
+            path.append(parent.getPath(context));
+            path.append('/');
+        }
+
+        path.append(getXPathNameStep());
+
+        return path.toString();
+    }
+
+    @Override
+    public String getUniquePath(Element context) {
+        final StringBuilder path = new StringBuilder(30);
+        final Element parent = getParent();
+
+        if ((parent != null) && (parent != context)) {
+            path.append(parent.getUniquePath(context));
+            path.append('/');
+        }
+
+        path.append(getXPathNameStep());
+
+        return path.toString();
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " [Namespace: prefix " + getPrefix() + " mapped to URI \"" + getURI() + "\"]";
+    }
+
+    @Override
+    public String asXML() {
+        final StringBuilder asxml = new StringBuilder(50);
+        final String pref = getPrefix();
+
+        if ((pref != null) && (pref.length() > 0)) {
+            asxml.append("xmlns:");
+            asxml.append(pref);
+            asxml.append("=\"");
+        } else {
+            asxml.append("xmlns=\"");
+        }
+
+        asxml.append(getURI());
+        asxml.append("\"");
+
+        return asxml.toString();
+    }
+
+    @Override
+    public boolean accept(Visitor visitor) {
+        return visitor.visit(this);
+    }
+
+    @Override
+    protected Node createXPathResult(Element parent) {
+        return new DefaultNamespace(parent, getPrefix(), getURI());
+    }
 }
 
 /*

@@ -6,13 +6,25 @@
 
 package org.neoxml.xpath;
 
-import org.jaxen.*;
+import org.jaxen.FunctionContext;
+import org.jaxen.JaxenException;
+import org.jaxen.NamespaceContext;
+import org.jaxen.SimpleNamespaceContext;
+import org.jaxen.VariableContext;
+import org.jaxen.XPath;
 import org.neoxml.InvalidXPathException;
 import org.neoxml.Node;
 import org.neoxml.XPathException;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * <p>
@@ -22,348 +34,334 @@ import java.util.*;
  * @author bob mcwhirter
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  */
-public class DefaultXPath implements org.neoxml.XPath, Serializable
-{
-  private String text;
+public class DefaultXPath implements org.neoxml.XPath, Serializable {
+    private String text;
 
-  private XPath xpath;
+    private XPath xpath;
 
-  private NamespaceContext namespaceContext;
+    private NamespaceContext namespaceContext;
 
-  /**
-   * Construct an XPath
-   *
-   * @param text DOCUMENT ME!
-   * @throws InvalidXPathException DOCUMENT ME!
-   */
-  public DefaultXPath(String text) throws InvalidXPathException {
-    this.text = text;
-    this.xpath = parse(text);
-  }
-
-  @Override
-  public String toString() {
-    return "[XPath: " + xpath + "]";
-  }
-
-  // XPath interface
-
-  /**
-   * Retrieve the textual XPath string used to initialize this Object
-   *
-   * @return The XPath string
-   */
-  @Override
-  public String getText() {
-    return text;
-  }
-
-  public FunctionContext getFunctionContext() {
-    return xpath.getFunctionContext();
-  }
-
-  public void setFunctionContext(FunctionContext functionContext) {
-    xpath.setFunctionContext(functionContext);
-  }
-
-  public NamespaceContext getNamespaceContext() {
-    return namespaceContext;
-  }
-
-  @Override
-  public void setNamespaceURIs(Map<String,String> map) {
-    setNamespaceContext(new SimpleNamespaceContext(map));
-  }
-
-  public void setNamespaceContext(NamespaceContext namespaceContext) {
-    this.namespaceContext = namespaceContext;
-    xpath.setNamespaceContext(namespaceContext);
-  }
-
-  public VariableContext getVariableContext() {
-    return xpath.getVariableContext();
-  }
-
-  public void setVariableContext(VariableContext variableContext) {
-    xpath.setVariableContext(variableContext);
-  }
-
-  @Override
-  public Object evaluate(Object context) {
-    try {
-      setNSContext(context);
-
-      List<? extends Node> answer = xpath.selectNodes(context);
-
-      if ((answer != null) && (answer.size() == 1)) {
-        return answer.get(0);
-      }
-
-      return answer;
+    /**
+     * Construct an XPath
+     *
+     * @param text DOCUMENT ME!
+     * @throws InvalidXPathException DOCUMENT ME!
+     */
+    public DefaultXPath(String text) throws InvalidXPathException {
+        this.text = text;
+        this.xpath = parse(text);
     }
-    catch (JaxenException e) {
-      handleJaxenException(e);
 
-      return null;
+    @Override
+    public String toString() {
+        return "[XPath: " + xpath + "]";
     }
-  }
 
-  @Override
-  public List<Node> selectNodes(Object context) {
-    try {
-      setNSContext(context);
+    // XPath interface
 
-      return xpath.selectNodes(context);
+    /**
+     * Retrieve the textual XPath string used to initialize this Object
+     *
+     * @return The XPath string
+     */
+    @Override
+    public String getText() {
+        return text;
     }
-    catch (JaxenException e) {
-      handleJaxenException(e);
 
-      return Collections.EMPTY_LIST;
+    public FunctionContext getFunctionContext() {
+        return xpath.getFunctionContext();
     }
-  }
 
-  @Override
-  public List<Node> selectNodes(Object context, org.neoxml.XPath sortXPath) {
-    List<Node> answer = selectNodes(context);
-    sortXPath.sort(answer);
-
-    return answer;
-  }
-
-  @Override
-  public List<Node> selectNodes(Object context, org.neoxml.XPath sortXPath, boolean distinct) {
-    List<Node> answer = selectNodes(context);
-    sortXPath.sort(answer, distinct);
-
-    return answer;
-  }
-
-  @Override
-  public Node selectSingleNode(Object context) {
-    try {
-      setNSContext(context);
-
-      Object answer = xpath.selectSingleNode(context);
-
-      if (answer instanceof Node) {
-        return (Node)answer;
-      }
-
-      if (answer == null) {
-        return null;
-      }
-
-      throw new XPathException("The result of the XPath expression is not a Node. It was: " + answer + " of type: " + answer.getClass().getName());
+    public void setFunctionContext(FunctionContext functionContext) {
+        xpath.setFunctionContext(functionContext);
     }
-    catch (JaxenException e) {
-      handleJaxenException(e);
 
-      return null;
+    public NamespaceContext getNamespaceContext() {
+        return namespaceContext;
     }
-  }
 
-  @Override
-  public String valueOf(Object context) {
-    try {
-      setNSContext(context);
-
-      return xpath.stringValueOf(context);
+    @Override
+    public void setNamespaceURIs(Map<String, String> map) {
+        setNamespaceContext(new SimpleNamespaceContext(map));
     }
-    catch (JaxenException e) {
-      handleJaxenException(e);
 
-      return "";
+    public void setNamespaceContext(NamespaceContext namespaceContext) {
+        this.namespaceContext = namespaceContext;
+        xpath.setNamespaceContext(namespaceContext);
     }
-  }
 
-  @Override
-  public Number numberValueOf(Object context) {
-    try {
-      setNSContext(context);
-
-      return xpath.numberValueOf(context);
+    public VariableContext getVariableContext() {
+        return xpath.getVariableContext();
     }
-    catch (JaxenException e) {
-      handleJaxenException(e);
 
-      return null;
+    public void setVariableContext(VariableContext variableContext) {
+        xpath.setVariableContext(variableContext);
     }
-  }
 
-  @Override
-  public boolean booleanValueOf(Object context) {
-    try {
-      setNSContext(context);
+    @Override
+    public Object evaluate(Object context) {
+        try {
+            setNSContext(context);
 
-      return xpath.booleanValueOf(context);
-    }
-    catch (JaxenException e) {
-      handleJaxenException(e);
+            List<? extends Node> answer = xpath.selectNodes(context);
 
-      return false;
-    }
-  }
+            if ((answer != null) && (answer.size() == 1)) {
+                return answer.get(0);
+            }
 
-  /**
-   * <p>
-   * <code>sort</code> sorts the given List of Nodes using this XPath expression as a {@link Comparator}.
-   * </p>
-   *
-   * @param list is the list of Nodes to sort
-   */
-  @Override
-  public void sort(List<? extends Node> list) {
-    sort(list, false);
-  }
+            return answer;
+        } catch (JaxenException e) {
+            handleJaxenException(e);
 
-  /**
-   * <p>
-   * <code>sort</code> sorts the given List of Nodes using this XPath expression as a {@link Comparator}and optionally
-   * removing duplicates.
-   * </p>
-   *
-   * @param list is the list of Nodes to sort
-   * @param distinct if true then duplicate values (using the sortXPath for
-   *          comparisions) will be removed from the List
-   */
-  @Override
-  public void sort(List<? extends Node> list, boolean distinct) {
-    if ((list != null) && !list.isEmpty()) {
-      int size = list.size();
-      HashMap<Node,String> sortValues = new HashMap<>(size);
-
-      for (int i = 0; i < size; i++) {
-        Object object = list.get(i);
-
-        if (object instanceof Node) {
-          Node node = (Node)object;
-          String expression = getCompareValue(node);
-          sortValues.put(node, expression);
+            return null;
         }
-      }
-
-      sort(list, sortValues);
-
-      if (distinct) {
-        removeDuplicates(list, sortValues);
-      }
     }
-  }
 
-  @Override
-  public boolean matches(Node node) {
-    try {
-      setNSContext(node);
+    @Override
+    public List<Node> selectNodes(Object context) {
+        try {
+            setNSContext(context);
 
-      List<? extends Node> answer = xpath.selectNodes(node);
+            return xpath.selectNodes(context);
+        } catch (JaxenException e) {
+            handleJaxenException(e);
 
-      if ((answer != null) && !answer.isEmpty()) {
-        Object item = answer.get(0);
-
-        if (item instanceof Boolean) {
-          return ((Boolean)item).booleanValue();
+            return Collections.EMPTY_LIST;
         }
-
-        return answer.contains(node);
-      }
-
-      return false;
     }
-    catch (JaxenException e) {
-      handleJaxenException(e);
 
-      return false;
+    @Override
+    public List<Node> selectNodes(Object context, org.neoxml.XPath sortXPath) {
+        List<Node> answer = selectNodes(context);
+        sortXPath.sort(answer);
+
+        return answer;
     }
-  }
 
-  /**
-   * Sorts the list based on the sortValues for each node
-   *
-   * @param list DOCUMENT ME!
-   * @param sortValues DOCUMENT ME!
-   */
-  protected void sort(List<? extends Node> list, final Map<Node,String> sortValues) {
-    Collections.sort(list, new Comparator<Node>() {
-      @Override
-      public int compare(Node o1, Node o2) {
-        String k1 = sortValues.get(o1);
-        String k2 = sortValues.get(o2);
+    @Override
+    public List<Node> selectNodes(Object context, org.neoxml.XPath sortXPath, boolean distinct) {
+        List<Node> answer = selectNodes(context);
+        sortXPath.sort(answer, distinct);
 
-        if (k1 == k2) {
-          // also handles k1 == null && k2 == null
-          return 0;
+        return answer;
+    }
+
+    @Override
+    public Node selectSingleNode(Object context) {
+        try {
+            setNSContext(context);
+
+            Object answer = xpath.selectSingleNode(context);
+
+            if (answer instanceof Node) {
+                return (Node) answer;
+            }
+
+            if (answer == null) {
+                return null;
+            }
+
+            throw new XPathException("The result of the XPath expression is not a Node. It was: " + answer + " of type: " + answer.getClass().getName());
+        } catch (JaxenException e) {
+            handleJaxenException(e);
+
+            return null;
         }
-        else if (k1 != null && k2 != null) {
-          return k1.compareTo(k2);
+    }
+
+    @Override
+    public String valueOf(Object context) {
+        try {
+            setNSContext(context);
+
+            return xpath.stringValueOf(context);
+        } catch (JaxenException e) {
+            handleJaxenException(e);
+
+            return "";
         }
-        else if (k1 == null) {
-          // k1 == null && k2 != null
-          return 1;
+    }
+
+    @Override
+    public Number numberValueOf(Object context) {
+        try {
+            setNSContext(context);
+
+            return xpath.numberValueOf(context);
+        } catch (JaxenException e) {
+            handleJaxenException(e);
+
+            return null;
         }
-        else {
-          // k2 == null && k1 != null
-          return -1;
+    }
+
+    @Override
+    public boolean booleanValueOf(Object context) {
+        try {
+            setNSContext(context);
+
+            return xpath.booleanValueOf(context);
+        } catch (JaxenException e) {
+            handleJaxenException(e);
+
+            return false;
         }
-      }
-    });
-  }
-
-  // Implementation methods
-
-  /**
-   * Removes items from the list which have duplicate values
-   *
-   * @param list DOCUMENT ME!
-   * @param sortValues DOCUMENT ME!
-   */
-  protected void removeDuplicates(List<? extends Node> list, Map<Node,String> sortValues) {
-    // remove distinct
-    Set<String> distinctValues = new HashSet<>();
-
-    for (Iterator<? extends Node> iter = list.iterator(); iter.hasNext();) {
-      Node node = iter.next();
-      String value = sortValues.get(node);
-
-      if (distinctValues.contains(value)) {
-        iter.remove();
-      }
-      else {
-        distinctValues.add(value);
-      }
     }
-  }
 
-  /**
-   * DOCUMENT ME!
-   *
-   * @param node DOCUMENT ME!
-   * @return the node expression used for sorting comparisons
-   */
-  protected String getCompareValue(Node node) {
-    return valueOf(node);
-  }
-
-  protected static XPath parse(String text) {
-    try {
-      return new XtreeXPath(text);
+    /**
+     * <p>
+     * <code>sort</code> sorts the given List of Nodes using this XPath expression as a {@link Comparator}.
+     * </p>
+     *
+     * @param list is the list of Nodes to sort
+     */
+    @Override
+    public void sort(List<? extends Node> list) {
+        sort(list, false);
     }
-    catch (JaxenException e) {
-      throw new InvalidXPathException(text, e.getMessage());
+
+    /**
+     * <p>
+     * <code>sort</code> sorts the given List of Nodes using this XPath expression as a {@link Comparator}and optionally
+     * removing duplicates.
+     * </p>
+     *
+     * @param list     is the list of Nodes to sort
+     * @param distinct if true then duplicate values (using the sortXPath for
+     *                 comparisions) will be removed from the List
+     */
+    @Override
+    public void sort(List<? extends Node> list, boolean distinct) {
+        if ((list != null) && !list.isEmpty()) {
+            int size = list.size();
+            HashMap<Node, String> sortValues = new HashMap<>(size);
+
+            for (int i = 0; i < size; i++) {
+                Object object = list.get(i);
+
+                if (object instanceof Node) {
+                    Node node = (Node) object;
+                    String expression = getCompareValue(node);
+                    sortValues.put(node, expression);
+                }
+            }
+
+            sort(list, sortValues);
+
+            if (distinct) {
+                removeDuplicates(list, sortValues);
+            }
+        }
     }
-    catch (RuntimeException e) {}
 
-    throw new InvalidXPathException(text);
-  }
+    @Override
+    public boolean matches(Node node) {
+        try {
+            setNSContext(node);
 
-  protected void setNSContext(Object context) {
-    if (namespaceContext == null) {
-      xpath.setNamespaceContext(DefaultNamespaceContext.create(context));
+            List<? extends Node> answer = xpath.selectNodes(node);
+
+            if ((answer != null) && !answer.isEmpty()) {
+                Object item = answer.get(0);
+
+                if (item instanceof Boolean) {
+                    return ((Boolean) item).booleanValue();
+                }
+
+                return answer.contains(node);
+            }
+
+            return false;
+        } catch (JaxenException e) {
+            handleJaxenException(e);
+
+            return false;
+        }
     }
-  }
 
-  protected void handleJaxenException(JaxenException exception) throws XPathException {
-    throw new XPathException(text, exception);
-  }
+    /**
+     * Sorts the list based on the sortValues for each node
+     *
+     * @param list       DOCUMENT ME!
+     * @param sortValues DOCUMENT ME!
+     */
+    protected void sort(List<? extends Node> list, final Map<Node, String> sortValues) {
+        Collections.sort(list, new Comparator<Node>() {
+            @Override
+            public int compare(Node o1, Node o2) {
+                String k1 = sortValues.get(o1);
+                String k2 = sortValues.get(o2);
+
+                if (k1 == k2) {
+                    // also handles k1 == null && k2 == null
+                    return 0;
+                } else if (k1 != null && k2 != null) {
+                    return k1.compareTo(k2);
+                } else if (k1 == null) {
+                    // k1 == null && k2 != null
+                    return 1;
+                } else {
+                    // k2 == null && k1 != null
+                    return -1;
+                }
+            }
+        });
+    }
+
+    // Implementation methods
+
+    /**
+     * Removes items from the list which have duplicate values
+     *
+     * @param list       DOCUMENT ME!
+     * @param sortValues DOCUMENT ME!
+     */
+    protected void removeDuplicates(List<? extends Node> list, Map<Node, String> sortValues) {
+        // remove distinct
+        Set<String> distinctValues = new HashSet<>();
+
+        for (Iterator<? extends Node> iter = list.iterator(); iter.hasNext(); ) {
+            Node node = iter.next();
+            String value = sortValues.get(node);
+
+            if (distinctValues.contains(value)) {
+                iter.remove();
+            } else {
+                distinctValues.add(value);
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param node DOCUMENT ME!
+     * @return the node expression used for sorting comparisons
+     */
+    protected String getCompareValue(Node node) {
+        return valueOf(node);
+    }
+
+    protected static XPath parse(String text) {
+        try {
+            return new XtreeXPath(text);
+        } catch (JaxenException e) {
+            throw new InvalidXPathException(text, e.getMessage());
+        } catch (RuntimeException e) {}
+
+        throw new InvalidXPathException(text);
+    }
+
+    protected void setNSContext(Object context) {
+        if (namespaceContext == null) {
+            xpath.setNamespaceContext(DefaultNamespaceContext.create(context));
+        }
+    }
+
+    protected void handleJaxenException(JaxenException exception) throws XPathException {
+        throw new XPathException(text, exception);
+    }
 }
 
 /*

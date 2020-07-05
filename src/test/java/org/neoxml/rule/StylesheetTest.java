@@ -20,128 +20,127 @@ import org.neoxml.xpath.DefaultXPath;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.4 $
  */
-public class StylesheetTest extends AbstractTestCase
-{
-  protected String[] templates = {
-    "/",
-    "*",
-    "root",
-    "author",
-    "@name",
-    "root/author",
-    "author[@location='UK']",
-    "root/author[@location='UK']",
-    "root//author[@location='UK']"
-  };
-
-  protected String[] templates2 = {
-    "/", "title", "para", "*"
-  };
-
-  protected Stylesheet stylesheet;
-
-
-  // Test case(s)
-  // -------------------------------------------------------------------------
-
-  @Test
-  public void testRules() throws Exception {
-    for (int i = 0, size = templates.length; i < size; i++) {
-      addTemplate(templates[i]);
-    }
-
-    log("");
-    log("........................................");
-    log("");
-    log("Running stylesheet");
-
-    stylesheet.run(document);
-
-    log("Finished");
-  }
-
-  @Test
-  public void testLittleDoc() throws Exception {
-    for (int i = 0, size = templates2.length; i < size; i++) {
-      addTemplate(templates2[i]);
-    }
-    Document doc = getDocument("/src/test/xml/test/littledoc.xml");
-
-    stylesheet = new Stylesheet();
-    stylesheet.setValueOfAction(new Action() {
-      @Override
-      public void run(Node node) {
-        log("Default ValueOf action on node: " + node);
-        log("........................................");
-      }
-    });
-
-    stylesheet.run(doc);
-  }
-
-  @Test
-  public void testFireRuleForNode() throws Exception {
-    final StringBuilder b = new StringBuilder();
-
-    final Stylesheet s = new Stylesheet();
-    Pattern pattern = DocumentHelper.createPattern("url");
-    Action action = new Action() {
-      @Override
-      public void run(Node node) throws Exception {
-        b.append("url");
-        s.applyTemplates(node);
-      }
+public class StylesheetTest extends AbstractTestCase {
+    protected String[] templates = {
+            "/",
+            "*",
+            "root",
+            "author",
+            "@name",
+            "root/author",
+            "author[@location='UK']",
+            "root/author[@location='UK']",
+            "root//author[@location='UK']"
     };
 
-    Rule r = new Rule(pattern, action);
-    s.addRule(r);
-
-    s.applyTemplates(document, new DefaultXPath("root/author/url"));
-
-    assertEquals("Check url is processed twice", "urlurl", b.toString());
-  }
-
-  // Implementation methods
-  // -------------------------------------------------------------------------
-
-  @Override
-  @Before
-  public void setUp() throws Exception {
-    super.setUp();
-
-    stylesheet = new Stylesheet();
-    stylesheet.setValueOfAction(new Action() {
-      @Override
-      public void run(Node node) {
-        log("Default ValueOf action on node: " + node);
-        log("........................................");
-      }
-    });
-  }
-
-  protected void addTemplate(final String match) {
-    log("Adding template match: " + match);
-
-    Pattern pattern = DocumentHelper.createPattern(match);
-
-    log("Pattern: " + pattern);
-    log("........................................");
-
-    Action action = new Action() {
-      @Override
-      public void run(Node node) throws Exception {
-        log("Matched pattern: " + match);
-        log("Node: " + node.asXML());
-        log("........................................");
-
-        // apply any child templates
-        stylesheet.applyTemplates(node);
-      }
+    protected String[] templates2 = {
+            "/", "title", "para", "*"
     };
 
-    Rule rule = new Rule(pattern, action);
-    stylesheet.addRule(rule);
-  }
+    protected Stylesheet stylesheet;
+
+
+    // Test case(s)
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void testRules() throws Exception {
+        for (int i = 0, size = templates.length; i < size; i++) {
+            addTemplate(templates[i]);
+        }
+
+        log("");
+        log("........................................");
+        log("");
+        log("Running stylesheet");
+
+        stylesheet.run(document);
+
+        log("Finished");
+    }
+
+    @Test
+    public void testLittleDoc() throws Exception {
+        for (int i = 0, size = templates2.length; i < size; i++) {
+            addTemplate(templates2[i]);
+        }
+        Document doc = getDocument("/src/test/xml/test/littledoc.xml");
+
+        stylesheet = new Stylesheet();
+        stylesheet.setValueOfAction(new Action() {
+            @Override
+            public void run(Node node) {
+                log("Default ValueOf action on node: " + node);
+                log("........................................");
+            }
+        });
+
+        stylesheet.run(doc);
+    }
+
+    @Test
+    public void testFireRuleForNode() throws Exception {
+        final StringBuilder b = new StringBuilder();
+
+        final Stylesheet s = new Stylesheet();
+        Pattern pattern = DocumentHelper.createPattern("url");
+        Action action = new Action() {
+            @Override
+            public void run(Node node) throws Exception {
+                b.append("url");
+                s.applyTemplates(node);
+            }
+        };
+
+        Rule r = new Rule(pattern, action);
+        s.addRule(r);
+
+        s.applyTemplates(document, new DefaultXPath("root/author/url"));
+
+        assertEquals("Check url is processed twice", "urlurl", b.toString());
+    }
+
+    // Implementation methods
+    // -------------------------------------------------------------------------
+
+    @Override
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+
+        stylesheet = new Stylesheet();
+        stylesheet.setValueOfAction(new Action() {
+            @Override
+            public void run(Node node) {
+                log("Default ValueOf action on node: " + node);
+                log("........................................");
+            }
+        });
+    }
+
+    protected void addTemplate(final String match) {
+        log("Adding template match: " + match);
+
+        Pattern pattern = DocumentHelper.createPattern(match);
+
+        log("Pattern: " + pattern);
+        log("........................................");
+
+        Action action = new Action() {
+            @Override
+            public void run(Node node) throws Exception {
+                log("Matched pattern: " + match);
+                log("Node: " + node.asXML());
+                log("........................................");
+
+                // apply any child templates
+                stylesheet.applyTemplates(node);
+            }
+        };
+
+        Rule rule = new Rule(pattern, action);
+        stylesheet.addRule(rule);
+    }
 }
 
 /*

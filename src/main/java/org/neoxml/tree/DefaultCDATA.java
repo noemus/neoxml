@@ -17,57 +17,56 @@ import org.neoxml.Element;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.12 $
  */
-public class DefaultCDATA extends FlyweightCDATA
-{
-  /**
-   * The parent of this node
-   */
-  private Element parent;
+public class DefaultCDATA extends FlyweightCDATA {
+    /**
+     * The parent of this node
+     */
+    private Element parent;
 
-  /**
-   * DOCUMENT ME!
-   *
-   * @param text is the CDATA text
-   */
-  public DefaultCDATA(String text) {
-    super(text);
-  }
+    /**
+     * DOCUMENT ME!
+     *
+     * @param text is the CDATA text
+     */
+    public DefaultCDATA(String text) {
+        super(text);
+    }
 
-  /**
-   * DOCUMENT ME!
-   *
-   * @param parent is the parent element
-   * @param text is the CDATA text
-   */
-  public DefaultCDATA(Element parent, String text) {
-    super(text);
-    this.parent = parent;
-  }
+    /**
+     * DOCUMENT ME!
+     *
+     * @param parent is the parent element
+     * @param text   is the CDATA text
+     */
+    public DefaultCDATA(Element parent, String text) {
+        super(text);
+        this.parent = parent;
+    }
 
-  @Override
-  public void setText(String text) {
-    this.text = text;
-  }
+    @Override
+    public void setText(String text) {
+        this.text = text;
+    }
 
-  @Override
-  public Element getParent() {
-    return parent;
-  }
+    @Override
+    public Element getParent() {
+        return parent;
+    }
 
-  @Override
-  public void setParent(Element parent) {
-    this.parent = parent;
-  }
+    @Override
+    public void setParent(Element parent) {
+        this.parent = parent;
+    }
 
-  @Override
-  public boolean supportsParent() {
-    return true;
-  }
+    @Override
+    public boolean supportsParent() {
+        return true;
+    }
 
-  @Override
-  public boolean isReadOnly() {
-    return false;
-  }
+    @Override
+    public boolean isReadOnly() {
+        return false;
+    }
 }
 
 /*

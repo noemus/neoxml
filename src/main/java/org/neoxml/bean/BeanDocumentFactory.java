@@ -8,7 +8,11 @@ package org.neoxml.bean;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.neoxml.*;
+import org.neoxml.Attribute;
+import org.neoxml.DefaultDocumentFactory;
+import org.neoxml.DocumentFactory;
+import org.neoxml.Element;
+import org.neoxml.QName;
 import org.neoxml.tree.DefaultAttribute;
 import org.xml.sax.Attributes;
 
@@ -25,85 +29,81 @@ import org.xml.sax.Attributes;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.14 $
  */
-public class BeanDocumentFactory extends DefaultDocumentFactory
-{
-  /**
-   * The Singleton instance
-   */
-  private static BeanDocumentFactory singleton = new BeanDocumentFactory();
+public class BeanDocumentFactory extends DefaultDocumentFactory {
+    /**
+     * The Singleton instance
+     */
+    private static BeanDocumentFactory singleton = new BeanDocumentFactory();
 
-  /**
-   * <p>
-   * Access to the singleton instance of this factory.
-   * </p>
-   *
-   * @return the default singleon instance
-   */
-  @SuppressWarnings("sync-override")
-  public static DocumentFactory getInstance() {
-    return singleton;
-  }
-
-  // Factory methods
-
-  @Override
-  public Element createElement(QName qname) {
-    Object bean = createBean(qname);
-
-    if (bean == null) {
-      return new BeanElement(qname);
-    }
-    else {
-      return new BeanElement(qname, bean);
-    }
-  }
-
-  public Element createElement(QName qname, Attributes attributes) {
-    Object bean = createBean(qname, attributes);
-
-    if (bean == null) {
-      return new BeanElement(qname);
-    }
-    else {
-      return new BeanElement(qname, bean);
-    }
-  }
-
-  @Override
-  public Attribute createAttribute(Element owner, QName qname, String value) {
-    return new DefaultAttribute(qname, value);
-  }
-
-  // Implementation methods
-
-  protected Object createBean(QName qname) {
-    return null;
-  }
-
-  protected Object createBean(QName qname, Attributes attributes) {
-    String value = attributes.getValue("class");
-
-    if (value != null) {
-      try {
-        Class<?> beanClass = Class.forName(value, true,
-          BeanDocumentFactory.class.getClassLoader());
-
-        return beanClass.newInstance();
-      }
-      catch (Exception e) {
-        handleException(e);
-      }
+    /**
+     * <p>
+     * Access to the singleton instance of this factory.
+     * </p>
+     *
+     * @return the default singleon instance
+     */
+    @SuppressWarnings("sync-override")
+    public static DocumentFactory getInstance() {
+        return singleton;
     }
 
-    return null;
-  }
+    // Factory methods
 
-  protected void handleException(Exception e) {
-    // ignore introspection exceptions
-    log.warn("#### Warning: couldn't create bean: ", e);
-  }
-  
-  private static final Log log = LogFactory.getLog(BeanDocumentFactory.class);
+    @Override
+    public Element createElement(QName qname) {
+        Object bean = createBean(qname);
+
+        if (bean == null) {
+            return new BeanElement(qname);
+        } else {
+            return new BeanElement(qname, bean);
+        }
+    }
+
+    public Element createElement(QName qname, Attributes attributes) {
+        Object bean = createBean(qname, attributes);
+
+        if (bean == null) {
+            return new BeanElement(qname);
+        } else {
+            return new BeanElement(qname, bean);
+        }
+    }
+
+    @Override
+    public Attribute createAttribute(Element owner, QName qname, String value) {
+        return new DefaultAttribute(qname, value);
+    }
+
+    // Implementation methods
+
+    protected Object createBean(QName qname) {
+        return null;
+    }
+
+    protected Object createBean(QName qname, Attributes attributes) {
+        String value = attributes.getValue("class");
+
+        if (value != null) {
+            try {
+                Class<?> beanClass = Class.forName(value, true,
+                                                   BeanDocumentFactory.class.getClassLoader());
+
+                return beanClass.newInstance();
+            } catch (Exception e) {
+                handleException(e);
+            }
+        }
+
+        return null;
+    }
+
+    protected void handleException(Exception e) {
+        // ignore introspection exceptions
+        log.warn("#### Warning: couldn't create bean: ", e);
+    }
+
+    private static final Log log = LogFactory.getLog(BeanDocumentFactory.class);
 }
 
 /*

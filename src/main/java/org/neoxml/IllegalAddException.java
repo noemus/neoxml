@@ -14,23 +14,22 @@ package org.neoxml;
  * @version $Revision: 1.6 $
  */
 @SuppressWarnings("serial")
-public class IllegalAddException extends IllegalArgumentException
-{
-  public IllegalAddException(String reason) {
-    super(reason);
-  }
+public class IllegalAddException extends IllegalArgumentException {
+    public IllegalAddException(String reason) {
+        super(reason);
+    }
 
-  public IllegalAddException(Element parent, Node node, String reason) {
-    super("The node \"" + node.toString()
-      + "\" could not be added to the element \""
-      + parent.getQualifiedName() + "\" because: " + reason);
-  }
+    public IllegalAddException(Element parent, Node node, String reason) {
+        super("The node \"" + node.toString()
+                      + "\" could not be added to the element \""
+                      + parent.getQualifiedName() + "\" because: " + reason);
+    }
 
-  public IllegalAddException(Branch parent, Node node, String reason) {
-    super("The node \"" + node.toString()
-      + "\" could not be added to the branch \"" + parent.getName()
-      + "\" because: " + reason);
-  }
+    public IllegalAddException(Branch parent, Node node, String reason) {
+        super("The node \"" + node.toString()
+                      + "\" could not be added to the branch \"" + parent.getName()
+                      + "\" because: " + reason);
+    }
 }
 
 /*

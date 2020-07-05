@@ -18,60 +18,59 @@ import java.util.List;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.10 $
  */
-public interface DocumentType extends Node
-{
+public interface DocumentType extends Node {
 
-  /**
-   * This method is the equivalent to the {@link #getName} method. It is added
-   * for clarity.
-   *
-   * @return the root element name for the document type.
-   */
-  String getElementName();
+    /**
+     * This method is the equivalent to the {@link #getName} method. It is added
+     * for clarity.
+     *
+     * @return the root element name for the document type.
+     */
+    String getElementName();
 
-  /**
-   * This method is the equivalent to the {@link #setName} method. It is added
-   * for clarity.
-   *
-   * @param elementName DOCUMENT ME!
-   */
-  void setElementName(String elementName);
+    /**
+     * This method is the equivalent to the {@link #setName} method. It is added
+     * for clarity.
+     *
+     * @param elementName DOCUMENT ME!
+     */
+    void setElementName(String elementName);
 
-  String getPublicID();
+    String getPublicID();
 
-  void setPublicID(String publicID);
+    void setPublicID(String publicID);
 
-  String getSystemID();
+    String getSystemID();
 
-  void setSystemID(String systemID);
+    void setSystemID(String systemID);
 
-  /**
-   * Returns a list of internal DTD declaration objects, defined in the {@link org.neoxml.dtd} package
-   *
-   * @return DOCUMENT ME!
-   */
-  List<InternalDeclaration> getInternalDeclarations();
+    /**
+     * Returns a list of internal DTD declaration objects, defined in the {@link org.neoxml.dtd} package
+     *
+     * @return DOCUMENT ME!
+     */
+    List<InternalDeclaration> getInternalDeclarations();
 
-  /**
-   * Sets the list of internal DTD declaration objects, defined in the {@link org.neoxml.dtd} package
-   *
-   * @param declarations DOCUMENT ME!
-   */
-  void setInternalDeclarations(List<InternalDeclaration> declarations);
+    /**
+     * Sets the list of internal DTD declaration objects, defined in the {@link org.neoxml.dtd} package
+     *
+     * @param declarations DOCUMENT ME!
+     */
+    void setInternalDeclarations(List<InternalDeclaration> declarations);
 
-  /**
-   * Returns a list of internal DTD declaration objects, defined in the {@link org.neoxml.dtd} package
-   *
-   * @return DOCUMENT ME!
-   */
-  List<ExternalDeclaration> getExternalDeclarations();
+    /**
+     * Returns a list of internal DTD declaration objects, defined in the {@link org.neoxml.dtd} package
+     *
+     * @return DOCUMENT ME!
+     */
+    List<ExternalDeclaration> getExternalDeclarations();
 
-  /**
-   * Sets the list of internal DTD declaration objects, defined in the {@link org.neoxml.dtd} package
-   *
-   * @param declarations DOCUMENT ME!
-   */
-  void setExternalDeclarations(List<ExternalDeclaration> declarations);
+    /**
+     * Sets the list of internal DTD declaration objects, defined in the {@link org.neoxml.dtd} package
+     *
+     * @param declarations DOCUMENT ME!
+     */
+    void setExternalDeclarations(List<ExternalDeclaration> declarations);
 }
 
 /*

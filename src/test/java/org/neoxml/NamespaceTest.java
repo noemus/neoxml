@@ -21,129 +21,128 @@ import java.util.Map;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.4 $
  */
-public class NamespaceTest extends AbstractTestCase
-{
-  /**
-   * Input XML file to read
-   */
-  private static final String INPUT_XML_FILE = "/src/test/xml/namespaces.xml";
+public class NamespaceTest extends AbstractTestCase {
+    /**
+     * Input XML file to read
+     */
+    private static final String INPUT_XML_FILE = "/src/test/xml/namespaces.xml";
 
-  /**
-   * Namespace to use in tests
-   */
-  private static final Namespace XSL_NAMESPACE = Namespace.get("xsl",
-      "http://www.w3.org/1999/XSL/Transform");
+    /**
+     * Namespace to use in tests
+     */
+    private static final Namespace XSL_NAMESPACE = Namespace.get("xsl",
+                                                                 "http://www.w3.org/1999/XSL/Transform");
 
-  private static final QName XSL_TEMPLATE = QName.get("template",
-    XSL_NAMESPACE);
+    private static final QName XSL_TEMPLATE = QName.get("template",
+                                                        XSL_NAMESPACE);
 
-  // Test case(s)
-  // -------------------------------------------------------------------------
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  public void debugShowNamespaces() throws Exception {
-    Element root = getRootElement();
+    public void debugShowNamespaces() throws Exception {
+        Element root = getRootElement();
 
-    for (Iterator iter = root.elementIterator(); iter.hasNext();) {
-      Element element = (Element)iter.next();
+        for (Iterator iter = root.elementIterator(); iter.hasNext(); ) {
+            Element element = (Element) iter.next();
 
-      log("Found element:    " + element);
-      log("Namespace:        " + element.getNamespace());
-      log("Namespace prefix: " + element.getNamespacePrefix());
-      log("Namespace URI:    " + element.getNamespaceURI());
+            log("Found element:    " + element);
+            log("Namespace:        " + element.getNamespace());
+            log("Namespace prefix: " + element.getNamespacePrefix());
+            log("Namespace URI:    " + element.getNamespaceURI());
+        }
     }
-  }
 
-  @Test
-  public void testGetElement() throws Exception {
-    Element root = getRootElement();
+    @Test
+    public void testGetElement() throws Exception {
+        Element root = getRootElement();
 
-    Element firstTemplate = root.element(XSL_TEMPLATE);
-    assertTrue(
-      "Root element contains at least one <xsl:template/> element",
-      firstTemplate != null);
+        Element firstTemplate = root.element(XSL_TEMPLATE);
+        assertTrue(
+                "Root element contains at least one <xsl:template/> element",
+                firstTemplate != null);
 
-    log("Found element: " + firstTemplate);
-  }
-
-  @Test
-  public void testGetElements() throws Exception {
-    Element root = getRootElement();
-
-    List list = root.elements(XSL_TEMPLATE);
-    assertTrue(
-      "Root element contains at least one <xsl:template/> element",
-      list.size() > 0);
-
-    log("Found elements: " + list);
-  }
-
-  @Test
-  public void testElementIterator() throws Exception {
-    Element root = getRootElement();
-    Iterator iter = root.elementIterator(XSL_TEMPLATE);
-    assertTrue(
-      "Root element contains at least one <xsl:template/> element",
-      iter.hasNext());
-
-    do {
-      Element element = (Element)iter.next();
-      log("Found element: " + element);
+        log("Found element: " + firstTemplate);
     }
-    while (iter.hasNext());
-  }
 
-  /**
-   * Tests the use of namespace URI Mapping associated with a DefaultDocumentFactory
-   *
-   * @throws Exception DOCUMENT ME!
-   */
-  @Test
-  public void testNamespaceUriMap() throws Exception {
-    // register namespace prefix->uri mappings with factory
-    Map uris = new HashMap();
-    uris.put("x", "fooNamespace");
-    uris.put("y", "barNamespace");
+    @Test
+    public void testGetElements() throws Exception {
+        Element root = getRootElement();
 
-    DocumentFactory factory = new DefaultDocumentFactory();
-    factory.setXPathNamespaceURIs(uris);
+        List list = root.elements(XSL_TEMPLATE);
+        assertTrue(
+                "Root element contains at least one <xsl:template/> element",
+                list.size() > 0);
 
-    // parse or create a document
-    SAXReader reader = new SAXReader();
-    reader.setDocumentFactory(factory);
+        log("Found elements: " + list);
+    }
 
-    Document doc = getDocument("/src/test/xml/test/nestedNamespaces.xml", reader);
+    @Test
+    public void testElementIterator() throws Exception {
+        Element root = getRootElement();
+        Iterator iter = root.elementIterator(XSL_TEMPLATE);
+        assertTrue(
+                "Root element contains at least one <xsl:template/> element",
+                iter.hasNext());
 
-    // evaluate XPath using registered namespace prefixes
-    // which do not appear in the document (though the URIs do!)
-    String value = doc.valueOf("/x:pizza/y:cheese/x:pepper");
+        do {
+            Element element = (Element) iter.next();
+            log("Found element: " + element);
+        }
+        while (iter.hasNext());
+    }
 
-    log("Found value: " + value);
+    /**
+     * Tests the use of namespace URI Mapping associated with a DefaultDocumentFactory
+     *
+     * @throws Exception DOCUMENT ME!
+     */
+    @Test
+    public void testNamespaceUriMap() throws Exception {
+        // register namespace prefix->uri mappings with factory
+        Map uris = new HashMap();
+        uris.put("x", "fooNamespace");
+        uris.put("y", "barNamespace");
 
-    assertEquals("XPath used default namesapce URIS", "works", value);
-  }
+        DocumentFactory factory = new DefaultDocumentFactory();
+        factory.setXPathNamespaceURIs(uris);
 
-  // Implementation methods
-  // -------------------------------------------------------------------------
+        // parse or create a document
+        SAXReader reader = new SAXReader();
+        reader.setDocumentFactory(factory);
 
-  @Override
-  @Before
-  public void setUp() throws Exception {
-    super.setUp();
-    document = getDocument(INPUT_XML_FILE);
-  }
+        Document doc = getDocument("/src/test/xml/test/nestedNamespaces.xml", reader);
 
-  /**
-   * DOCUMENT ME!
-   *
-   * @return the root element of the document
-   */
-  @Override
-  protected Element getRootElement() {
-    Element root = document.getRootElement();
-    assertTrue("Document has root element", root != null);
+        // evaluate XPath using registered namespace prefixes
+        // which do not appear in the document (though the URIs do!)
+        String value = doc.valueOf("/x:pizza/y:cheese/x:pepper");
 
-    return root;
-  }
+        log("Found value: " + value);
+
+        assertEquals("XPath used default namesapce URIS", "works", value);
+    }
+
+    // Implementation methods
+    // -------------------------------------------------------------------------
+
+    @Override
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        document = getDocument(INPUT_XML_FILE);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return the root element of the document
+     */
+    @Override
+    protected Element getRootElement() {
+        Element root = document.getRootElement();
+        assertTrue("Document has root element", root != null);
+
+        return root;
+    }
 }
 
 /*

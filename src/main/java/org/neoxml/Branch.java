@@ -19,267 +19,266 @@ import java.util.List;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.32 $
  */
-public interface Branch extends Node, Iterable<Node>
-{
-  /**
-   * Returns the <code>Node</code> at the specified index position.
-   *
-   * @param index the index of the node to return.
-   * @return the <code>Node</code> at the specified position.
-   * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt;=
-   *           {@link Branch#nodeCount()}).
-   */
-  Node node(int index);
+public interface Branch extends Node, Iterable<Node> {
+    /**
+     * Returns the <code>Node</code> at the specified index position.
+     *
+     * @param index the index of the node to return.
+     * @return the <code>Node</code> at the specified position.
+     * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt;=
+     *                                   {@link Branch#nodeCount()}).
+     */
+    Node node(int index);
 
-  /**
-   * Returns the index of the given node if it is a child node of this branch
-   * or -1 if the given node is not a child node.
-   *
-   * @param node the content child node to find.
-   * @return the index of the given node starting at 0 or -1 if the node is
-   *         not a child node of this branch
-   */
-  int indexOf(Node node);
+    /**
+     * Returns the index of the given node if it is a child node of this branch
+     * or -1 if the given node is not a child node.
+     *
+     * @param node the content child node to find.
+     * @return the index of the given node starting at 0 or -1 if the node is
+     * not a child node of this branch
+     */
+    int indexOf(Node node);
 
-  /**
-   * Returns the number of <code>Node</code> instances that this branch
-   * contains.
-   *
-   * @return the number of nodes this branch contains
-   */
-  int nodeCount();
+    /**
+     * Returns the number of <code>Node</code> instances that this branch
+     * contains.
+     *
+     * @return the number of nodes this branch contains
+     */
+    int nodeCount();
 
-  /**
-   * Returns the element of the given ID attribute value. If this tree is
-   * capable of understanding which attribute value should be used for the ID
-   * then it should be used, otherwise this method should return null.
-   *
-   * @param elementID DOCUMENT ME!
-   * @return DOCUMENT ME!
-   */
-  Element elementByID(String elementID);
-  
-  /**
-   * <p>
-   * Returns the content nodes of this branch as a backed {@link List}so that the content of this branch may be modified
-   * directly using the {@link List}interface. The <code>List</code> is backed by the <code>Branch</code> so that
-   * changes to the list are reflected in the branch and vice versa.
-   * RK: not all changes were actually reflected in dom4j 1.6.6 - clearContent() was not reflected in ContentListFacade!
-   * </p>
-   *
-   * @return the nodes that this branch contains as a <code>List</code>
-   */
-  NodeList<Node> content();
+    /**
+     * Returns the element of the given ID attribute value. If this tree is
+     * capable of understanding which attribute value should be used for the ID
+     * then it should be used, otherwise this method should return null.
+     *
+     * @param elementID DOCUMENT ME!
+     * @return DOCUMENT ME!
+     */
+    Element elementByID(String elementID);
 
-  /**
-   * Returns an iterator through the content nodes of this branch
-   *
-   * @return an iterator through the content nodes of this branch
-   */
-  Iterator<Node> nodeIterator();
+    /**
+     * <p>
+     * Returns the content nodes of this branch as a backed {@link List}so that the content of this branch may be modified
+     * directly using the {@link List}interface. The <code>List</code> is backed by the <code>Branch</code> so that
+     * changes to the list are reflected in the branch and vice versa.
+     * RK: not all changes were actually reflected in dom4j 1.6.6 - clearContent() was not reflected in ContentListFacade!
+     * </p>
+     *
+     * @return the nodes that this branch contains as a <code>List</code>
+     */
+    NodeList<Node> content();
 
-  /**
-   * Returns an iterator through the content nodes of this branch
-   *
-   * @return an iterator through the content nodes of this branch
-   */
-  @Override
-  Iterator<Node> iterator();
+    /**
+     * Returns an iterator through the content nodes of this branch
+     *
+     * @return an iterator through the content nodes of this branch
+     */
+    Iterator<Node> nodeIterator();
 
-  /**
-   * Sets the contents of this branch as a <code>List</code> of <code>Node</code> instances.
-   *
-   * @param content is the list of nodes to use as the content for this branch.
-   */
-  void setContent(List<? extends Node> content);
+    /**
+     * Returns an iterator through the content nodes of this branch
+     *
+     * @return an iterator through the content nodes of this branch
+     */
+    @Override
+    Iterator<Node> iterator();
 
-  /**
-   * Appends the content of the given branch to this branch instance. This
-   * method behaves like the {@link java.util.Collection#addAll(java.util.Collection)} method.
-   *
-   * @param branch is the branch whose content will be added to me.
-   */
-  void appendContent(Branch branch);
-  
-  /**
-   * Appends node list to this branch. This method behaves like the {@link java.util.Collection#addAll(java.util.Collection)} method.
-   *
-   * @param nodes is the branch whose content will be added to me.
-   */
-  void appendContent(NodeList<? extends Node> nodes);
+    /**
+     * Sets the contents of this branch as a <code>List</code> of <code>Node</code> instances.
+     *
+     * @param content is the list of nodes to use as the content for this branch.
+     */
+    void setContent(List<? extends Node> content);
 
-  /**
-   * Clears the content for this branch, removing any <code>Node</code> instances this branch may contain.
-   */
-  void clearContent();
+    /**
+     * Appends the content of the given branch to this branch instance. This
+     * method behaves like the {@link java.util.Collection#addAll(java.util.Collection)} method.
+     *
+     * @param branch is the branch whose content will be added to me.
+     */
+    void appendContent(Branch branch);
 
-  /**
-   * <p>
-   * Returns a list of all the processing instructions in this branch. The list is backed by this branch so that changes
-   * to the list will be reflected in the branch but the reverse is not the case.
-   * RK: changed behaviour changes are reflected in both directions now
-   * </p>
-   *
-   * @return a backed list of the processing instructions
-   */
-  NodeList<ProcessingInstruction> processingInstructions();
+    /**
+     * Appends node list to this branch. This method behaves like the {@link java.util.Collection#addAll(java.util.Collection)} method.
+     *
+     * @param nodes is the branch whose content will be added to me.
+     */
+    void appendContent(NodeList<? extends Node> nodes);
 
-  /**
-   * <p>
-   * Returns a list of the processing instructions for the given target. The list is backed by this branch so that
-   * changes to the list will be reflected in the branch but the reverse is not the case.
-   * RK: changed behaviour changes are reflected in both directions now
-   * </p>
-   *
-   * @param target DOCUMENT ME!
-   * @return a backed list of the processing instructions
-   */
-  NodeList<ProcessingInstruction> processingInstructions(String target);
+    /**
+     * Clears the content for this branch, removing any <code>Node</code> instances this branch may contain.
+     */
+    void clearContent();
 
-  /**
-   * DOCUMENT ME!
-   *
-   * @param target DOCUMENT ME!
-   * @return the processing instruction for the given target
-   */
-  ProcessingInstruction processingInstruction(String target);
+    /**
+     * <p>
+     * Returns a list of all the processing instructions in this branch. The list is backed by this branch so that changes
+     * to the list will be reflected in the branch but the reverse is not the case.
+     * RK: changed behaviour changes are reflected in both directions now
+     * </p>
+     *
+     * @return a backed list of the processing instructions
+     */
+    NodeList<ProcessingInstruction> processingInstructions();
 
-  /**
-   * Sets all the processing instructions for this branch
-   *
-   * @param listOfPIs DOCUMENT ME!
-   */
-  void setProcessingInstructions(List<ProcessingInstruction> listOfPIs);
+    /**
+     * <p>
+     * Returns a list of the processing instructions for the given target. The list is backed by this branch so that
+     * changes to the list will be reflected in the branch but the reverse is not the case.
+     * RK: changed behaviour changes are reflected in both directions now
+     * </p>
+     *
+     * @param target DOCUMENT ME!
+     * @return a backed list of the processing instructions
+     */
+    NodeList<ProcessingInstruction> processingInstructions(String target);
 
-  /**
-   * Adds a new <code>Element</code> node with the given name to this branch
-   * and returns a reference to the new node.
-   *
-   * @param name is the name for the <code>Element</code> node.
-   * @return the newly added <code>Element</code> node.
-   */
-  Element addElement(String name);
+    /**
+     * DOCUMENT ME!
+     *
+     * @param target DOCUMENT ME!
+     * @return the processing instruction for the given target
+     */
+    ProcessingInstruction processingInstruction(String target);
 
-  /**
-   * Adds a new <code>Element</code> node with the given {@link QName}to
-   * this branch and returns a reference to the new node.
-   *
-   * @param qname is the qualified name for the <code>Element</code> node.
-   * @return the newly added <code>Element</code> node.
-   */
-  Element addElement(QName qname);
+    /**
+     * Sets all the processing instructions for this branch
+     *
+     * @param listOfPIs DOCUMENT ME!
+     */
+    void setProcessingInstructions(List<ProcessingInstruction> listOfPIs);
 
-  /**
-   * Adds a new <code>Element</code> node with the given qualified name and
-   * namespace URI to this branch and returns a reference to the new node.
-   *
-   * @param qualifiedName is the fully qualified name of the Element
-   * @param namespaceURI is the URI of the namespace to use
-   * @return the newly added <code>Element</code> node.
-   */
-  Element addElement(String qualifiedName, String namespaceURI);
+    /**
+     * Adds a new <code>Element</code> node with the given name to this branch
+     * and returns a reference to the new node.
+     *
+     * @param name is the name for the <code>Element</code> node.
+     * @return the newly added <code>Element</code> node.
+     */
+    Element addElement(String name);
 
-  /**
-   * Removes the processing instruction for the given target if it exists
-   *
-   * @param target DOCUMENT ME!
-   * @return true if a processing instruction was removed else false
-   */
-  boolean removeProcessingInstruction(String target);
+    /**
+     * Adds a new <code>Element</code> node with the given {@link QName}to
+     * this branch and returns a reference to the new node.
+     *
+     * @param qname is the qualified name for the <code>Element</code> node.
+     * @return the newly added <code>Element</code> node.
+     */
+    Element addElement(QName qname);
 
-  /**
-   * Adds the given <code>Node</code> or throws {@link IllegalAddException} if the given node is not of a valid type.
-   * This is a polymorphic method
-   * which will call the typesafe method for the node type such as
-   * add(Element) or add(Comment).
-   *
-   * @param node is the given node to add
-   */
-  void add(Node node);
+    /**
+     * Adds a new <code>Element</code> node with the given qualified name and
+     * namespace URI to this branch and returns a reference to the new node.
+     *
+     * @param qualifiedName is the fully qualified name of the Element
+     * @param namespaceURI  is the URI of the namespace to use
+     * @return the newly added <code>Element</code> node.
+     */
+    Element addElement(String qualifiedName, String namespaceURI);
 
-  /**
-   * Adds the given <code>Comment</code> to this branch. If the given node
-   * already has a parent defined then an <code>IllegalAddException</code> will be thrown.
-   *
-   * @param comment is the comment to be added
-   */
-  void add(Comment comment);
+    /**
+     * Removes the processing instruction for the given target if it exists
+     *
+     * @param target DOCUMENT ME!
+     * @return true if a processing instruction was removed else false
+     */
+    boolean removeProcessingInstruction(String target);
 
-  /**
-   * Adds the given <code>Element</code> to this branch. If the given node
-   * already has a parent defined then an <code>IllegalAddException</code> will be thrown.
-   *
-   * @param element is the element to be added
-   */
-  void add(Element element);
+    /**
+     * Adds the given <code>Node</code> or throws {@link IllegalAddException} if the given node is not of a valid type.
+     * This is a polymorphic method
+     * which will call the typesafe method for the node type such as
+     * add(Element) or add(Comment).
+     *
+     * @param node is the given node to add
+     */
+    void add(Node node);
 
-  /**
-   * Adds the given <code>ProcessingInstruction</code> to this branch. If
-   * the given node already has a parent defined then an <code>IllegalAddException</code> will be thrown.
-   *
-   * @param pi is the processing instruction to be added
-   */
-  void add(ProcessingInstruction pi);
+    /**
+     * Adds the given <code>Comment</code> to this branch. If the given node
+     * already has a parent defined then an <code>IllegalAddException</code> will be thrown.
+     *
+     * @param comment is the comment to be added
+     */
+    void add(Comment comment);
 
-  /**
-   * Removes the given <code>Node</code> if the node is an immediate child
-   * of this branch. If the given node is not an immediate child of this
-   * branch then the {@link Node#detach()}method should be used instead. This
-   * is a polymorphic method which will call the typesafe method for the node
-   * type such as remove(Element) or remove(Comment).
-   *
-   * @param node is the given node to be removed
-   * @return true if the node was removed
-   */
-  boolean remove(Node node);
+    /**
+     * Adds the given <code>Element</code> to this branch. If the given node
+     * already has a parent defined then an <code>IllegalAddException</code> will be thrown.
+     *
+     * @param element is the element to be added
+     */
+    void add(Element element);
 
-  /**
-   * Removes the given <code>Comment</code> if the node is an immediate
-   * child of this branch. If the given node is not an immediate child of this
-   * branch then the {@link Node#detach()}method should be used instead.
-   *
-   * @param comment is the comment to be removed
-   * @return true if the comment was removed
-   */
-  boolean remove(Comment comment);
+    /**
+     * Adds the given <code>ProcessingInstruction</code> to this branch. If
+     * the given node already has a parent defined then an <code>IllegalAddException</code> will be thrown.
+     *
+     * @param pi is the processing instruction to be added
+     */
+    void add(ProcessingInstruction pi);
 
-  /**
-   * Removes the given <code>Element</code> if the node is an immediate
-   * child of this branch. If the given node is not an immediate child of this
-   * branch then the {@link Node#detach()}method should be used instead.
-   *
-   * @param element is the element to be removed
-   * @return true if the element was removed
-   */
-  boolean remove(Element element);
+    /**
+     * Removes the given <code>Node</code> if the node is an immediate child
+     * of this branch. If the given node is not an immediate child of this
+     * branch then the {@link Node#detach()}method should be used instead. This
+     * is a polymorphic method which will call the typesafe method for the node
+     * type such as remove(Element) or remove(Comment).
+     *
+     * @param node is the given node to be removed
+     * @return true if the node was removed
+     */
+    boolean remove(Node node);
 
-  /**
-   * Removes the given <code>ProcessingInstruction</code> if the node is an
-   * immediate child of this branch. If the given node is not an immediate
-   * child of this branch then the {@link Node#detach()}method should be used
-   * instead.
-   *
-   * @param pi is the processing instruction to be removed
-   * @return true if the processing instruction was removed
-   */
-  boolean remove(ProcessingInstruction pi);
+    /**
+     * Removes the given <code>Comment</code> if the node is an immediate
+     * child of this branch. If the given node is not an immediate child of this
+     * branch then the {@link Node#detach()}method should be used instead.
+     *
+     * @param comment is the comment to be removed
+     * @return true if the comment was removed
+     */
+    boolean remove(Comment comment);
 
-  /**
-   * Puts all <code>Text</code> nodes in the full depth of the sub-tree
-   * underneath this <code>Node</code>, including attribute nodes, into a
-   * "normal" form where only structure (e.g., elements, comments, processing
-   * instructions, CDATA sections, and entity references) separates <code>Text</code> nodes, i.e., there are neither
-   * adjacent <code>Text</code> nodes nor empty <code>Text</code> nodes. This can
-   * be used to ensure that the DOM view of a document is the same as if it
-   * were saved and re-loaded, and is useful when operations (such as XPointer
-   * lookups) that depend on a particular document tree structure are to be
-   * used.In cases where the document contains <code>CDATASections</code>,
-   * the normalize operation alone may not be sufficient, since XPointers do
-   * not differentiate between <code>Text</code> nodes and <code>CDATASection</code> nodes.
-   *
-   * @since DOM Level 2
-   */
-  void normalize();
+    /**
+     * Removes the given <code>Element</code> if the node is an immediate
+     * child of this branch. If the given node is not an immediate child of this
+     * branch then the {@link Node#detach()}method should be used instead.
+     *
+     * @param element is the element to be removed
+     * @return true if the element was removed
+     */
+    boolean remove(Element element);
+
+    /**
+     * Removes the given <code>ProcessingInstruction</code> if the node is an
+     * immediate child of this branch. If the given node is not an immediate
+     * child of this branch then the {@link Node#detach()}method should be used
+     * instead.
+     *
+     * @param pi is the processing instruction to be removed
+     * @return true if the processing instruction was removed
+     */
+    boolean remove(ProcessingInstruction pi);
+
+    /**
+     * Puts all <code>Text</code> nodes in the full depth of the sub-tree
+     * underneath this <code>Node</code>, including attribute nodes, into a
+     * "normal" form where only structure (e.g., elements, comments, processing
+     * instructions, CDATA sections, and entity references) separates <code>Text</code> nodes, i.e., there are neither
+     * adjacent <code>Text</code> nodes nor empty <code>Text</code> nodes. This can
+     * be used to ensure that the DOM view of a document is the same as if it
+     * were saved and re-loaded, and is useful when operations (such as XPointer
+     * lookups) that depend on a particular document tree structure are to be
+     * used.In cases where the document contains <code>CDATASections</code>,
+     * the normalize operation alone may not be sufficient, since XPointers do
+     * not differentiate between <code>Text</code> nodes and <code>CDATASection</code> nodes.
+     *
+     * @since DOM Level 2
+     */
+    void normalize();
 }
 
 /*

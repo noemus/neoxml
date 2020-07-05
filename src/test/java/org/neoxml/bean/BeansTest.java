@@ -15,16 +15,15 @@ import org.neoxml.io.SAXReader;
  *
  * @author <a href="mailto:maartenc@users.sourceforge.net">Maarten Coene </a>
  */
-public class BeansTest extends AbstractTestCase
-{
-  // Test case(s)
-  // -------------------------------------------------------------------------
+public class BeansTest extends AbstractTestCase {
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testReadXML() throws Exception {
-    SAXReader reader = new SAXReader(BeanDocumentFactory.getInstance());
-    getDocument("/src/test/xml/bean/gui.xml", reader);
-  }
+    @Test
+    public void testReadXML() throws Exception {
+        SAXReader reader = new SAXReader(BeanDocumentFactory.getInstance());
+        getDocument("/src/test/xml/bean/gui.xml", reader);
+    }
 }
 
 /*

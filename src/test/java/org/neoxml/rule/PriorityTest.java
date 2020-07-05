@@ -16,39 +16,38 @@ import org.neoxml.DefaultDocumentFactory;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.3 $
  */
-public class PriorityTest extends AbstractTestCase
-{
-  @Test
-  public void testNameNode() throws Exception {
-    testPriority("foo", 0);
-  }
+public class PriorityTest extends AbstractTestCase {
+    @Test
+    public void testNameNode() throws Exception {
+        testPriority("foo", 0);
+    }
 
-  @Test
-  public void testFilter() throws Exception {
-    testPriority("foo[@id='123']", 0.5);
-  }
+    @Test
+    public void testFilter() throws Exception {
+        testPriority("foo[@id='123']", 0.5);
+    }
 
-  @Test
-  public void testURI() throws Exception {
-    testPriority("foo:*", -0.25);
-  }
+    @Test
+    public void testURI() throws Exception {
+        testPriority("foo:*", -0.25);
+    }
 
-  @Test
-  public void testAnyNode() throws Exception {
-    testPriority("*", -0.5);
-  }
+    @Test
+    public void testAnyNode() throws Exception {
+        testPriority("*", -0.5);
+    }
 
-  protected void testPriority(String expr, double priority) throws Exception {
-    System.out.println("parsing: " + expr);
+    protected void testPriority(String expr, double priority) throws Exception {
+        System.out.println("parsing: " + expr);
 
-    Pattern pattern = DefaultDocumentFactory.getInstance().createPattern(expr);
-    double d = pattern.getPriority();
+        Pattern pattern = DefaultDocumentFactory.getInstance().createPattern(expr);
+        double d = pattern.getPriority();
 
-    System.out.println("expr: " + expr + " has priority: " + d);
-    System.out.println("pattern: " + pattern);
+        System.out.println("expr: " + expr + " has priority: " + d);
+        System.out.println("pattern: " + pattern);
 
-    assertEquals("expr: " + expr, new Double(priority), new Double(d));
-  }
+        assertEquals("expr: " + expr, new Double(priority), new Double(d));
+    }
 }
 
 /*

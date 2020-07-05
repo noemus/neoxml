@@ -8,7 +8,13 @@ package org.neoxml.io;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.neoxml.*;
+import org.neoxml.Branch;
+import org.neoxml.DefaultDocumentFactory;
+import org.neoxml.Document;
+import org.neoxml.DocumentFactory;
+import org.neoxml.Element;
+import org.neoxml.Namespace;
+import org.neoxml.QName;
 import org.neoxml.tree.NamespaceStack;
 
 import java.util.ArrayList;
@@ -22,253 +28,246 @@ import java.util.List;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.17 $
  */
-public class DOMReader
-{
-  /**
-   * <code>DefaultDocumentFactory</code> used to create new document objects
-   */
-  private DocumentFactory factory;
+public class DOMReader {
+    /**
+     * <code>DefaultDocumentFactory</code> used to create new document objects
+     */
+    private DocumentFactory factory;
 
-  /**
-   * stack of <code>Namespace</code> and <code>QName</code> objects
-   */
-  private NamespaceStack namespaceStack;
+    /**
+     * stack of <code>Namespace</code> and <code>QName</code> objects
+     */
+    private NamespaceStack namespaceStack;
 
-  public DOMReader() {
-    this.factory = DefaultDocumentFactory.getInstance();
-    this.namespaceStack = new NamespaceStack(factory);
-  }
-
-  public DOMReader(DocumentFactory factory) {
-    this.factory = factory;
-    this.namespaceStack = new NamespaceStack(factory);
-  }
-
-  /**
-   * DOCUMENT ME!
-   *
-   * @return the <code>DefaultDocumentFactory</code> used to create document
-   *         objects
-   */
-  public DocumentFactory getDocumentFactory() {
-    return factory;
-  }
-
-  /**
-   * <p>
-   * This sets the <code>DefaultDocumentFactory</code> used to create new documents. This method allows the building of
-   * custom neoxml tree objects to be implemented easily using a custom derivation of
-   * {@link org.neoxml.DefaultDocumentFactory}
-   * </p>
-   *
-   * @param docFactory <code>DefaultDocumentFactory</code> used to create neoxml objects
-   */
-  public void setDocumentFactory(DocumentFactory docFactory) {
-    this.factory = docFactory;
-    this.namespaceStack.setDocumentFactory(factory);
-  }
-
-  public Document read(org.w3c.dom.Document domDocument) {
-    if (domDocument instanceof Document) {
-      return (Document)domDocument;
+    public DOMReader() {
+        this.factory = DefaultDocumentFactory.getInstance();
+        this.namespaceStack = new NamespaceStack(factory);
     }
 
-    Document document = createDocument();
-
-    clearNamespaceStack();
-
-    org.w3c.dom.NodeList nodeList = domDocument.getChildNodes();
-
-    for (int i = 0, size = nodeList.getLength(); i < size; i++) {
-      readTree(nodeList.item(i), document);
+    public DOMReader(DocumentFactory factory) {
+        this.factory = factory;
+        this.namespaceStack = new NamespaceStack(factory);
     }
 
-    return document;
-  }
-
-  // Implementation methods
-
-  @SuppressWarnings("null")
-  protected void readTree(org.w3c.dom.Node node, Branch current) {
-    Element element = null;
-    Document document = null;
-
-    if (current instanceof Element) {
-      element = (Element)current;
-    }
-    else {
-      document = (Document)current;
+    /**
+     * DOCUMENT ME!
+     *
+     * @return the <code>DefaultDocumentFactory</code> used to create document
+     * objects
+     */
+    public DocumentFactory getDocumentFactory() {
+        return factory;
     }
 
-    switch (node.getNodeType()) {
-      case org.w3c.dom.Node.ELEMENT_NODE:
-        readElement(node, current);
+    /**
+     * <p>
+     * This sets the <code>DefaultDocumentFactory</code> used to create new documents. This method allows the building of
+     * custom neoxml tree objects to be implemented easily using a custom derivation of
+     * {@link org.neoxml.DefaultDocumentFactory}
+     * </p>
+     *
+     * @param docFactory <code>DefaultDocumentFactory</code> used to create neoxml objects
+     */
+    public void setDocumentFactory(DocumentFactory docFactory) {
+        this.factory = docFactory;
+        this.namespaceStack.setDocumentFactory(factory);
+    }
 
-        break;
+    public Document read(org.w3c.dom.Document domDocument) {
+        if (domDocument instanceof Document) {
+            return (Document) domDocument;
+        }
 
-      case org.w3c.dom.Node.PROCESSING_INSTRUCTION_NODE:
+        Document document = createDocument();
+
+        clearNamespaceStack();
+
+        org.w3c.dom.NodeList nodeList = domDocument.getChildNodes();
+
+        for (int i = 0, size = nodeList.getLength(); i < size; i++) {
+            readTree(nodeList.item(i), document);
+        }
+
+        return document;
+    }
+
+    // Implementation methods
+
+    @SuppressWarnings("null")
+    protected void readTree(org.w3c.dom.Node node, Branch current) {
+        Element element = null;
+        Document document = null;
 
         if (current instanceof Element) {
-          Element currentEl = (Element)current;
-          currentEl.addProcessingInstruction(node.getNodeName(), node.getNodeValue());
-        }
-        else {
-          Document currentDoc = (Document)current;
-          currentDoc.addProcessingInstruction(node.getNodeName(), node.getNodeValue());
+            element = (Element) current;
+        } else {
+            document = (Document) current;
         }
 
-        break;
+        switch (node.getNodeType()) {
+            case org.w3c.dom.Node.ELEMENT_NODE:
+                readElement(node, current);
 
-      case org.w3c.dom.Node.COMMENT_NODE:
+                break;
 
-        if (current instanceof Element) {
-          ((Element)current).addComment(node.getNodeValue());
+            case org.w3c.dom.Node.PROCESSING_INSTRUCTION_NODE:
+
+                if (current instanceof Element) {
+                    Element currentEl = (Element) current;
+                    currentEl.addProcessingInstruction(node.getNodeName(), node.getNodeValue());
+                } else {
+                    Document currentDoc = (Document) current;
+                    currentDoc.addProcessingInstruction(node.getNodeName(), node.getNodeValue());
+                }
+
+                break;
+
+            case org.w3c.dom.Node.COMMENT_NODE:
+
+                if (current instanceof Element) {
+                    ((Element) current).addComment(node.getNodeValue());
+                } else {
+                    ((Document) current).addComment(node.getNodeValue());
+                }
+
+                break;
+
+            case org.w3c.dom.Node.DOCUMENT_TYPE_NODE:
+
+                org.w3c.dom.DocumentType domDocType = (org.w3c.dom.DocumentType) node;
+                document.addDocType(domDocType.getName(), domDocType.getPublicId(), domDocType.getSystemId());
+
+                break;
+
+            case org.w3c.dom.Node.TEXT_NODE:
+                element.addText(node.getNodeValue());
+
+                break;
+
+            case org.w3c.dom.Node.CDATA_SECTION_NODE:
+                element.addCDATA(node.getNodeValue());
+
+                break;
+
+            case org.w3c.dom.Node.ENTITY_REFERENCE_NODE:
+
+                // is there a better way to get the value of an entity?
+                org.w3c.dom.Node firstChild = node.getFirstChild();
+
+                if (firstChild != null) {
+                    element.addEntity(node.getNodeName(), firstChild.getNodeValue());
+                } else {
+                    element.addEntity(node.getNodeName(), "");
+                }
+
+                break;
+
+            case org.w3c.dom.Node.ENTITY_NODE:
+                element.addEntity(node.getNodeName(), node.getNodeValue());
+
+                break;
+
+            default:
+                if (log.isWarnEnabled()) {
+                    log.warn("WARNING: Unknown DOM node type: " + node.getNodeType());
+                }
         }
-        else {
-          ((Document)current).addComment(node.getNodeValue());
+    }
+
+    protected void readElement(org.w3c.dom.Node node, Branch current) {
+        int previouslyDeclaredNamespaces = namespaceStack.size();
+
+        String namespaceUri = node.getNamespaceURI();
+        String elementPrefix = node.getPrefix();
+
+        if (elementPrefix == null) {
+            elementPrefix = "";
         }
 
-        break;
+        org.w3c.dom.NamedNodeMap attributeList = node.getAttributes();
 
-      case org.w3c.dom.Node.DOCUMENT_TYPE_NODE:
+        if ((attributeList != null) && (namespaceUri == null)) {
+            // test if we have an "xmlns" attribute
+            org.w3c.dom.Node attribute = attributeList.getNamedItem("xmlns");
 
-        org.w3c.dom.DocumentType domDocType = (org.w3c.dom.DocumentType)node;
-        document.addDocType(domDocType.getName(), domDocType.getPublicId(), domDocType.getSystemId());
-
-        break;
-
-      case org.w3c.dom.Node.TEXT_NODE:
-        element.addText(node.getNodeValue());
-
-        break;
-
-      case org.w3c.dom.Node.CDATA_SECTION_NODE:
-        element.addCDATA(node.getNodeValue());
-
-        break;
-
-      case org.w3c.dom.Node.ENTITY_REFERENCE_NODE:
-
-        // is there a better way to get the value of an entity?
-        org.w3c.dom.Node firstChild = node.getFirstChild();
-
-        if (firstChild != null) {
-          element.addEntity(node.getNodeName(), firstChild.getNodeValue());
-        }
-        else {
-          element.addEntity(node.getNodeName(), "");
+            if (attribute != null) {
+                namespaceUri = attribute.getNodeValue();
+                elementPrefix = "";
+            }
         }
 
-        break;
+        QName qName = namespaceStack.getQName(namespaceUri, node.getLocalName(), node.getNodeName());
+        Element element = current.addElement(qName);
 
-      case org.w3c.dom.Node.ENTITY_NODE:
-        element.addEntity(node.getNodeName(), node.getNodeValue());
+        if (attributeList != null) {
+            int size = attributeList.getLength();
+            List<org.w3c.dom.Node> attributes = new ArrayList<>(size);
 
-        break;
+            for (int i = 0; i < size; i++) {
+                org.w3c.dom.Node attribute = attributeList.item(i);
 
-      default:
-        if (log.isWarnEnabled()) {
-          log.warn("WARNING: Unknown DOM node type: " + node.getNodeType());
+                // Define all namespaces first then process attributes later
+                String name = attribute.getNodeName();
+
+                if (name.startsWith("xmlns")) {
+                    String prefix = getPrefix(name);
+                    String uri = attribute.getNodeValue();
+
+                    Namespace namespace = namespaceStack.addNamespace(prefix, uri);
+                    element.add(namespace);
+                } else {
+                    attributes.add(attribute);
+                }
+            }
+
+            // now add the attributes, the namespaces should be available
+            for (org.w3c.dom.Node attribute : attributes) {
+                QName attributeQName = namespaceStack.getQName(attribute.getNamespaceURI(), attribute.getLocalName(), attribute.getNodeName());
+                element.addAttribute(attributeQName, attribute.getNodeValue());
+            }
+        }
+
+        // Recurse on child nodes
+        org.w3c.dom.NodeList children = node.getChildNodes();
+
+        for (int i = 0, size = children.getLength(); i < size; i++) {
+            org.w3c.dom.Node child = children.item(i);
+            readTree(child, element);
+        }
+
+        // pop namespaces from the stack
+        while (namespaceStack.size() > previouslyDeclaredNamespaces) {
+            namespaceStack.pop();
         }
     }
-  }
 
-  protected void readElement(org.w3c.dom.Node node, Branch current) {
-    int previouslyDeclaredNamespaces = namespaceStack.size();
-
-    String namespaceUri = node.getNamespaceURI();
-    String elementPrefix = node.getPrefix();
-
-    if (elementPrefix == null) {
-      elementPrefix = "";
+    protected Namespace getNamespace(String prefix, String uri) {
+        return getDocumentFactory().createNamespace(prefix, uri);
     }
 
-    org.w3c.dom.NamedNodeMap attributeList = node.getAttributes();
-
-    if ((attributeList != null) && (namespaceUri == null)) {
-      // test if we have an "xmlns" attribute
-      org.w3c.dom.Node attribute = attributeList.getNamedItem("xmlns");
-
-      if (attribute != null) {
-        namespaceUri = attribute.getNodeValue();
-        elementPrefix = "";
-      }
+    protected Document createDocument() {
+        return getDocumentFactory().createDocument();
     }
 
-    QName qName = namespaceStack.getQName(namespaceUri, node.getLocalName(), node.getNodeName());
-    Element element = current.addElement(qName);
+    protected void clearNamespaceStack() {
+        namespaceStack.clear();
 
-    if (attributeList != null) {
-      int size = attributeList.getLength();
-      List<org.w3c.dom.Node> attributes = new ArrayList<>(size);
-
-      for (int i = 0; i < size; i++) {
-        org.w3c.dom.Node attribute = attributeList.item(i);
-
-        // Define all namespaces first then process attributes later
-        String name = attribute.getNodeName();
-
-        if (name.startsWith("xmlns")) {
-          String prefix = getPrefix(name);
-          String uri = attribute.getNodeValue();
-
-          Namespace namespace = namespaceStack.addNamespace(prefix, uri);
-          element.add(namespace);
+        if (!namespaceStack.contains(Namespace.XML_NAMESPACE)) {
+            namespaceStack.push(Namespace.XML_NAMESPACE);
         }
-        else {
-          attributes.add(attribute);
+    }
+
+    private String getPrefix(String xmlnsDecl) {
+        int index = xmlnsDecl.indexOf(':', 5);
+
+        if (index != -1) {
+            return xmlnsDecl.substring(index + 1);
+        } else {
+            return "";
         }
-      }
-
-      // now add the attributes, the namespaces should be available
-      for (org.w3c.dom.Node attribute : attributes) {
-        QName attributeQName = namespaceStack.getQName(attribute.getNamespaceURI(), attribute.getLocalName(), attribute.getNodeName());
-        element.addAttribute(attributeQName, attribute.getNodeValue());
-      }
     }
 
-    // Recurse on child nodes
-    org.w3c.dom.NodeList children = node.getChildNodes();
-
-    for (int i = 0, size = children.getLength(); i < size; i++) {
-      org.w3c.dom.Node child = children.item(i);
-      readTree(child, element);
-    }
-
-    // pop namespaces from the stack
-    while (namespaceStack.size() > previouslyDeclaredNamespaces) {
-      namespaceStack.pop();
-    }
-  }
-
-  protected Namespace getNamespace(String prefix, String uri) {
-    return getDocumentFactory().createNamespace(prefix, uri);
-  }
-
-  protected Document createDocument() {
-    return getDocumentFactory().createDocument();
-  }
-
-  protected void clearNamespaceStack() {
-    namespaceStack.clear();
-
-    if (!namespaceStack.contains(Namespace.XML_NAMESPACE)) {
-      namespaceStack.push(Namespace.XML_NAMESPACE);
-    }
-  }
-
-  private String getPrefix(String xmlnsDecl) {
-    int index = xmlnsDecl.indexOf(':', 5);
-
-    if (index != -1) {
-      return xmlnsDecl.substring(index + 1);
-    }
-    else {
-      return "";
-    }
-  }
-  
-  private static final Log log = LogFactory.getLog(DOMReader.class);
+    private static final Log log = LogFactory.getLog(DOMReader.class);
 }
 
 /*

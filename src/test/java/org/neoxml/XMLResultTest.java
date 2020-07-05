@@ -24,51 +24,50 @@ import java.io.StringWriter;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.3 $
  */
-public class XMLResultTest extends AbstractTestCase
-{
-  protected static final boolean VERBOSE = false;
+public class XMLResultTest extends AbstractTestCase {
+    protected static final boolean VERBOSE = false;
 
-  // Test case(s)
-  // -------------------------------------------------------------------------
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testWriter() throws Exception {
-    // load a default transformer
-    TransformerFactory factory = TransformerFactory.newInstance();
-    Transformer transformer = factory.newTransformer();
+    @Test
+    public void testWriter() throws Exception {
+        // load a default transformer
+        TransformerFactory factory = TransformerFactory.newInstance();
+        Transformer transformer = factory.newTransformer();
 
-    // use neoxml document as the source
-    Source source = new DocumentSource(document);
+        // use neoxml document as the source
+        Source source = new DocumentSource(document);
 
-    // use pretty print format and a buffer for the result
-    OutputFormat format = OutputFormat.createCompactFormat();
-    StringWriter buffer = new StringWriter();
-    Result result = new XMLResult(buffer, format);
+        // use pretty print format and a buffer for the result
+        OutputFormat format = OutputFormat.createCompactFormat();
+        StringWriter buffer = new StringWriter();
+        Result result = new XMLResult(buffer, format);
 
-    // now lets transform
-    transformer.transform(source, result);
+        // now lets transform
+        transformer.transform(source, result);
 
-    String text = buffer.toString();
+        String text = buffer.toString();
 
-    if (VERBOSE) {
-      log("Using JAXP and XMLResult the document is:- ");
-      log(text);
+        if (VERBOSE) {
+            log("Using JAXP and XMLResult the document is:- ");
+            log(text);
+        }
+
+        StringWriter out = new StringWriter();
+
+        XMLWriter writer = new XMLWriter(out, format);
+        writer.write(document);
+
+        String text2 = out.toString();
+
+        if (VERBOSE) {
+            log("Using XMLWriter the text is:-");
+            log(text2);
+        }
+
+        assertEquals("The text output should be identical", text2, text);
     }
-
-    StringWriter out = new StringWriter();
-
-    XMLWriter writer = new XMLWriter(out, format);
-    writer.write(document);
-
-    String text2 = out.toString();
-
-    if (VERBOSE) {
-      log("Using XMLWriter the text is:-");
-      log(text2);
-    }
-
-    assertEquals("The text output should be identical", text2, text);
-  }
 }
 
 /*

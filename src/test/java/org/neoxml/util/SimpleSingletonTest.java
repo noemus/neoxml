@@ -26,44 +26,43 @@ import static org.junit.Assert.assertEquals;
  * </pre>
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class SimpleSingletonTest
-{
-  private static SingletonStrategy<Map<String,String>> singleton;
+public class SimpleSingletonTest {
+    private static SingletonStrategy<Map<String, String>> singleton;
 
-  private static Object reference;
+    private static Object reference;
 
-  @Before
-  public void setUp() throws Exception {
-    if (singleton == null) {
-      singleton = new PerThreadSingleton<>();
-      singleton.setSingletonClassName(HashMap.class.getName());
+    @Before
+    public void setUp() throws Exception {
+        if (singleton == null) {
+            singleton = new PerThreadSingleton<>();
+            singleton.setSingletonClassName(HashMap.class.getName());
+        }
     }
-  }
 
-  @Test
-  public void testFirstInstance() throws Exception {
-    Map<String,String> map = singleton.instance();
-    String expected = null;
-    String actual = map.get("Test");
-    assertEquals("testInstance", expected, actual);
+    @Test
+    public void testFirstInstance() throws Exception {
+        Map<String, String> map = singleton.instance();
+        String expected = null;
+        String actual = map.get("Test");
+        assertEquals("testInstance", expected, actual);
 
-    expected = "new value";
-    map.put("Test", expected);
+        expected = "new value";
+        map.put("Test", expected);
 
-    map = singleton.instance();
-    reference = map;
-    actual = map.get("Test");
-    assertEquals("testFirstInstance", expected, actual);
-  }
+        map = singleton.instance();
+        reference = map;
+        actual = map.get("Test");
+        assertEquals("testFirstInstance", expected, actual);
+    }
 
-  @Test
-  public void testSecondInstance() throws Exception {
-    Map<String,String> map = singleton.instance();
-    assertEquals("testSecondInstance reference", reference, map);
-    String actual = map.get("Test");
-    String expected = "new value";
-    assertEquals("testInstance", expected, actual);
-  }
+    @Test
+    public void testSecondInstance() throws Exception {
+        Map<String, String> map = singleton.instance();
+        assertEquals("testSecondInstance reference", reference, map);
+        String actual = map.get("Test");
+        String expected = "new value";
+        assertEquals("testInstance", expected, actual);
+    }
 
 }
 

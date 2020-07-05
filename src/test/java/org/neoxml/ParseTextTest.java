@@ -15,44 +15,43 @@ import org.junit.Test;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.3 $
  */
-public class ParseTextTest extends AbstractTestCase
-{
-  protected String xmlText =
-      "<root><author name='James'><location>Paris</location></author></root>";
+public class ParseTextTest extends AbstractTestCase {
+    protected String xmlText =
+            "<root><author name='James'><location>Paris</location></author></root>";
 
-  // Test case(s)
-  // -------------------------------------------------------------------------
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testDocument() throws Exception {
-    assertTrue("Document is not null", document != null);
+    @Test
+    public void testDocument() throws Exception {
+        assertTrue("Document is not null", document != null);
 
-    Element root = document.getRootElement();
+        Element root = document.getRootElement();
 
-    assertTrue("Root element is not null", root != null);
+        assertTrue("Root element is not null", root != null);
 
-    Element author = root.element("author");
+        Element author = root.element("author");
 
-    assertTrue("Author element is not null", author != null);
+        assertTrue("Author element is not null", author != null);
 
-    String name = author.attributeValue("name");
+        String name = author.attributeValue("name");
 
-    assertEquals("Name attribute matches", name, "James");
+        assertEquals("Name attribute matches", name, "James");
 
-    String location = document.valueOf("/root/author/location");
+        String location = document.valueOf("/root/author/location");
 
-    assertEquals("Location element matches", location, "Paris");
-  }
+        assertEquals("Location element matches", location, "Paris");
+    }
 
-  // Implementation methods
-  // -------------------------------------------------------------------------
+    // Implementation methods
+    // -------------------------------------------------------------------------
 
-  @Override
-  @Before
-  public void setUp() throws Exception {
-    super.setUp();
-    document = DocumentHelper.parseText(xmlText);
-  }
+    @Override
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        document = DocumentHelper.parseText(xmlText);
+    }
 }
 
 /*

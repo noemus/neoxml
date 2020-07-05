@@ -18,96 +18,95 @@ import org.neoxml.Namespace;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.16 $
  */
-public class DefaultNamespace extends Namespace
-{
-  /**
-   * The parent of this node
-   */
-  private Element parent;
+public class DefaultNamespace extends Namespace {
+    /**
+     * The parent of this node
+     */
+    private Element parent;
 
-  /**
-   * DOCUMENT ME!
-   *
-   * @param prefix is the prefix for this namespace
-   * @param uri is the URI for this namespace
-   */
-  public DefaultNamespace(String prefix, String uri) {
-    super(prefix, uri);
-  }
-
-  /**
-   * DOCUMENT ME!
-   *
-   * @param parent is the parent element
-   * @param prefix is the prefix for this namespace
-   * @param uri is the URI for this namespace
-   */
-  public DefaultNamespace(Element parent, String prefix, String uri) {
-    super(prefix, uri);
-    this.parent = parent;
-  }
-
-  /**
-   * DOCUMENT ME!
-   *
-   * @return the hash code based on the qualified name and the URI of the
-   *         namespace and the hashCode() of the parent element.
-   */
-  @Override
-  protected int createHashCode() {
-    int hashCode = super.createHashCode();
-
-    if (parent != null) {
-      hashCode ^= parent.hashCode();
+    /**
+     * DOCUMENT ME!
+     *
+     * @param prefix is the prefix for this namespace
+     * @param uri    is the URI for this namespace
+     */
+    public DefaultNamespace(String prefix, String uri) {
+        super(prefix, uri);
     }
 
-    return hashCode;
-  }
-
-  /**
-   * Implements an identity based comparsion using the parent element as well
-   * as the prefix and URI
-   *
-   * @param object DOCUMENT ME!
-   * @return DOCUMENT ME!
-   */
-  @Override
-  public boolean equals(Object object) {
-    if (object instanceof DefaultNamespace) {
-      DefaultNamespace that = (DefaultNamespace)object;
-
-      if (that.parent == parent) {
-        return super.equals(object);
-      }
+    /**
+     * DOCUMENT ME!
+     *
+     * @param parent is the parent element
+     * @param prefix is the prefix for this namespace
+     * @param uri    is the URI for this namespace
+     */
+    public DefaultNamespace(Element parent, String prefix, String uri) {
+        super(prefix, uri);
+        this.parent = parent;
     }
 
-    return false;
-  }
+    /**
+     * DOCUMENT ME!
+     *
+     * @return the hash code based on the qualified name and the URI of the
+     * namespace and the hashCode() of the parent element.
+     */
+    @Override
+    protected int createHashCode() {
+        int hashCode = super.createHashCode();
 
-  @Override
-  public int hashCode() {
-    return super.hashCode();
-  }
+        if (parent != null) {
+            hashCode ^= parent.hashCode();
+        }
 
-  @Override
-  public Element getParent() {
-    return parent;
-  }
+        return hashCode;
+    }
 
-  @Override
-  public void setParent(Element parent) {
-    this.parent = parent;
-  }
+    /**
+     * Implements an identity based comparsion using the parent element as well
+     * as the prefix and URI
+     *
+     * @param object DOCUMENT ME!
+     * @return DOCUMENT ME!
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof DefaultNamespace) {
+            DefaultNamespace that = (DefaultNamespace) object;
 
-  @Override
-  public boolean supportsParent() {
-    return true;
-  }
+            if (that.parent == parent) {
+                return super.equals(object);
+            }
+        }
 
-  @Override
-  public boolean isReadOnly() {
-    return false;
-  }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public Element getParent() {
+        return parent;
+    }
+
+    @Override
+    public void setParent(Element parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public boolean supportsParent() {
+        return true;
+    }
+
+    @Override
+    public boolean isReadOnly() {
+        return false;
+    }
 }
 
 /*

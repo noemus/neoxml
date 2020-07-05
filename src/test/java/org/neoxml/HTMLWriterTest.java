@@ -18,119 +18,118 @@ import java.io.StringWriter;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.4 $
  */
-public class HTMLWriterTest extends AbstractTestCase
-{
-  // Test case(s)
-  // -------------------------------------------------------------------------
+public class HTMLWriterTest extends AbstractTestCase {
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testWriter() throws Exception {
-    String xml = "<html> <body><![CDATA[First&nbsp;test]]></body> </html>";
-    Document document = DocumentHelper.parseText(xml);
-    StringWriter buffer = new StringWriter();
-    HTMLWriter writer = new HTMLWriter(buffer);
-    writer.write(document);
+    @Test
+    public void testWriter() throws Exception {
+        String xml = "<html> <body><![CDATA[First&nbsp;test]]></body> </html>";
+        Document document = DocumentHelper.parseText(xml);
+        StringWriter buffer = new StringWriter();
+        HTMLWriter writer = new HTMLWriter(buffer);
+        writer.write(document);
 
-    String output = buffer.toString();
+        String output = buffer.toString();
 
-    String expects = "\n<html>\n  <body>First&nbsp;test</body>\n</html>\n";
+        String expects = "\n<html>\n  <body>First&nbsp;test</body>\n</html>\n";
 
-    System.out.println("expects: " + expects);
-    System.out.println("output: " + output);
+        System.out.println("expects: " + expects);
+        System.out.println("output: " + output);
 
-    assertEquals("Output is correct", expects, output);
-  }
-
-  @Test
-  public void testBug923882() throws Exception {
-    Document doc = DefaultDocumentFactory.getInstance().createDocument();
-    Element root = doc.addElement("root");
-    root.addText("this is ");
-    root.addText(" sim");
-    root.addText("ple text ");
-    root.addElement("child");
-    root.addText(" contai");
-    root.addText("ning spaces and");
-    root.addText(" multiple textnodes");
-
-    OutputFormat format = new OutputFormat();
-    format.setEncoding("UTF-8");
-    format.setIndentSize(4);
-    format.setNewlines(true);
-    format.setTrimText(true);
-    format.setExpandEmptyElements(true);
-
-    StringWriter buffer = new StringWriter();
-    try (HTMLWriter writer = new HTMLWriter(buffer, format)) {
-      writer.write(doc);
+        assertEquals("Output is correct", expects, output);
     }
 
-    String xml = buffer.toString();
-    log(xml);
+    @Test
+    public void testBug923882() throws Exception {
+        Document doc = DefaultDocumentFactory.getInstance().createDocument();
+        Element root = doc.addElement("root");
+        root.addText("this is ");
+        root.addText(" sim");
+        root.addText("ple text ");
+        root.addElement("child");
+        root.addText(" contai");
+        root.addText("ning spaces and");
+        root.addText(" multiple textnodes");
 
-    int start = xml.indexOf("<root");
-    int end = xml.indexOf("/root>") + 6;
-    String expected = "<root>this is simple text<child></child>containing spaces and multiple textnodes</root>";
-    System.out.println("Expected:");
-    System.out.println(expected);
-    System.out.println("Obtained:");
-    System.out.println(xml.substring(start, end));
-    assertEquals(expected, xml.substring(start, end));
-  }
+        OutputFormat format = new OutputFormat();
+        format.setEncoding("UTF-8");
+        format.setIndentSize(4);
+        format.setNewlines(true);
+        format.setTrimText(true);
+        format.setExpandEmptyElements(true);
 
-  @Test
-  public void testBug923882asWriter() throws Exception {
-    // use an the HTMLWriter sax-methods.
-    //
-    StringWriter buffer = new StringWriter();
-    try (HTMLWriter writer = new HTMLWriter(buffer, OutputFormat.createPrettyPrint())) {
-      writer.characters("wor".toCharArray(), 0, 3);
-      writer.characters("d-being-cut".toCharArray(), 0, 11);
-    }
-    
-    String expected = "word-being-cut";
-    assertEquals(expected, buffer.toString());
+        StringWriter buffer = new StringWriter();
+        try (HTMLWriter writer = new HTMLWriter(buffer, format)) {
+            writer.write(doc);
+        }
 
-    buffer = new StringWriter();
-    try (HTMLWriter writer = new HTMLWriter(buffer, OutputFormat.createPrettyPrint())) {
-      writer.characters("    wor".toCharArray(), 0, 7);
-      writer.characters("d being    ".toCharArray(), 0, 11);
-      writer.characters("  cut".toCharArray(), 0, 5);
-    }
+        String xml = buffer.toString();
+        log(xml);
 
-    expected = "word being cut";
-    assertEquals(expected, buffer.toString());
-  }
-
-  @Test
-  public void testBug923882asWriterWithEmptyCharArray() throws Exception {
-    // use an the HTMLWriter sax-methods.
-    //
-    StringWriter buffer = new StringWriter();
-    try (HTMLWriter writer = new HTMLWriter(buffer, OutputFormat.createPrettyPrint())) {
-      writer.characters("wor".toCharArray(), 0, 3);
-      writer.characters(new char[0], 0, 0);
-      writer.characters("d-being-cut".toCharArray(), 0, 11);
+        int start = xml.indexOf("<root");
+        int end = xml.indexOf("/root>") + 6;
+        String expected = "<root>this is simple text<child></child>containing spaces and multiple textnodes</root>";
+        System.out.println("Expected:");
+        System.out.println(expected);
+        System.out.println("Obtained:");
+        System.out.println(xml.substring(start, end));
+        assertEquals(expected, xml.substring(start, end));
     }
 
-    String expected = "word-being-cut";
-    assertEquals(expected, buffer.toString());
-  }
+    @Test
+    public void testBug923882asWriter() throws Exception {
+        // use an the HTMLWriter sax-methods.
+        //
+        StringWriter buffer = new StringWriter();
+        try (HTMLWriter writer = new HTMLWriter(buffer, OutputFormat.createPrettyPrint())) {
+            writer.characters("wor".toCharArray(), 0, 3);
+            writer.characters("d-being-cut".toCharArray(), 0, 11);
+        }
 
-  @Test
-  public void testBug619415() throws Exception {
-    Document doc = getDocument("/src/test/xml/test/dosLineFeeds.xml");
+        String expected = "word-being-cut";
+        assertEquals(expected, buffer.toString());
 
-    StringWriter wr = new StringWriter();
-    HTMLWriter writer = new HTMLWriter(wr, new OutputFormat("", false));
-    writer.write(doc);
+        buffer = new StringWriter();
+        try (HTMLWriter writer = new HTMLWriter(buffer, OutputFormat.createPrettyPrint())) {
+            writer.characters("    wor".toCharArray(), 0, 7);
+            writer.characters("d being    ".toCharArray(), 0, 11);
+            writer.characters("  cut".toCharArray(), 0, 5);
+        }
 
-    String result = wr.toString();
-    System.out.println(result);
+        expected = "word being cut";
+        assertEquals(expected, buffer.toString());
+    }
 
-    assertTrue(result.indexOf("Mary had a little lamb.") > -1);
-    assertTrue(result.indexOf("Hello, this is a test.") > -1);
-  }
+    @Test
+    public void testBug923882asWriterWithEmptyCharArray() throws Exception {
+        // use an the HTMLWriter sax-methods.
+        //
+        StringWriter buffer = new StringWriter();
+        try (HTMLWriter writer = new HTMLWriter(buffer, OutputFormat.createPrettyPrint())) {
+            writer.characters("wor".toCharArray(), 0, 3);
+            writer.characters(new char[0], 0, 0);
+            writer.characters("d-being-cut".toCharArray(), 0, 11);
+        }
+
+        String expected = "word-being-cut";
+        assertEquals(expected, buffer.toString());
+    }
+
+    @Test
+    public void testBug619415() throws Exception {
+        Document doc = getDocument("/src/test/xml/test/dosLineFeeds.xml");
+
+        StringWriter wr = new StringWriter();
+        HTMLWriter writer = new HTMLWriter(wr, new OutputFormat("", false));
+        writer.write(doc);
+
+        String result = wr.toString();
+        System.out.println(result);
+
+        assertTrue(result.indexOf("Mary had a little lamb.") > -1);
+        assertTrue(result.indexOf("Hello, this is a test.") > -1);
+    }
 }
 
 /*

@@ -5,7 +5,11 @@
  */
 package org.neoxml.util;
 
-import org.neoxml.*;
+import org.neoxml.Attribute;
+import org.neoxml.Element;
+import org.neoxml.Node;
+import org.neoxml.NodeList;
+import org.neoxml.QName;
 import org.neoxml.tree.DefaultElement;
 
 import java.util.List;
@@ -19,171 +23,170 @@ import java.util.List;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.10 $
  */
-public class IndexedElement extends DefaultElement
-{
-  /**
-   * Lazily constructed index for elements
-   */
-  private DoubleNameMap<NodeList<Element>> elementIndex;
-  /**
-   * Lazily constructed index for attributes
-   */
-  private DoubleNameMap<Attribute> attributeIndex;
+public class IndexedElement extends DefaultElement {
+    /**
+     * Lazily constructed index for elements
+     */
+    private DoubleNameMap<NodeList<Element>> elementIndex;
+    /**
+     * Lazily constructed index for attributes
+     */
+    private DoubleNameMap<Attribute> attributeIndex;
 
-  public IndexedElement(String name) {
-    super(name);
-  }
-
-  public IndexedElement(QName qname) {
-    super(qname);
-  }
-
-  public IndexedElement(QName qname, int attributeCount) {
-    super(qname, attributeCount);
-  }
-
-  @Override
-  public Attribute attribute(String name) {
-    return attributeIndex().get(name);
-  }
-
-  @Override
-  public Attribute attribute(QName qName) {
-    return attributeIndex().get(qName);
-  }
-
-  @Override
-  public Element element(String name) {
-    return firstElement(elementIndex().get(name));
-  }
-
-  @Override
-  public Element element(QName qName) {
-    return firstElement(elementIndex().get(qName));
-  }
-
-  @Override
-  public NodeList<Element> elements(String name) {
-    return elementIndex().get(name);
-  }
-
-  @Override
-  public NodeList<Element> elements(QName qName) {
-    return elementIndex().get(qName);
-  }
-
-  protected static Element firstElement(List<Element> list) {
-    if (list.isEmpty()) {
-      return null;
+    public IndexedElement(String name) {
+        super(name);
     }
 
-    return list.get(0);
-  }
+    public IndexedElement(QName qname) {
+        super(qname);
+    }
 
-  // #### could we override the add(Element) remove(Element methods?
+    public IndexedElement(QName qname, int attributeCount) {
+        super(qname, attributeCount);
+    }
 
-  @Override
-  protected void addNode(Node node) {
-    super.addNode(node);
+    @Override
+    public Attribute attribute(String name) {
+        return attributeIndex().get(name);
+    }
 
-    switch (node.getNodeTypeEnum()) {
-      case ELEMENT_NODE:
-        if (elementIndex != null) {
-          addToElementIndex((Element)node);
+    @Override
+    public Attribute attribute(QName qName) {
+        return attributeIndex().get(qName);
+    }
+
+    @Override
+    public Element element(String name) {
+        return firstElement(elementIndex().get(name));
+    }
+
+    @Override
+    public Element element(QName qName) {
+        return firstElement(elementIndex().get(qName));
+    }
+
+    @Override
+    public NodeList<Element> elements(String name) {
+        return elementIndex().get(name);
+    }
+
+    @Override
+    public NodeList<Element> elements(QName qName) {
+        return elementIndex().get(qName);
+    }
+
+    protected static Element firstElement(List<Element> list) {
+        if (list.isEmpty()) {
+            return null;
         }
-        break;
 
-      case ATTRIBUTE_NODE:
-        if (attributeIndex != null) {
-          addToAttributeIndex((Attribute)node);
+        return list.get(0);
+    }
+
+    // #### could we override the add(Element) remove(Element methods?
+
+    @Override
+    protected void addNode(Node node) {
+        super.addNode(node);
+
+        switch (node.getNodeTypeEnum()) {
+            case ELEMENT_NODE:
+                if (elementIndex != null) {
+                    addToElementIndex((Element) node);
+                }
+                break;
+
+            case ATTRIBUTE_NODE:
+                if (attributeIndex != null) {
+                    addToAttributeIndex((Attribute) node);
+                }
+                break;
+
+            default:
+                break;
         }
-        break;
-
-      default:
-        break;
-    }
-  }
-
-  @Override
-  protected boolean removeNode(Node node) {
-    if (super.removeNode(node)) {
-      switch (node.getNodeTypeEnum()) {
-        case ELEMENT_NODE:
-          if (elementIndex != null) {
-            removeFromElementIndex((Element)node);
-          }
-          break;
-        case ATTRIBUTE_NODE:
-          if (attributeIndex != null) {
-            removeFromAttributeIndex((Attribute)node);
-          }
-          break;
-
-        default:
-          break;
-      }
-      return true;
     }
 
-    return false;
-  }
+    @Override
+    protected boolean removeNode(Node node) {
+        if (super.removeNode(node)) {
+            switch (node.getNodeTypeEnum()) {
+                case ELEMENT_NODE:
+                    if (elementIndex != null) {
+                        removeFromElementIndex((Element) node);
+                    }
+                    break;
+                case ATTRIBUTE_NODE:
+                    if (attributeIndex != null) {
+                        removeFromAttributeIndex((Attribute) node);
+                    }
+                    break;
 
-  protected DoubleNameMap<Attribute> attributeIndex() {
-    if (attributeIndex == null) {
-      attributeIndex = new DoubleNameMap<>();
-      for (Attribute attribute : attributeList()) {
-        addToAttributeIndex(attribute);
-      }
+                default:
+                    break;
+            }
+            return true;
+        }
 
+        return false;
     }
 
-    return attributeIndex;
-  }
+    protected DoubleNameMap<Attribute> attributeIndex() {
+        if (attributeIndex == null) {
+            attributeIndex = new DoubleNameMap<>();
+            for (Attribute attribute : attributeList()) {
+                addToAttributeIndex(attribute);
+            }
 
-  protected DoubleNameMap<NodeList<Element>> elementIndex() {
-    if (elementIndex == null) {
-      elementIndex = new DoubleNameMap<>();
-      
-      for (Element element : elements()) {
-        addToElementIndex(element);
-      }
+        }
+
+        return attributeIndex;
     }
 
-    return elementIndex;
-  }
+    protected DoubleNameMap<NodeList<Element>> elementIndex() {
+        if (elementIndex == null) {
+            elementIndex = new DoubleNameMap<>();
 
-  protected void addToElementIndex(Element element) {
-    QName qName = element.getQName();
-    NodeList<Element> list = elementIndex.get(qName);
-    if (list == null) {
-      list = createContentList(DEFAULT_CONTENT_LIST_SIZE);
-      elementIndex.put(qName, list);
+            for (Element element : elements()) {
+                addToElementIndex(element);
+            }
+        }
+
+        return elementIndex;
     }
 
-    list.add(element);
-  }
+    protected void addToElementIndex(Element element) {
+        QName qName = element.getQName();
+        NodeList<Element> list = elementIndex.get(qName);
+        if (list == null) {
+            list = createContentList(DEFAULT_CONTENT_LIST_SIZE);
+            elementIndex.put(qName, list);
+        }
 
-  protected void removeFromElementIndex(Element element) {
-    QName qName = element.getQName();
-    List<Element> list = elementIndex.get(qName);
-    if (list != null) {
-      list.remove(element);
-      if (list.isEmpty()) {
-        elementIndex.remove(qName);
-      }
-
+        list.add(element);
     }
-  }
 
-  protected void addToAttributeIndex(Attribute attribute) {
-    QName qName = attribute.getQName();
-    attributeIndex.put(qName, attribute);
-  }
+    protected void removeFromElementIndex(Element element) {
+        QName qName = element.getQName();
+        List<Element> list = elementIndex.get(qName);
+        if (list != null) {
+            list.remove(element);
+            if (list.isEmpty()) {
+                elementIndex.remove(qName);
+            }
 
-  protected void removeFromAttributeIndex(Attribute attribute) {
-    QName qName = attribute.getQName();
-    attributeIndex.remove(qName);
-  }
+        }
+    }
+
+    protected void addToAttributeIndex(Attribute attribute) {
+        QName qName = attribute.getQName();
+        attributeIndex.put(qName, attribute);
+    }
+
+    protected void removeFromAttributeIndex(Attribute attribute) {
+        QName qName = attribute.getQName();
+        attributeIndex.remove(qName);
+    }
 }
 
 /*

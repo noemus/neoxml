@@ -23,64 +23,63 @@ import org.neoxml.QName;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.7 $
  */
-public class FlyweightAttribute extends AbstractAttribute
-{
-  /**
-   * The <code>DefaultDocumentFactory</code> instance used by default
-   */
-  private static final DocumentFactory DOCUMENT_FACTORY = DefaultDocumentFactory.getInstance();
+public class FlyweightAttribute extends AbstractAttribute {
+    /**
+     * The <code>DefaultDocumentFactory</code> instance used by default
+     */
+    private static final DocumentFactory DOCUMENT_FACTORY = DefaultDocumentFactory.getInstance();
 
-  /**
-   * The <code>QName</code> for this element
-   */
-  private final QName qname;
+    /**
+     * The <code>QName</code> for this element
+     */
+    private final QName qname;
 
-  /**
-   * The value of the <code>Attribute</code>
-   */
-  protected final String value;
+    /**
+     * The value of the <code>Attribute</code>
+     */
+    protected final String value;
 
-  public FlyweightAttribute(QName qname) {
-    this(qname, null);
-  }
+    public FlyweightAttribute(QName qname) {
+        this(qname, null);
+    }
 
-  public FlyweightAttribute(QName qname, String value) {
-    this.qname = qname;
-    this.value = value;
-  }
+    public FlyweightAttribute(QName qname, String value) {
+        this.qname = qname;
+        this.value = value;
+    }
 
-  /**
-   * Creates the <code>Attribute</code> with the specified local name and
-   * value.
-   *
-   * @param name is the name of the attribute
-   * @param value is the value of the attribute
-   */
-  public FlyweightAttribute(String name, String value) {
-    this(DOCUMENT_FACTORY.createQName(name), value);
-  }
+    /**
+     * Creates the <code>Attribute</code> with the specified local name and
+     * value.
+     *
+     * @param name  is the name of the attribute
+     * @param value is the value of the attribute
+     */
+    public FlyweightAttribute(String name, String value) {
+        this(DOCUMENT_FACTORY.createQName(name), value);
+    }
 
-  /**
-   * Creates the <code>Attribute</code> with the specified local name, value
-   * and <code>Namespace</code>.
-   *
-   * @param name is the name of the attribute
-   * @param value is the value of the attribute
-   * @param namespace is the namespace of the attribute
-   */
-  public FlyweightAttribute(String name, String value, Namespace namespace) {
-    this(DOCUMENT_FACTORY.createQName(name, namespace), value);
-  }
+    /**
+     * Creates the <code>Attribute</code> with the specified local name, value
+     * and <code>Namespace</code>.
+     *
+     * @param name      is the name of the attribute
+     * @param value     is the value of the attribute
+     * @param namespace is the namespace of the attribute
+     */
+    public FlyweightAttribute(String name, String value, Namespace namespace) {
+        this(DOCUMENT_FACTORY.createQName(name, namespace), value);
+    }
 
-  @Override
-  public String getValue() {
-    return value;
-  }
+    @Override
+    public String getValue() {
+        return value;
+    }
 
-  @Override
-  public QName getQName() {
-    return qname;
-  }
+    @Override
+    public QName getQName() {
+        return qname;
+    }
 }
 
 /*

@@ -15,40 +15,38 @@ import org.neoxml.ElementHandler;
  *
  * @author Maarten Coene
  */
-public class DispatchHandlerTest extends AbstractTestCase
-{
+public class DispatchHandlerTest extends AbstractTestCase {
 
-  @SuppressWarnings("synthetic-access")
-  @Test
-  public void testBug611445() throws Exception {
-    MyHandler handler = new MyHandler();
+    @SuppressWarnings("synthetic-access")
+    @Test
+    public void testBug611445() throws Exception {
+        MyHandler handler = new MyHandler();
 
-    SAXReader reader = new SAXReader();
-    reader.addHandler("/products/product/colour", handler);
-    reader.read(getFile("/src/test/xml/test/sample.xml"));
+        SAXReader reader = new SAXReader();
+        reader.addHandler("/products/product/colour", handler);
+        reader.read(getFile("/src/test/xml/test/sample.xml"));
 
-    assertEquals(3, handler.getCount());
+        assertEquals(3, handler.getCount());
 
-    reader.read(getFile("/src/test/xml/test/sample.xml"));
-    assertEquals(6, handler.getCount());
-  }
-
-  private static class MyHandler implements ElementHandler
-  {
-    private int count = 0;
-
-    @Override
-    public void onEnd(org.neoxml.ElementPath elementPath) {}
-
-    @Override
-    public void onStart(org.neoxml.ElementPath elementPath) {
-      count++;
+        reader.read(getFile("/src/test/xml/test/sample.xml"));
+        assertEquals(6, handler.getCount());
     }
 
-    int getCount() {
-      return count;
+    private static class MyHandler implements ElementHandler {
+        private int count = 0;
+
+        @Override
+        public void onEnd(org.neoxml.ElementPath elementPath) {}
+
+        @Override
+        public void onStart(org.neoxml.ElementPath elementPath) {
+            count++;
+        }
+
+        int getCount() {
+            return count;
+        }
     }
-  }
 }
 
 /*

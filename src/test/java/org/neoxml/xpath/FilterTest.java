@@ -21,45 +21,43 @@ import java.util.List;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.3 $
  */
-public class FilterTest extends AbstractTestCase
-{
-  protected static String[] paths = {
-    ".[name()='author']",
-    ".[name()='XXXX']", ".[.='James Strachan']", ".[.='XXXX']"
-  };
+public class FilterTest extends AbstractTestCase {
+    protected static String[] paths = {
+            ".[name()='author']",
+            ".[name()='XXXX']", ".[.='James Strachan']", ".[.='XXXX']"
+    };
 
-  // Test case(s)
-  // -------------------------------------------------------------------------
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testXPaths() throws Exception {
-    int size = paths.length;
+    @Test
+    public void testXPaths() throws Exception {
+        int size = paths.length;
 
-    for (int i = 0; i < size; i++) {
-      testXPath(paths[i]);
+        for (int i = 0; i < size; i++) {
+            testXPath(paths[i]);
+        }
     }
-  }
 
-  // Implementation methods
-  // -------------------------------------------------------------------------
+    // Implementation methods
+    // -------------------------------------------------------------------------
 
-  protected void testXPath(String xpathExpression) {
-    NodeFilter nodeFilter = DocumentHelper.createXPathFilter(xpathExpression);
-    assertTrue("No NodeFilter object was created", nodeFilter != null);
+    protected void testXPath(String xpathExpression) {
+        NodeFilter nodeFilter = DocumentHelper.createXPathFilter(xpathExpression);
+        assertTrue("No NodeFilter object was created", nodeFilter != null);
 
-    List list = document.selectNodes("//author");
+        List list = document.selectNodes("//author");
 
-    for (Iterator iter = list.iterator(); iter.hasNext();) {
-      Node node = (Node)iter.next();
+        for (Iterator iter = list.iterator(); iter.hasNext(); ) {
+            Node node = (Node) iter.next();
 
-      if (nodeFilter.matches(node)) {
-        log("Matches node: " + node.asXML());
-      }
-      else {
-        log("No match for node: " + node.asXML());
-      }
+            if (nodeFilter.matches(node)) {
+                log("Matches node: " + node.asXML());
+            } else {
+                log("No match for node: " + node.asXML());
+            }
+        }
     }
-  }
 }
 
 /*

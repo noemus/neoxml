@@ -22,47 +22,44 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  */
-public class DefaultNamespaceContext implements NamespaceContext, Serializable
-{
-  private final Element element;
+public class DefaultNamespaceContext implements NamespaceContext, Serializable {
+    private final Element element;
 
-  public DefaultNamespaceContext(Element element) {
-    this.element = element;
-  }
-
-  public static DefaultNamespaceContext create(Object node) {
-    Element element = null;
-
-    if (node instanceof Element) {
-      element = (Element)node;
-    }
-    else if (node instanceof Document) {
-      Document doc = (Document)node;
-      element = doc.getRootElement();
-    }
-    else if (node instanceof Node) {
-      element = ((Node)node).getParent();
+    public DefaultNamespaceContext(Element element) {
+        this.element = element;
     }
 
-    if (element != null) {
-      return new DefaultNamespaceContext(element);
+    public static DefaultNamespaceContext create(Object node) {
+        Element element = null;
+
+        if (node instanceof Element) {
+            element = (Element) node;
+        } else if (node instanceof Document) {
+            Document doc = (Document) node;
+            element = doc.getRootElement();
+        } else if (node instanceof Node) {
+            element = ((Node) node).getParent();
+        }
+
+        if (element != null) {
+            return new DefaultNamespaceContext(element);
+        }
+
+        return null;
     }
 
-    return null;
-  }
+    @Override
+    public String translateNamespacePrefixToUri(String prefix) {
+        if ((prefix != null) && (prefix.length() > 0)) {
+            Namespace ns = element.getNamespaceForPrefix(prefix);
 
-  @Override
-  public String translateNamespacePrefixToUri(String prefix) {
-    if ((prefix != null) && (prefix.length() > 0)) {
-      Namespace ns = element.getNamespaceForPrefix(prefix);
+            if (ns != null) {
+                return ns.getURI();
+            }
+        }
 
-      if (ns != null) {
-        return ns.getURI();
-      }
+        return null;
     }
-
-    return null;
-  }
 }
 
 /*

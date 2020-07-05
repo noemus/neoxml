@@ -15,36 +15,35 @@ package org.neoxml;
  * @version $Revision: 1.6 $
  */
 @SuppressWarnings("serial")
-public class XPathException extends RuntimeException
-{
-  /**
-   * The XPath expression that caused the exception
-   */
-  private String xpath;
+public class XPathException extends RuntimeException {
+    /**
+     * The XPath expression that caused the exception
+     */
+    private String xpath;
 
-  public XPathException(String xpath) {
-    super("Exception occurred evaluting XPath: " + xpath);
-    this.xpath = xpath;
-  }
+    public XPathException(String xpath) {
+        super("Exception occurred evaluting XPath: " + xpath);
+        this.xpath = xpath;
+    }
 
-  public XPathException(String xpath, String reason) {
-    super("Exception occurred evaluting XPath: " + xpath + " " + reason);
-    this.xpath = xpath;
-  }
+    public XPathException(String xpath, String reason) {
+        super("Exception occurred evaluting XPath: " + xpath + " " + reason);
+        this.xpath = xpath;
+    }
 
-  public XPathException(String xpath, Exception e) {
-    super("Exception occurred evaluting XPath: " + xpath + ". Exception: " + e.getMessage());
-    this.xpath = xpath;
-  }
+    public XPathException(String xpath, Exception e) {
+        super("Exception occurred evaluting XPath: " + xpath + ". Exception: " + e.getMessage());
+        this.xpath = xpath;
+    }
 
-  /**
-   * Returns the XPath expression that caused the problem
-   *
-   * @return DOCUMENT ME!
-   */
-  public String getXPath() {
-    return xpath;
-  }
+    /**
+     * Returns the XPath expression that caused the problem
+     *
+     * @return DOCUMENT ME!
+     */
+    public String getXPath() {
+        return xpath;
+    }
 }
 
 /*

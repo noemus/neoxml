@@ -22,98 +22,97 @@ import java.util.Map;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.4 $
  */
-public class SerializeTest extends AbstractTestCase
-{
-  // Test case(s)
-  // -------------------------------------------------------------------------
+public class SerializeTest extends AbstractTestCase {
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testSerializePeriodicTable() throws Exception {
-    testSerialize("/src/test/xml/periodic_table.xml");
-  }
+    @Test
+    public void testSerializePeriodicTable() throws Exception {
+        testSerialize("/src/test/xml/periodic_table.xml");
+    }
 
-  @Test
-  public void testSerializeMuchAdo() throws Exception {
-    testSerialize("/src/test/xml/much_ado.xml");
-  }
+    @Test
+    public void testSerializeMuchAdo() throws Exception {
+        testSerialize("/src/test/xml/much_ado.xml");
+    }
 
-  @Test
-  public void testSerializeTestSchema() throws Exception {
-    testSerialize("/src/test/xml/test/schema/personal.xsd");
-  }
+    @Test
+    public void testSerializeTestSchema() throws Exception {
+        testSerialize("/src/test/xml/test/schema/personal.xsd");
+    }
 
-  @Test
-  public void testSerializeXPath() throws Exception {
-    Map uris = new HashMap();
-    uris.put("SOAP-ENV", "http://schemas.xmlsoap.org/soap/envelope/");
-    uris.put("m", "urn:xmethodsBabelFish");
+    @Test
+    public void testSerializeXPath() throws Exception {
+        Map uris = new HashMap();
+        uris.put("SOAP-ENV", "http://schemas.xmlsoap.org/soap/envelope/");
+        uris.put("m", "urn:xmethodsBabelFish");
 
-    DocumentFactory factory = new DefaultDocumentFactory();
-    factory.setXPathNamespaceURIs(uris);
+        DocumentFactory factory = new DefaultDocumentFactory();
+        factory.setXPathNamespaceURIs(uris);
 
-    // now parse a document using my factory
-    SAXReader reader = new SAXReader();
-    reader.setDocumentFactory(factory);
+        // now parse a document using my factory
+        SAXReader reader = new SAXReader();
+        reader.setDocumentFactory(factory);
 
-    Document doc = getDocument("/src/test/xml/soap.xml", reader);
+        Document doc = getDocument("/src/test/xml/soap.xml", reader);
 
-    // now lets use the prefixes
-    String expr = "/SOAP-ENV:Envelope/SOAP-ENV:Body/m:BabelFish";
-    Node element = doc.selectSingleNode(expr);
-    assertTrue("Found valid element", element != null);
+        // now lets use the prefixes
+        String expr = "/SOAP-ENV:Envelope/SOAP-ENV:Body/m:BabelFish";
+        Node element = doc.selectSingleNode(expr);
+        assertTrue("Found valid element", element != null);
 
-    XPath xpath = factory
-        .createXPath("/SOAP-ENV:Envelope/SOAP-ENV:Body/m:BabelFish");
-    element = xpath.selectSingleNode(doc);
-    assertTrue("Found valid element", element != null);
+        XPath xpath = factory
+                .createXPath("/SOAP-ENV:Envelope/SOAP-ENV:Body/m:BabelFish");
+        element = xpath.selectSingleNode(doc);
+        assertTrue("Found valid element", element != null);
 
-    // now serialize
-    ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
-    ObjectOutputStream out = new ObjectOutputStream(bytesOut);
-    out.writeObject(xpath);
-    out.close();
+        // now serialize
+        ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
+        ObjectOutputStream out = new ObjectOutputStream(bytesOut);
+        out.writeObject(xpath);
+        out.close();
 
-    byte[] data = bytesOut.toByteArray();
+        byte[] data = bytesOut.toByteArray();
 
-    ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(
-      data));
-    XPath xpath2 = (XPath)in.readObject();
-    in.close();
+        ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(
+                data));
+        XPath xpath2 = (XPath) in.readObject();
+        in.close();
 
-    element = xpath2.selectSingleNode(doc);
-    assertTrue("Found valid element", element != null);
-  }
+        element = xpath2.selectSingleNode(doc);
+        assertTrue("Found valid element", element != null);
+    }
 
-  // Implementation methods
-  // -------------------------------------------------------------------------
+    // Implementation methods
+    // -------------------------------------------------------------------------
 
-  protected void testSerialize(String xmlFile) throws Exception {
-    Document document = getDocument(xmlFile);
-    String text = document.asXML();
+    protected void testSerialize(String xmlFile) throws Exception {
+        Document document = getDocument(xmlFile);
+        String text = document.asXML();
 
-    ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
-    ObjectOutputStream out = new ObjectOutputStream(bytesOut);
-    out.writeObject(document);
-    out.close();
+        ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
+        ObjectOutputStream out = new ObjectOutputStream(bytesOut);
+        out.writeObject(document);
+        out.close();
 
-    byte[] data = bytesOut.toByteArray();
+        byte[] data = bytesOut.toByteArray();
 
-    ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(
-      data));
-    Document doc2 = (Document)in.readObject();
-    in.close();
+        ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(
+                data));
+        Document doc2 = (Document) in.readObject();
+        in.close();
 
-    String text2 = doc2.asXML();
+        String text2 = doc2.asXML();
 
-    assertEquals("Documents text are equal", text, text2);
+        assertEquals("Documents text are equal", text, text2);
 
-    assertTrue("Read back document after serialization", (doc2 != null) && doc2 instanceof Document);
+        assertTrue("Read back document after serialization", (doc2 != null) && doc2 instanceof Document);
 
-    assertDocumentsEqual(document, doc2);
+        assertDocumentsEqual(document, doc2);
 
-    // now lets try add something to the document...
-    doc2.getRootElement().addElement("new");
-  }
+        // now lets try add something to the document...
+        doc2.getRootElement().addElement("new");
+    }
 }
 
 /*

@@ -7,7 +7,12 @@
 package org.neoxml.tree;
 
 import org.junit.Test;
-import org.neoxml.*;
+import org.neoxml.AbstractTestCase;
+import org.neoxml.DefaultDocumentFactory;
+import org.neoxml.Document;
+import org.neoxml.DocumentHelper;
+import org.neoxml.Element;
+import org.neoxml.IllegalAddException;
 import org.neoxml.io.OutputFormat;
 import org.neoxml.io.XMLWriter;
 
@@ -18,100 +23,98 @@ import java.io.ByteArrayOutputStream;
  *
  * @author <a href="mailto:maartenc@users.sourceforge.net">Maarten Coene </a>
  */
-public class DefaultDocumentTest extends AbstractTestCase
-{
-  // Test case(s)
-  // -------------------------------------------------------------------------
+public class DefaultDocumentTest extends AbstractTestCase {
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testDoubleRootElement() {
-    Document document = DefaultDocumentFactory.getInstance().createDocument();
-    document.addElement("root");
+    @Test
+    public void testDoubleRootElement() {
+        Document document = DefaultDocumentFactory.getInstance().createDocument();
+        document.addElement("root");
 
-    Element root = DefaultDocumentFactory.getInstance().createElement(
-        "anotherRoot");
+        Element root = DefaultDocumentFactory.getInstance().createElement(
+                "anotherRoot");
 
-    try {
-      document.add(root);
-      fail();
+        try {
+            document.add(root);
+            fail();
+        } catch (IllegalAddException e) {
+            String msg = e.getMessage();
+            assertTrue(msg.indexOf(root.toString()) != -1);
+        }
     }
-    catch (IllegalAddException e) {
-      String msg = e.getMessage();
-      assertTrue(msg.indexOf(root.toString()) != -1);
+
+    @Test
+    public void testBug799656() throws Exception {
+        Document document = DefaultDocumentFactory.getInstance().createDocument();
+        Element el = document.addElement("root");
+        el.setText("text with an \u00FC in it"); // u00FC is umlaut
+
+        System.out.println(document.asXML());
+
+        DocumentHelper.parseText(document.asXML());
     }
-  }
 
-  @Test
-  public void testBug799656() throws Exception {
-    Document document = DefaultDocumentFactory.getInstance().createDocument();
-    Element el = document.addElement("root");
-    el.setText("text with an \u00FC in it"); // u00FC is umlaut
+    @Test
+    public void testAsXMLWithEncoding() throws Exception {
+        DefaultDocument document = new DefaultDocument();
+        document.addElement("root");
+        document.setXMLEncoding("ISO-8859-1");
 
-    System.out.println(document.asXML());
+        Document doc = DocumentHelper.parseText("<?xml version='1.0' "
+                                                        + "encoding='ISO-8859-1'?><root/>");
 
-    DocumentHelper.parseText(document.asXML());
-  }
+        String xml1 = document.asXML();
+        String xml2 = doc.asXML();
 
-  @Test
-  public void testAsXMLWithEncoding() throws Exception {
-    DefaultDocument document = new DefaultDocument();
-    document.addElement("root");
-    document.setXMLEncoding("ISO-8859-1");
+        assertTrue(xml1.indexOf("ISO-8859-1") != -1);
+        assertTrue(xml2.indexOf("ISO-8859-1") != -1);
+    }
 
-    Document doc = DocumentHelper.parseText("<?xml version='1.0' "
-        + "encoding='ISO-8859-1'?><root/>");
+    @Test
+    public void testBug1156909() throws Exception {
+        Document doc = DocumentHelper.parseText("<?xml version='1.0' "
+                                                        + "encoding='ISO-8859-1'?><root/>");
 
-    String xml1 = document.asXML();
-    String xml2 = doc.asXML();
+        assertEquals("XMLEncoding not correct", "ISO-8859-1", doc
+                .getXMLEncoding());
+    }
 
-    assertTrue(xml1.indexOf("ISO-8859-1") != -1);
-    assertTrue(xml2.indexOf("ISO-8859-1") != -1);
-  }
+    @Test
+    public void testAsXMLWithEncodingAndContent() throws Exception {
+        DefaultDocument document = new DefaultDocument();
+        document.setXMLEncoding("UTF-16");
+        Element root = document.addElement("root");
+        root.setText("text with an \u00FC in it"); // u00FC is umlaut
 
-  @Test
-  public void testBug1156909() throws Exception {
-    Document doc = DocumentHelper.parseText("<?xml version='1.0' "
-        + "encoding='ISO-8859-1'?><root/>");
+        String xml = document.asXML();
+        assertTrue(xml.indexOf("UTF-16") != -1);
+        assertTrue(xml.indexOf('\u00FC') != -1);
+    }
 
-    assertEquals("XMLEncoding not correct", "ISO-8859-1", doc
-      .getXMLEncoding());
-  }
+    @Test
+    public void testEncoding() throws Exception {
+        Document document = DefaultDocumentFactory.getInstance().createDocument(
+                "koi8-r");
+        Element el = document.addElement("root");
+        el.setText("text with an \u00FC in it"); // u00FC is umlaut
 
-  @Test
-  public void testAsXMLWithEncodingAndContent() throws Exception {
-    DefaultDocument document = new DefaultDocument();
-    document.setXMLEncoding("UTF-16");
-    Element root = document.addElement("root");
-    root.setText("text with an \u00FC in it"); // u00FC is umlaut
+        System.out.println(document.asXML());
 
-    String xml = document.asXML();
-    assertTrue(xml.indexOf("UTF-16") != -1);
-    assertTrue(xml.indexOf('\u00FC') != -1);
-  }
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        OutputFormat of = OutputFormat.createPrettyPrint();
+        of.setEncoding("koi8-r");
 
-  @Test
-  public void testEncoding() throws Exception {
-    Document document = DefaultDocumentFactory.getInstance().createDocument(
-        "koi8-r");
-    Element el = document.addElement("root");
-    el.setText("text with an \u00FC in it"); // u00FC is umlaut
+        XMLWriter writer = new XMLWriter(out, of);
+        writer.write(document);
 
-    System.out.println(document.asXML());
+        String result = out.toString("koi8-r");
+        System.out.println(result);
 
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    OutputFormat of = OutputFormat.createPrettyPrint();
-    of.setEncoding("koi8-r");
+        Document doc2 = DocumentHelper.parseText(result);
+        // System.out.println(doc2.asXML());
 
-    XMLWriter writer = new XMLWriter(out, of);
-    writer.write(document);
-
-    String result = out.toString("koi8-r");
-    System.out.println(result);
-
-    Document doc2 = DocumentHelper.parseText(result);
-    // System.out.println(doc2.asXML());
-
-  }
+    }
 }
 
 /*

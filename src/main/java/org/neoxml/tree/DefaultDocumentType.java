@@ -19,133 +19,132 @@ import java.util.List;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.10 $
  */
-public class DefaultDocumentType extends AbstractDocumentType
-{
-  /**
-   * The root element name of the document typ
-   */
-  protected String elementName;
+public class DefaultDocumentType extends AbstractDocumentType {
+    /**
+     * The root element name of the document typ
+     */
+    protected String elementName;
 
-  /**
-   * Holds value of property publicID.
-   */
-  private String publicID;
+    /**
+     * Holds value of property publicID.
+     */
+    private String publicID;
 
-  /**
-   * Holds value of property systemID.
-   */
-  private String systemID;
+    /**
+     * Holds value of property systemID.
+     */
+    private String systemID;
 
-  /**
-   * The internal DTD declarations
-   */
-  private List<InternalDeclaration> internalDeclarations;
+    /**
+     * The internal DTD declarations
+     */
+    private List<InternalDeclaration> internalDeclarations;
 
-  /**
-   * The external DTD declarations
-   */
-  private List<ExternalDeclaration> externalDeclarations;
+    /**
+     * The external DTD declarations
+     */
+    private List<ExternalDeclaration> externalDeclarations;
 
-  public DefaultDocumentType() {}
+    public DefaultDocumentType() {}
 
-  /**
-   * <p>
-   * This will create a new <code>DocumentType</code> with a reference to the external DTD
-   * </p>
-   *
-   * @param elementName is the root element name of the document type
-   * @param systemID is the system ID of the external DTD
-   */
-  public DefaultDocumentType(String elementName, String systemID) {
-    this.elementName = elementName;
-    this.systemID = systemID;
-  }
+    /**
+     * <p>
+     * This will create a new <code>DocumentType</code> with a reference to the external DTD
+     * </p>
+     *
+     * @param elementName is the root element name of the document type
+     * @param systemID    is the system ID of the external DTD
+     */
+    public DefaultDocumentType(String elementName, String systemID) {
+        this.elementName = elementName;
+        this.systemID = systemID;
+    }
 
-  /**
-   * <p>
-   * This will create a new <code>DocumentType</code> with a reference to the external DTD
-   * </p>
-   *
-   * @param elementName is the root element name of the document type
-   * @param publicID is the public ID of the DTD
-   * @param systemID is the system ID of the DTD
-   */
-  public DefaultDocumentType(String elementName, String publicID,
-      String systemID) {
-    this.elementName = elementName;
-    this.publicID = publicID;
-    this.systemID = systemID;
-  }
+    /**
+     * <p>
+     * This will create a new <code>DocumentType</code> with a reference to the external DTD
+     * </p>
+     *
+     * @param elementName is the root element name of the document type
+     * @param publicID    is the public ID of the DTD
+     * @param systemID    is the system ID of the DTD
+     */
+    public DefaultDocumentType(String elementName, String publicID,
+                               String systemID) {
+        this.elementName = elementName;
+        this.publicID = publicID;
+        this.systemID = systemID;
+    }
 
-  @Override
-  public String getElementName() {
-    return elementName;
-  }
+    @Override
+    public String getElementName() {
+        return elementName;
+    }
 
-  @Override
-  public void setElementName(String elementName) {
-    this.elementName = elementName;
-  }
+    @Override
+    public void setElementName(String elementName) {
+        this.elementName = elementName;
+    }
 
-  /**
-   * DOCUMENT ME!
-   *
-   * @return the public ID of the document type
-   */
-  @Override
-  public String getPublicID() {
-    return publicID;
-  }
+    /**
+     * DOCUMENT ME!
+     *
+     * @return the public ID of the document type
+     */
+    @Override
+    public String getPublicID() {
+        return publicID;
+    }
 
-  /**
-   * Sets the public ID of the document type
-   *
-   * @param publicID DOCUMENT ME!
-   */
-  @Override
-  public void setPublicID(String publicID) {
-    this.publicID = publicID;
-  }
+    /**
+     * Sets the public ID of the document type
+     *
+     * @param publicID DOCUMENT ME!
+     */
+    @Override
+    public void setPublicID(String publicID) {
+        this.publicID = publicID;
+    }
 
-  /**
-   * DOCUMENT ME!
-   *
-   * @return the system ID of the document type
-   */
-  @Override
-  public String getSystemID() {
-    return systemID;
-  }
+    /**
+     * DOCUMENT ME!
+     *
+     * @return the system ID of the document type
+     */
+    @Override
+    public String getSystemID() {
+        return systemID;
+    }
 
-  /**
-   * Sets the system ID of the document type
-   *
-   * @param systemID DOCUMENT ME!
-   */
-  @Override
-  public void setSystemID(String systemID) {
-    this.systemID = systemID;
-  }
+    /**
+     * Sets the system ID of the document type
+     *
+     * @param systemID DOCUMENT ME!
+     */
+    @Override
+    public void setSystemID(String systemID) {
+        this.systemID = systemID;
+    }
 
-  @Override
-  public List<InternalDeclaration> getInternalDeclarations() {
-    return internalDeclarations;
-  }
+    @Override
+    public List<InternalDeclaration> getInternalDeclarations() {
+        return internalDeclarations;
+    }
 
-  @Override
-  public void setInternalDeclarations(List<InternalDeclaration> internalDeclarations) {
-    this.internalDeclarations = internalDeclarations;
-  }
+    @Override
+    public void setInternalDeclarations(List<InternalDeclaration> internalDeclarations) {
+        this.internalDeclarations = internalDeclarations;
+    }
 
-  @Override
-  public List<ExternalDeclaration> getExternalDeclarations() {
-    return externalDeclarations;
-  }
+    @Override
+    public List<ExternalDeclaration> getExternalDeclarations() {
+        return externalDeclarations;
+    }
 
-  @Override
-  public void setExternalDeclarations(List<ExternalDeclaration> externalDeclarations) {
-    this.externalDeclarations = externalDeclarations;
-  }
+    @Override
+    public void setExternalDeclarations(List<ExternalDeclaration> externalDeclarations) {
+        this.externalDeclarations = externalDeclarations;
+    }
 }
 
 /*

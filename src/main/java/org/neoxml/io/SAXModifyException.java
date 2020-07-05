@@ -13,16 +13,15 @@ package org.neoxml.io;
  *
  * @author Wonne Keysers (Realsoftware.be)
  */
-class SAXModifyException extends RuntimeException
-{
-  /**
-   * DOCUMENT ME!
-   *
-   * @param cause The causing {@link java.lang.Throwable}
-   */
-  protected SAXModifyException(Throwable cause) {
-    super(cause);
-  }
+class SAXModifyException extends RuntimeException {
+    /**
+     * DOCUMENT ME!
+     *
+     * @param cause The causing {@link java.lang.Throwable}
+     */
+    protected SAXModifyException(Throwable cause) {
+        super(cause);
+    }
 }
 
 /*

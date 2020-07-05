@@ -22,52 +22,50 @@ import java.io.Writer;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.12 $
  */
-public abstract class AbstractCDATA extends AbstractCharacterData implements CDATA
-{
-  public AbstractCDATA() {}
+public abstract class AbstractCDATA extends AbstractCharacterData implements CDATA {
+    public AbstractCDATA() {}
 
-  @Override
-  public NodeType getNodeTypeEnum() {
-    return NodeType.CDATA_SECTION_NODE;
-  }
-
-  @Override
-  protected void toString(StringBuilder builder) {
-    super.toString(builder);
-    builder.append(" [CDATA: \"");
-    builder.append(getText());
-    builder.append("\"]");
-  }
-
-  @Override
-  public String asXML() {
-    StringWriter writer = new StringWriter();
-
-    try {
-      write(writer);
-    }
-    catch (IOException e) {
-      // will not happen since we are using a StringWriter!
+    @Override
+    public NodeType getNodeTypeEnum() {
+        return NodeType.CDATA_SECTION_NODE;
     }
 
-    return writer.toString();
-  }
-
-  @Override
-  public void write(Writer writer) throws IOException {
-    writer.write("<![CDATA[");
-
-    if (getText() != null) {
-      writer.write(getText());
+    @Override
+    protected void toString(StringBuilder builder) {
+        super.toString(builder);
+        builder.append(" [CDATA: \"");
+        builder.append(getText());
+        builder.append("\"]");
     }
 
-    writer.write("]]>");
-  }
+    @Override
+    public String asXML() {
+        StringWriter writer = new StringWriter();
 
-  @Override
-  public boolean accept(Visitor visitor) {
-    return visitor.visit(this);
-  }
+        try {
+            write(writer);
+        } catch (IOException e) {
+            // will not happen since we are using a StringWriter!
+        }
+
+        return writer.toString();
+    }
+
+    @Override
+    public void write(Writer writer) throws IOException {
+        writer.write("<![CDATA[");
+
+        if (getText() != null) {
+            writer.write(getText());
+        }
+
+        writer.write("]]>");
+    }
+
+    @Override
+    public boolean accept(Visitor visitor) {
+        return visitor.visit(this);
+    }
 }
 
 /*

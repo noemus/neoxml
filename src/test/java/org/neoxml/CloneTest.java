@@ -17,120 +17,119 @@ import org.neoxml.util.NodeComparator;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.6 $
  */
-public class CloneTest extends AbstractTestCase
-{
-  @Test
-  public void testBug1148333() {
-    DOMDocumentFactory factory = (DOMDocumentFactory)DOMDocumentFactory.getInstance();
-    DOMDocument doc = (DOMDocument)factory.createDocument();
-    Element el = doc.addElement("root");
-    el.addNamespace("pref2", "uri2");
+public class CloneTest extends AbstractTestCase {
+    @Test
+    public void testBug1148333() {
+        DOMDocumentFactory factory = (DOMDocumentFactory) DOMDocumentFactory.getInstance();
+        DOMDocument doc = (DOMDocument) factory.createDocument();
+        Element el = doc.addElement("root");
+        el.addNamespace("pref2", "uri2");
 
-    DOMDocument clone = (DOMDocument)doc.cloneNode(true);
+        DOMDocument clone = (DOMDocument) doc.cloneNode(true);
 
-    assertNotSame(doc, clone);
-    assertNodesEqual(doc, clone);
-  }
+        assertNotSame(doc, clone);
+        assertNodesEqual(doc, clone);
+    }
 
-  @Test
-  public void testElementWithNamespaceClone() {
-    Element element = DefaultDocumentFactory.getInstance().createElement("element");
-    element.addNamespace("prefix", "uri");
-    Element clone = (Element)element.clone();
+    @Test
+    public void testElementWithNamespaceClone() {
+        Element element = DefaultDocumentFactory.getInstance().createElement("element");
+        element.addNamespace("prefix", "uri");
+        Element clone = (Element) element.clone();
 
-    assertNotSame(element, clone);
-    assertNodesEqual(element, clone);
-  }
+        assertNotSame(element, clone);
+        assertNodesEqual(element, clone);
+    }
 
-  @Test
-  public void testDocumentClone() throws Exception {
-    document.setName("doc1");
+    @Test
+    public void testDocumentClone() throws Exception {
+        document.setName("doc1");
 
-    Document doc2 = (Document)document.clone();
+        Document doc2 = (Document) document.clone();
 
-    assertNotSame(document, doc2);
-    assertNodesEqual(document, doc2);
-  }
+        assertNotSame(document, doc2);
+        assertNodesEqual(document, doc2);
+    }
 
-  @Test
-  public void testAddCloneToOtherElement() {
-    DocumentFactory factory = DefaultDocumentFactory.getInstance();
-    Document doc = factory.createDocument();
-    Element root = doc.addElement("root");
-    Element parent1 = root.addElement("parent");
-    Element child1 = parent1.addElement("child");
+    @Test
+    public void testAddCloneToOtherElement() {
+        DocumentFactory factory = DefaultDocumentFactory.getInstance();
+        Document doc = factory.createDocument();
+        Element root = doc.addElement("root");
+        Element parent1 = root.addElement("parent");
+        Element child1 = parent1.addElement("child");
 
-    Element parent2 = (Element)parent1.clone();
-    root.add(parent2);
+        Element parent2 = (Element) parent1.clone();
+        root.add(parent2);
 
-    assertSame("parent not correct", root, parent2.getParent());
-    assertSame("document not correct", doc, parent2.getDocument());
+        assertSame("parent not correct", root, parent2.getParent());
+        assertSame("document not correct", doc, parent2.getDocument());
 
-    Element child2 = parent2.element("child");
+        Element child2 = parent2.element("child");
 
-    assertNotSame("child not cloned", child1, child2);
-    assertNotNull("null child", child2);
-    assertSame("parent not correct", parent2, child2.getParent());
-    assertSame("document not correct", doc, child2.getDocument());
-  }
+        assertNotSame("child not cloned", child1, child2);
+        assertNotNull("null child", child2);
+        assertSame("parent not correct", parent2, child2.getParent());
+        assertSame("document not correct", doc, child2.getDocument());
+    }
 
-  @Test
-  public void testRootElementClone() throws Exception {
-    testElementClone(document.getRootElement());
-  }
+    @Test
+    public void testRootElementClone() throws Exception {
+        testElementClone(document.getRootElement());
+    }
 
-  @Test
-  public void testAuthorElementClone() throws Exception {
-    testElementClone((Element)document.selectSingleNode("//author"));
-  }
+    @Test
+    public void testAuthorElementClone() throws Exception {
+        testElementClone((Element) document.selectSingleNode("//author"));
+    }
 
-  @Test
-  public void testRootCompare1() throws Exception {
-    Document doc2 = (Document)document.clone();
-    Element author = doc2.getRootElement();
-    author.addAttribute("foo", "bar");
+    @Test
+    public void testRootCompare1() throws Exception {
+        Document doc2 = (Document) document.clone();
+        Element author = doc2.getRootElement();
+        author.addAttribute("foo", "bar");
 
-    assertTrue("Documents are not equal", NodeComparator.compare(document, doc2) != 0);
-  }
+        assertTrue("Documents are not equal", NodeComparator.compare(document, doc2) != 0);
+    }
 
-  @Test
-  public void testRootCompare2() throws Exception {
-    Document doc2 = (Document)document.clone();
-    Element author = doc2.getRootElement();
+    @Test
+    public void testRootCompare2() throws Exception {
+        Document doc2 = (Document) document.clone();
+        Element author = doc2.getRootElement();
 
-    author.addText("foo");
+        author.addText("foo");
 
-    assertTrue("Documents are not equal", NodeComparator.compare(document, doc2) != 0);
-  }
+        assertTrue("Documents are not equal", NodeComparator.compare(document, doc2) != 0);
+    }
 
-  @Test
-  public void testAuthorCompare1() throws Exception {
-    Document doc2 = (Document)document.clone();
-    Element author = (Element)doc2.selectSingleNode("//author");
-    author.addAttribute("name", "James Strachan");
+    @Test
+    public void testAuthorCompare1() throws Exception {
+        Document doc2 = (Document) document.clone();
+        Element author = (Element) doc2.selectSingleNode("//author");
+        author.addAttribute("name", "James Strachan");
 
-    assertTrue("Documents are not equal", NodeComparator.compare(document, doc2) != 0);
-  }
+        assertTrue("Documents are not equal", NodeComparator.compare(document, doc2) != 0);
+    }
 
-  @Test
-  public void testAuthorCompare2() throws Exception {
-    Document doc2 = (Document)document.clone();
-    Element author = (Element)doc2.selectSingleNode("//author");
+    @Test
+    public void testAuthorCompare2() throws Exception {
+        Document doc2 = (Document) document.clone();
+        Element author = (Element) doc2.selectSingleNode("//author");
 
-    author.addText("foo");
+        author.addText("foo");
 
-    assertTrue("Documents are not equal", NodeComparator.compare(document, doc2) != 0);
-  }
+        assertTrue("Documents are not equal", NodeComparator.compare(document, doc2) != 0);
+    }
 
-  protected void testElementClone(Element element) throws Exception {
-    Element element2 = (Element)element.clone();
+    protected void testElementClone(Element element) throws Exception {
+        Element element2 = (Element) element.clone();
 
-    assertTrue("Returned a new Element", element2 != element);
-    assertNull("New element has no parent", element2.getParent());
-    assertNull("New element has no Document", element2.getDocument());
+        assertTrue("Returned a new Element", element2 != element);
+        assertNull("New element has no parent", element2.getParent());
+        assertNull("New element has no Document", element2.getDocument());
 
-    assertTrue("Element fragments are equal", NodeComparator.compare(element, element2) == 0);
-  }
+        assertTrue("Element fragments are equal", NodeComparator.compare(element, element2) == 0);
+    }
 }
 
 /*

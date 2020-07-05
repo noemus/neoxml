@@ -19,54 +19,53 @@ import org.neoxml.tree.AbstractAttribute;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.7 $
  */
-public class BeanAttribute extends AbstractAttribute
-{
-  /**
-   * The list of Bean attributes
-   */
-  private final BeanAttributeList beanList;
+public class BeanAttribute extends AbstractAttribute {
+    /**
+     * The list of Bean attributes
+     */
+    private final BeanAttributeList beanList;
 
-  /**
-   * The index in the Bean attribute list
-   */
-  private final int index;
+    /**
+     * The index in the Bean attribute list
+     */
+    private final int index;
 
-  public BeanAttribute(BeanAttributeList beanList, int index) {
-    this.beanList = beanList;
-    this.index = index;
-  }
+    public BeanAttribute(BeanAttributeList beanList, int index) {
+        this.beanList = beanList;
+        this.index = index;
+    }
 
-  @Override
-  public QName getQName() {
-    return beanList.getQName(index);
-  }
+    @Override
+    public QName getQName() {
+        return beanList.getQName(index);
+    }
 
-  @Override
-  public Element getParent() {
-    return beanList.getParent();
-  }
+    @Override
+    public Element getParent() {
+        return beanList.getParent();
+    }
 
-  @Override
-  public String getValue() {
-    Object data = getData();
+    @Override
+    public String getValue() {
+        Object data = getData();
 
-    return (data != null) ? data.toString() : null;
-  }
+        return (data != null) ? data.toString() : null;
+    }
 
-  @Override
-  public void setValue(String data) {
-    beanList.setData(index, data);
-  }
+    @Override
+    public void setValue(String data) {
+        beanList.setData(index, data);
+    }
 
-  @Override
-  public Object getData() {
-    return beanList.getData(index);
-  }
+    @Override
+    public Object getData() {
+        return beanList.getData(index);
+    }
 
-  @Override
-  public void setData(Object data) {
-    beanList.setData(index, data);
-  }
+    @Override
+    public void setData(Object data) {
+        beanList.setData(index, data);
+    }
 }
 
 /*

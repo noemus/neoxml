@@ -21,31 +21,30 @@ import org.neoxml.Node;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.7 $
  */
-public class FlyweightText extends AbstractText
-{
-  /**
-   * Text of the <code>Text</code> node
-   */
-  protected String text;
+public class FlyweightText extends AbstractText {
+    /**
+     * Text of the <code>Text</code> node
+     */
+    protected String text;
 
-  /**
-   * DOCUMENT ME!
-   *
-   * @param text is the Text text
-   */
-  public FlyweightText(String text) {
-    this.text = text;
-  }
+    /**
+     * DOCUMENT ME!
+     *
+     * @param text is the Text text
+     */
+    public FlyweightText(String text) {
+        this.text = text;
+    }
 
-  @Override
-  public String getText() {
-    return text;
-  }
+    @Override
+    public String getText() {
+        return text;
+    }
 
-  @Override
-  protected Node createXPathResult(Element parent) {
-    return new DefaultText(parent, getText());
-  }
+    @Override
+    protected Node createXPathResult(Element parent) {
+        return new DefaultText(parent, getText());
+    }
 }
 
 /*

@@ -22,38 +22,37 @@ import org.neoxml.rule.Pattern;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.6 $
  */
-public class DefaultPattern implements Pattern
-{
-  private final NodeFilter filter;
+public class DefaultPattern implements Pattern {
+    private final NodeFilter filter;
 
-  public DefaultPattern(NodeFilter filter) {
-    this.filter = filter;
-  }
+    public DefaultPattern(NodeFilter filter) {
+        this.filter = filter;
+    }
 
-  @Override
-  public boolean matches(Node node) {
-    return filter.matches(node);
-  }
+    @Override
+    public boolean matches(Node node) {
+        return filter.matches(node);
+    }
 
-  @Override
-  public double getPriority() {
-    return Pattern.DEFAULT_PRIORITY;
-  }
+    @Override
+    public double getPriority() {
+        return Pattern.DEFAULT_PRIORITY;
+    }
 
-  @Override
-  public Pattern[] getUnionPatterns() {
-    return null;
-  }
+    @Override
+    public Pattern[] getUnionPatterns() {
+        return null;
+    }
 
-  @Override
-  public NodeType getMatchType() {
-    return NodeType.ANY_NODE;
-  }
+    @Override
+    public NodeType getMatchType() {
+        return NodeType.ANY_NODE;
+    }
 
-  @Override
-  public String getMatchesNodeName() {
-    return null;
-  }
+    @Override
+    public String getMatchesNodeName() {
+        return null;
+    }
 }
 
 /*

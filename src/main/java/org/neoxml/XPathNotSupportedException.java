@@ -14,11 +14,10 @@ package org.neoxml;
  * @version $Revision: 1.6 $
  */
 @SuppressWarnings("serial")
-public class XPathNotSupportedException extends IllegalStateException
-{
-  public XPathNotSupportedException(Exception e) {
-    super("Cannot instantiate Jaxen based XPath instance", e);
-  }
+public class XPathNotSupportedException extends IllegalStateException {
+    public XPathNotSupportedException(Exception e) {
+        super("Cannot instantiate Jaxen based XPath instance", e);
+    }
 }
 
 /*

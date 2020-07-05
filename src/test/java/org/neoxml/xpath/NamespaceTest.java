@@ -22,64 +22,63 @@ import java.util.List;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.3 $
  */
-public class NamespaceTest extends AbstractTestCase
-{
-  protected static String[] paths = {
-    "namespace::*",
-    "/Template/Application1/namespace::*",
-    "/Template/Application1/namespace::xplt", "//namespace::*"
-  };
+public class NamespaceTest extends AbstractTestCase {
+    protected static String[] paths = {
+            "namespace::*",
+            "/Template/Application1/namespace::*",
+            "/Template/Application1/namespace::xplt", "//namespace::*"
+    };
 
-  // Test case(s)
-  // -------------------------------------------------------------------------
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testXPaths() throws Exception {
-    int size = paths.length;
+    @Test
+    public void testXPaths() throws Exception {
+        int size = paths.length;
 
-    for (int i = 0; i < size; i++) {
-      testXPath(paths[i]);
+        for (int i = 0; i < size; i++) {
+            testXPath(paths[i]);
+        }
     }
-  }
 
-  // Implementation methods
-  // -------------------------------------------------------------------------
+    // Implementation methods
+    // -------------------------------------------------------------------------
 
-  protected void testXPath(String xpathText) {
-    XPath xpath = DocumentHelper.createXPath(xpathText);
-    List list = xpath.selectNodes(document);
+    protected void testXPath(String xpathText) {
+        XPath xpath = DocumentHelper.createXPath(xpathText);
+        List list = xpath.selectNodes(document);
 
-    log("Searched path: " + xpathText + " found: " + list.size()
-      + " result(s)");
+        log("Searched path: " + xpathText + " found: " + list.size()
+                    + " result(s)");
 
-    for (Iterator iter = list.iterator(); iter.hasNext();) {
-      Object object = iter.next();
+        for (Iterator iter = list.iterator(); iter.hasNext(); ) {
+            Object object = iter.next();
 
-      log("Found Result: " + object);
+            log("Found Result: " + object);
 
-      assertTrue("Results should be Namespace objects",
-        object instanceof Namespace);
+            assertTrue("Results should be Namespace objects",
+                       object instanceof Namespace);
 
-      Namespace namespace = (Namespace)object;
+            Namespace namespace = (Namespace) object;
 
-      log("Parent node: " + namespace.getParent());
+            log("Parent node: " + namespace.getParent());
 
-      assertTrue("Results should support the parent relationship",
-        namespace.supportsParent());
-      assertTrue(
-        "Results should contain reference to the parent element",
-        namespace.getParent() != null);
-      assertTrue("Results should contain reference to the document",
-        namespace.getDocument() != null);
+            assertTrue("Results should support the parent relationship",
+                       namespace.supportsParent());
+            assertTrue(
+                    "Results should contain reference to the parent element",
+                    namespace.getParent() != null);
+            assertTrue("Results should contain reference to the document",
+                       namespace.getDocument() != null);
+        }
     }
-  }
 
-  @Override
-  @Before
-  public void setUp() throws Exception {
-    super.setUp();
-    document = getDocument("xml/testNamespaces.xml");
-  }
+    @Override
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        document = getDocument("xml/testNamespaces.xml");
+    }
 }
 
 /*

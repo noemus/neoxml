@@ -9,7 +9,12 @@ package org.neoxml.dom;
 import org.neoxml.Element;
 import org.neoxml.Text;
 import org.neoxml.tree.DefaultText;
-import org.w3c.dom.*;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.UserDataHandler;
 
 /**
  * <p>
@@ -19,303 +24,300 @@ import org.w3c.dom.*;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.12 $
  */
-public class DOMText extends DefaultText implements org.w3c.dom.Text
-{
-  public DOMText(String text) {
-    super(text);
-  }
-
-  public DOMText(Element parent, String text) {
-    super(parent, text);
-  }
-
-  public boolean supports(String feature, String version) {
-    return DOMNodeHelper.supports(this, feature, version);
-  }
-
-  @Override
-  public String getNamespaceURI() {
-    return DOMNodeHelper.getNamespaceURI(this);
-  }
-
-  @Override
-  public String getPrefix() {
-    return DOMNodeHelper.getPrefix(this);
-  }
-
-  @Override
-  public void setPrefix(String prefix) throws DOMException {
-    DOMNodeHelper.setPrefix(this, prefix);
-  }
-
-  @Override
-  public String getLocalName() {
-    return DOMNodeHelper.getLocalName(this);
-  }
-
-  @Override
-  public String getNodeName() {
-    return "#text";
-  }
-
-  @Override
-  public String getNodeValue() throws DOMException {
-    return DOMNodeHelper.getNodeValue(this);
-  }
-
-  @Override
-  public void setNodeValue(String nodeValue) throws DOMException {
-    DOMNodeHelper.setNodeValue(this, nodeValue);
-  }
-
-  @Override
-  public org.w3c.dom.Node getParentNode() {
-    return DOMNodeHelper.getParentNode(this);
-  }
-
-  @Override
-  public NodeList getChildNodes() {
-    return DOMNodeHelper.getChildNodes(this);
-  }
-
-  @Override
-  public org.w3c.dom.Node getFirstChild() {
-    return DOMNodeHelper.getFirstChild(this);
-  }
-
-  @Override
-  public org.w3c.dom.Node getLastChild() {
-    return DOMNodeHelper.getLastChild(this);
-  }
-
-  @Override
-  public org.w3c.dom.Node getPreviousSibling() {
-    return DOMNodeHelper.getPreviousSibling(this);
-  }
-
-  @Override
-  public org.w3c.dom.Node getNextSibling() {
-    return DOMNodeHelper.getNextSibling(this);
-  }
-
-  @Override
-  public NamedNodeMap getAttributes() {
-    return null;
-  }
-
-  @Override
-  public Document getOwnerDocument() {
-    return DOMNodeHelper.getOwnerDocument(this);
-  }
-
-  @Override
-  public org.w3c.dom.Node insertBefore(org.w3c.dom.Node newChild, org.w3c.dom.Node refChild) throws DOMException {
-    checkNewChildNode(newChild);
-
-    return DOMNodeHelper.insertBefore(this, newChild, refChild);
-  }
-
-  @Override
-  public org.w3c.dom.Node replaceChild(org.w3c.dom.Node newChild, org.w3c.dom.Node oldChild) throws DOMException {
-    checkNewChildNode(newChild);
-
-    return DOMNodeHelper.replaceChild(this, newChild, oldChild);
-  }
-
-  @Override
-  public org.w3c.dom.Node removeChild(org.w3c.dom.Node oldChild) throws DOMException {
-    return DOMNodeHelper.removeChild(this, oldChild);
-  }
-
-  @Override
-  public org.w3c.dom.Node appendChild(org.w3c.dom.Node newChild) throws DOMException {
-    checkNewChildNode(newChild);
-
-    return DOMNodeHelper.appendChild(this, newChild);
-  }
-
-  private void checkNewChildNode(org.w3c.dom.Node newChild) throws DOMException {
-    throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "Text nodes cannot have children");
-  }
-
-  @Override
-  public boolean hasChildNodes() {
-    return DOMNodeHelper.hasChildNodes(this);
-  }
-
-  @Override
-  public org.w3c.dom.Node cloneNode(boolean deep) {
-    return DOMNodeHelper.cloneNode(this, deep);
-  }
-
-  @Override
-  public void normalize() {
-    DOMNodeHelper.normalize(this);
-  }
-
-  @Override
-  public boolean isSupported(String feature, String version) {
-    return DOMNodeHelper.isSupported(this, feature, version);
-  }
-
-  @Override
-  public boolean hasAttributes() {
-    return DOMNodeHelper.hasAttributes(this);
-  }
-
-  @Override
-  public String getData() throws DOMException {
-    return DOMNodeHelper.getData(this);
-  }
-
-  @Override
-  public void setData(String data) throws DOMException {
-    DOMNodeHelper.setData(this, data);
-  }
-
-  @Override
-  public int getLength() {
-    return DOMNodeHelper.getLength(this);
-  }
-
-  @Override
-  public String substringData(int offset, int count) throws DOMException {
-    return DOMNodeHelper.substringData(this, offset, count);
-  }
-
-  @Override
-  public void appendData(String arg) throws DOMException {
-    DOMNodeHelper.appendData(this, arg);
-  }
-
-  @Override
-  public void insertData(int offset, String arg) throws DOMException {
-    DOMNodeHelper.insertData(this, offset, arg);
-  }
-
-  @Override
-  public void deleteData(int offset, int count) throws DOMException {
-    DOMNodeHelper.deleteData(this, offset, count);
-  }
-
-  @Override
-  public void replaceData(int offset, int count, String arg)
-      throws DOMException {
-    DOMNodeHelper.replaceData(this, offset, count, arg);
-  }
-
-
-  @SuppressWarnings("hiding")
-  @Override
-  public org.w3c.dom.Text splitText(int offset) throws DOMException {
-    if (isReadOnly()) {
-      throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "CharacterData node is read only: " + this);
+public class DOMText extends DefaultText implements org.w3c.dom.Text {
+    public DOMText(String text) {
+        super(text);
     }
-    else {
-      String text = getText();
-      int length = (text != null) ? text.length() : 0;
 
-      if ((offset < 0) || (offset >= length)) {
-        throw new DOMException(DOMException.INDEX_SIZE_ERR, "No text at offset: " + offset);
-      }
-      else {
-        @SuppressWarnings("null")
-        // cannot be null here
-        String start = text.substring(0, offset);
-        String rest = text.substring(offset);
-        setText(start);
+    public DOMText(Element parent, String text) {
+        super(parent, text);
+    }
 
-        Element parent = getParent();
-        Text newText = createText(rest);
+    public boolean supports(String feature, String version) {
+        return DOMNodeHelper.supports(this, feature, version);
+    }
 
-        if (parent != null) {
-          parent.add(newText);
+    @Override
+    public String getNamespaceURI() {
+        return DOMNodeHelper.getNamespaceURI(this);
+    }
+
+    @Override
+    public String getPrefix() {
+        return DOMNodeHelper.getPrefix(this);
+    }
+
+    @Override
+    public void setPrefix(String prefix) throws DOMException {
+        DOMNodeHelper.setPrefix(this, prefix);
+    }
+
+    @Override
+    public String getLocalName() {
+        return DOMNodeHelper.getLocalName(this);
+    }
+
+    @Override
+    public String getNodeName() {
+        return "#text";
+    }
+
+    @Override
+    public String getNodeValue() throws DOMException {
+        return DOMNodeHelper.getNodeValue(this);
+    }
+
+    @Override
+    public void setNodeValue(String nodeValue) throws DOMException {
+        DOMNodeHelper.setNodeValue(this, nodeValue);
+    }
+
+    @Override
+    public org.w3c.dom.Node getParentNode() {
+        return DOMNodeHelper.getParentNode(this);
+    }
+
+    @Override
+    public NodeList getChildNodes() {
+        return DOMNodeHelper.getChildNodes(this);
+    }
+
+    @Override
+    public org.w3c.dom.Node getFirstChild() {
+        return DOMNodeHelper.getFirstChild(this);
+    }
+
+    @Override
+    public org.w3c.dom.Node getLastChild() {
+        return DOMNodeHelper.getLastChild(this);
+    }
+
+    @Override
+    public org.w3c.dom.Node getPreviousSibling() {
+        return DOMNodeHelper.getPreviousSibling(this);
+    }
+
+    @Override
+    public org.w3c.dom.Node getNextSibling() {
+        return DOMNodeHelper.getNextSibling(this);
+    }
+
+    @Override
+    public NamedNodeMap getAttributes() {
+        return null;
+    }
+
+    @Override
+    public Document getOwnerDocument() {
+        return DOMNodeHelper.getOwnerDocument(this);
+    }
+
+    @Override
+    public org.w3c.dom.Node insertBefore(org.w3c.dom.Node newChild, org.w3c.dom.Node refChild) throws DOMException {
+        checkNewChildNode(newChild);
+
+        return DOMNodeHelper.insertBefore(this, newChild, refChild);
+    }
+
+    @Override
+    public org.w3c.dom.Node replaceChild(org.w3c.dom.Node newChild, org.w3c.dom.Node oldChild) throws DOMException {
+        checkNewChildNode(newChild);
+
+        return DOMNodeHelper.replaceChild(this, newChild, oldChild);
+    }
+
+    @Override
+    public org.w3c.dom.Node removeChild(org.w3c.dom.Node oldChild) throws DOMException {
+        return DOMNodeHelper.removeChild(this, oldChild);
+    }
+
+    @Override
+    public org.w3c.dom.Node appendChild(org.w3c.dom.Node newChild) throws DOMException {
+        checkNewChildNode(newChild);
+
+        return DOMNodeHelper.appendChild(this, newChild);
+    }
+
+    private void checkNewChildNode(org.w3c.dom.Node newChild) throws DOMException {
+        throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "Text nodes cannot have children");
+    }
+
+    @Override
+    public boolean hasChildNodes() {
+        return DOMNodeHelper.hasChildNodes(this);
+    }
+
+    @Override
+    public org.w3c.dom.Node cloneNode(boolean deep) {
+        return DOMNodeHelper.cloneNode(this, deep);
+    }
+
+    @Override
+    public void normalize() {
+        DOMNodeHelper.normalize(this);
+    }
+
+    @Override
+    public boolean isSupported(String feature, String version) {
+        return DOMNodeHelper.isSupported(this, feature, version);
+    }
+
+    @Override
+    public boolean hasAttributes() {
+        return DOMNodeHelper.hasAttributes(this);
+    }
+
+    @Override
+    public String getData() throws DOMException {
+        return DOMNodeHelper.getData(this);
+    }
+
+    @Override
+    public void setData(String data) throws DOMException {
+        DOMNodeHelper.setData(this, data);
+    }
+
+    @Override
+    public int getLength() {
+        return DOMNodeHelper.getLength(this);
+    }
+
+    @Override
+    public String substringData(int offset, int count) throws DOMException {
+        return DOMNodeHelper.substringData(this, offset, count);
+    }
+
+    @Override
+    public void appendData(String arg) throws DOMException {
+        DOMNodeHelper.appendData(this, arg);
+    }
+
+    @Override
+    public void insertData(int offset, String arg) throws DOMException {
+        DOMNodeHelper.insertData(this, offset, arg);
+    }
+
+    @Override
+    public void deleteData(int offset, int count) throws DOMException {
+        DOMNodeHelper.deleteData(this, offset, count);
+    }
+
+    @Override
+    public void replaceData(int offset, int count, String arg)
+            throws DOMException {
+        DOMNodeHelper.replaceData(this, offset, count, arg);
+    }
+
+
+    @SuppressWarnings("hiding")
+    @Override
+    public org.w3c.dom.Text splitText(int offset) throws DOMException {
+        if (isReadOnly()) {
+            throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "CharacterData node is read only: " + this);
+        } else {
+            String text = getText();
+            int length = (text != null) ? text.length() : 0;
+
+            if ((offset < 0) || (offset >= length)) {
+                throw new DOMException(DOMException.INDEX_SIZE_ERR, "No text at offset: " + offset);
+            } else {
+                @SuppressWarnings("null")
+                // cannot be null here
+                String start = text.substring(0, offset);
+                String rest = text.substring(offset);
+                setText(start);
+
+                Element parent = getParent();
+                Text newText = createText(rest);
+
+                if (parent != null) {
+                    parent.add(newText);
+                }
+
+                return DOMNodeHelper.asDOMText(newText);
+            }
         }
-
-        return DOMNodeHelper.asDOMText(newText);
-      }
     }
-  }
 
-  @SuppressWarnings("hiding")
-  protected Text createText(String text) {
-    return new DOMText(text);
-  }
+    @SuppressWarnings("hiding")
+    protected Text createText(String text) {
+        return new DOMText(text);
+    }
 
-  @Override
-  public boolean isElementContentWhitespace() {
-    throw new UnsupportedOperationException("Not supported yet.");
-  }
+    @Override
+    public boolean isElementContentWhitespace() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
-  @Override
-  public String getWholeText() {
-    throw new UnsupportedOperationException("Not supported yet.");
-  }
+    @Override
+    public String getWholeText() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
-  @Override
-  public org.w3c.dom.Text replaceWholeText(String content) throws DOMException {
-    throw new UnsupportedOperationException("Not supported yet.");
-  }
+    @Override
+    public org.w3c.dom.Text replaceWholeText(String content) throws DOMException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
-  @Override
-  public String getBaseURI() {
-    throw new UnsupportedOperationException("Not supported yet.");
-  }
+    @Override
+    public String getBaseURI() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
-  @Override
-  public short compareDocumentPosition(Node other) throws DOMException {
-    throw new UnsupportedOperationException("Not supported yet.");
-  }
+    @Override
+    public short compareDocumentPosition(Node other) throws DOMException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
-  @Override
-  public String getTextContent() throws DOMException {
-    throw new UnsupportedOperationException("Not supported yet.");
-  }
+    @Override
+    public String getTextContent() throws DOMException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
-  @Override
-  public void setTextContent(String textContent) throws DOMException {
-    throw new UnsupportedOperationException("Not supported yet.");
-  }
+    @Override
+    public void setTextContent(String textContent) throws DOMException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
-  @Override
-  public boolean isSameNode(Node other) {
-    return DOMNodeHelper.isNodeSame(this, other);
-  }
+    @Override
+    public boolean isSameNode(Node other) {
+        return DOMNodeHelper.isNodeSame(this, other);
+    }
 
-  @Override
-  public String lookupPrefix(String namespaceURI) {
-    throw new UnsupportedOperationException("Not supported yet.");
-  }
+    @Override
+    public String lookupPrefix(String namespaceURI) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
-  @Override
-  public boolean isDefaultNamespace(String namespaceURI) {
-    throw new UnsupportedOperationException("Not supported yet.");
-  }
+    @Override
+    public boolean isDefaultNamespace(String namespaceURI) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
-  @Override
-  public String lookupNamespaceURI(String prefix) {
-    throw new UnsupportedOperationException("Not supported yet.");
-  }
+    @Override
+    public String lookupNamespaceURI(String prefix) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
-  @Override
-  public boolean isEqualNode(Node other) {
-    return DOMNodeHelper.isNodeEquals(this, other);
-  }
+    @Override
+    public boolean isEqualNode(Node other) {
+        return DOMNodeHelper.isNodeEquals(this, other);
+    }
 
-  @Override
-  public Object getFeature(String feature, String version) {
-    throw new UnsupportedOperationException("Not supported yet.");
-  }
+    @Override
+    public Object getFeature(String feature, String version) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
-  @Override
-  public Object setUserData(String key, Object data, UserDataHandler handler) {
-    throw new UnsupportedOperationException("Not supported yet.");
-  }
+    @Override
+    public Object setUserData(String key, Object data, UserDataHandler handler) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
-  @Override
-  public Object getUserData(String key) {
-    throw new UnsupportedOperationException("Not supported yet.");
-  }
+    @Override
+    public Object getUserData(String key) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
 
 /*

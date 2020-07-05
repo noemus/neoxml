@@ -7,7 +7,12 @@
 package org.neoxml.tree;
 
 import org.junit.Test;
-import org.neoxml.*;
+import org.neoxml.AbstractTestCase;
+import org.neoxml.DefaultDocumentFactory;
+import org.neoxml.Document;
+import org.neoxml.DocumentHelper;
+import org.neoxml.Element;
+import org.neoxml.Node;
 
 import java.util.List;
 
@@ -16,115 +21,114 @@ import java.util.List;
  *
  * @author Maarten Coene
  */
-public class DefaultElementTest extends AbstractTestCase
-{
-  // Test case(s)
-  // -------------------------------------------------------------------------
+public class DefaultElementTest extends AbstractTestCase {
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testParentAfterSetContent() throws Exception {
-    Document doc = DocumentHelper.parseText(
-      "<root>" +
-        "<a>a</a>" +
-        "<b>b</b>" +
-        "<x>x</x>" +
-        "<d>d</d>" +
-      "</root>");
-    
-    Node x = doc.selectSingleNode("/root/x");
-    List content = doc.getRootElement().content();
-    int position = content.indexOf(x);
-    Element c = DocumentHelper.createElement("c");
-    c.setText("c");
-    
-    content.add(position, c);
-    assertEquals(doc.getRootElement(), c.getParent());
-    
-    doc.getRootElement().setContent(content);
-    assertEquals(doc.getRootElement(), c.getParent());
-  }
+    @Test
+    public void testParentAfterSetContent() throws Exception {
+        Document doc = DocumentHelper.parseText(
+                "<root>" +
+                        "<a>a</a>" +
+                        "<b>b</b>" +
+                        "<x>x</x>" +
+                        "<d>d</d>" +
+                        "</root>");
 
-  @Test
-  public void testGetStringValue() throws Exception {
-    Document doc = getDocument("xml/test/test_text.xml");
-    Element message = doc.getRootElement();
+        Node x = doc.selectSingleNode("/root/x");
+        List content = doc.getRootElement().content();
+        int position = content.indexOf(x);
+        Element c = DocumentHelper.createElement("c");
+        c.setText("c");
 
-    String text = message.getStringValue();
-    assertEquals("String value incorrect", "This should work", text.trim());
+        content.add(position, c);
+        assertEquals(doc.getRootElement(), c.getParent());
 
-    String xpathText = (String)doc.selectObject("normalize-space(/message)");
-    assertEquals("xpath value incorrect", "This should work", xpathText);
-  }
+        doc.getRootElement().setContent(content);
+        assertEquals(doc.getRootElement(), c.getParent());
+    }
 
-  @Test
-  public void testBug894878() {
-    Element foo = DefaultDocumentFactory.getInstance().createElement("foo");
-    foo.addText("bla").addAttribute("foo", "bar");
-    assertEquals("<foo foo=\"bar\">bla</foo>", foo.asXML());
+    @Test
+    public void testGetStringValue() throws Exception {
+        Document doc = getDocument("xml/test/test_text.xml");
+        Element message = doc.getRootElement();
 
-    foo = DefaultDocumentFactory.getInstance().createElement("foo");
-    foo.addAttribute("foo", "bar").addText("bla");
-    assertEquals("<foo foo=\"bar\">bla</foo>", foo.asXML());
-  }
+        String text = message.getStringValue();
+        assertEquals("String value incorrect", "This should work", text.trim());
 
-  @Test
-  public void testGetNamespacesForURI() throws Exception {
-    String xml = "<schema targetNamespace='http://SharedTest.org/xsd' "
-        + "        xmlns='http://www.w3.org/2001/XMLSchema' "
-        + "        xmlns:xsd='http://www.w3.org/2001/XMLSchema'>"
-        + "    <complexType name='AllStruct'>" + "        <all>"
-        + "            <element name='arString' type='xsd:string'/>"
-        + "            <element name='varInt' type='xsd:int'/>"
-        + "        </all>" + "    </complexType>" + "</schema>";
-    Document doc = DocumentHelper.parseText(xml);
-    Element schema = doc.getRootElement();
-    List namespaces = schema
-        .getNamespacesForURI("http://www.w3.org/2001/XMLSchema");
+        String xpathText = (String) doc.selectObject("normalize-space(/message)");
+        assertEquals("xpath value incorrect", "This should work", xpathText);
+    }
 
-    assertNotNull(namespaces);
-    assertEquals(2, namespaces.size());
-  }
+    @Test
+    public void testBug894878() {
+        Element foo = DefaultDocumentFactory.getInstance().createElement("foo");
+        foo.addText("bla").addAttribute("foo", "bar");
+        assertEquals("<foo foo=\"bar\">bla</foo>", foo.asXML());
 
-  @Test
-  public void testDeclaredNamespaces() throws Exception {
-    String xml = "<a xmlns:ns1=\"uri1\">" + "    <ns1:b/>"
-        + "    <ns2:c xmlns:ns2=\"uri2\"/>" + "</a>";
-    Document doc = DocumentHelper.parseText(xml);
+        foo = DefaultDocumentFactory.getInstance().createElement("foo");
+        foo.addAttribute("foo", "bar").addText("bla");
+        assertEquals("<foo foo=\"bar\">bla</foo>", foo.asXML());
+    }
 
-    Element a = doc.getRootElement();
-    List ns = a.declaredNamespaces();
-    assertEquals(1, ns.size());
-    assertEquals(a.getNamespaceForPrefix("ns1"), ns.get(0));
+    @Test
+    public void testGetNamespacesForURI() throws Exception {
+        String xml = "<schema targetNamespace='http://SharedTest.org/xsd' "
+                + "        xmlns='http://www.w3.org/2001/XMLSchema' "
+                + "        xmlns:xsd='http://www.w3.org/2001/XMLSchema'>"
+                + "    <complexType name='AllStruct'>" + "        <all>"
+                + "            <element name='arString' type='xsd:string'/>"
+                + "            <element name='varInt' type='xsd:int'/>"
+                + "        </all>" + "    </complexType>" + "</schema>";
+        Document doc = DocumentHelper.parseText(xml);
+        Element schema = doc.getRootElement();
+        List namespaces = schema
+                .getNamespacesForURI("http://www.w3.org/2001/XMLSchema");
 
-    Element b = a.element("b");
-    ns = b.declaredNamespaces();
-    assertEquals(0, ns.size());
+        assertNotNull(namespaces);
+        assertEquals(2, namespaces.size());
+    }
 
-    Element c = a.element("c");
-    ns = c.declaredNamespaces();
-    assertEquals(1, ns.size());
-    assertEquals(c.getNamespaceForPrefix("ns2"), ns.get(0));
-  }
+    @Test
+    public void testDeclaredNamespaces() throws Exception {
+        String xml = "<a xmlns:ns1=\"uri1\">" + "    <ns1:b/>"
+                + "    <ns2:c xmlns:ns2=\"uri2\"/>" + "</a>";
+        Document doc = DocumentHelper.parseText(xml);
 
-  @Test
-  public void testAdditionalNamespaces() throws Exception {
-    String xml = "<a xmlns:ns1=\"uri1\">" + "    <ns1:b/>"
-        + "    <ns2:c xmlns:ns2=\"uri2\"/>" + "</a>";
-    Document doc = DocumentHelper.parseText(xml);
+        Element a = doc.getRootElement();
+        List ns = a.declaredNamespaces();
+        assertEquals(1, ns.size());
+        assertEquals(a.getNamespaceForPrefix("ns1"), ns.get(0));
 
-    Element a = doc.getRootElement();
-    List ns = a.additionalNamespaces();
-    assertEquals(1, ns.size());
-    assertSame(a.getNamespaceForPrefix("ns1"), ns.get(0));
+        Element b = a.element("b");
+        ns = b.declaredNamespaces();
+        assertEquals(0, ns.size());
 
-    Element b = a.element("b");
-    ns = b.additionalNamespaces();
-    assertEquals(0, ns.size());
+        Element c = a.element("c");
+        ns = c.declaredNamespaces();
+        assertEquals(1, ns.size());
+        assertEquals(c.getNamespaceForPrefix("ns2"), ns.get(0));
+    }
 
-    Element c = a.element("c");
-    ns = c.additionalNamespaces();
-    assertEquals(0, ns.size());
-  }
+    @Test
+    public void testAdditionalNamespaces() throws Exception {
+        String xml = "<a xmlns:ns1=\"uri1\">" + "    <ns1:b/>"
+                + "    <ns2:c xmlns:ns2=\"uri2\"/>" + "</a>";
+        Document doc = DocumentHelper.parseText(xml);
+
+        Element a = doc.getRootElement();
+        List ns = a.additionalNamespaces();
+        assertEquals(1, ns.size());
+        assertSame(a.getNamespaceForPrefix("ns1"), ns.get(0));
+
+        Element b = a.element("b");
+        ns = b.additionalNamespaces();
+        assertEquals(0, ns.size());
+
+        Element c = a.element("c");
+        ns = c.additionalNamespaces();
+        assertEquals(0, ns.size());
+    }
 }
 
 /*

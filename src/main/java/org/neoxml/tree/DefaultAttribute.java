@@ -6,7 +6,11 @@
 
 package org.neoxml.tree;
 
-import org.neoxml.*;
+import org.neoxml.DefaultDocumentFactory;
+import org.neoxml.DocumentFactory;
+import org.neoxml.Element;
+import org.neoxml.Namespace;
+import org.neoxml.QName;
 
 /**
  * <p>
@@ -16,113 +20,112 @@ import org.neoxml.*;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.13 $
  */
-public class DefaultAttribute extends AbstractAttribute
-{
-  /**
-   * The <code>DefaultDocumentFactory</code> instance used by default
-   */
-  private static final DocumentFactory DOCUMENT_FACTORY = DefaultDocumentFactory.getInstance();
+public class DefaultAttribute extends AbstractAttribute {
+    /**
+     * The <code>DefaultDocumentFactory</code> instance used by default
+     */
+    private static final DocumentFactory DOCUMENT_FACTORY = DefaultDocumentFactory.getInstance();
 
-  /**
-   * The <code>QName</code> for this element
-   */
-  private QName qname;
+    /**
+     * The <code>QName</code> for this element
+     */
+    private QName qname;
 
-  /**
-   * The value of the <code>Attribute</code>
-   */
-  protected String value;
+    /**
+     * The value of the <code>Attribute</code>
+     */
+    protected String value;
 
-  /**
-   * The parent of this node
-   */
-  private Element parent;
+    /**
+     * The parent of this node
+     */
+    private Element parent;
 
-  public DefaultAttribute(QName qname) {
-    this(qname, null);
-  }
+    public DefaultAttribute(QName qname) {
+        this(qname, null);
+    }
 
-  public DefaultAttribute(QName qname, String value) {
-    this.qname = qname;
-    this.value = value;
-  }
+    public DefaultAttribute(QName qname, String value) {
+        this.qname = qname;
+        this.value = value;
+    }
 
-  public DefaultAttribute(Element parent, QName qname, String value) {
-    this(qname, value);
-    this.parent = parent;
-  }
+    public DefaultAttribute(Element parent, QName qname, String value) {
+        this(qname, value);
+        this.parent = parent;
+    }
 
-  /**
-   * Creates the <code>Attribute</code> with the specified local name and
-   * value.
-   *
-   * @param name is the name of the attribute
-   * @param value is the value of the attribute
-   */
-  public DefaultAttribute(String name, String value) {
-    this(DOCUMENT_FACTORY.createQName(name), value);
-  }
+    /**
+     * Creates the <code>Attribute</code> with the specified local name and
+     * value.
+     *
+     * @param name  is the name of the attribute
+     * @param value is the value of the attribute
+     */
+    public DefaultAttribute(String name, String value) {
+        this(DOCUMENT_FACTORY.createQName(name), value);
+    }
 
-  /**
-   * Creates the <code>Attribute</code> with the specified local name, value
-   * and <code>Namespace</code>.
-   *
-   * @param name is the name of the attribute
-   * @param value is the value of the attribute
-   * @param namespace is the namespace of the attribute
-   */
-  public DefaultAttribute(String name, String value, Namespace namespace) {
-    this(DOCUMENT_FACTORY.createQName(name, namespace), value);
-  }
+    /**
+     * Creates the <code>Attribute</code> with the specified local name, value
+     * and <code>Namespace</code>.
+     *
+     * @param name      is the name of the attribute
+     * @param value     is the value of the attribute
+     * @param namespace is the namespace of the attribute
+     */
+    public DefaultAttribute(String name, String value, Namespace namespace) {
+        this(DOCUMENT_FACTORY.createQName(name, namespace), value);
+    }
 
-  /**
-   * Creates the <code>Attribute</code> with the specified local name, value
-   * and <code>Namespace</code>.
-   *
-   * @param parent is the parent element
-   * @param name is the name of the attribute
-   * @param value is the value of the attribute
-   * @param namespace is the namespace of the attribute
-   */
-  public DefaultAttribute(Element parent, String name, String value, Namespace namespace) {
-    this(name, value, namespace);
-    this.parent = parent;
-  }
+    /**
+     * Creates the <code>Attribute</code> with the specified local name, value
+     * and <code>Namespace</code>.
+     *
+     * @param parent    is the parent element
+     * @param name      is the name of the attribute
+     * @param value     is the value of the attribute
+     * @param namespace is the namespace of the attribute
+     */
+    public DefaultAttribute(Element parent, String name, String value, Namespace namespace) {
+        this(name, value, namespace);
+        this.parent = parent;
+    }
 
-  @Override
-  public String getValue() {
-    return value;
-  }
+    @Override
+    public String getValue() {
+        return value;
+    }
 
-  @Override
-  public void setValue(String value) {
-    this.value = value;
-  }
+    @Override
+    public void setValue(String value) {
+        this.value = value;
+    }
 
-  @Override
-  public QName getQName() {
-    return qname;
-  }
+    @Override
+    public QName getQName() {
+        return qname;
+    }
 
-  @Override
-  public Element getParent() {
-    return parent;
-  }
+    @Override
+    public Element getParent() {
+        return parent;
+    }
 
-  @Override
-  public void setParent(Element parent) {
-    this.parent = parent;
-  }
+    @Override
+    public void setParent(Element parent) {
+        this.parent = parent;
+    }
 
-  @Override
-  public boolean supportsParent() {
-    return true;
-  }
+    @Override
+    public boolean supportsParent() {
+        return true;
+    }
 
-  @Override
-  public boolean isReadOnly() {
-    return false;
-  }
+    @Override
+    public boolean isReadOnly() {
+        return false;
+    }
 }
 
 /*

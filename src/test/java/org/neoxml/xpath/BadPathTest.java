@@ -16,42 +16,39 @@ import org.neoxml.XPath;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.3 $
  */
-public class BadPathTest extends AbstractTestCase
-{
-  private String[] paths = {
-    "+", "/foo/bar/"
-  };
+public class BadPathTest extends AbstractTestCase {
+    private String[] paths = {
+            "+", "/foo/bar/"
+    };
 
-  // Test case(s)
-  // -------------------------------------------------------------------------
+    // Test case(s)
+    // -------------------------------------------------------------------------
 
-  @Test
-  public void testBadPaths() throws Exception {
-    for (int i = 0, size = paths.length; i < size; i++) {
-      String path = paths[i];
-      testBadPath(path);
-    }
-  }
-
-  protected void testBadPath(String path) throws Exception {
-    try {
-      document.selectObject(path);
-
-      fail("Should have thrown exception for: " + path);
-    }
-    catch (Exception e) {
-      log("Successfully caught: " + e);
+    @Test
+    public void testBadPaths() throws Exception {
+        for (int i = 0, size = paths.length; i < size; i++) {
+            String path = paths[i];
+            testBadPath(path);
+        }
     }
 
-    try {
-      XPath xpath = document.createXPath(path);
+    protected void testBadPath(String path) throws Exception {
+        try {
+            document.selectObject(path);
 
-      fail("Should have thrown exception for: " + path);
+            fail("Should have thrown exception for: " + path);
+        } catch (Exception e) {
+            log("Successfully caught: " + e);
+        }
+
+        try {
+            XPath xpath = document.createXPath(path);
+
+            fail("Should have thrown exception for: " + path);
+        } catch (Exception e) {
+            log("Successfully caught: " + e);
+        }
     }
-    catch (Exception e) {
-      log("Successfully caught: " + e);
-    }
-  }
 }
 
 /*
