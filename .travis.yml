@@ -3,11 +3,11 @@ jdk: openjdk8
 
 env:
   global:
-    secure: "lG4clw1j+7HW7JR9DmRv4oXalKPxrMfVSFsbJfy4oYKtmbKRG7fApykZ8k/ktcANSL7df2ueo+qNsk3TQOtzQmxaWCCK79teFSYH/zcRHYaK11BJbR2sKVumuSwwK1jPC3LPzBdoY+ShzBSKc9KtRJF4/91nmGJpx8/TNRrXUUZ8Km12gSHv7ywRiDMLD6Qe6bfOQdSyb3/FpyDiIm+7cqxk/lDemwr5hyjAiM44FDQqyqAxV8QVIk/0NpcTn5acSPIZ4SSgpSlESBiE2Z2m7E6/Nr0tW2DXuayCESVI4BLmzH5AUY7hFXslbkvs6dtOmHHOvvlszN+S4sLX+yNn3MV0oicJjFfbbuqnuGV/o+dvaRGs/p9eiLcEglPs5tX52TKE9IaYs+PRv9IuTQ0WRs7TzIN3gehFud2TYiie7mVh1AbpY3iZ9vMZTCIEKTFvrTrqqoaa1Qf/UI6WKFPM71OyTjYufFRWIutBEIoh7EQ7Z4Dola8XzsEuIR7nV9p1ABI7IWBY2CvyAAAyMNuj+fQgTdzyIABltLI/w2xl61BsqJ4pjf67nyvXnulKXHGPejxOEr0+xDbpx40siI2hP1yt3wiWqh3kl+r1HlK8tnAa0wCNq4cc00/Ia6+7TKJmM67set6x2sYVc2nQBnjTIOcl5+M83kwZwRM3jxO/5nA="
+    - secure: lG4clw1j+7HW7JR9DmRv4oXalKPxrMfVSFsbJfy4oYKtmbKRG7fApykZ8k/ktcANSL7df2ueo+qNsk3TQOtzQmxaWCCK79teFSYH/zcRHYaK11BJbR2sKVumuSwwK1jPC3LPzBdoY+ShzBSKc9KtRJF4/91nmGJpx8/TNRrXUUZ8Km12gSHv7ywRiDMLD6Qe6bfOQdSyb3/FpyDiIm+7cqxk/lDemwr5hyjAiM44FDQqyqAxV8QVIk/0NpcTn5acSPIZ4SSgpSlESBiE2Z2m7E6/Nr0tW2DXuayCESVI4BLmzH5AUY7hFXslbkvs6dtOmHHOvvlszN+S4sLX+yNn3MV0oicJjFfbbuqnuGV/o+dvaRGs/p9eiLcEglPs5tX52TKE9IaYs+PRv9IuTQ0WRs7TzIN3gehFud2TYiie7mVh1AbpY3iZ9vMZTCIEKTFvrTrqqoaa1Qf/UI6WKFPM71OyTjYufFRWIutBEIoh7EQ7Z4Dola8XzsEuIR7nV9p1ABI7IWBY2CvyAAAyMNuj+fQgTdzyIABltLI/w2xl61BsqJ4pjf67nyvXnulKXHGPejxOEr0+xDbpx40siI2hP1yt3wiWqh3kl+r1HlK8tnAa0wCNq4cc00/Ia6+7TKJmM67set6x2sYVc2nQBnjTIOcl5+M83kwZwRM3jxO/5nA=
 
 script:
   # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
   - git fetch --unshallow
-  - mvn clean verify -Pcoverage
+  #- mvn clean verify -Pcoverage
   - echo "SONAR_TOKEN=$SONAR_TOKEN"
-  - mvn sonar:sonar -Dsonar.login=9eb0bca134fa54ff1f25adb6006c8957038241f5 -Dsonar.sourceEncoding=UTF-8 -Dsonar.branch.name=master
+  #- mvn sonar:sonar -Dsonar.login=9eb0bca134fa54ff1f25adb6006c8957038241f5 -Dsonar.sourceEncoding=UTF-8 -Dsonar.branch.name=master
