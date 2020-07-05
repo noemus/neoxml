@@ -9,4 +9,5 @@ script:
   # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
   - git fetch --unshallow
   - mvn clean verify -Pcoverage
-  - mvn sonar:sonar -Dsonar.branch.name=master
+  - echo $SONAR_TOKEN
+  - mvn sonar:sonar -Dsonar.sourceEncoding=UTF-8 -Dsonar.branch.name=master
