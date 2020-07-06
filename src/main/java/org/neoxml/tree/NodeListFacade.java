@@ -110,14 +110,6 @@ class NodeListFacade<T extends Node> extends AbstractNodeListFacade<T> implement
         }
         return nodeList;
     }
-
-    /**
-     * Called on nodeList modification
-     */
-    @Override
-    void copyNodes() {
-        //nodeList = nodeList.duplicate();
-    }
 }
 
 /*

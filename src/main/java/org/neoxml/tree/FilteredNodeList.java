@@ -204,14 +204,12 @@ class FilteredNodeList<T extends Node> extends AbstractNodeListFacade<T> {
 
         int idx = -1;
         for (int orig = 0; orig < size; ++orig) {
-            if (condition.test(nodeList.get(orig))) {
-                if (++idx == index) {
-                    return orig;
-                }
+            if (condition.test(nodeList.get(orig)) && ++idx == index) {
+                return orig;
             }
         }
 
-        throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + (idx + 1));
+        throw indexOutOfBoundsException(index, idx + 1);
     }
 
     int findForAdd(int index) {
@@ -221,10 +219,8 @@ class FilteredNodeList<T extends Node> extends AbstractNodeListFacade<T> {
 
         int idx = -1;
         for (int orig = 0; orig < size; ++orig) {
-            if (condition.test(nodeList.get(orig))) {
-                if (++idx == index) {
-                    return orig;
-                }
+            if (condition.test(nodeList.get(orig)) && ++idx == index) {
+                return orig;
             }
         }
 
@@ -232,21 +228,17 @@ class FilteredNodeList<T extends Node> extends AbstractNodeListFacade<T> {
             return size;
         }
 
-        throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + (idx + 1));
-    }
-
-    /**
-     * Called on nodeList modification
-     */
-    @Override
-    void copyNodes() {
-        // defensive copy of original list to suppress propagation of changes from branch to this node list
+        throw indexOutOfBoundsException(index, idx + 1);
     }
 
     // internal helper methods and classes
 
     private Predicate<? super T> and(Predicate<? super T> cond) {
         return new AndCondition<>(condition, cond);
+    }
+
+    static IndexOutOfBoundsException indexOutOfBoundsException(int index, int size) {
+        return new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
     }
 
     static void checkLowerBound(int index) {
@@ -414,13 +406,13 @@ class FilteredNodeList<T extends Node> extends AbstractNodeListFacade<T> {
             super.remove();
 
             if (prevElt != null) {
-                // after next();
+                // after next
                 prevElt = null;
                 --idx;
             }
 
             if (nextElt != null) {
-                // after previous()
+                // after previous
                 nextElt = null;
             }
         }

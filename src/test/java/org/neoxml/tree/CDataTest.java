@@ -29,7 +29,7 @@ public class CDataTest extends AbstractTestCase {
 
     @Test
     public void testLongCData() throws Exception {
-        getDocument("xml/test/longCDATA.xml");
+        assertNotNull(getDocument("xml/test/longCDATA.xml"));
     }
 }
 

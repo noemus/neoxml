@@ -19,8 +19,8 @@ import org.neoxml.Visitor;
 import org.neoxml.io.OutputFormat;
 import org.neoxml.io.XMLWriter;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Map;
 
@@ -77,16 +77,18 @@ public abstract class AbstractDocument extends AbstractBranch implements Documen
         OutputFormat format = new OutputFormat();
         format.setEncoding(encoding);
 
-        StringWriter out = new StringWriter();
-
-        try (XMLWriter writer = new XMLWriter(out, format)) {
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+             XMLWriter writer = new XMLWriter(out, format)) {
 
             writer.write(this);
             writer.flush();
 
-            return out.toString();
+            return encoding != null
+                   ? out.toString(encoding)
+                   : out.toString();
         } catch (IOException e) {
-            throw new RuntimeException("IOException while generating textual representation: " + e.getMessage());
+            // this will not happen because we use ByteArrayOutputStream as an uderlying stream
+            throw new IllegalStateException(e);
         }
     }
 

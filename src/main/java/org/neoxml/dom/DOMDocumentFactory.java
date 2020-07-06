@@ -19,9 +19,9 @@ import org.neoxml.Namespace;
 import org.neoxml.ProcessingInstruction;
 import org.neoxml.QName;
 import org.neoxml.Text;
+import org.neoxml.UnsupportedFeatureException;
 import org.neoxml.util.SingletonHelper;
 import org.neoxml.util.SingletonStrategy;
-import org.w3c.dom.DOMException;
 
 import java.util.Map;
 
@@ -38,7 +38,7 @@ public class DOMDocumentFactory extends DefaultDocumentFactory implements org.w3
     /**
      * The Singleton instance
      */
-    private static SingletonStrategy<DOMDocumentFactory> singleton = SingletonHelper.getSingletonStrategy("org.neoxml.dom.DOMDocumentFactory.singleton.strategy", DOMDocumentFactory.class);
+    private static final SingletonStrategy<DOMDocumentFactory> singleton = SingletonHelper.getSingletonStrategy("org.neoxml.dom.DOMDocumentFactory.singleton.strategy", DOMDocumentFactory.class);
 
     /**
      * <p>
@@ -130,12 +130,12 @@ public class DOMDocumentFactory extends DefaultDocumentFactory implements org.w3
     }
 
     @Override
-    public org.w3c.dom.DocumentType createDocumentType(String qualifiedName, String publicId, String systemId) throws DOMException {
+    public org.w3c.dom.DocumentType createDocumentType(String qualifiedName, String publicId, String systemId) {
         return new DOMDocumentType(qualifiedName, publicId, systemId);
     }
 
     @Override
-    public org.w3c.dom.Document createDocument(String namespaceURI, String qualifiedName, org.w3c.dom.DocumentType docType) throws org.w3c.dom.DOMException {
+    public org.w3c.dom.Document createDocument(String namespaceURI, String qualifiedName, org.w3c.dom.DocumentType docType) {
         DOMDocument document;
 
         if (docType != null) {
@@ -162,7 +162,7 @@ public class DOMDocumentFactory extends DefaultDocumentFactory implements org.w3
 
     @Override
     public Object getFeature(String feature, String version) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 }
 

@@ -12,9 +12,9 @@ import org.neoxml.Element;
 import org.neoxml.Entity;
 import org.neoxml.NodeType;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.Collections;
@@ -551,17 +551,14 @@ public class HTMLWriter extends XMLWriter {
             lazyInitNewLinesAfterNTags();
         }
 
-        if (newLineAfterNTags > 0) {
-            if ((tagsOuput > 0) && ((tagsOuput % newLineAfterNTags) == 0)) {
-                super.writer.write(LINE_SEPARATOR);
-            }
+        if (newLineAfterNTags > 0 && (tagsOuput > 0) && ((tagsOuput % newLineAfterNTags) == 0)) {
+            super.writer.write(LINE_SEPARATOR);
         }
 
         tagsOuput++;
 
         String qualifiedName = element.getQualifiedName();
         String saveLastText = lastText;
-        //int size = element.nodeCount();
 
         if (isPreformattedTag(qualifiedName)) {
             OutputFormat currentFormat = getOutputFormat();
@@ -574,8 +571,7 @@ public class HTMLWriter extends XMLWriter {
             formatStack.addFirst(new FormatState(saveNewlines, saveTrimText, currentIndent));
 
             try {
-                // do this manually, since it won't be done while outputting
-                // the tag.
+                // do this manually, since it won't be done while outputting the tag.
                 super.writePrintln();
 
                 if ((saveLastText.trim().length() == 0) && (currentIndent != null) && (currentIndent.length() > 0)) {
@@ -648,7 +644,7 @@ public class HTMLWriter extends XMLWriter {
      * close tags off of the default omitElementCloseSet set. Use one of
      * the write methods if you want stream output.
      */
-    public static String prettyPrintHTML(String html) throws IOException, DocumentException {
+    public static String prettyPrintHTML(String html) throws DocumentException {
         return prettyPrintHTML(html, true, true, false, true);
     }
 
@@ -662,7 +658,7 @@ public class HTMLWriter extends XMLWriter {
      * converted to XHTML empty tags: &lt;HR/&gt; Use one of the write
      * methods if you want stream output.
      */
-    public static String prettyPrintXHTML(String html) throws IOException, DocumentException {
+    public static String prettyPrintXHTML(String html) throws DocumentException {
         return prettyPrintHTML(html, true, true, true, false);
     }
 
@@ -680,20 +676,24 @@ public class HTMLWriter extends XMLWriter {
      * override allows you to specify various formatter options. Use one
      * of the write methods if you want stream output.
      */
-    public static String prettyPrintHTML(String html, boolean newlines, boolean trim, boolean isXHTML, boolean expandEmpty) throws IOException, DocumentException {
-        StringWriter sw = new StringWriter();
+    public static String prettyPrintHTML(String html, boolean newlines, boolean trim, boolean isXHTML, boolean expandEmpty) throws DocumentException {
         OutputFormat format = OutputFormat.createPrettyPrint();
         format.setNewlines(newlines);
         format.setTrimText(trim);
         format.setXHTML(isXHTML);
         format.setExpandEmptyElements(expandEmpty);
 
-        try (HTMLWriter writer = new HTMLWriter(sw, format)) {
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+             HTMLWriter writer = new HTMLWriter(out, format)) {
+
             Document document = DocumentHelper.parseText(html);
             writer.write(document);
             writer.flush();
 
-            return sw.toString();
+            return out.toString();
+        } catch (IOException e) {
+            // this will not happen because we use ByteArrayOutputStream as an uderlying stream
+            throw new IllegalStateException(e);
         }
     }
 

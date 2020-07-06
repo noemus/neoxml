@@ -19,7 +19,7 @@ import org.w3c.dom.Node;
  * @version $Revision: 1.8 $
  */
 public class DOMAttributeNodeMap implements org.w3c.dom.NamedNodeMap {
-    private DOMElement element;
+    private final DOMElement element;
 
     public DOMAttributeNodeMap(DOMElement element) {
         this.element = element;
@@ -31,7 +31,7 @@ public class DOMAttributeNodeMap implements org.w3c.dom.NamedNodeMap {
     }
 
     @Override
-    public Node setNamedItem(Node arg) throws DOMException {
+    public Node setNamedItem(Node arg) {
         if (arg instanceof Attr) {
             return element.setAttributeNode((org.w3c.dom.Attr) arg);
         } else {
@@ -41,7 +41,7 @@ public class DOMAttributeNodeMap implements org.w3c.dom.NamedNodeMap {
     }
 
     @Override
-    public Node removeNamedItem(String name) throws DOMException {
+    public Node removeNamedItem(String name) {
         org.w3c.dom.Attr attr = element.getAttributeNode(name);
 
         if (attr == null) {
@@ -68,7 +68,7 @@ public class DOMAttributeNodeMap implements org.w3c.dom.NamedNodeMap {
     }
 
     @Override
-    public Node setNamedItemNS(Node arg) throws DOMException {
+    public Node setNamedItemNS(Node arg) {
         if (arg instanceof Attr) {
             return element.setAttributeNodeNS((org.w3c.dom.Attr) arg);
         } else {
@@ -79,7 +79,7 @@ public class DOMAttributeNodeMap implements org.w3c.dom.NamedNodeMap {
 
     @Override
     public Node removeNamedItemNS(String namespaceURI, String localName)
-            throws DOMException {
+            {
         org.w3c.dom.Attr attr = element.getAttributeNodeNS(namespaceURI,
                                                            localName);
 

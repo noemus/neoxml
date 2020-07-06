@@ -32,7 +32,7 @@ public class AttributeDetachTest extends AbstractTestCase {
             Attribute attribute = (Attribute) iter.next();
             Element element = attribute.getParent();
 
-            assertTrue("Attribute: " + attribute + " has parent: " + element, attribute.getParent() == element);
+            assertSame("Attribute: " + attribute + " has parent: " + element, attribute.getParent(), element);
 
             QName qname = attribute.getQName();
 
@@ -49,9 +49,8 @@ public class AttributeDetachTest extends AbstractTestCase {
             attribute2 = element.attribute(qname);
             value2 = element.attributeValue(qname);
 
-            assertTrue("Element now has no value: " + value2, value2 == null);
-            assertTrue("Element now has no attribute: " + attribute2,
-                       attribute2 == null);
+            assertNull("Element now has no value: " + value2, value2);
+            assertNull("Element now has no attribute: " + attribute2, attribute2);
         }
     }
 }

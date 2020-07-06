@@ -10,9 +10,9 @@ import org.junit.Test;
 import org.neoxml.AbstractTestCase;
 import org.neoxml.Attribute;
 import org.neoxml.DocumentHelper;
+import org.neoxml.Node;
 import org.neoxml.XPath;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -31,11 +31,9 @@ public class AttributeTest extends AbstractTestCase {
     // -------------------------------------------------------------------------
 
     @Test
-    public void testXPaths() throws Exception {
-        int size = paths.length;
-
-        for (int i = 0; i < size; i++) {
-            testXPath(paths[i]);
+    public void testXPaths() {
+        for (String path : paths) {
+            testXPath(path);
         }
     }
 
@@ -44,28 +42,20 @@ public class AttributeTest extends AbstractTestCase {
 
     protected void testXPath(String xpathText) {
         XPath xpath = DocumentHelper.createXPath(xpathText);
-        List list = xpath.selectNodes(document);
+        List<Node> nodes = xpath.selectNodes(document);
 
-        log("Searched path: " + xpathText + " found: " + list.size()
-                    + " result(s)");
+        log("Searched path: " + xpathText + " found: " + nodes.size() + " result(s)");
 
-        for (Iterator iter = list.iterator(); iter.hasNext(); ) {
-            Object object = iter.next();
+        for (Node node : nodes) {
+            log("Found Result: " + node);
 
-            log("Found Result: " + object);
+            assertTrue("Results should be Attribute objects", node instanceof Attribute);
 
-            assertTrue("Results should be Attribute objects",
-                       object instanceof Attribute);
+            Attribute attribute = (Attribute) node;
 
-            Attribute attribute = (Attribute) object;
-
-            assertTrue("Results should support the parent relationship",
-                       attribute.supportsParent());
-            assertTrue(
-                    "Results should contain reference to the parent element",
-                    attribute.getParent() != null);
-            assertTrue("Resulting document not correct", attribute
-                    .getDocument() != null);
+            assertTrue("Results should support the parent relationship", attribute.supportsParent());
+            assertNotNull("Results should contain reference to the parent element", attribute.getParent());
+            assertNotNull("Resulting document not correct", attribute.getDocument());
         }
     }
 }

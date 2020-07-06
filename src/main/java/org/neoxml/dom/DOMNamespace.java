@@ -6,8 +6,8 @@
 package org.neoxml.dom;
 
 import org.neoxml.Element;
+import org.neoxml.UnsupportedFeatureException;
 import org.neoxml.tree.DefaultNamespace;
-import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -42,7 +42,7 @@ public class DOMNamespace extends DefaultNamespace implements org.w3c.dom.Node {
     }
 
     @Override
-    public void setPrefix(String prefix) throws DOMException {
+    public void setPrefix(String prefix) {
         DOMNodeHelper.setPrefix(this, prefix);
     }
 
@@ -57,12 +57,12 @@ public class DOMNamespace extends DefaultNamespace implements org.w3c.dom.Node {
     }
 
     @Override
-    public String getNodeValue() throws DOMException {
+    public String getNodeValue() {
         return DOMNodeHelper.getNodeValue(this);
     }
 
     @Override
-    public void setNodeValue(String nodeValue) throws DOMException {
+    public void setNodeValue(String nodeValue) {
         DOMNodeHelper.setNodeValue(this, nodeValue);
     }
 
@@ -107,22 +107,22 @@ public class DOMNamespace extends DefaultNamespace implements org.w3c.dom.Node {
     }
 
     @Override
-    public org.w3c.dom.Node insertBefore(org.w3c.dom.Node newChild, org.w3c.dom.Node refChild) throws DOMException {
+    public org.w3c.dom.Node insertBefore(org.w3c.dom.Node newChild, org.w3c.dom.Node refChild) {
         return DOMNodeHelper.insertBefore(this, newChild, refChild);
     }
 
     @Override
-    public org.w3c.dom.Node replaceChild(org.w3c.dom.Node newChild, org.w3c.dom.Node oldChild) throws DOMException {
+    public org.w3c.dom.Node replaceChild(org.w3c.dom.Node newChild, org.w3c.dom.Node oldChild) {
         return DOMNodeHelper.replaceChild(this, newChild, oldChild);
     }
 
     @Override
-    public org.w3c.dom.Node removeChild(org.w3c.dom.Node oldChild) throws DOMException {
+    public org.w3c.dom.Node removeChild(org.w3c.dom.Node oldChild) {
         return DOMNodeHelper.removeChild(this, oldChild);
     }
 
     @Override
-    public org.w3c.dom.Node appendChild(org.w3c.dom.Node newChild) throws DOMException {
+    public org.w3c.dom.Node appendChild(org.w3c.dom.Node newChild) {
         return DOMNodeHelper.appendChild(this, newChild);
     }
 
@@ -153,26 +153,22 @@ public class DOMNamespace extends DefaultNamespace implements org.w3c.dom.Node {
 
     @Override
     public String getBaseURI() {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
-    public short compareDocumentPosition(Node other) throws DOMException {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+    public short compareDocumentPosition(Node other) {
+        throw new UnsupportedFeatureException();
     }
 
     @Override
-    public String getTextContent() throws DOMException {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+    public String getTextContent() {
+        throw new UnsupportedFeatureException();
     }
 
     @Override
-    public void setTextContent(String textContent) throws DOMException {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setTextContent(String textContent) {
+        throw new UnsupportedFeatureException();
     }
 
     @Override
@@ -182,20 +178,17 @@ public class DOMNamespace extends DefaultNamespace implements org.w3c.dom.Node {
 
     @Override
     public String lookupPrefix(String namespaceURI) {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public boolean isDefaultNamespace(String namespaceURI) {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public String lookupNamespaceURI(String prefix) {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
@@ -205,20 +198,17 @@ public class DOMNamespace extends DefaultNamespace implements org.w3c.dom.Node {
 
     @Override
     public Object getFeature(String feature, String version) {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public Object setUserData(String key, Object data, UserDataHandler handler) {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public Object getUserData(String key) {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 }
 

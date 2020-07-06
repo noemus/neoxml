@@ -118,8 +118,6 @@ abstract class AbstractNodeListFacade<T extends Node> extends AbstractList<T> im
             }
         }
     }
-
-    void copyNodes() {}
 }
 
 /*

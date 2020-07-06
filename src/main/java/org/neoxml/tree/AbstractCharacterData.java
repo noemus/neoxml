@@ -39,7 +39,6 @@ public abstract class AbstractCharacterData extends AbstractNode implements Char
 
     @Override
     public void appendText(String text) {
-        //TODO inefficient implementation
         setText(getText() + text);
     }
 }

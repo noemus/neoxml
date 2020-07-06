@@ -6,6 +6,7 @@
 package org.neoxml.dom;
 
 import org.neoxml.Element;
+import org.neoxml.UnsupportedFeatureException;
 import org.neoxml.tree.DefaultComment;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
@@ -50,7 +51,7 @@ public class DOMComment extends DefaultComment implements org.w3c.dom.Comment {
     }
 
     @Override
-    public void setPrefix(String prefix) throws DOMException {
+    public void setPrefix(String prefix) {
         DOMNodeHelper.setPrefix(this, prefix);
     }
 
@@ -64,17 +65,13 @@ public class DOMComment extends DefaultComment implements org.w3c.dom.Comment {
         return "#comment";
     }
 
-    // already part of API
-    //
-    // public short getNodeType();
-
     @Override
-    public String getNodeValue() throws DOMException {
+    public String getNodeValue() {
         return DOMNodeHelper.getNodeValue(this);
     }
 
     @Override
-    public void setNodeValue(String nodeValue) throws DOMException {
+    public void setNodeValue(String nodeValue) {
         DOMNodeHelper.setNodeValue(this, nodeValue);
     }
 
@@ -120,7 +117,7 @@ public class DOMComment extends DefaultComment implements org.w3c.dom.Comment {
 
     @Override
     public org.w3c.dom.Node insertBefore(org.w3c.dom.Node newChild,
-                                         org.w3c.dom.Node refChild) throws DOMException {
+                                         org.w3c.dom.Node refChild) {
         checkNewChildNode(newChild);
 
         return DOMNodeHelper.insertBefore(this, newChild, refChild);
@@ -128,7 +125,7 @@ public class DOMComment extends DefaultComment implements org.w3c.dom.Comment {
 
     @Override
     public org.w3c.dom.Node replaceChild(org.w3c.dom.Node newChild,
-                                         org.w3c.dom.Node oldChild) throws DOMException {
+                                         org.w3c.dom.Node oldChild) {
         checkNewChildNode(newChild);
 
         return DOMNodeHelper.replaceChild(this, newChild, oldChild);
@@ -136,20 +133,18 @@ public class DOMComment extends DefaultComment implements org.w3c.dom.Comment {
 
     @Override
     public org.w3c.dom.Node removeChild(org.w3c.dom.Node oldChild)
-            throws DOMException {
+            {
         return DOMNodeHelper.removeChild(this, oldChild);
     }
 
     @Override
-    public org.w3c.dom.Node appendChild(org.w3c.dom.Node newChild)
-            throws DOMException {
+    public org.w3c.dom.Node appendChild(org.w3c.dom.Node newChild) {
         checkNewChildNode(newChild);
 
         return DOMNodeHelper.appendChild(this, newChild);
     }
 
-    private void checkNewChildNode(org.w3c.dom.Node newChild)
-            throws DOMException {
+    private void checkNewChildNode(org.w3c.dom.Node newChild) {
         throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR,
                                "Comment nodes cannot have children");
     }
@@ -183,12 +178,12 @@ public class DOMComment extends DefaultComment implements org.w3c.dom.Comment {
     // -------------------------------------------------------------------------
 
     @Override
-    public String getData() throws DOMException {
+    public String getData() {
         return DOMNodeHelper.getData(this);
     }
 
     @Override
-    public void setData(String data) throws DOMException {
+    public void setData(String data) {
         DOMNodeHelper.setData(this, data);
     }
 
@@ -198,53 +193,48 @@ public class DOMComment extends DefaultComment implements org.w3c.dom.Comment {
     }
 
     @Override
-    public String substringData(int offset, int count) throws DOMException {
+    public String substringData(int offset, int count) {
         return DOMNodeHelper.substringData(this, offset, count);
     }
 
     @Override
-    public void appendData(String arg) throws DOMException {
+    public void appendData(String arg) {
         DOMNodeHelper.appendData(this, arg);
     }
 
     @Override
-    public void insertData(int offset, String arg) throws DOMException {
+    public void insertData(int offset, String arg) {
         DOMNodeHelper.insertData(this, offset, arg);
     }
 
     @Override
-    public void deleteData(int offset, int count) throws DOMException {
+    public void deleteData(int offset, int count) {
         DOMNodeHelper.deleteData(this, offset, count);
     }
 
     @Override
-    public void replaceData(int offset, int count, String arg)
-            throws DOMException {
+    public void replaceData(int offset, int count, String arg) {
         DOMNodeHelper.replaceData(this, offset, count, arg);
     }
 
     @Override
     public String getBaseURI() {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
-    public short compareDocumentPosition(Node other) throws DOMException {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+    public short compareDocumentPosition(Node other) {
+        throw new UnsupportedFeatureException();
     }
 
     @Override
-    public String getTextContent() throws DOMException {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+    public String getTextContent() {
+        throw new UnsupportedFeatureException();
     }
 
     @Override
-    public void setTextContent(String textContent) throws DOMException {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setTextContent(String textContent) {
+        throw new UnsupportedFeatureException();
     }
 
     @Override
@@ -254,20 +244,17 @@ public class DOMComment extends DefaultComment implements org.w3c.dom.Comment {
 
     @Override
     public String lookupPrefix(String namespaceURI) {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public boolean isDefaultNamespace(String namespaceURI) {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public String lookupNamespaceURI(String prefix) {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
@@ -277,20 +264,17 @@ public class DOMComment extends DefaultComment implements org.w3c.dom.Comment {
 
     @Override
     public Object getFeature(String feature, String version) {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public Object setUserData(String key, Object data, UserDataHandler handler) {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public Object getUserData(String key) {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
 }

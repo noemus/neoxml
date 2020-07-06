@@ -31,11 +31,12 @@ import javax.xml.stream.events.ProcessingInstruction;
 import javax.xml.stream.events.StartDocument;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.util.XMLEventConsumer;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.StringWriter;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Iterator;
 
@@ -441,15 +442,19 @@ public class STAXEventWriter {
      * @throws RuntimeException DOCUMENT ME!
      */
     public DTD createDTD(DocumentType docType) {
-        StringWriter decl = new StringWriter();
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+             OutputStreamWriter writer = new OutputStreamWriter(out)) {
 
-        try {
-            docType.write(decl);
+            docType.write(writer);
+            writer.flush();
+
+            return factory.createDTD(out.toString());
         } catch (IOException e) {
-            throw new RuntimeException("Error writing DTD", e);
+            // this will not happen because we use ByteArrayOutputStream as an uderlying stream
+            throw new IllegalStateException(e);
         }
 
-        return factory.createDTD(decl.toString());
+
     }
 
     /**
@@ -511,7 +516,7 @@ public class STAXEventWriter {
         /**
          * The underlying neoxml attribute iterator.
          */
-        private Iterator<Attribute> iter;
+        private final Iterator<Attribute> iter;
 
         public AttributeIterator(Iterator<Attribute> iter) {
             this.iter = iter;
@@ -541,7 +546,7 @@ public class STAXEventWriter {
      * Internal {@link Iterator} implementation used to pass neoxml {@link Namespace}s to the stream.
      */
     private class NamespaceIterator implements Iterator<javax.xml.stream.events.Namespace> {
-        private Iterator<Namespace> iter;
+        private final Iterator<Namespace> iter;
 
         public NamespaceIterator(Iterator<Namespace> iter) {
             this.iter = iter;

@@ -9,6 +9,7 @@ package org.neoxml.dom;
 import org.neoxml.DocumentFactory;
 import org.neoxml.Element;
 import org.neoxml.QName;
+import org.neoxml.UnsupportedFeatureException;
 import org.neoxml.tree.DefaultDocument;
 import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
@@ -90,7 +91,7 @@ public class DOMDocument extends DefaultDocument implements Document {
     }
 
     @Override
-    public void setPrefix(String prefix) throws DOMException {
+    public void setPrefix(String prefix) {
         DOMNodeHelper.setPrefix(this, prefix);
     }
 
@@ -104,17 +105,15 @@ public class DOMDocument extends DefaultDocument implements Document {
         return "#document";
     }
 
-    // already part of API
-    //
-    // public short getNodeType();
-
     @Override
-    public String getNodeValue() throws DOMException {
+    public String getNodeValue() {
         return null;
     }
 
     @Override
-    public void setNodeValue(String nodeValue) throws DOMException {}
+    public void setNodeValue(String nodeValue) {
+        // do nothing in this implementation
+    }
 
     @Override
     public org.w3c.dom.Node getParentNode() {
@@ -157,32 +156,32 @@ public class DOMDocument extends DefaultDocument implements Document {
     }
 
     @Override
-    public org.w3c.dom.Node insertBefore(org.w3c.dom.Node newChild, org.w3c.dom.Node refChild) throws DOMException {
+    public org.w3c.dom.Node insertBefore(org.w3c.dom.Node newChild, org.w3c.dom.Node refChild) {
         checkNewChildNode(newChild);
 
         return DOMNodeHelper.insertBefore(this, newChild, refChild);
     }
 
     @Override
-    public org.w3c.dom.Node replaceChild(org.w3c.dom.Node newChild, org.w3c.dom.Node oldChild) throws DOMException {
+    public org.w3c.dom.Node replaceChild(org.w3c.dom.Node newChild, org.w3c.dom.Node oldChild) {
         checkNewChildNode(newChild);
 
         return DOMNodeHelper.replaceChild(this, newChild, oldChild);
     }
 
     @Override
-    public org.w3c.dom.Node removeChild(org.w3c.dom.Node oldChild) throws DOMException {
+    public org.w3c.dom.Node removeChild(org.w3c.dom.Node oldChild) {
         return DOMNodeHelper.removeChild(this, oldChild);
     }
 
     @Override
-    public org.w3c.dom.Node appendChild(org.w3c.dom.Node newChild) throws DOMException {
+    public org.w3c.dom.Node appendChild(org.w3c.dom.Node newChild) {
         checkNewChildNode(newChild);
 
         return DOMNodeHelper.appendChild(this, newChild);
     }
 
-    private void checkNewChildNode(org.w3c.dom.Node newChild) throws DOMException {
+    private void checkNewChildNode(org.w3c.dom.Node newChild) {
         final int nodeType = newChild.getNodeType();
 
         if (!((nodeType == org.w3c.dom.Node.ELEMENT_NODE)
@@ -253,7 +252,7 @@ public class DOMDocument extends DefaultDocument implements Document {
     }
 
     @Override
-    public org.w3c.dom.Element createElement(String name) throws DOMException {
+    public org.w3c.dom.Element createElement(String name) {
         return (org.w3c.dom.Element) getDocumentFactory().createElement(name);
     }
 
@@ -275,43 +274,43 @@ public class DOMDocument extends DefaultDocument implements Document {
     }
 
     @Override
-    public CDATASection createCDATASection(String data) throws DOMException {
+    public CDATASection createCDATASection(String data) {
         return (CDATASection) getDocumentFactory().createCDATA(data);
     }
 
     @Override
-    public ProcessingInstruction createProcessingInstruction(String target, String data) throws DOMException {
+    public ProcessingInstruction createProcessingInstruction(String target, String data) {
         return (ProcessingInstruction) getDocumentFactory().createProcessingInstruction(target, data);
     }
 
     @Override
-    public Attr createAttribute(String name) throws DOMException {
+    public Attr createAttribute(String name) {
         QName qname = getDocumentFactory().createQName(name);
 
         return (Attr) getDocumentFactory().createAttribute(null, qname, "");
     }
 
     @Override
-    public EntityReference createEntityReference(String name) throws DOMException {
+    public EntityReference createEntityReference(String name) {
         return (EntityReference) getDocumentFactory().createEntity(name, null);
     }
 
     @Override
-    public org.w3c.dom.Node importNode(org.w3c.dom.Node importedNode, boolean deep) throws DOMException {
+    public org.w3c.dom.Node importNode(org.w3c.dom.Node importedNode, boolean deep) {
         DOMNodeHelper.notSupported();
 
         return null;
     }
 
     @Override
-    public org.w3c.dom.Element createElementNS(String namespaceURI, String qualifiedName) throws DOMException {
+    public org.w3c.dom.Element createElementNS(String namespaceURI, String qualifiedName) {
         QName qname = getDocumentFactory().createQName(qualifiedName, namespaceURI);
 
         return (org.w3c.dom.Element) getDocumentFactory().createElement(qname);
     }
 
     @Override
-    public org.w3c.dom.Attr createAttributeNS(String namespaceURI, String qualifiedName) throws DOMException {
+    public org.w3c.dom.Attr createAttributeNS(String namespaceURI, String qualifiedName) {
         QName qname = getDocumentFactory().createQName(qualifiedName, namespaceURI);
 
         return (org.w3c.dom.Attr) getDocumentFactory().createAttribute(null, qname, null);
@@ -336,92 +335,92 @@ public class DOMDocument extends DefaultDocument implements Document {
 
     @Override
     public String getInputEncoding() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public String getXmlEncoding() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public boolean getXmlStandalone() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
-    public void setXmlStandalone(boolean xmlStandalone) throws DOMException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setXmlStandalone(boolean xmlStandalone) {
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public String getXmlVersion() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
-    public void setXmlVersion(String xmlVersion) throws DOMException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setXmlVersion(String xmlVersion) {
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public boolean getStrictErrorChecking() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public void setStrictErrorChecking(boolean strictErrorChecking) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public String getDocumentURI() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public void setDocumentURI(String documentURI) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
-    public Node adoptNode(Node source) throws DOMException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Node adoptNode(Node source) {
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public DOMConfiguration getDomConfig() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public void normalizeDocument() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
-    public Node renameNode(Node n, String namespaceURI, String qualifiedName) throws DOMException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Node renameNode(Node n, String namespaceURI, String qualifiedName) {
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public String getBaseURI() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
-    public short compareDocumentPosition(Node other) throws DOMException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public short compareDocumentPosition(Node other) {
+        throw new UnsupportedFeatureException();
     }
 
     @Override
-    public String getTextContent() throws DOMException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public String getTextContent() {
+        throw new UnsupportedFeatureException();
     }
 
     @Override
-    public void setTextContent(String textContent) throws DOMException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setTextContent(String textContent) {
+        throw new UnsupportedFeatureException();
     }
 
     @Override
@@ -431,17 +430,17 @@ public class DOMDocument extends DefaultDocument implements Document {
 
     @Override
     public String lookupPrefix(String namespaceURI) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public boolean isDefaultNamespace(String namespaceURI) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public String lookupNamespaceURI(String prefix) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
@@ -451,17 +450,17 @@ public class DOMDocument extends DefaultDocument implements Document {
 
     @Override
     public Object getFeature(String feature, String version) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public Object setUserData(String key, Object data, UserDataHandler handler) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public Object getUserData(String key) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 }
 

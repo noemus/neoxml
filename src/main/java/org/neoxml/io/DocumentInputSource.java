@@ -9,10 +9,10 @@ package org.neoxml.io;
 import org.neoxml.Document;
 import org.xml.sax.InputSource;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
-import java.io.StringWriter;
 
 /**
  * <p>
@@ -27,8 +27,6 @@ class DocumentInputSource extends InputSource {
      * The document source
      */
     private Document document;
-
-    public DocumentInputSource() {}
 
     public DocumentInputSource(Document document) {
         this.document = document;
@@ -61,14 +59,13 @@ class DocumentInputSource extends InputSource {
     // -------------------------------------------------------------------------
 
     /**
-     * This method is not supported as this source is always a {@linkDocument} instance.
+     * This method is not supported as this source is always a {@link Document} instance.
      *
      * @param characterStream DOCUMENT ME!
      * @throws UnsupportedOperationException as this method is unsupported
      */
     @Override
-    public void setCharacterStream(Reader characterStream)
-            throws UnsupportedOperationException {
+    public void setCharacterStream(Reader characterStream) {
         throw new UnsupportedOperationException();
     }
 
@@ -81,7 +78,7 @@ class DocumentInputSource extends InputSource {
      */
     @Override
     public Reader getCharacterStream() {
-        StringWriter out = new StringWriter();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         try (XMLWriter writer = new XMLWriter(out)) {
             writer.write(document);
@@ -99,7 +96,9 @@ class DocumentInputSource extends InputSource {
                 }
 
                 @Override
-                public void close() throws IOException {}
+                public void close() {
+                    // nothing to do
+                }
             };
         }
     }

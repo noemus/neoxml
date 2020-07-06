@@ -103,7 +103,7 @@ public abstract class AbstractBranch extends AbstractNode implements Branch {
     /**
      * DOCUMENT ME!
      *
-     * @param content DOCUMENT ME!
+     * @param node DOCUMENT ME!
      * @return the XPath defined string-value of the given content object
      */
     protected String getContentAsStringValue(Node node) {

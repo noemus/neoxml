@@ -7,6 +7,7 @@
 package org.neoxml.dom;
 
 import org.neoxml.Element;
+import org.neoxml.UnsupportedFeatureException;
 import org.neoxml.tree.DefaultProcessingInstruction;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
@@ -16,6 +17,8 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.UserDataHandler;
 
 import java.util.Map;
+
+import static org.neoxml.dom.DOMNodeHelper.newHierarchyRequestError;
 
 /**
  * <p>
@@ -53,7 +56,7 @@ public class DOMProcessingInstruction extends DefaultProcessingInstruction imple
     }
 
     @Override
-    public void setPrefix(String prefix) throws DOMException {
+    public void setPrefix(String prefix) {
         DOMNodeHelper.setPrefix(this, prefix);
     }
 
@@ -68,12 +71,12 @@ public class DOMProcessingInstruction extends DefaultProcessingInstruction imple
     }
 
     @Override
-    public String getNodeValue() throws DOMException {
+    public String getNodeValue() {
         return DOMNodeHelper.getNodeValue(this);
     }
 
     @Override
-    public void setNodeValue(String nodeValue) throws DOMException {
+    public void setNodeValue(String nodeValue) {
         DOMNodeHelper.setNodeValue(this, nodeValue);
     }
 
@@ -118,33 +121,23 @@ public class DOMProcessingInstruction extends DefaultProcessingInstruction imple
     }
 
     @Override
-    public org.w3c.dom.Node insertBefore(org.w3c.dom.Node newChild, org.w3c.dom.Node refChild) throws DOMException {
-        checkNewChildNode(newChild);
-
-        return DOMNodeHelper.insertBefore(this, newChild, refChild);
+    public org.w3c.dom.Node insertBefore(org.w3c.dom.Node newChild, org.w3c.dom.Node refChild) {
+        throw newHierarchyRequestError(newChild);
     }
 
     @Override
-    public org.w3c.dom.Node replaceChild(org.w3c.dom.Node newChild, org.w3c.dom.Node oldChild) throws DOMException {
-        checkNewChildNode(newChild);
-
-        return DOMNodeHelper.replaceChild(this, newChild, oldChild);
+    public org.w3c.dom.Node replaceChild(org.w3c.dom.Node newChild, org.w3c.dom.Node oldChild) {
+        throw newHierarchyRequestError(newChild);
     }
 
     @Override
-    public org.w3c.dom.Node removeChild(org.w3c.dom.Node oldChild) throws DOMException {
+    public org.w3c.dom.Node removeChild(org.w3c.dom.Node oldChild) {
         return DOMNodeHelper.removeChild(this, oldChild);
     }
 
     @Override
-    public org.w3c.dom.Node appendChild(org.w3c.dom.Node newChild) throws DOMException {
-        checkNewChildNode(newChild);
-
-        return DOMNodeHelper.appendChild(this, newChild);
-    }
-
-    private void checkNewChildNode(org.w3c.dom.Node newChild) throws DOMException {
-        throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "PI nodes cannot have children");
+    public org.w3c.dom.Node appendChild(org.w3c.dom.Node newChild) {
+        throw newHierarchyRequestError(newChild);
     }
 
     @Override
@@ -178,7 +171,7 @@ public class DOMProcessingInstruction extends DefaultProcessingInstruction imple
     }
 
     @Override
-    public void setData(String data) throws DOMException {
+    public void setData(String data) {
         if (isReadOnly()) {
             throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "This ProcessingInstruction is read only");
         } else {
@@ -188,22 +181,22 @@ public class DOMProcessingInstruction extends DefaultProcessingInstruction imple
 
     @Override
     public String getBaseURI() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
-    public short compareDocumentPosition(Node other) throws DOMException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public short compareDocumentPosition(Node other) {
+        throw new UnsupportedFeatureException();
     }
 
     @Override
-    public String getTextContent() throws DOMException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public String getTextContent() {
+        throw new UnsupportedFeatureException();
     }
 
     @Override
-    public void setTextContent(String textContent) throws DOMException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setTextContent(String textContent) {
+        throw new UnsupportedFeatureException();
     }
 
     @Override
@@ -213,17 +206,17 @@ public class DOMProcessingInstruction extends DefaultProcessingInstruction imple
 
     @Override
     public String lookupPrefix(String namespaceURI) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public boolean isDefaultNamespace(String namespaceURI) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public String lookupNamespaceURI(String prefix) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
@@ -233,17 +226,17 @@ public class DOMProcessingInstruction extends DefaultProcessingInstruction imple
 
     @Override
     public Object getFeature(String feature, String version) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public Object setUserData(String key, Object data, UserDataHandler handler) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public Object getUserData(String key) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     // Implementation methods

@@ -11,6 +11,7 @@ import org.neoxml.DocumentFactory;
 import org.neoxml.Element;
 import org.neoxml.Namespace;
 import org.neoxml.QName;
+import org.neoxml.UnsupportedFeatureException;
 import org.neoxml.tree.DefaultElement;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
@@ -72,7 +73,7 @@ public class DOMElement extends DefaultElement implements org.w3c.dom.Element {
     }
 
     @Override
-    public void setPrefix(String prefix) throws DOMException {
+    public void setPrefix(String prefix) {
         DOMNodeHelper.setPrefix(this, prefix);
     }
 
@@ -86,17 +87,15 @@ public class DOMElement extends DefaultElement implements org.w3c.dom.Element {
         return getName();
     }
 
-    // already part of API
-    //
-    // public short getNodeType();
-
     @Override
-    public String getNodeValue() throws DOMException {
+    public String getNodeValue() {
         return null;
     }
 
     @Override
-    public void setNodeValue(String nodeValue) throws DOMException {}
+    public void setNodeValue(String nodeValue) {
+        // do nothing in this implementation
+    }
 
     @Override
     public org.w3c.dom.Node getParentNode() {
@@ -139,37 +138,32 @@ public class DOMElement extends DefaultElement implements org.w3c.dom.Element {
     }
 
     @Override
-    public org.w3c.dom.Node insertBefore(org.w3c.dom.Node newChild,
-                                         org.w3c.dom.Node refChild) throws DOMException {
+    public org.w3c.dom.Node insertBefore(org.w3c.dom.Node newChild, org.w3c.dom.Node refChild) {
         checkNewChildNode(newChild);
 
         return DOMNodeHelper.insertBefore(this, newChild, refChild);
     }
 
     @Override
-    public org.w3c.dom.Node replaceChild(org.w3c.dom.Node newChild,
-                                         org.w3c.dom.Node oldChild) throws DOMException {
+    public org.w3c.dom.Node replaceChild(org.w3c.dom.Node newChild, org.w3c.dom.Node oldChild) {
         checkNewChildNode(newChild);
 
         return DOMNodeHelper.replaceChild(this, newChild, oldChild);
     }
 
     @Override
-    public org.w3c.dom.Node removeChild(org.w3c.dom.Node oldChild)
-            throws DOMException {
+    public org.w3c.dom.Node removeChild(org.w3c.dom.Node oldChild) {
         return DOMNodeHelper.removeChild(this, oldChild);
     }
 
     @Override
-    public org.w3c.dom.Node appendChild(org.w3c.dom.Node newChild)
-            throws DOMException {
+    public org.w3c.dom.Node appendChild(org.w3c.dom.Node newChild) {
         checkNewChildNode(newChild);
 
         return DOMNodeHelper.appendChild(this, newChild);
     }
 
-    private void checkNewChildNode(org.w3c.dom.Node newChild)
-            throws DOMException {
+    private void checkNewChildNode(org.w3c.dom.Node newChild) {
         final int nodeType = newChild.getNodeType();
 
         if (!((nodeType == Node.ELEMENT_NODE) || (nodeType == Node.TEXT_NODE)
@@ -218,12 +212,12 @@ public class DOMElement extends DefaultElement implements org.w3c.dom.Element {
     }
 
     @Override
-    public void setAttribute(String name, String value) throws DOMException {
+    public void setAttribute(String name, String value) {
         addAttribute(name, value);
     }
 
     @Override
-    public void removeAttribute(String name) throws DOMException {
+    public void removeAttribute(String name) {
         Attribute attribute = attribute(name);
 
         if (attribute != null) {
@@ -237,19 +231,16 @@ public class DOMElement extends DefaultElement implements org.w3c.dom.Element {
     }
 
     @Override
-    public org.w3c.dom.Attr setAttributeNode(org.w3c.dom.Attr newAttr)
-            throws DOMException {
+    public org.w3c.dom.Attr setAttributeNode(org.w3c.dom.Attr newAttr) {
         if (this.isReadOnly()) {
-            throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR,
-                                   "No modification allowed");
+            throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "No modification allowed");
         }
 
         Attribute attribute = attribute(newAttr);
 
         if (attribute != newAttr) {
             if (newAttr.getOwnerElement() != null) {
-                throw new DOMException(DOMException.INUSE_ATTRIBUTE_ERR,
-                                       "Attribute is already in use");
+                throw new DOMException(DOMException.INUSE_ATTRIBUTE_ERR, "Attribute is already in use");
             }
 
             Attribute newAttribute = createAttribute(newAttr);
@@ -265,8 +256,7 @@ public class DOMElement extends DefaultElement implements org.w3c.dom.Element {
     }
 
     @Override
-    public org.w3c.dom.Attr removeAttributeNode(org.w3c.dom.Attr oldAttr)
-            throws DOMException {
+    public org.w3c.dom.Attr removeAttributeNode(org.w3c.dom.Attr oldAttr) {
         Attribute attribute = attribute(oldAttr);
 
         if (attribute != null) {
@@ -296,7 +286,7 @@ public class DOMElement extends DefaultElement implements org.w3c.dom.Element {
 
     @Override
     public void setAttributeNS(String namespaceURI, String qualifiedName,
-                               String value) throws DOMException {
+                               String value) {
         Attribute attribute = attribute(namespaceURI, qualifiedName);
 
         if (attribute != null) {
@@ -308,8 +298,7 @@ public class DOMElement extends DefaultElement implements org.w3c.dom.Element {
     }
 
     @Override
-    public void removeAttributeNS(String namespaceURI, String localName)
-            throws DOMException {
+    public void removeAttributeNS(String namespaceURI, String localName) {
         Attribute attribute = attribute(namespaceURI, localName);
 
         if (attribute != null) {
@@ -318,22 +307,19 @@ public class DOMElement extends DefaultElement implements org.w3c.dom.Element {
     }
 
     @Override
-    public org.w3c.dom.Attr getAttributeNodeNS(String namespaceURI,
-                                               String localName) {
+    public org.w3c.dom.Attr getAttributeNodeNS(String namespaceURI, String localName) {
         Attribute attribute = attribute(namespaceURI, localName);
 
         if (attribute != null) {
-            DOMNodeHelper.asDOMAttr(attribute);
+            return DOMNodeHelper.asDOMAttr(attribute);
         }
 
         return null;
     }
 
     @Override
-    public org.w3c.dom.Attr setAttributeNodeNS(org.w3c.dom.Attr newAttr)
-            throws DOMException {
-        Attribute attribute = attribute(newAttr.getNamespaceURI(), newAttr
-                .getLocalName());
+    public org.w3c.dom.Attr setAttributeNodeNS(org.w3c.dom.Attr newAttr) {
+        Attribute attribute = attribute(newAttr.getNamespaceURI(), newAttr.getLocalName());
 
         if (attribute != null) {
             attribute.setValue(newAttr.getValue());
@@ -406,7 +392,7 @@ public class DOMElement extends DefaultElement implements org.w3c.dom.Element {
     }
 
     protected Attribute createAttribute(org.w3c.dom.Attr newAttr) {
-        QName qName = null;
+        QName qName;
         String name = newAttr.getLocalName();
 
         if (name != null) {
@@ -436,42 +422,42 @@ public class DOMElement extends DefaultElement implements org.w3c.dom.Element {
 
     @Override
     public TypeInfo getSchemaTypeInfo() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
-    public void setIdAttribute(String name, boolean isId) throws DOMException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setIdAttribute(String name, boolean isId) {
+        throw new UnsupportedFeatureException();
     }
 
     @Override
-    public void setIdAttributeNS(String namespaceURI, String localName, boolean isId) throws DOMException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setIdAttributeNS(String namespaceURI, String localName, boolean isId) {
+        throw new UnsupportedFeatureException();
     }
 
     @Override
-    public void setIdAttributeNode(Attr idAttr, boolean isId) throws DOMException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setIdAttributeNode(Attr idAttr, boolean isId) {
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public String getBaseURI() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
-    public short compareDocumentPosition(Node other) throws DOMException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public short compareDocumentPosition(Node other) {
+        throw new UnsupportedFeatureException();
     }
 
     @Override
-    public String getTextContent() throws DOMException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public String getTextContent() {
+        throw new UnsupportedFeatureException();
     }
 
     @Override
-    public void setTextContent(String textContent) throws DOMException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setTextContent(String textContent) {
+        throw new UnsupportedFeatureException();
     }
 
     @Override
@@ -481,17 +467,17 @@ public class DOMElement extends DefaultElement implements org.w3c.dom.Element {
 
     @Override
     public String lookupPrefix(String namespaceURI) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public boolean isDefaultNamespace(String namespaceURI) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public String lookupNamespaceURI(String prefix) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
@@ -501,17 +487,17 @@ public class DOMElement extends DefaultElement implements org.w3c.dom.Element {
 
     @Override
     public Object getFeature(String feature, String version) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public Object setUserData(String key, Object data, UserDataHandler handler) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public Object getUserData(String key) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 }
 

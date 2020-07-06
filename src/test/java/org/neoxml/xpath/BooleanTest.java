@@ -12,7 +12,6 @@ import org.neoxml.DocumentHelper;
 import org.neoxml.Node;
 import org.neoxml.XPath;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -33,30 +32,23 @@ public class BooleanTest extends AbstractTestCase {
     // -------------------------------------------------------------------------
 
     @Test
-    public void testXPaths() throws Exception {
-        int size = paths.length;
-
-        for (int i = 0; i < size; i++) {
-            testXPath(paths[i]);
+    public void testXPaths() {
+        for (String path : paths) {
+            testXPath(path);
         }
     }
 
     protected void testXPath(String xpathExpression) {
         XPath xpath = DocumentHelper.createXPath(xpathExpression);
-        assertTrue("No xpath object was created", xpath != null);
+        assertNotNull("No xpath object was created", xpath);
 
         log("Evaluating xpath: " + xpath);
 
-        List list = document.selectNodes("//author");
+        List<Node> list = document.selectNodes("//author");
 
-        for (Iterator iter = list.iterator(); iter.hasNext(); ) {
-            Node node = (Node) iter.next();
-            testXPath(node, xpath);
+        for (Node node : list) {
+            assertNotNull(xpath.selectNodes(node));
         }
-    }
-
-    protected void testXPath(Node node, XPath xpath) {
-        List list = xpath.selectNodes(node);
     }
 }
 

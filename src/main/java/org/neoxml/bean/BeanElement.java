@@ -32,6 +32,8 @@ public class BeanElement extends DefaultElement {
      */
     private static final DocumentFactory DOCUMENT_FACTORY = DefaultDocumentFactory.getInstance();
 
+    private static final String CLASS_ATTR = "class";
+
     /**
      * The JavaBean which defines my attributes
      */
@@ -112,7 +114,7 @@ public class BeanElement extends DefaultElement {
             for (Attribute attr : attributes) {
                 final String attrName = attr.getName();
 
-                if (!"class".equalsIgnoreCase(attrName)) {
+                if (!CLASS_ATTR.equalsIgnoreCase(attrName)) {
                     addAttribute(attrName, attr.getValue());
                 }
             }
@@ -123,7 +125,7 @@ public class BeanElement extends DefaultElement {
 
     @Override
     public void setAttributes(Attributes attributes, NamespaceStack namespaceStack, boolean noNamespaceAttributes) {
-        String className = attributes.getValue("class");
+        String className = attributes.getValue(CLASS_ATTR);
 
         if (className != null) {
             try {
@@ -135,7 +137,7 @@ public class BeanElement extends DefaultElement {
                 for (int i = 0; i < attributes.getLength(); i++) {
                     String attributeName = attributes.getLocalName(i);
 
-                    if (!"class".equalsIgnoreCase(attributeName)) {
+                    if (!CLASS_ATTR.equalsIgnoreCase(attributeName)) {
                         addAttribute(attributeName, attributes.getValue(i));
                     }
                 }

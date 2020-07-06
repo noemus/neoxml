@@ -49,15 +49,15 @@ public class DOMNodeHelper {
         return null;
     }
 
-    public static void setPrefix(Node node, String prefix) throws DOMException {
+    public static void setPrefix(Node node, String prefix) {
         notSupported();
     }
 
-    public static String getNodeValue(Node node) throws DOMException {
+    public static String getNodeValue(Node node) {
         return node.getText();
     }
 
-    public static void setNodeValue(Node node, String nodeValue) throws DOMException {
+    public static void setNodeValue(Node node, String nodeValue) {
         node.setText(nodeValue);
     }
 
@@ -122,7 +122,7 @@ public class DOMNodeHelper {
     @SuppressWarnings({
                               "unchecked", "rawtypes"
                       })
-    public static org.w3c.dom.Node insertBefore(Node node, org.w3c.dom.Node newChild, org.w3c.dom.Node refChild) throws DOMException {
+    public static org.w3c.dom.Node insertBefore(Node node, org.w3c.dom.Node newChild, org.w3c.dom.Node refChild) {
         if (node instanceof Branch) {
             Branch branch = (Branch) node;
             List list = branch.content();
@@ -144,7 +144,7 @@ public class DOMNodeHelper {
     @SuppressWarnings({
                               "rawtypes", "unchecked"
                       })
-    public static org.w3c.dom.Node replaceChild(Node node, org.w3c.dom.Node newChild, org.w3c.dom.Node oldChild) throws DOMException {
+    public static org.w3c.dom.Node replaceChild(Node node, org.w3c.dom.Node newChild, org.w3c.dom.Node oldChild) {
         if (node instanceof Branch) {
             Branch branch = (Branch) node;
             List list = branch.content();
@@ -163,7 +163,7 @@ public class DOMNodeHelper {
         }
     }
 
-    public static org.w3c.dom.Node removeChild(Node node, org.w3c.dom.Node oldChild) throws DOMException {
+    public static org.w3c.dom.Node removeChild(Node node, org.w3c.dom.Node oldChild) {
         if (node instanceof Branch) {
             Branch branch = (Branch) node;
             branch.remove((Node) oldChild);
@@ -174,7 +174,7 @@ public class DOMNodeHelper {
         throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "Children not allowed for this node: " + node);
     }
 
-    public static org.w3c.dom.Node appendChild(Node node, org.w3c.dom.Node newChild) throws DOMException {
+    public static org.w3c.dom.Node appendChild(Node node, org.w3c.dom.Node newChild) {
         if (node instanceof Branch) {
             Branch branch = (Branch) node;
             org.w3c.dom.Node previousParent = newChild.getParentNode();
@@ -214,11 +214,11 @@ public class DOMNodeHelper {
         return false;
     }
 
-    public static String getData(CharacterData charData) throws DOMException {
+    public static String getData(CharacterData charData) {
         return charData.getText();
     }
 
-    public static void setData(CharacterData charData, String data) throws DOMException {
+    public static void setData(CharacterData charData, String data) {
         charData.setText(data);
     }
 
@@ -229,7 +229,7 @@ public class DOMNodeHelper {
     }
 
     @SuppressWarnings("null")
-    public static String substringData(CharacterData charData, int offset, int count) throws DOMException {
+    public static String substringData(CharacterData charData, int offset, int count) {
         if (count < 0) {
             throw new DOMException(DOMException.INDEX_SIZE_ERR, "Illegal value for count: " + count);
         }
@@ -242,28 +242,28 @@ public class DOMNodeHelper {
         }
 
         if ((offset + count) > length) {
-            // suppressed null warning - text cannot be null here
+            // @nosonar suppressed null warning - text cannot be null here
             return text.substring(offset);
         }
 
+        // @nosonar suppressed null warning - text cannot be null here
         return text.substring(offset, offset + count);
     }
 
-    public static void appendData(CharacterData charData, String arg) throws DOMException {
+    public static void appendData(CharacterData charData, String arg) {
         if (charData.isReadOnly()) {
             throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "CharacterData node is read only: " + charData);
-        } else {
-            String text = charData.getText();
+        }
 
-            if (text == null) {
-                charData.setText(text);
-            } else {
-                charData.setText(text + arg);
-            }
+        String text = charData.getText();
+        if (text == null) {
+            charData.setText(null);
+        } else {
+            charData.setText(text + arg);
         }
     }
 
-    public static void insertData(CharacterData data, int offset, String arg) throws DOMException {
+    public static void insertData(CharacterData data, int offset, String arg) {
         if (data.isReadOnly()) {
             throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "CharacterData node is read only: " + data);
         } else {
@@ -286,7 +286,7 @@ public class DOMNodeHelper {
         }
     }
 
-    public static void deleteData(CharacterData charData, int offset, int count) throws DOMException {
+    public static void deleteData(CharacterData charData, int offset, int count) {
         if (charData.isReadOnly()) {
             throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "CharacterData node is read only: " + charData);
         } else {
@@ -310,7 +310,7 @@ public class DOMNodeHelper {
         }
     }
 
-    public static void replaceData(CharacterData charData, int offset, int count, String arg) throws DOMException {
+    public static void replaceData(CharacterData charData, int offset, int count, String arg) {
         if (charData.isReadOnly()) {
             throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "CharacterData node is read only: " + charData);
         } else {
@@ -498,6 +498,10 @@ public class DOMNodeHelper {
      */
     public static void notSupported() {
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Not supported yet");
+    }
+
+    public static DOMException newHierarchyRequestError(org.w3c.dom.Node node) {
+        return new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "Children not allowed for this node: " + node);
     }
 
     public static class EmptyNodeList implements NodeList {

@@ -10,8 +10,9 @@ import org.neoxml.CDATA;
 import org.neoxml.NodeType;
 import org.neoxml.Visitor;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.StringWriter;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 /**
@@ -40,15 +41,17 @@ public abstract class AbstractCDATA extends AbstractCharacterData implements CDA
 
     @Override
     public String asXML() {
-        StringWriter writer = new StringWriter();
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+             OutputStreamWriter writer = new OutputStreamWriter(out)) {
 
-        try {
             write(writer);
-        } catch (IOException e) {
-            // will not happen since we are using a StringWriter!
-        }
+            writer.flush();
 
-        return writer.toString();
+            return out.toString();
+        } catch (IOException e) {
+            // will not happen since we are using a ByteArrayOutputStream!
+            throw new IllegalStateException(e);
+        }
     }
 
     @Override

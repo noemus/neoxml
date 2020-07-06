@@ -30,20 +30,20 @@ public class ContentTest extends AbstractTestCase {
 
         List<Element> authors = root.elements("author");
         assertNotNull("Root has children", authors);
-        assertTrue("Root has children", authors.size() == 2);
+        assertEquals("Root has children", 2, authors.size());
 
         Element author1 = authors.get(0);
         Element author2 = authors.get(1);
 
-        assertTrue("Author1 is James", author1.attributeValue("name").equals("James"));
-        assertTrue("Author2 is Bob", author2.attributeValue("name").equals("Bob"));
+        assertEquals("Author1 is James", "James", author1.attributeValue("name"));
+        assertEquals("Author2 is Bob", "Bob", author2.attributeValue("name"));
 
         testGetAttributes(author1);
         testGetAttributes(author2);
     }
 
     @Test
-    public void testContent() throws Exception {
+    public void testContent() {
         Element root = document.getRootElement();
         assertNotNull("Has root element", root);
 
@@ -53,9 +53,8 @@ public class ContentTest extends AbstractTestCase {
 
         int iterated = 0;
 
-        for (Iterator<Node> iter = content.iterator(); iter.hasNext(); ) {
-            Object object = iter.next();
-            assertTrue("Content object is a node", object instanceof Node);
+        for (Node node : content) {
+            assertNotNull("Content node is a node", node);
             ++iterated;
         }
 
@@ -63,18 +62,18 @@ public class ContentTest extends AbstractTestCase {
     }
 
     @Test
-    public void testGetNode() throws Exception {
+    public void testGetNode() {
         Element root = document.getRootElement();
         assertNotNull("Has root element", root);
 
         int count = root.nodeCount();
-        assertTrue("Root has correct node count", count == 2);
+        assertEquals("Root has correct node count", 2, count);
 
         boolean iterated = false;
 
         for (int i = 0; i < count; i++) {
             Node node = root.node(i);
-            assertTrue("Valid node returned from node()", node != null);
+            assertNotNull("Valid node returned from node()", node);
             iterated = true;
         }
 
@@ -82,12 +81,12 @@ public class ContentTest extends AbstractTestCase {
     }
 
     @Test
-    public void testGetXPathNode() throws Exception {
+    public void testGetXPathNode() {
         Element root = document.getRootElement();
         assertNotNull("Has root element", root);
 
         int count = root.nodeCount();
-        assertTrue("Root has correct node count", count == 2);
+        assertEquals("Root has correct node count", 2, count);
 
         boolean iterated = false;
 
@@ -115,8 +114,7 @@ public class ContentTest extends AbstractTestCase {
         Object pi = list.get(0);
         Object root = list.get(1);
 
-        assertTrue("First element is not a PI",
-                   pi instanceof ProcessingInstruction);
+        assertTrue("First element is not a PI", pi instanceof ProcessingInstruction);
         assertTrue("Second element is an element", root instanceof Element);
 
         String xml = "<?xml version=\"1.0\" ?>\n"
@@ -131,13 +129,12 @@ public class ContentTest extends AbstractTestCase {
         pi = list.get(0);
         root = list.get(1);
 
-        assertTrue("First element is not a PI",
-                   pi instanceof ProcessingInstruction);
+        assertTrue("First element is not a PI", pi instanceof ProcessingInstruction);
         assertTrue("Second element is an element", root instanceof Element);
     }
 
     @Test
-    public void testAddingInTheMiddle() throws Exception {
+    public void testAddingInTheMiddle() {
         Document doc = factory.createDocument();
         Element root = doc.addElement("html");
         Element header = root.addElement("header");
@@ -148,15 +145,14 @@ public class ContentTest extends AbstractTestCase {
         Element foo = factory.createElement("foo");
         list.add(1, foo);
 
-        // assertions
-        assertTrue(list.size() == 3);
-        assertTrue(list.get(0) == header);
-        assertTrue(list.get(1) == foo);
-        assertTrue(list.get(2) == footer);
+        assertEquals(3, list.size());
+        assertSame(list.get(0), header);
+        assertSame(list.get(1), foo);
+        assertSame(list.get(2), footer);
     }
 
     @Test
-    public void testAddAtIndex() throws Exception {
+    public void testAddAtIndex() {
         Document doc = factory.createDocument();
         Element root = doc.addElement("html");
         Element header = root.addElement("header");
@@ -184,7 +180,7 @@ public class ContentTest extends AbstractTestCase {
     }
 
     @Test
-    public void testAddAtIndex2() throws Exception {
+    public void testAddAtIndex2() {
         Document doc = factory.createDocument();
         Element parent = doc.addElement("parent");
         Element child = parent.addElement("child");
@@ -204,18 +200,16 @@ public class ContentTest extends AbstractTestCase {
     // Implementation methods
     // -------------------------------------------------------------------------
 
-    protected void testGetAttributes(Element author) throws Exception {
+    protected void testGetAttributes(Element author) {
         String definedName = "name";
         String undefinedName = "undefined-attribute-name";
         String defaultValue = "** Default Value **";
 
         String value = author.attributeValue(definedName, defaultValue);
-        assertTrue("Defined value doesn't return specified default value",
-                   value != defaultValue);
+        assertNotSame("Defined value doesn't return specified default value", value, defaultValue);
 
         value = author.attributeValue(undefinedName, defaultValue);
-        assertTrue("Undefined value returns specified default value",
-                   value == defaultValue);
+        assertSame("Undefined value returns specified default value", value, defaultValue);
     }
 }
 

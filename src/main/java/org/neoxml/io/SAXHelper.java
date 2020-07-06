@@ -74,16 +74,16 @@ class SAXHelper {
                 throw new SAXException(e);
             }
 
+            if (reader == null) {
+                throw new SAXException("Couldn't create SAX reader");
+            }
+
             try {
                 reader.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
                 reader.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
             } catch (SAXException e) {
                 // ignore if not supported
             }
-        }
-
-        if (reader == null) {
-            throw new SAXException("Couldn't create SAX reader");
         }
 
         return reader;

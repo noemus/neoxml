@@ -17,17 +17,14 @@ import java.util.List;
  * @version $Revision: 1.3 $
  */
 public class CopyTest extends AbstractTestCase {
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
-    public void testRoot() throws Exception {
+    public void testRoot() {
         document.setName("doc1");
 
         Element root = document.getRootElement();
         List<Element> authors = root.elements("author");
 
-        assertTrue("Should be at least 2 authors", authors.size() == 2);
+        assertEquals("Should be at least 2 authors", 2, authors.size());
 
         Element author1 = authors.get(0);
         Element author2 = authors.get(1);
@@ -37,7 +34,7 @@ public class CopyTest extends AbstractTestCase {
         testCopy(author2);
     }
 
-    protected void testCopy(Element element) throws Exception {
+    protected void testCopy(Element element) {
         assertNotNull("Not null", element);
 
         int attributeCount = element.attributeCount();

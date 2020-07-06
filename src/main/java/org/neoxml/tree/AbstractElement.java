@@ -904,11 +904,10 @@ public abstract class AbstractElement extends AbstractBranch implements Element 
 
             switch (node.getNodeTypeEnum()) {
                 case CDATA_SECTION_NODE:
-
-                    // case ENTITY_NODE:
                 case ENTITY_REFERENCE_NODE:
                 case TEXT_NODE:
                     it.remove();
+                    break;
 
                 default:
                     break;
@@ -924,32 +923,30 @@ public abstract class AbstractElement extends AbstractBranch implements Element 
 
         int size = list.size();
 
-        if (size > 0) {
-            if (size == 1) {
-                // optimised to avoid StringBuilder creation
-                return getContentAsStringValue(list.get(0));
-            } else {
-                StringBuilder buffer = new StringBuilder();
+        if (size == 0) {
+            return "";
+        }
 
-                for (Node node : list) {
-                    String string = getContentAsStringValue(node);
+        if (size == 1) {
+            // optimised to avoid StringBuilder creation
+            return getContentAsStringValue(list.get(0));
+        }
 
-                    if (string.length() > 0) {
-                        if (USE_STRINGVALUE_SEPARATOR) {
-                            if (buffer.length() > 0) {
-                                buffer.append(' ');
-                            }
-                        }
+        StringBuilder buffer = new StringBuilder();
 
-                        buffer.append(string);
-                    }
+        for (Node node : list) {
+            String string = getContentAsStringValue(node);
+
+            if (string.length() > 0) {
+                if (USE_STRINGVALUE_SEPARATOR && buffer.length() > 0) {
+                    buffer.append(' ');
                 }
 
-                return buffer.toString();
+                buffer.append(string);
             }
         }
 
-        return "";
+        return buffer.toString();
     }
 
     /**
@@ -989,7 +986,6 @@ public abstract class AbstractElement extends AbstractBranch implements Element 
                     String value = text.getText();
 
                     // only remove empty Text nodes, not whitespace nodes
-                    // if ( value == null || value.trim().length() <= 0 ) {
                     if ((value == null) || (value.length() <= 0)) {
                         remove(text);
                     } else {
@@ -1268,8 +1264,7 @@ public abstract class AbstractElement extends AbstractBranch implements Element 
      * This method is for internal use only
      * Replaces nodes in node list with suplied nodes (nodes are cloned if necessary). Used in setAttributes
      *
-     * @param newContent DOCUMENT ME!
-     * @param node       DOCUMENT ME!
+     * @param nodes DOCUMENT ME!
      */
     protected abstract void setAttributeList(List<Attribute> nodes);
 

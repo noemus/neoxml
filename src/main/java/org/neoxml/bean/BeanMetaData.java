@@ -99,7 +99,7 @@ public class BeanMetaData {
             readMethods[i] = propertyDescriptor.getReadMethod();
             writeMethods[i] = propertyDescriptor.getWriteMethod();
 
-            Integer index = new Integer(i);
+            Integer index = i;
             nameMap.put(name, index);
             nameMap.put(qName, index);
         }
@@ -112,14 +112,7 @@ public class BeanMetaData {
      * @return DOCUMENT ME!
      */
     public static BeanMetaData get(Class<?> beanClass) {
-        BeanMetaData answer = singletonCache.get(beanClass);
-
-        if (answer == null) {
-            answer = new BeanMetaData(beanClass);
-            singletonCache.put(beanClass, answer);
-        }
-
-        return answer;
+        return singletonCache.computeIfAbsent(beanClass, key -> new BeanMetaData(beanClass));
     }
 
     /**

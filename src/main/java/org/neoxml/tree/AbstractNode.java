@@ -271,7 +271,7 @@ public abstract class AbstractNode implements Node, Serializable {
     }
 
     protected Node createXPathResult(Element parent) {
-        throw new RuntimeException("asXPathResult() not yet implemented fully for: " + this);
+        throw new UnsupportedOperationException("asXPathResult() not yet implemented fully for: " + this);
     }
 
     protected static final Predicate<Node> ELEMENT_CONDITION = new ElementCondition();

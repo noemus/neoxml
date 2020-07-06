@@ -22,7 +22,7 @@ public class BeansTest extends AbstractTestCase {
     @Test
     public void testReadXML() throws Exception {
         SAXReader reader = new SAXReader(BeanDocumentFactory.getInstance());
-        getDocument("/src/test/xml/bean/gui.xml", reader);
+        assertNotNull(getDocument("/src/test/xml/bean/gui.xml", reader));
     }
 }
 

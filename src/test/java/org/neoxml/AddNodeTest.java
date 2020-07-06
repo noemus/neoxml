@@ -46,7 +46,7 @@ public class AddNodeTest extends AbstractTestCase {
         assertEquals(subdoc.asXML(), maindoc.asXML());
     }
 
-    @Test
+    @Test(expected = IllegalAddException.class)
     public void testDom4jAddNodeBug() {
         Document maindoc = DocumentHelper.createDocument();
         Element docroot = maindoc.addElement("document");
@@ -55,13 +55,9 @@ public class AddNodeTest extends AbstractTestCase {
         Document subdoc = DocumentHelper.createDocument();
         Element subroot = subdoc.addElement("document");
 
-        try {
-            // add the header node from maindoc without clone... or createCopy
-            subroot.add((Element) maindoc.selectSingleNode("/document/header"));
-            fail();
-        } catch (IllegalAddException e) {
-            // the header already has a parent, this exception is normal
-        }
+        // add the header node from maindoc without clone... or createCopy
+        // will throw exception because it already has header
+        subroot.add((Element) maindoc.selectSingleNode("/document/header"));
     }
 }
 

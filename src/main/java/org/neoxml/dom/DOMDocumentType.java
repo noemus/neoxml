@@ -5,13 +5,15 @@
  */
 package org.neoxml.dom;
 
+import org.neoxml.UnsupportedFeatureException;
 import org.neoxml.tree.DefaultDocumentType;
-import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.UserDataHandler;
+
+import static org.neoxml.dom.DOMNodeHelper.newHierarchyRequestError;
 
 /**
  * <p>
@@ -21,8 +23,7 @@ import org.w3c.dom.UserDataHandler;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.11 $
  */
-public class DOMDocumentType extends DefaultDocumentType implements
-                                                         org.w3c.dom.DocumentType {
+public class DOMDocumentType extends DefaultDocumentType implements org.w3c.dom.DocumentType {
 
     public DOMDocumentType() {}
 
@@ -52,7 +53,7 @@ public class DOMDocumentType extends DefaultDocumentType implements
     }
 
     @Override
-    public void setPrefix(String prefix) throws DOMException {
+    public void setPrefix(String prefix) {
         DOMNodeHelper.setPrefix(this, prefix);
     }
 
@@ -66,17 +67,15 @@ public class DOMDocumentType extends DefaultDocumentType implements
         return getName();
     }
 
-    // already part of API
-    //
-    // public short getNodeType();
-
     @Override
-    public String getNodeValue() throws DOMException {
+    public String getNodeValue() {
         return null;
     }
 
     @Override
-    public void setNodeValue(String nodeValue) throws DOMException {}
+    public void setNodeValue(String nodeValue) {
+        // do nothing in this implementation
+    }
 
     @Override
     public org.w3c.dom.Node getParentNode() {
@@ -119,39 +118,23 @@ public class DOMDocumentType extends DefaultDocumentType implements
     }
 
     @Override
-    public org.w3c.dom.Node insertBefore(org.w3c.dom.Node newChild,
-                                         org.w3c.dom.Node refChild) throws DOMException {
-        checkNewChildNode(newChild);
-
-        return DOMNodeHelper.insertBefore(this, newChild, refChild);
+    public org.w3c.dom.Node insertBefore(org.w3c.dom.Node newChild, org.w3c.dom.Node refChild) {
+        throw newHierarchyRequestError(newChild);
     }
 
     @Override
-    public org.w3c.dom.Node replaceChild(org.w3c.dom.Node newChild,
-                                         org.w3c.dom.Node oldChild) throws DOMException {
-        checkNewChildNode(newChild);
-
-        return DOMNodeHelper.replaceChild(this, newChild, oldChild);
+    public org.w3c.dom.Node replaceChild(org.w3c.dom.Node newChild, org.w3c.dom.Node oldChild) {
+        throw newHierarchyRequestError(newChild);
     }
 
     @Override
-    public org.w3c.dom.Node removeChild(org.w3c.dom.Node oldChild)
-            throws DOMException {
+    public org.w3c.dom.Node removeChild(org.w3c.dom.Node oldChild) {
         return DOMNodeHelper.removeChild(this, oldChild);
     }
 
     @Override
-    public org.w3c.dom.Node appendChild(org.w3c.dom.Node newChild)
-            throws DOMException {
-        checkNewChildNode(newChild);
-
-        return DOMNodeHelper.appendChild(this, newChild);
-    }
-
-    private void checkNewChildNode(org.w3c.dom.Node newChild)
-            throws DOMException {
-        throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR,
-                               "DocumentType nodes cannot have children");
+    public org.w3c.dom.Node appendChild(org.w3c.dom.Node newChild) {
+        throw newHierarchyRequestError(newChild);
     }
 
     @Override
@@ -209,26 +192,22 @@ public class DOMDocumentType extends DefaultDocumentType implements
 
     @Override
     public String getBaseURI() {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
-    public short compareDocumentPosition(Node other) throws DOMException {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+    public short compareDocumentPosition(Node other) {
+        throw new UnsupportedFeatureException();
     }
 
     @Override
-    public String getTextContent() throws DOMException {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+    public String getTextContent() {
+        throw new UnsupportedFeatureException();
     }
 
     @Override
-    public void setTextContent(String textContent) throws DOMException {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setTextContent(String textContent) {
+        throw new UnsupportedFeatureException();
     }
 
     @Override
@@ -238,20 +217,17 @@ public class DOMDocumentType extends DefaultDocumentType implements
 
     @Override
     public String lookupPrefix(String namespaceURI) {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public boolean isDefaultNamespace(String namespaceURI) {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public String lookupNamespaceURI(String prefix) {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
@@ -261,26 +237,22 @@ public class DOMDocumentType extends DefaultDocumentType implements
 
     @Override
     public Object getFeature(String feature, String version) {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public Object setUserData(String key, Object data, UserDataHandler handler) {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public Object getUserData(String key) {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 
     @Override
     public short getNodeType() {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedFeatureException();
     }
 }
 
