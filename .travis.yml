@@ -1,14 +1,9 @@
 language: java
 jdk: openjdk8
 
-env:
-  - secure: "MXjAsJMtg5OeZd9GM9THO3TKWarM4qJmfMA+FjrhUNPvU5OiWIAYfZ8uKlThoyQQMKx7NTKbPXuq6KtvNnDxN70A7Me++TkOxj2DIshQUZP0imIJv6e46cLDDD8HlE++QdNVQe69D2iujfxAfkOLA3PRpq0PxOKNH1T8CfQXN5+Dj4bMHMLv9BeB6Di7FYtDv9qoQI8kwCx9K8H9rdUlMEdWJpwVinleKg7MQnkFPU6T2xH0fD/H2KPUpTcfEjmNxUmYSlF6mlHgNolvi6fvyO5seCVwV7FrptjGn/ehMqHPn44CzSCGWJ5BhoK+n+w+2W6Ljjk5GLYPx+CpRLi/8wAA70ULJmYmGATtI/peU6NirOtCRZ4bImOSmLXGmFxOhfabM3GcpzkEhkrcxMe4+bgxMKKO9HQ4pYOOd+5PZplb0yRlao5jQaH9wjqbHrtRc5EzySYkMEThGtXIlHgxtbHvjuH0Nscf+JXLIA6bRwkU+ocQXiVvMOBi8EnYHhoyn1unkoxueYdZrjLDVOwU/PKyfxQpeEnOqzjIFndBASbJnh31conxfW5OZBKnJ/EH8jLXVVojt1e/miWWbHrQ8nkTHxHL8Wpt05/3+91TsJeR9A2tZ1F+Iqq82mmZgTYETaSloWceVNjUmDe1A7sSbyjP3jLpEo3N5Q7Q9hq/cMs="
-  - "VAR2=var2"
-
 script:
   # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-  #- git fetch --unshallow
-  #- mvn clean verify -Pcoverage
-  - set
+  - git fetch --unshallow
+  - mvn clean verify -Pcoverage
   - echo "SONAR_TOKEN=$SONAR_TOKEN"
-  #- mvn sonar:sonar -Dsonar.login=9eb0bca134fa54ff1f25adb6006c8957038241f5 -Dsonar.sourceEncoding=UTF-8 -Dsonar.branch.name=master
+  - mvn sonar:sonar -Dsonar.login=$SONAR_TOKEN -Dsonar.sourceEncoding=UTF-8 -Dsonar.branch.name=master
