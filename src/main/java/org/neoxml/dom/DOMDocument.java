@@ -38,7 +38,7 @@ public class DOMDocument extends DefaultDocument implements Document {
     /**
      * The <code>DefaultDocumentFactory</code> instance used by default
      */
-    private static final DOMDocumentFactory DOCUMENT_FACTORY = (DOMDocumentFactory) DOMDocumentFactory.getInstance();
+    private static final DOMDocumentFactory DOCUMENT_FACTORY = DOMDocumentFactory.getInstance();
 
     public DOMDocument() {
         init();
@@ -239,11 +239,11 @@ public class DOMDocument extends DefaultDocument implements Document {
 
     @Override
     public org.w3c.dom.DOMImplementation getImplementation() {
-        if (getDocumentFactory() instanceof org.w3c.dom.DOMImplementation) {
-            return (org.w3c.dom.DOMImplementation) getDocumentFactory();
-        } else {
-            return DOCUMENT_FACTORY;
+        DocumentFactory df = getDocumentFactory();
+        if (df instanceof org.w3c.dom.DOMImplementation) {
+            return (org.w3c.dom.DOMImplementation) df;
         }
+        return DOCUMENT_FACTORY;
     }
 
     @Override
@@ -326,11 +326,11 @@ public class DOMDocument extends DefaultDocument implements Document {
 
     @Override
     protected DocumentFactory getDocumentFactory() {
-        if (super.getDocumentFactory() == null) {
+        DocumentFactory df = super.getDocumentFactory();
+        if (df == null) {
             return DOCUMENT_FACTORY;
-        } else {
-            return super.getDocumentFactory();
         }
+        return df;
     }
 
     @Override

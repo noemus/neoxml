@@ -13,6 +13,10 @@ import org.neoxml.io.SAXReader;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+
 /**
  * Tests the DocType functionality
  *
@@ -24,9 +28,6 @@ public class DocTypeTest extends AbstractTestCase {
      * Input XML file to read
      */
     protected static final String INPUT_XML_FILE = "/src/test/xml/dtd/internal.xml";
-
-    // Test case(s)
-    // -------------------------------------------------------------------------
 
     @Test
     public void testDocType() throws Exception {
@@ -40,7 +41,7 @@ public class DocTypeTest extends AbstractTestCase {
 
         List<InternalDeclaration> declarations = docType.getInternalDeclarations();
         assertNotNull("DOCTYPE has declarations", declarations);
-        assertTrue("DOCTYPE has declarations", !declarations.isEmpty());
+        assertFalse("DOCTYPE has declarations", declarations.isEmpty());
 
         ElementDecl decl = (ElementDecl) declarations.get(0);
 

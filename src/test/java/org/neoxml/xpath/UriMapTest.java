@@ -15,6 +15,8 @@ import org.neoxml.XPath;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.Assert.assertNotNull;
+
 /**
  * Tests the use of a Map for defining namespace URIs
  *
@@ -22,11 +24,8 @@ import java.util.Map;
  * @version $Revision: 1.3 $
  */
 public class UriMapTest extends AbstractTestCase {
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
-    public void testURIMap() throws Exception {
+    public void testURIMap() {
         Map uris = new HashMap();
         uris.put("SOAP-ENV", "http://schemas.xmlsoap.org/soap/envelope/");
         uris.put("m", "urn:xmethodsBabelFish");
@@ -37,8 +36,7 @@ public class UriMapTest extends AbstractTestCase {
 
         Node babelfish = xpath.selectSingleNode(document);
 
-        // log( "Found: " + babelfish );
-        assertTrue("Found valid node", babelfish != null);
+        assertNotNull("Found valid node", babelfish);
     }
 
     @Override

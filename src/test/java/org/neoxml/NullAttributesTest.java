@@ -8,6 +8,9 @@ package org.neoxml;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 /**
  * Tests the use of null attribute values
  *
@@ -29,15 +32,15 @@ public class NullAttributesTest extends AbstractTestCase {
         element.addAttribute("foo", null);
 
         Attribute attribute = element.attribute("foo");
-        assertTrue(attribute == null);
+        assertNull(attribute);
 
         element.addAttribute("foo", "123");
         attribute = element.attribute("foo");
-        assertTrue(attribute != null);
+        assertNotNull(attribute);
 
         element.addAttribute("foo", null);
         attribute = element.attribute("foo");
-        assertTrue(attribute == null);
+        assertNull(attribute);
     }
 
     @Test
@@ -47,37 +50,37 @@ public class NullAttributesTest extends AbstractTestCase {
         element.addAttribute(bar, null);
 
         Attribute attribute = element.attribute(bar);
-        assertTrue(attribute == null);
+        assertNull(attribute);
 
         element.addAttribute(bar, "123");
         attribute = element.attribute(bar);
-        assertTrue(attribute != null);
+        assertNotNull(attribute);
 
         element.addAttribute(bar, null);
         attribute = element.attribute(bar);
-        assertTrue(attribute == null);
+        assertNull(attribute);
     }
 
     @Test
     public void testAttributes() throws Exception {
         Attribute attribute = factory.createAttribute(element, "v", null);
 
-        assertTrue(attribute.getText() == null);
-        assertTrue(attribute.getValue() == null);
+        assertNull(attribute.getText());
+        assertNull(attribute.getValue());
 
         element.add(attribute);
         attribute = element.attribute("v");
-        assertTrue(attribute == null);
+        assertNull(attribute);
 
         attribute = factory.createAttribute(element, "v", "123");
         element.add(attribute);
         attribute = element.attribute("v");
-        assertTrue(attribute != null);
+        assertNotNull(attribute);
 
         attribute = factory.createAttribute(element, "v", null);
         element.add(attribute);
         attribute = element.attribute("v");
-        assertTrue(attribute == null);
+        assertNull(attribute);
     }
 }
 

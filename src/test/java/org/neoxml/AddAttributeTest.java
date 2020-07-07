@@ -8,15 +8,16 @@ package org.neoxml;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 /**
  * A test harness to test the addAttribute() methods on attributes
  *
  * @author <a href="mailto:maartenc@users.sourceforge.net">Maarten Coene </a>
  */
 public class AddAttributeTest extends AbstractTestCase {
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
     public void testAddAttributeNormalValue() {
         String testAttributeName = "testAtt";
@@ -30,8 +31,7 @@ public class AddAttributeTest extends AbstractTestCase {
         authorEl.addAttribute(testAttributeName, testAttributeValue);
 
         assertEquals(3, authorEl.attributeCount());
-        assertEquals(testAttributeValue, authorEl
-                .attributeValue(testAttributeName));
+        assertEquals(testAttributeValue, authorEl.attributeValue(testAttributeName));
     }
 
     @Test

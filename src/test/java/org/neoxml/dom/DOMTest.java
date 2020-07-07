@@ -18,6 +18,9 @@ import org.w3c.dom.NodeList;
 
 import java.io.StringReader;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 /**
  * A test harness to test the native DOM implementation of dom4j
  *
@@ -51,13 +54,11 @@ public class DOMTest extends AbstractTestCase {
         org.w3c.dom.Document domDocument = domWriter.write(document);
         long end = System.currentTimeMillis();
 
-        System.out.println("Converting to a W3C Document took: "
-                                   + (end - start) + " milliseconds");
+        log.info("Converting to a W3C Document took: {} milliseconds", end - start);
 
         traverse(domDocument);
 
-        log("elements: " + elements + " attributes: " + attributes
-                    + " characters: " + characters);
+        log.debug("elements: {} attributes: {} characters: {}", elements, attributes, characters);
     }
 
     @Test
@@ -66,21 +67,18 @@ public class DOMTest extends AbstractTestCase {
         SAXReader xmlReader = new SAXReader(DOMDocumentFactory.getInstance());
         DOMDocument d = (DOMDocument) xmlReader.read(new StringReader(xml));
 
-        assertEquals("namespace prefix not correct", "prefix", d
-                .getRootElement().getNamespace().getPrefix());
-        assertEquals("namespace uri not correct", "myuri", d.getRootElement()
-                                                            .getNamespace().getURI());
+        assertEquals("namespace prefix not correct", "prefix", d.getRootElement().getNamespace().getPrefix());
+        assertEquals("namespace uri not correct", "myuri", d.getRootElement().getNamespace().getURI());
 
-        System.out.println(d.asXML());
+        log.info(d.asXML());
     }
 
     /**
      * Tests the bug found by Soumanjoy
      *
-     * @throws Exception DOCUMENT ME!
      */
     @Test
-    public void testClassCastBug() throws Exception {
+    public void testClassCastBug() {
         DOMDocument oDocument = new DOMDocument("Root");
         org.w3c.dom.Element oParent = oDocument.createElement("Parent");
 
@@ -106,8 +104,7 @@ public class DOMTest extends AbstractTestCase {
         parent.appendChild(third);
 
         org.w3c.dom.Element newFirst = document.createElement("NewFirst");
-        org.w3c.dom.Element oldFirst = (org.w3c.dom.Element) parent
-                .replaceChild(newFirst, first);
+        org.w3c.dom.Element oldFirst = (org.w3c.dom.Element) parent.replaceChild(newFirst, first);
 
         /* check the return value of replaceChild */
         assertEquals(oldFirst, first);
@@ -182,7 +179,6 @@ public class DOMTest extends AbstractTestCase {
                         traverse(children.item(i));
                     }
                 }
-
                 break;
             }
 
@@ -196,21 +192,13 @@ public class DOMTest extends AbstractTestCase {
                         traverse(children.item(i));
                     }
                 }
-
                 break;
             }
 
-            case Node.CDATA_SECTION_NODE: {
+            case Node.CDATA_SECTION_NODE:
+            case Node.TEXT_NODE:
                 characters += node.getNodeValue().length();
-
                 break;
-            }
-
-            case Node.TEXT_NODE: {
-                characters += node.getNodeValue().length();
-
-                break;
-            }
 
             default:
                 break;

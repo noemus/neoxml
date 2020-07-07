@@ -19,6 +19,8 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * A test harness to test the content API in DOM4J
  *
@@ -55,27 +57,26 @@ public class SAXReaderTest extends AbstractTestCase {
 
         assertEquals("encoding not correct", "koi8-r", doc.getXMLEncoding());
 
-        Element el = doc.getRootElement();
-
         StringWriter writer = new StringWriter();
         XMLWriter xmlWriter = new XMLWriter(writer);
         OutputFormat format = OutputFormat.createPrettyPrint();
         format.setEncoding("koi8-r");
         xmlWriter.write(doc);
-        log(writer.toString());
+
+        log.debug(writer.toString());
     }
 
     @Test
     public void testRussian2() throws Exception {
         Document doc = getDocument("/src/test/xml/russArticle.xml");
-        XMLWriter xmlWriter = new XMLWriter(new OutputFormat("", false,
-                                                             "koi8-r"));
+        XMLWriter xmlWriter = new XMLWriter(new OutputFormat("", false, "koi8-r"));
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         xmlWriter.setOutputStream(out);
         xmlWriter.write(doc);
         xmlWriter.flush();
         xmlWriter.close();
-        log(out.toString());
+
+        log.debug(out.toString());
     }
 
     @Test
@@ -91,7 +92,7 @@ public class SAXReaderTest extends AbstractTestCase {
         List<Node> nodes = doc.selectNodes("//broked/junk");
 
         for (Node node : nodes) {
-            System.out.println("Found node: " + node.getStringValue());
+            log.info("Found node: " + node.getStringValue());
         }
 
         assertEquals("hi there", nodes.get(0).getStringValue());
@@ -103,7 +104,7 @@ public class SAXReaderTest extends AbstractTestCase {
         String txt = "<eg>&lt;!-- &lt;head> &amp; &lt;body> --&gt;</eg>";
         Document doc = DocumentHelper.parseText(txt);
         Element eg = doc.getRootElement();
-        System.out.println(doc.asXML());
+        log.info(doc.asXML());
         assertEquals("<!-- <head> & <body> -->", eg.getText());
     }
 }

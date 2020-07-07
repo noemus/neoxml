@@ -10,6 +10,9 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 /**
  * A test harness to test the copy() methods on Element
  *
@@ -44,26 +47,25 @@ public class CopyTest extends AbstractTestCase {
 
         assertEquals("Node size not equal after copy", element.nodeCount(),
                      nodeCount);
-        assertTrue("Same attribute size after copy",
-                   element.attributeCount() == attributeCount);
+        assertEquals("Same attribute size after copy", element.attributeCount(), attributeCount);
 
-        assertTrue("Copy has same node size", copy.nodeCount() == nodeCount);
-        assertTrue("Copy has same attribute size", copy.attributeCount() == attributeCount);
+        assertEquals("Copy has same node size", copy.nodeCount(), nodeCount);
+        assertEquals("Copy has same attribute size", copy.attributeCount(), attributeCount);
 
         for (int i = 0; i < attributeCount; i++) {
             Attribute attr1 = element.attribute(i);
             Attribute attr2 = copy.attribute(i);
 
-            assertTrue("Attribute: " + i + " name is equal", attr1.getName().equals(attr2.getName()));
-            assertTrue("Attribute: " + i + " value is equal", attr1.getValue().equals(attr2.getValue()));
+            assertEquals("Attribute: " + i + " name is equal", attr1.getName(), attr2.getName());
+            assertEquals("Attribute: " + i + " value is equal", attr1.getValue(), attr2.getValue());
         }
 
         for (int i = 0; i < nodeCount; i++) {
             Node node1 = element.node(i);
             Node node2 = copy.node(i);
 
-            assertTrue("Node: " + i + " type is equal", node1.getNodeType() == node2.getNodeType());
-            assertTrue("Node: " + i + " value is equal", node1.getText().equals(node2.getText()));
+            assertEquals("Node: " + i + " type is equal", node1.getNodeType(), node2.getNodeType());
+            assertEquals("Node: " + i + " value is equal", node1.getText(), node2.getText());
         }
     }
 }

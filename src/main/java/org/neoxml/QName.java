@@ -23,14 +23,12 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  */
-@SuppressWarnings({
-                          "serial", "null", "unchecked"
-                  })
+@SuppressWarnings({"serial", "null"})
 public class QName implements Serializable {
     /**
      * The Singleton instance
      */
-    private final static SingletonStrategy<QNameCache> singleton = SingletonHelper.getSingletonStrategy("org.neoxml.QName.singleton.strategy", QNameCache.class);
+    private static final SingletonStrategy<QNameCache> singleton = SingletonHelper.getSingletonStrategy("org.neoxml.QName.singleton.strategy", QNameCache.class);
 
     /**
      * The local name of the element or attribute
@@ -237,8 +235,7 @@ public class QName implements Serializable {
     }
 
     private static QNameCache getCache() {
-        QNameCache cache = singleton.instance();
-        return cache;
+        return singleton.instance();
     }
 }
 

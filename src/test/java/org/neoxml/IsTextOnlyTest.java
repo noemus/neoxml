@@ -8,6 +8,9 @@ package org.neoxml;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 /**
  * A test harness to test the parent relationship and use of the {@link Node#asXPathResult} method.
  *
@@ -16,17 +19,14 @@ import org.junit.Test;
  */
 public class IsTextOnlyTest extends AbstractTestCase {
 
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
-    public void testDocument() throws Exception {
+    public void testDocument() {
         DocumentFactory factory = new DefaultDocumentFactory();
         Element root = factory.createElement("root");
         Element first = root.addElement("child");
         first.addText("This is some text");
 
-        assertTrue("Root node is not text only: " + root, !root.isTextOnly());
+        assertFalse("Root node is not text only: " + root, root.isTextOnly());
         assertTrue("First child is text only: " + first, first.isTextOnly());
     }
 }

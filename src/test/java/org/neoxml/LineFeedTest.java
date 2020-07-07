@@ -12,6 +12,8 @@ import org.neoxml.io.XMLWriter;
 
 import java.io.StringWriter;
 
+import static org.junit.Assert.assertEquals;
+
 public class LineFeedTest extends AbstractTestCase {
     private static final String ATT_TEXT = "Hello&#xa;There&#xa;&lt;&gt;&amp;";
 
@@ -30,25 +32,22 @@ public class LineFeedTest extends AbstractTestCase {
 
     @Test
     public void testAttribute() throws Exception {
-        Document doc = DocumentHelper
-                .parseText("<elem attr=\"" + TEXT + "\"/>");
+        Document doc = DocumentHelper.parseText("<elem attr=\"" + TEXT + "\"/>");
         Element elem = doc.getRootElement();
 
-        // System.out.println(elem.attributeValue("attr"));
         assertEquals(EXPECTED_ATT_TEXT, elem.attributeValue("attr"));
 
         doc = DocumentHelper.parseText("<elem attr=\"" + ATT_TEXT + "\"/>");
         elem = doc.getRootElement();
 
-        // System.out.println(elem.attributeValue("attr"));
         assertEquals(EXPECTED_TEXT, elem.attributeValue("attr"));
     }
 
     @Test
     public void testCDATA() throws Exception {
-        Document doc = DocumentHelper.parseText("<elem><![CDATA["
-                                                        + EXPECTED_TEXT + "]]></elem>");
+        Document doc = DocumentHelper.parseText("<elem><![CDATA[" + EXPECTED_TEXT + "]]></elem>");
         Element elem = doc.getRootElement();
+
         assertEquals(EXPECTED_TEXT, elem.getText());
     }
 
@@ -66,6 +65,7 @@ public class LineFeedTest extends AbstractTestCase {
         String xmlString = sw.toString();
         doc = DocumentHelper.parseText(xmlString);
         elem = doc.getRootElement();
+
         assertEquals(EXPECTED_TEXT, elem.getText());
     }
 }

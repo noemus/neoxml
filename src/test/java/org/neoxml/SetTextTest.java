@@ -8,6 +8,9 @@ package org.neoxml;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 /**
  * Tests the setText method
  *
@@ -23,7 +26,7 @@ public class SetTextTest extends AbstractTestCase {
      */
 
     @Test
-    public void testSetText1() throws Exception {
+    public void testSetText1() {
         String newURL = "newURL";
 
         Node urlNode = document.selectSingleNode("//root/author[1]/url");
@@ -37,7 +40,7 @@ public class SetTextTest extends AbstractTestCase {
     }
 
     @Test
-    public void testSetText2() throws Exception {
+    public void testSetText2() {
         String newName = "Strachem James";
 
         Node authorNode = document.selectSingleNode("//root/author[1]");

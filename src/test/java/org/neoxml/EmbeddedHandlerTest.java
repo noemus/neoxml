@@ -11,6 +11,8 @@ import org.neoxml.io.SAXReader;
 
 import java.io.File;
 
+import static org.junit.Assert.fail;
+
 /**
  * TestEmbeddedHandler
  *
@@ -30,10 +32,6 @@ public class EmbeddedHandlerTest extends AbstractTestCase {
     };
 
     protected int test;
-
-    // ---------------------------------------------
-    // Test case(s)
-    // ---------------------------------------------
 
     @Test
     public void testMainReader() throws Exception {
@@ -61,10 +59,6 @@ public class EmbeddedHandlerTest extends AbstractTestCase {
         }
     }
 
-    // ---------------------------------------------
-    // Implementation methods
-    // ---------------------------------------------
-
     private void readDocuments() throws Exception {
         for (String testDocument : testDocuments) {
             File testDoc = getFile(testDocument);
@@ -75,9 +69,6 @@ public class EmbeddedHandlerTest extends AbstractTestCase {
             getDocument(testDocument, reader);
         }
     }
-
-    // Handler classes
-    // ---------------------------------------------
 
     class MainHandler implements ElementHandler {
         private final SAXReader mainReader;

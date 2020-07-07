@@ -10,6 +10,9 @@ import org.junit.Test;
 
 import java.util.Iterator;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 /**
  * Tests the getNodeNameType() method
  *
@@ -17,11 +20,8 @@ import java.util.Iterator;
  * @version $Revision: 1.4 $
  */
 public class NodeTypeNameTest extends AbstractTestCase {
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
-    public void testDocument() throws Exception {
+    public void testDocument() {
         testDocument(getDocument());
     }
 
@@ -46,14 +46,12 @@ public class NodeTypeNameTest extends AbstractTestCase {
         testDocument("/src/test/xml/inline.xml");
     }
 
-    // Implementation methods
-    // -------------------------------------------------------------------------
     protected void testDocument(String fileName) throws Exception {
         Document document = getDocument(fileName);
         testDocument(document);
     }
 
-    protected void testDocument(Document document) throws Exception {
+    protected void testDocument(Document document) {
         assertEquals(document.getNodeTypeName(), "Document");
 
         DocumentType docType = document.getDocType();
@@ -88,8 +86,6 @@ public class NodeTypeNameTest extends AbstractTestCase {
                 testElement((Element) node);
             } else if (node instanceof Entity) {
                 assertEquals(nodeTypeName, "Entity");
-            } else if (node instanceof Element) {
-                assertEquals(nodeTypeName, "Element");
             } else if (node instanceof Namespace) {
                 assertEquals(nodeTypeName, "Namespace");
             } else if (node instanceof ProcessingInstruction) {
@@ -97,8 +93,7 @@ public class NodeTypeNameTest extends AbstractTestCase {
             } else if (node instanceof Text) {
                 assertEquals(nodeTypeName, "Text");
             } else {
-                assertTrue("Invalid node type: " + nodeTypeName + " for node: "
-                                   + node, false);
+                fail("Invalid node type: " + nodeTypeName + " for node: " + node);
             }
         }
     }

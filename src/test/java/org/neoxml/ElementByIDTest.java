@@ -8,6 +8,10 @@ package org.neoxml;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 /**
  * Tests the elementByID() method
  *
@@ -15,13 +19,7 @@ import org.junit.Test;
  * @version $Revision: 1.4 $
  */
 public class ElementByIDTest extends AbstractTestCase {
-    /**
-     * Input XML file to read
-     */
     protected static final String INPUT_XML_FILE = "xml/test/elementByID.xml";
-
-    // Test case(s)
-    // -------------------------------------------------------------------------
 
     @Test
     public void testElementByID() throws Exception {
@@ -29,22 +27,21 @@ public class ElementByIDTest extends AbstractTestCase {
         Document document = getDocument(INPUT_XML_FILE);
 
         // test XPath
-        Element element = (Element) document.selectSingleNode("//*[@ID='" + id
-                                                                      + "']");
-        assertTrue("Found element by ID: " + id, element != null);
+        Element element = (Element) document.selectSingleNode("//*[@ID='" + id + "']");
+        assertNotNull("Found element by ID: " + id, element);
         assertEquals("ID is equal", id, element.attributeValue("ID"));
 
         // test with elementByID
         element = document.elementByID(id);
 
-        assertTrue("Found element by ID: " + id, element != null);
+        assertNotNull("Found element by ID: " + id, element);
         assertEquals("ID is equal", id, element.attributeValue("ID"));
 
-        log("Found element: " + element.getText());
+        log.debug("Found element: " + element.getText());
 
         element = document.elementByID("DoesNotExist");
 
-        assertTrue("Found no element", element == null);
+        assertNull("Found no element", element);
     }
 }
 

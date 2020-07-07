@@ -12,6 +12,10 @@ import org.junit.Test;
 import java.util.Iterator;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 /**
  * A test harness to test the Iterator API in DOM4J
  *
@@ -37,11 +41,8 @@ public class IteratorTest extends AbstractTestCase {
         }
     }
 
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
-    public void testElementCount() throws Exception {
+    public void testElementCount() {
         Element root = iterDocument.getRootElement();
         assertTrue("Has root element", root != null);
 
@@ -52,7 +53,7 @@ public class IteratorTest extends AbstractTestCase {
     }
 
     @Test
-    public void testPlainIteration() throws Exception {
+    public void testPlainIteration() {
         Element root = iterDocument.getRootElement();
         List elements = root.elements("iterator test");
         Iterator iter = root.elementIterator("iterator test");
@@ -60,7 +61,7 @@ public class IteratorTest extends AbstractTestCase {
 
         int count = 0;
 
-        for (; iter.hasNext(); ) {
+        while (iter.hasNext()) {
             Element e = (Element) iter.next();
             assertEquals("instance " + e.attribute("instance").getValue()
                                  + " equals " + count, e.attribute("instance").getValue(),
@@ -68,18 +69,18 @@ public class IteratorTest extends AbstractTestCase {
             count++;
         }
 
-        assertTrue(elementSize + " elements iterated", count == elementSize);
+        assertEquals(elementSize + " elements iterated", count, elementSize);
     }
 
     @Test
-    public void testSkipAlternates() throws Exception {
+    public void testSkipAlternates() {
         Element root = iterDocument.getRootElement();
         List elements = root.elements("iterator test");
         Iterator iter = root.elementIterator("iterator test");
         int elementSize = elements.size();
         int count = 0;
 
-        for (; iter.hasNext(); ) {
+        while (iter.hasNext()) {
             Element e = (Element) iter.next();
             assertEquals("instance " + e.attribute("instance").getValue()
                                  + " equals " + (count * 2), e.attribute("instance")
@@ -88,12 +89,11 @@ public class IteratorTest extends AbstractTestCase {
             count++;
         }
 
-        assertTrue((elementSize / 2) + " alternate elements iterated",
-                   count == (elementSize / 2));
+        assertEquals((elementSize / 2) + " alternate elements iterated", count, (elementSize / 2));
     }
 
     @Test
-    public void testNoHasNext() throws Exception {
+    public void testNoHasNext() {
         Element root = iterDocument.getRootElement();
         List elements = root.elements("iterator test");
         Iterator iter = root.elementIterator("iterator test");
@@ -101,10 +101,10 @@ public class IteratorTest extends AbstractTestCase {
         int count = 0;
         Element e = null;
 
-        for (; count < elementSize; ) {
+        while (count < elementSize) {
             e = (Element) iter.next();
             assertEquals("instance " + e.attribute("instance").getValue() + " equals " + count, e.attribute("instance").getValue(), Integer.toString(count));
-            System.out.println("instance " + e.attribute("instance").getValue() + " equals " + count);
+            log.info("instance " + e.attribute("instance").getValue() + " equals " + count);
             count++;
         }
 
@@ -113,7 +113,7 @@ public class IteratorTest extends AbstractTestCase {
 
             if (e != null) {
                 // Real Iterators wouldn't get here
-                assertTrue("no more elements,value instead is " + e.attribute("instance").getValue(), e == null);
+                assertNull("no more elements,value instead is " + e.attribute("instance").getValue(), e);
             }
         } catch (Exception exp) {
             assertTrue("Real iterators throw NoSuchElementException", exp instanceof java.util.NoSuchElementException);
@@ -121,7 +121,7 @@ public class IteratorTest extends AbstractTestCase {
     }
 
     @Test
-    public void testExtraHasNexts() throws Exception {
+    public void testExtraHasNexts() {
         Element root = iterDocument.getRootElement();
         List elements = root.elements("iterator test");
         Iterator iter = root.elementIterator("iterator test");
@@ -137,8 +137,7 @@ public class IteratorTest extends AbstractTestCase {
             count++;
         }
 
-        assertTrue(elementSize + " elements iterated with extra hasNexts",
-                   count == elementSize);
+        assertEquals(elementSize + " elements iterated with extra hasNexts", count, elementSize);
     }
 }
 

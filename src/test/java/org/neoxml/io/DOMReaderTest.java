@@ -14,6 +14,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.ByteArrayInputStream;
 import java.util.List;
 
+import static junit.framework.TestCase.assertEquals;
+
 /**
  * DOCUMENT ME!
  *
@@ -41,7 +43,7 @@ public class DOMReaderTest extends AbstractTestCase {
         List namespaces = dom4jDoc.getRootElement().declaredNamespaces();
         assertEquals(2, namespaces.size());
 
-        System.out.println(dom4jDoc.asXML());
+        log.info(dom4jDoc.asXML());
     }
 }
 

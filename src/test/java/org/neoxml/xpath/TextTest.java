@@ -8,10 +8,13 @@ package org.neoxml.xpath;
 
 import org.junit.Test;
 import org.neoxml.AbstractTestCase;
+import org.neoxml.Node;
 import org.neoxml.Text;
 
-import java.util.Iterator;
 import java.util.List;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test harness for the text() function
@@ -24,40 +27,26 @@ public class TextTest extends AbstractTestCase {
             "text()", "//author/text()"
     };
 
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
-    public void testXPaths() throws Exception {
-        int size = paths.length;
-
-        for (int i = 0; i < size; i++) {
-            testXPath(paths[i]);
+    public void testXPaths() {
+        for (String path : paths) {
+            testXPath(path);
         }
     }
 
-    // Implementation methods
-    // -------------------------------------------------------------------------
-
     protected void testXPath(String xpath) {
-        List list = document.selectNodes(xpath);
+        List<Node> list = document.selectNodes(xpath);
 
-        for (Iterator iter = list.iterator(); iter.hasNext(); ) {
-            Object object = iter.next();
+        for (Node node : list) {
+            log.debug("Found Result: " + node);
 
-            log("Found Result: " + object);
+            assertTrue("Results not Text objects", node instanceof Text);
 
-            assertTrue("Results not Text objects", object instanceof Text);
+            Text text = (Text) node;
 
-            Text text = (Text) object;
-
-            assertTrue("Results should support the parent relationship", text
-                    .supportsParent());
-            assertTrue(
-                    "Results should contain reference to the parent element",
-                    text.getParent() != null);
-            assertTrue("Results should not reference to the owning document",
-                       text.getDocument() != null);
+            assertTrue("Results should support the parent relationship", text.supportsParent());
+            assertNotNull("Results should contain reference to the parent element", text.getParent());
+            assertNotNull("Results should not reference to the owning document", text.getDocument());
         }
     }
 }

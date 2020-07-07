@@ -22,8 +22,6 @@ public class SimpleSingleton<T> implements SingletonStrategy<T> {
 
     private T singletonInstance = null;
 
-    public SimpleSingleton() {}
-
     @Override
     public T instance() {
         return singletonInstance;
@@ -33,15 +31,16 @@ public class SimpleSingleton<T> implements SingletonStrategy<T> {
     @Override
     public void reset() {
         if (singletonClassName != null) {
-            Class<T> clazz = null;
             try {
-                clazz = (Class<T>) Thread.currentThread().getContextClassLoader().loadClass(singletonClassName);
-                singletonInstance = clazz.newInstance();
+                Class<T> clazz = (Class<T>) Thread.currentThread().getContextClassLoader().loadClass(singletonClassName);
+                singletonInstance = clazz.getConstructor().newInstance();
             } catch (Exception ignore) {
                 try {
-                    clazz = (Class<T>) Class.forName(singletonClassName);
-                    singletonInstance = clazz.newInstance();
-                } catch (Exception ignore2) {}
+                    Class<T> clazz = (Class<T>) Class.forName(singletonClassName);
+                    singletonInstance = clazz.getConstructor().newInstance();
+                } catch (Exception ignore2) {
+                    // ignore this
+                }
             }
         }
     }
@@ -51,7 +50,6 @@ public class SimpleSingleton<T> implements SingletonStrategy<T> {
         this.singletonClassName = singletonClassName;
         reset();
     }
-
 }
 
 /*

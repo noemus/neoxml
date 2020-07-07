@@ -17,6 +17,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamSource;
 import java.util.List;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 /**
  * Tests that XSLT works correctly
  *
@@ -24,15 +27,11 @@ import java.util.List;
  * @version $Revision: 1.4 $
  */
 public class XSLTTest extends AbstractTestCase {
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
     public void testTransform() throws Exception {
         Document transformedDoc = transform("/src/test/xml/nitf/ashtml.xsl");
 
-        // log( transformedDoc.asXML() );
-        assertTrue("Transformed Document is not null", transformedDoc != null);
+        assertNotNull("Transformed Document is not null", transformedDoc);
 
         List h1List = transformedDoc.selectNodes("/html//h1");
 
@@ -43,9 +42,6 @@ public class XSLTTest extends AbstractTestCase {
         assertTrue("At least one <p>", pList.size() > 0);
     }
 
-    // Implementation methods
-    // -------------------------------------------------------------------------
-
     @Override
     @Before
     public void setUp() throws Exception {
@@ -54,12 +50,11 @@ public class XSLTTest extends AbstractTestCase {
     }
 
     protected Document transform(String xsl) throws Exception {
-        assertTrue("Document is not null", document != null);
+        assertNotNull("Document is not null", document);
 
         // load the transformer
         TransformerFactory factory = TransformerFactory.newInstance();
-        Transformer transformer = factory.newTransformer(new StreamSource(
-                getFile(xsl)));
+        Transformer transformer = factory.newTransformer(new StreamSource(getFile(xsl)));
 
         // now lets create the TrAX source and result
         // objects and do the transformation

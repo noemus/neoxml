@@ -9,16 +9,18 @@ package org.neoxml.xpath;
 import org.junit.Test;
 import org.neoxml.AbstractTestCase;
 import org.neoxml.Attribute;
-import org.neoxml.Branch;
 import org.neoxml.DefaultDocumentFactory;
 import org.neoxml.Document;
+import org.neoxml.DocumentFactory;
 import org.neoxml.DocumentHelper;
 import org.neoxml.Element;
 import org.neoxml.Node;
 import org.neoxml.QName;
 
-import java.util.Iterator;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 /**
  * Test harness for the GetPath() method
@@ -27,12 +29,9 @@ import java.util.List;
  * @version $Revision: 1.4 $
  */
 public class GetPathTest extends AbstractTestCase {
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
-    public void testGetPath() throws Exception {
-        log("Testing paths");
+    public void testGetPath() {
+        log.debug("Testing paths");
 
         // testBranchPath( document );
         testPath(document, "/");
@@ -41,9 +40,9 @@ public class GetPathTest extends AbstractTestCase {
 
         testPath(root, "/root");
 
-        List elements = root.elements();
+        List<Element> elements = root.elements();
 
-        testPath((Node) elements.get(0), "/root/author", "/root/author[1]");
+        testPath(elements.get(0), "/root/author", "/root/author[1]");
 
         for (int i = 0, size = elements.size(); i < size; i++) {
             String path = "/root/author";
@@ -56,19 +55,17 @@ public class GetPathTest extends AbstractTestCase {
                 uniquePathRel = "author[" + (i + 1) + "]";
             }
 
-            Element element = (Element) elements.get(i);
+            Element element = elements.get(i);
             testPath(element, path, uniquePath);
             testRelativePath(root, element, pathRel, uniquePathRel);
 
             Attribute attribute = element.attribute("name");
             testPath(attribute, path + "/@name", uniquePath + "/@name");
-            testRelativePath(root, attribute, pathRel + "/@name", uniquePathRel
-                    + "/@name");
+            testRelativePath(root, attribute, pathRel + "/@name", uniquePathRel + "/@name");
 
             Element child = element.element("url");
             testPath(child, path + "/url", uniquePath + "/url");
-            testRelativePath(root, child, pathRel + "/url", uniquePathRel
-                    + "/url");
+            testRelativePath(root, child, pathRel + "/url", uniquePathRel + "/url");
         }
     }
 
@@ -99,11 +96,10 @@ public class GetPathTest extends AbstractTestCase {
     @Test
     public void testBug569927() {
         Document doc = DocumentHelper.createDocument();
-        QName elName = DefaultDocumentFactory.getInstance().createQName("a", "ns",
-                                                                        "uri://myuri");
+        DocumentFactory df = DefaultDocumentFactory.getInstance();
+        QName elName = df.createQName("a", "ns", "uri://myuri");
         Element a = doc.addElement(elName);
-        QName attName = DefaultDocumentFactory.getInstance().createQName("attribute",
-                                                                         "ns", "uri://myuri");
+        QName attName = df.createQName("attribute", "ns", "uri://myuri");
         a = a.addAttribute(attName, "test");
 
         Attribute att = a.attribute(attName);
@@ -125,41 +121,9 @@ public class GetPathTest extends AbstractTestCase {
         testRelativePath(context, node, path, path);
     }
 
-    protected void testRelativePath(Element context, Node node, String pathRel,
-                                    String uniquePathRel) {
-        assertEquals("relative getPath expression should be what is expected",
-                     pathRel, node.getPath(context));
-        assertEquals("relative getUniquePath expression not correct",
-                     uniquePathRel, node.getUniquePath(context));
-    }
-
-    protected void testBranchPath(Branch branch) {
-        testNodePath(branch);
-
-        if (branch instanceof Element) {
-            Element element = (Element) branch;
-
-            for (Iterator iter = element.attributeIterator(); iter.hasNext(); ) {
-                Node node = (Node) iter.next();
-                testNodePath(node);
-            }
-        }
-
-        for (Iterator iter = branch.nodeIterator(); iter.hasNext(); ) {
-            Node node = (Node) iter.next();
-
-            if (node instanceof Branch) {
-                testBranchPath((Branch) node);
-            } else {
-                testNodePath(node);
-            }
-        }
-    }
-
-    protected void testNodePath(Node node) {
-        String path = node.getPath();
-
-        log("Path: " + path + " node: " + node);
+    protected void testRelativePath(Element context, Node node, String pathRel, String uniquePathRel) {
+        assertEquals("relative getPath expression should be what is expected", pathRel, node.getPath(context));
+        assertEquals("relative getUniquePath expression not correct", uniquePathRel, node.getUniquePath(context));
     }
 }
 

@@ -12,6 +12,10 @@ import org.neoxml.xpath.DefaultXPath;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 /**
  * A test harness to test XPath expression evaluation in DOM4J
  *
@@ -50,9 +54,6 @@ public class XPathTest extends AbstractTestCase {
             "//root/author[3]"
     };
 
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
     public void testBug1116471() throws Exception {
         String xml = "<a><b>Water T &amp; D-46816</b></a>";
@@ -70,16 +71,14 @@ public class XPathTest extends AbstractTestCase {
     }
 
     @Test
-    public void testXPaths() throws Exception {
-        int size = paths.length;
-
-        for (int i = 0; i < size; i++) {
-            testXPath(paths[i]);
+    public void testXPaths() {
+        for (String path : paths) {
+            testXPath(path);
         }
     }
 
     @Test
-    public void testCreateXPathBug() throws Exception {
+    public void testCreateXPathBug() {
         Element element = new DefaultElement("foo");
         XPath xpath = element.createXPath("//bar");
 
@@ -88,8 +87,7 @@ public class XPathTest extends AbstractTestCase {
 
     @Test
     public void testBug857704() throws Exception {
-        Document doc = DocumentHelper
-                .parseText("<foo xmlns:bar='http://blort'/>");
+        Document doc = DocumentHelper.parseText("<foo xmlns:bar='http://blort'/>");
         doc.selectNodes("//*[preceding-sibling::*]"); // shouldn't throw NPE
     }
 
@@ -104,20 +102,17 @@ public class XPathTest extends AbstractTestCase {
         assertFalse(path.booleanValueOf(doc));
     }
 
-    // Implementation methods
-    // -------------------------------------------------------------------------
-
     protected void testXPath(String xpathExpression) {
-        log("Searched path: " + xpathExpression);
+        log.debug("Searched path: " + xpathExpression);
 
         XPath xpath = DocumentHelper.createXPath(xpathExpression);
 
         List list = xpath.selectNodes(document);
 
         if (list == null) {
-            log("null");
+            log.debug("null");
         } else {
-            log("[");
+            log.debug("[");
 
             for (int i = 0, size = list.size(); i < size; i++) {
                 Object object = list.get(i);
@@ -132,13 +127,13 @@ public class XPathTest extends AbstractTestCase {
                     text = object.toString();
                 }
 
-                log("    " + text);
+                log.debug("    " + text);
             }
 
-            log("]");
+            log.debug("]");
         }
 
-        log("...........................................");
+        log.debug("...........................................");
     }
 }
 

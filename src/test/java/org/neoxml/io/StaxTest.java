@@ -17,6 +17,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.StringWriter;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Tests STAX->neoxml functionality.
  *
@@ -57,7 +59,7 @@ public class StaxTest extends AbstractTestCase {
         String xmlDecl = output.substring(0, output.indexOf("?>") + 2);
         String expected = "<?xml version=\"1.0\" encoding=\"koi8-r\"?>";
         assertEquals("Unexpected xml declaration", expected, xmlDecl);
-        System.out.println(output);
+        log.info(output);
     }
 }
 

@@ -16,6 +16,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,8 +35,10 @@ import static org.junit.Assert.fail;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(ConcurrentTestRunner.class)
 public class PerThreadSingletonTest {
-    private static SingletonStrategy singleton = new PerThreadSingleton();
-    private static ThreadLocal reference = new ThreadLocal();
+    protected final Logger log = LoggerFactory.getLogger(getClass());
+
+    private static final SingletonStrategy<Map<String,String>> singleton = new PerThreadSingleton<>();
+    private static final ThreadLocal<Map<String,String>> reference = new ThreadLocal<>();
 
     @Rule
     public RepeatingRule repeating = new RepeatingRule();
@@ -48,52 +52,48 @@ public class PerThreadSingletonTest {
 
     @Test
     @Repeating(repetition = 100)
-    public void test_1_repeatedTest() throws Exception {
+    public void test_1_repeatedTest() {
         testInstance();
     }
 
     @Test
     @Concurrent(count = 5)
     @Repeating(repetition = 100)
-    public void test_2_loadTest() throws Exception {
+    public void test_2_loadTest() {
         testInstance();
     }
 
     @Test(timeout = 1200 + (1000 * 5 * 100))
     @Concurrent(count = 5)
     @Repeating(repetition = 100)
-    public void test_3_timedTest() throws Exception {
+    public void test_3_timedTest() {
         testInstance();
     }
 
-    protected void testInstance() throws Exception {
+    protected void testInstance() {
         String tid = Thread.currentThread().getName();
-        Map map = (Map) singleton.instance();
+        Map<String, String> map = singleton.instance();
 
         String expected = "new value";
         if (!map.containsKey(tid) && reference.get() != null) {
-            System.out.println("tid=" + tid + " map=" + map);
-            System.out.println("reference=" + reference);
-            System.out.println("singleton=" + singleton);
+            log.info("tid=" + tid + " map=" + map);
+            log.info("reference=" + reference);
+            log.info("singleton=" + singleton);
             fail("created singleton more than once");
         } else {
             map.put(tid, expected);
             reference.set(map);
         }
 
-        String actual = (String) map.get(tid);
-        // System.out.println("tid="+tid+ " map="+map);
+        String actual = map.get(tid);
         assertEquals("testInstance", actual, expected);
 
-        map = (Map) singleton.instance();
+        map = singleton.instance();
         expected = "new value";
         actual = (String) map.get(tid);
-        // System.out.println("tid="+tid+ " map="+map);
-        // System.out.println("reference="+reference);
-        // System.out.println("singleton="+singleton);
+
         assertEquals("testInstance", actual, expected);
         assertEquals("testInstance reference", map, reference.get());
-
     }
 }
 

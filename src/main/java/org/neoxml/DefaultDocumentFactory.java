@@ -6,20 +6,8 @@
 
 package org.neoxml;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.neoxml.rule.Pattern;
-import org.neoxml.tree.AbstractDocument;
-import org.neoxml.tree.DefaultAttribute;
-import org.neoxml.tree.DefaultCDATA;
-import org.neoxml.tree.DefaultComment;
-import org.neoxml.tree.DefaultDocument;
-import org.neoxml.tree.DefaultDocumentType;
-import org.neoxml.tree.DefaultElement;
-import org.neoxml.tree.DefaultEntity;
-import org.neoxml.tree.DefaultProcessingInstruction;
-import org.neoxml.tree.DefaultText;
-import org.neoxml.tree.QNameCache;
+import org.neoxml.tree.*;
 import org.neoxml.util.SingletonHelper;
 import org.neoxml.util.SingletonStrategy;
 import org.neoxml.xpath.XPathPattern;
@@ -102,7 +90,7 @@ public class DefaultDocumentFactory implements DocumentFactory, Serializable {
         Document answer = createDocument();
 
         if (answer instanceof AbstractDocument) {
-            ((AbstractDocument) answer).setXMLEncoding(encoding);
+            answer.setXMLEncoding(encoding);
         }
 
         return answer;
@@ -247,8 +235,6 @@ public class DefaultDocumentFactory implements DocumentFactory, Serializable {
     @Override
     public NodeFilter createXPathFilter(String xpathFilterExpression) {
         return createXPath(xpathFilterExpression);
-
-        // return new DefaultXPath( xpathFilterExpression );
     }
 
     /**
@@ -309,29 +295,6 @@ public class DefaultDocumentFactory implements DocumentFactory, Serializable {
     // -------------------------------------------------------------------------
 
     /**
-     * <p>
-     * <code>createSingleton</code> creates the singleton instance from the given class name.
-     * </p>
-     *
-     * @param className is the name of the DefaultDocumentFactory class to use
-     * @return a new singleton instance.
-     */
-    protected static DocumentFactory createSingleton(String className) {
-        // let's try and class load an implementation?
-        try {
-            // I'll use the current class loader
-            // that loaded me to avoid problems in J2EE and web apps
-            Class<?> theClass = Class.forName(className, true, DefaultDocumentFactory.class.getClassLoader());
-
-            return (DocumentFactory) theClass.newInstance();
-        } catch (Throwable e) {
-            log.warn("Cannot load DefaultDocumentFactory: " + className);
-
-            return new DefaultDocumentFactory();
-        }
-    }
-
-    /**
      * Factory method to create the QNameCache. This method should be overloaded
      * if you wish to use your own derivation of QName.
      *
@@ -349,8 +312,6 @@ public class DefaultDocumentFactory implements DocumentFactory, Serializable {
     protected void init() {
         cache = createQNameCache();
     }
-
-    private static final Log log = LogFactory.getLog(DefaultDocumentFactory.class);
 }
 
 /*

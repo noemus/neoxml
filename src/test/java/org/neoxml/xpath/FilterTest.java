@@ -15,6 +15,9 @@ import org.neoxml.NodeFilter;
 import java.util.Iterator;
 import java.util.List;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 /**
  * Test harness for XPath filters
  *
@@ -27,34 +30,24 @@ public class FilterTest extends AbstractTestCase {
             ".[name()='XXXX']", ".[.='James Strachan']", ".[.='XXXX']"
     };
 
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
-    public void testXPaths() throws Exception {
-        int size = paths.length;
-
-        for (int i = 0; i < size; i++) {
-            testXPath(paths[i]);
+    public void testXPaths() {
+        for (String path : paths) {
+            testXPath(path);
         }
     }
 
-    // Implementation methods
-    // -------------------------------------------------------------------------
-
     protected void testXPath(String xpathExpression) {
         NodeFilter nodeFilter = DocumentHelper.createXPathFilter(xpathExpression);
-        assertTrue("No NodeFilter object was created", nodeFilter != null);
+        assertNotNull("No NodeFilter object was created", nodeFilter);
 
-        List list = document.selectNodes("//author");
+        List<Node> list = document.selectNodes("//author");
 
-        for (Iterator iter = list.iterator(); iter.hasNext(); ) {
-            Node node = (Node) iter.next();
-
+        for (Node node : list) {
             if (nodeFilter.matches(node)) {
-                log("Matches node: " + node.asXML());
+                log.debug("Matches node: {}", node.asXML());
             } else {
-                log("No match for node: " + node.asXML());
+                log.debug("No match for node: {}", node.asXML());
             }
         }
     }

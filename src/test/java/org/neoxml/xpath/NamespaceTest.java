@@ -11,10 +11,13 @@ import org.junit.Test;
 import org.neoxml.AbstractTestCase;
 import org.neoxml.DocumentHelper;
 import org.neoxml.Namespace;
+import org.neoxml.Node;
 import org.neoxml.XPath;
 
-import java.util.Iterator;
 import java.util.List;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test harness for the namespace axis
@@ -29,47 +32,31 @@ public class NamespaceTest extends AbstractTestCase {
             "/Template/Application1/namespace::xplt", "//namespace::*"
     };
 
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
-    public void testXPaths() throws Exception {
-        int size = paths.length;
-
-        for (int i = 0; i < size; i++) {
-            testXPath(paths[i]);
+    public void testXPaths() {
+        for (String path : paths) {
+            testXPath(path);
         }
     }
 
-    // Implementation methods
-    // -------------------------------------------------------------------------
-
     protected void testXPath(String xpathText) {
         XPath xpath = DocumentHelper.createXPath(xpathText);
-        List list = xpath.selectNodes(document);
+        List<Node> list = xpath.selectNodes(document);
 
-        log("Searched path: " + xpathText + " found: " + list.size()
-                    + " result(s)");
+        log.debug("Searched path: {} found: {} result(s)", xpathText, list.size());
 
-        for (Iterator iter = list.iterator(); iter.hasNext(); ) {
-            Object object = iter.next();
+        for (Node node : list) {
+            log.debug("Found Result: {}", node);
 
-            log("Found Result: " + object);
+            assertTrue("Results should be Namespace objects", node instanceof Namespace);
 
-            assertTrue("Results should be Namespace objects",
-                       object instanceof Namespace);
+            Namespace namespace = (Namespace) node;
 
-            Namespace namespace = (Namespace) object;
+            log.debug("Parent node: {}", namespace.getParent());
 
-            log("Parent node: " + namespace.getParent());
-
-            assertTrue("Results should support the parent relationship",
-                       namespace.supportsParent());
-            assertTrue(
-                    "Results should contain reference to the parent element",
-                    namespace.getParent() != null);
-            assertTrue("Results should contain reference to the document",
-                       namespace.getDocument() != null);
+            assertTrue("Results should support the parent relationship", namespace.supportsParent());
+            assertNotNull("Results should contain reference to the parent element", namespace.getParent());
+            assertNotNull("Results should contain reference to the document", namespace.getDocument());
         }
     }
 

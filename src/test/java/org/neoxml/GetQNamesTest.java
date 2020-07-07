@@ -11,6 +11,8 @@ import org.neoxml.io.SAXReader;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * A test harness to test the DefaultDocumentFactory.getQNames() method
  *
@@ -18,9 +20,6 @@ import java.util.List;
  * @version $Revision: 1.4 $
  */
 public class GetQNamesTest extends AbstractTestCase {
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
     public void testQNames() throws Exception {
         DocumentFactory factory = new DefaultDocumentFactory();
@@ -37,10 +36,9 @@ public class GetQNamesTest extends AbstractTestCase {
      * Test the element rename functionality which was lacking as spotted by Rob
      * Lebowitz
      *
-     * @throws Exception DOCUMENT ME!
      */
     @Test
-    public void testRename() throws Exception {
+    public void testRename() {
         Document doc = DocumentHelper.createDocument();
         Element root = doc.addElement("foo");
 

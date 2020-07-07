@@ -9,6 +9,8 @@ package org.neoxml;
 import org.junit.Test;
 import org.neoxml.io.SAXReader;
 
+import static org.junit.Assert.fail;
+
 /**
  * A test harness for validation when using SAXReader
  *
@@ -16,11 +18,8 @@ import org.neoxml.io.SAXReader;
  * @version $Revision: 1.3 $
  */
 public class ValidationTest extends AbstractTestCase {
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
-    public void testValidation() throws Exception {
+    public void testValidation() {
         try {
             SAXReader reader = new SAXReader(true);
             reader.read("test");

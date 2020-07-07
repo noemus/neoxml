@@ -12,6 +12,9 @@ import org.neoxml.io.OutputFormat;
 
 import java.io.StringWriter;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 /**
  * Test harness for the HTMLWriter
  *
@@ -19,9 +22,6 @@ import java.io.StringWriter;
  * @version $Revision: 1.4 $
  */
 public class HTMLWriterTest extends AbstractTestCase {
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
     public void testWriter() throws Exception {
         String xml = "<html> <body><![CDATA[First&nbsp;test]]></body> </html>";
@@ -34,8 +34,8 @@ public class HTMLWriterTest extends AbstractTestCase {
 
         String expects = "\n<html>\n  <body>First&nbsp;test</body>\n</html>\n";
 
-        System.out.println("expects: " + expects);
-        System.out.println("output: " + output);
+        log.info("expects: {}", expects);
+        log.info("output: {}", output);
 
         assertEquals("Output is correct", expects, output);
     }
@@ -65,15 +65,15 @@ public class HTMLWriterTest extends AbstractTestCase {
         }
 
         String xml = buffer.toString();
-        log(xml);
+        log.debug(xml);
 
         int start = xml.indexOf("<root");
         int end = xml.indexOf("/root>") + 6;
         String expected = "<root>this is simple text<child></child>containing spaces and multiple textnodes</root>";
-        System.out.println("Expected:");
-        System.out.println(expected);
-        System.out.println("Obtained:");
-        System.out.println(xml.substring(start, end));
+        log.info("Expected:");
+        log.info(expected);
+        log.info("Obtained:");
+        log.info(xml.substring(start, end));
         assertEquals(expected, xml.substring(start, end));
     }
 
@@ -104,7 +104,6 @@ public class HTMLWriterTest extends AbstractTestCase {
     @Test
     public void testBug923882asWriterWithEmptyCharArray() throws Exception {
         // use an the HTMLWriter sax-methods.
-        //
         StringWriter buffer = new StringWriter();
         try (HTMLWriter writer = new HTMLWriter(buffer, OutputFormat.createPrettyPrint())) {
             writer.characters("wor".toCharArray(), 0, 3);
@@ -125,10 +124,10 @@ public class HTMLWriterTest extends AbstractTestCase {
         writer.write(doc);
 
         String result = wr.toString();
-        System.out.println(result);
+        log.info(result);
 
-        assertTrue(result.indexOf("Mary had a little lamb.") > -1);
-        assertTrue(result.indexOf("Hello, this is a test.") > -1);
+        assertTrue(result.contains("Mary had a little lamb."));
+        assertTrue(result.contains("Hello, this is a test."));
     }
 }
 

@@ -10,8 +10,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.neoxml.AbstractTestCase;
 import org.neoxml.Element;
+import org.neoxml.Node;
 
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test harness for the substring function
@@ -20,11 +23,8 @@ import java.util.List;
  * @version $Revision: 1.3 $
  */
 public class SubstringTest extends AbstractTestCase {
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
-    public void testSubstring() throws Exception {
+    public void testSubstring() {
         String[] results1 = {
                 "1100", "1101"
         };
@@ -37,22 +37,15 @@ public class SubstringTest extends AbstractTestCase {
         testSubstring("//field[substring(@id,3)='11']", results2);
     }
 
-    // Implementation methods
-    // -------------------------------------------------------------------------
+    protected void testSubstring(String path, String[] results) {
+        log.debug("Using XPath: " + path);
 
-    protected void testSubstring(String path, String[] results)
-            throws Exception {
-        log("Using XPath: " + path);
+        List<Node> list = document.selectNodes(path);
 
-        List list = document.selectNodes(path);
+        log.debug("Found: {}", list);
 
-        log("Found: " + list);
-
-        // Object object = list.get(0);
-        // log( "(0) = " + object + " type: " + object.getClass() );
         int size = results.length;
-        assertTrue("List should contain " + size + " results: " + list, list
-                .size() == size);
+        assertEquals("List should contain " + size + " results: " + list, list.size(), size);
 
         for (int i = 0; i < size; i++) {
             Element element = (Element) list.get(i);

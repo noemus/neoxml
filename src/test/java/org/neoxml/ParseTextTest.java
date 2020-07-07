@@ -9,6 +9,9 @@ package org.neoxml;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 /**
  * Tests the {@link DocumentHelper#parseText(String)}method.
  *
@@ -19,20 +22,17 @@ public class ParseTextTest extends AbstractTestCase {
     protected String xmlText =
             "<root><author name='James'><location>Paris</location></author></root>";
 
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
-    public void testDocument() throws Exception {
-        assertTrue("Document is not null", document != null);
+    public void testDocument() {
+        assertNotNull("Document is not null", document);
 
         Element root = document.getRootElement();
 
-        assertTrue("Root element is not null", root != null);
+        assertNotNull("Root element is not null", root);
 
         Element author = root.element("author");
 
-        assertTrue("Author element is not null", author != null);
+        assertNotNull("Author element is not null", author);
 
         String name = author.attributeValue("name");
 
@@ -42,9 +42,6 @@ public class ParseTextTest extends AbstractTestCase {
 
         assertEquals("Location element matches", location, "Paris");
     }
-
-    // Implementation methods
-    // -------------------------------------------------------------------------
 
     @Override
     @Before

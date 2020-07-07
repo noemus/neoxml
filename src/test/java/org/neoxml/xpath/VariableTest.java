@@ -16,6 +16,8 @@ import org.neoxml.XPath;
 
 import java.util.List;
 
+import static org.junit.Assert.assertTrue;
+
 /**
  * Test harness for the valueOf() function
  *
@@ -40,27 +42,20 @@ public class VariableTest extends AbstractTestCase {
 
     private Node authorNode;
 
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
     public void testXPaths() {
-        int size = paths.length;
-
-        for (int i = 0; i < size; i++) {
-            testXPath(paths[i]);
+        for (String path : paths) {
+            testXPath(path);
         }
     }
 
     protected void testXPath(String xpathText) {
         XPath xpath = createXPath(xpathText);
-        List list = xpath.selectNodes(document);
+        List<Node> list = xpath.selectNodes(document);
 
-        log("Searched path: " + xpathText + " found: " + list.size()
-                    + " result(s)");
+        log.debug("Searched path: " + xpathText + " found: " + list.size() + " result(s)");
 
-        assertTrue("Results should not contain the root node", !list
-                .contains(rootNode));
+        assertTrue("Results should not contain the root node", !list.contains(rootNode));
     }
 
     protected XPath createXPath(String xpath) {

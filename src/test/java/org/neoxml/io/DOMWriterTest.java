@@ -12,6 +12,9 @@ import org.w3c.dom.NamedNodeMap;
 
 import java.io.StringWriter;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 /**
  * DOCUMENT ME!
  *

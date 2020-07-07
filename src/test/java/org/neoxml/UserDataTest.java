@@ -15,6 +15,12 @@ import org.neoxml.util.UserDataAttribute;
 import org.neoxml.util.UserDataDocumentFactory;
 import org.neoxml.util.UserDataElement;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+
 /**
  * Tests the UserDataDocumentFactory
  *
@@ -22,46 +28,39 @@ import org.neoxml.util.UserDataElement;
  * @version $Revision: 1.4 $
  */
 public class UserDataTest extends AbstractTestCase {
-    /**
-     * Input XML file to read
-     */
     private static final String INPUT_XML_FILE = "/src/test/xml/web.xml";
 
-    private Object userData = new Double(1.23456);
+    private final Object userData = 1.23456;
 
     public static void main(String[] args) throws InitializationError {
         new JUnit4(UserDataTest.class).run(null);
     }
 
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
-    public void testSetData() throws Exception {
+    public void testSetData() {
         Element root = getRootElement();
 
-        assertTrue("Element instanceof UserDataElement",
-                   root instanceof UserDataElement);
+        assertTrue("Element instanceof UserDataElement", root instanceof UserDataElement);
 
         root.setData(userData);
 
-        assertTrue("Stored user data!", root.getData() == userData);
+        assertSame("Stored user data!", root.getData(), userData);
 
-        log("root: " + root);
+        log.debug("root: {}", root);
 
         assertUserData(root, userData);
 
         Element cloned = (Element) root.clone();
-        assertTrue("Cloned new instance", cloned != root);
+        assertNotSame("Cloned new instance", cloned, root);
         assertUserData(cloned, userData);
 
         cloned = root.createCopy();
-        assertTrue("Cloned new instance", cloned != root);
+        assertNotSame("Cloned new instance", cloned, root);
         assertUserData(cloned, userData);
     }
 
     @Test
-    public void testCloneAttribute() throws Exception {
+    public void testCloneAttribute() {
         Element root = getRootElement();
         root.addAttribute("name", "value");
 
@@ -74,50 +73,42 @@ public class UserDataTest extends AbstractTestCase {
     }
 
     @Test
-    public void testNewAdditions() throws Exception {
+    public void testNewAdditions() {
         Element root = getRootElement();
 
         Element newElement = root.addElement("foo1234");
-        assertTrue("New Element is a UserDataElement",
-                   newElement instanceof UserDataElement);
+        assertTrue("New Element is a UserDataElement", newElement instanceof UserDataElement);
 
         root.addAttribute("bar456", "123");
 
         Attribute newAttribute = root.attribute("bar456");
 
-        assertTrue("New Attribute is a UserDataAttribute",
-                   newAttribute instanceof UserDataAttribute);
+        assertTrue("New Attribute is a UserDataAttribute", newAttribute instanceof UserDataAttribute);
     }
 
     @Test
-    public void testNewDocument() throws Exception {
+    public void testNewDocument() {
         DocumentFactory factory = UserDataDocumentFactory.getInstance();
         Document document = factory.createDocument();
 
         Element root = document.addElement("root");
-        assertTrue("Root Element is a UserDataElement",
-                   root instanceof UserDataElement);
+        assertTrue("Root Element is a UserDataElement", root instanceof UserDataElement);
 
         Element newElement = root.addElement("foo1234");
-        assertTrue("New Element is a UserDataElement",
-                   newElement instanceof UserDataElement);
+        assertTrue("New Element is a UserDataElement", newElement instanceof UserDataElement);
 
         root.addAttribute("bar456", "123");
 
         Attribute newAttribute = root.attribute("bar456");
 
-        assertTrue("New Attribute is a UserDataAttribute",
-                   newAttribute instanceof UserDataAttribute);
+        assertTrue("New Attribute is a UserDataAttribute", newAttribute instanceof UserDataAttribute);
     }
 
-    // Implementation methods
-    // -------------------------------------------------------------------------
-
-    protected void assertUserData(Element root, Object data) throws Exception {
+    protected void assertUserData(Element root, Object data) {
         Object result = root.getData();
 
-        assertTrue("No user data!", result != null);
-        assertTrue("Stored user data correctly", data.equals(result));
+        assertNotNull("No user data!", result);
+        assertEquals("Stored user data correctly", data, result);
     }
 
     @Override

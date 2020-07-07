@@ -16,6 +16,9 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 /**
  * Tests that a neoxml document is Serializable
  *
@@ -23,9 +26,6 @@ import java.util.Map;
  * @version $Revision: 1.4 $
  */
 public class SerializeTest extends AbstractTestCase {
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
     public void testSerializePeriodicTable() throws Exception {
         testSerialize("/src/test/xml/periodic_table.xml");
@@ -59,12 +59,11 @@ public class SerializeTest extends AbstractTestCase {
         // now lets use the prefixes
         String expr = "/SOAP-ENV:Envelope/SOAP-ENV:Body/m:BabelFish";
         Node element = doc.selectSingleNode(expr);
-        assertTrue("Found valid element", element != null);
+        assertNotNull("Found valid element", element);
 
-        XPath xpath = factory
-                .createXPath("/SOAP-ENV:Envelope/SOAP-ENV:Body/m:BabelFish");
+        XPath xpath = factory.createXPath("/SOAP-ENV:Envelope/SOAP-ENV:Body/m:BabelFish");
         element = xpath.selectSingleNode(doc);
-        assertTrue("Found valid element", element != null);
+        assertNotNull("Found valid element", element);
 
         // now serialize
         ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
@@ -74,17 +73,13 @@ public class SerializeTest extends AbstractTestCase {
 
         byte[] data = bytesOut.toByteArray();
 
-        ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(
-                data));
+        ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(data));
         XPath xpath2 = (XPath) in.readObject();
         in.close();
 
         element = xpath2.selectSingleNode(doc);
-        assertTrue("Found valid element", element != null);
+        assertNotNull("Found valid element", element);
     }
-
-    // Implementation methods
-    // -------------------------------------------------------------------------
 
     protected void testSerialize(String xmlFile) throws Exception {
         Document document = getDocument(xmlFile);
@@ -97,16 +92,13 @@ public class SerializeTest extends AbstractTestCase {
 
         byte[] data = bytesOut.toByteArray();
 
-        ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(
-                data));
+        ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(data));
         Document doc2 = (Document) in.readObject();
         in.close();
 
         String text2 = doc2.asXML();
 
         assertEquals("Documents text are equal", text, text2);
-
-        assertTrue("Read back document after serialization", (doc2 != null) && doc2 instanceof Document);
 
         assertDocumentsEqual(document, doc2);
 

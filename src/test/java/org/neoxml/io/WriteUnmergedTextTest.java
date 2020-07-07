@@ -13,6 +13,8 @@ import org.neoxml.Document;
 import java.io.StringReader;
 import java.io.StringWriter;
 
+import static org.junit.Assert.assertTrue;
+
 /**
  * A simple test harness to check that the XML Writer works
  *
@@ -22,15 +24,11 @@ import java.io.StringWriter;
 public class WriteUnmergedTextTest extends AbstractTestCase {
     protected static final boolean VERBOSE = true;
 
-    private String inputText = "<?xml version = \"1.0\"?>"
-            + "<TestEscapedEntities><TEXT>Test using &lt; "
-            + "&amp; &gt;</TEXT></TestEscapedEntities>";
+    public String readwriteText(OutputFormat outFormat, boolean mergeAdjacentText) throws Exception {
+        String inputText = "<?xml version = \"1.0\"?>"
+                + "<TestEscapedEntities><TEXT>Test using &lt; "
+                + "&amp; &gt;</TEXT></TestEscapedEntities>";
 
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
-    public String readwriteText(OutputFormat outFormat,
-                                boolean mergeAdjacentText) throws Exception {
         StringWriter out = new StringWriter();
         StringReader in = new StringReader(inputText);
         SAXReader reader = new SAXReader();
@@ -45,9 +43,7 @@ public class WriteUnmergedTextTest extends AbstractTestCase {
         writer.write(document);
         writer.close();
 
-        String outText = out.toString();
-
-        return outText;
+        return out.toString();
     }
 
     @Test
@@ -55,34 +51,29 @@ public class WriteUnmergedTextTest extends AbstractTestCase {
         String outText = readwriteText(null, false);
 
         if (VERBOSE) {
-            log("Text output is [");
-            log(outText);
-            log("]. Done");
+          log.debug("Text output is [");
+          log.debug(outText);
+          log.debug("]. Done");
         }
 
         // should contain &amp; and &lt;
-        assertTrue("Output text contains \"&amp;\"", outText
-                .lastIndexOf("&amp;") >= 0);
-        assertTrue("Output text contains \"&lt;\"",
-                   outText.lastIndexOf("&lt;") >= 0);
+        assertTrue("Output text contains \"&amp;\"", outText.lastIndexOf("&amp;") >= 0);
+        assertTrue("Output text contains \"&lt;\"", outText.lastIndexOf("&lt;") >= 0);
     }
 
     @Test
     public void testWithCompactFormatNonMerged() throws Exception {
-        String outText = readwriteText(OutputFormat.createCompactFormat(),
-                                       false);
+        String outText = readwriteText(OutputFormat.createCompactFormat(), false);
 
         if (VERBOSE) {
-            log("Text output is [");
-            log(outText);
-            log("]. Done");
+          log.debug("Text output is [");
+          log.debug(outText);
+          log.debug("]. Done");
         }
 
         // should contain &amp; and &lt;
-        assertTrue("Output text contains \"&amp;\"", outText
-                .lastIndexOf("&amp;") >= 0);
-        assertTrue("Output text contains \"&lt;\"",
-                   outText.lastIndexOf("&lt;") >= 0);
+        assertTrue("Output text contains \"&amp;\"", outText.lastIndexOf("&amp;") >= 0);
+        assertTrue("Output text contains \"&lt;\"", outText.lastIndexOf("&lt;") >= 0);
     }
 
     @Test
@@ -90,16 +81,14 @@ public class WriteUnmergedTextTest extends AbstractTestCase {
         String outText = readwriteText(OutputFormat.createPrettyPrint(), false);
 
         if (VERBOSE) {
-            log("Text output is [");
-            log(outText);
-            log("]. Done");
+          log.debug("Text output is [");
+          log.debug(outText);
+          log.debug("]. Done");
         }
 
         // should contain &amp; and &lt;
-        assertTrue("Output text contains \"&amp;\"", outText
-                .lastIndexOf("&amp;") >= 0);
-        assertTrue("Output text contains \"&lt;\"",
-                   outText.lastIndexOf("&lt;") >= 0);
+        assertTrue("Output text contains \"&amp;\"", outText.lastIndexOf("&amp;") >= 0);
+        assertTrue("Output text contains \"&lt;\"", outText.lastIndexOf("&lt;") >= 0);
     }
 
     @Test
@@ -107,16 +96,14 @@ public class WriteUnmergedTextTest extends AbstractTestCase {
         String outText = readwriteText(null, true);
 
         if (VERBOSE) {
-            log("Text output is [");
-            log(outText);
-            log("]. Done");
+          log.debug("Text output is [");
+          log.debug(outText);
+          log.debug("]. Done");
         }
 
         // should contain &amp; and &lt;
-        assertTrue("Output text contains \"&amp;\"", outText
-                .lastIndexOf("&amp;") >= 0);
-        assertTrue("Output text contains \"&lt;\"",
-                   outText.lastIndexOf("&lt;") >= 0);
+        assertTrue("Output text contains \"&amp;\"", outText.lastIndexOf("&amp;") >= 0);
+        assertTrue("Output text contains \"&lt;\"", outText.lastIndexOf("&lt;") >= 0);
     }
 
     @Test
@@ -124,16 +111,14 @@ public class WriteUnmergedTextTest extends AbstractTestCase {
         String out = readwriteText(OutputFormat.createCompactFormat(), true);
 
         if (VERBOSE) {
-            log("Text output is [");
-            log(out);
-            log("]. Done");
+          log.debug("Text output is [");
+          log.debug(out);
+          log.debug("]. Done");
         }
 
         // should contain &amp; and &lt;
-        assertTrue("Output text contains \"&amp;\"", out
-                .lastIndexOf("&amp;") >= 0);
-        assertTrue("Output text contains \"&lt;\"",
-                   out.lastIndexOf("&lt;") >= 0);
+        assertTrue("Output text contains \"&amp;\"", out.lastIndexOf("&amp;") >= 0);
+        assertTrue("Output text contains \"&lt;\"", out.lastIndexOf("&lt;") >= 0);
     }
 
     @Test
@@ -141,16 +126,14 @@ public class WriteUnmergedTextTest extends AbstractTestCase {
         String outText = readwriteText(OutputFormat.createPrettyPrint(), true);
 
         if (VERBOSE) {
-            log("Text output is [");
-            log(outText);
-            log("]. Done");
+          log.debug("Text output is [");
+          log.debug(outText);
+          log.debug("]. Done");
         }
 
         // should contain &amp; and &lt;
-        assertTrue("Output text contains \"&amp;\"", outText
-                .lastIndexOf("&amp;") >= 0);
-        assertTrue("Output text contains \"&lt;\"",
-                   outText.lastIndexOf("&lt;") >= 0);
+        assertTrue("Output text contains \"&amp;\"", outText.lastIndexOf("&amp;") >= 0);
+        assertTrue("Output text contains \"&lt;\"", outText.lastIndexOf("&lt;") >= 0);
     }
 }
 

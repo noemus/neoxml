@@ -14,6 +14,8 @@ import org.neoxml.DocumentHelper;
 import org.neoxml.Node;
 import org.neoxml.xpath.DefaultXPath;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * A test harness to test the use of the Stylesheet and the XSLT rule engine.
  *
@@ -39,30 +41,26 @@ public class StylesheetTest extends AbstractTestCase {
 
     protected Stylesheet stylesheet;
 
-
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
     public void testRules() throws Exception {
-        for (int i = 0, size = templates.length; i < size; i++) {
-            addTemplate(templates[i]);
+        for (String template : templates) {
+            addTemplate(template);
         }
 
-        log("");
-        log("........................................");
-        log("");
-        log("Running stylesheet");
+        log.debug("");
+        log.debug("........................................");
+        log.debug("");
+        log.debug("Running stylesheet");
 
         stylesheet.run(document);
 
-        log("Finished");
+        log.debug("Finished");
     }
 
     @Test
     public void testLittleDoc() throws Exception {
-        for (int i = 0, size = templates2.length; i < size; i++) {
-            addTemplate(templates2[i]);
+        for (String s : templates2) {
+            addTemplate(s);
         }
         Document doc = getDocument("/src/test/xml/test/littledoc.xml");
 
@@ -70,8 +68,8 @@ public class StylesheetTest extends AbstractTestCase {
         stylesheet.setValueOfAction(new Action() {
             @Override
             public void run(Node node) {
-                log("Default ValueOf action on node: " + node);
-                log("........................................");
+                log.debug("Default ValueOf action on node: {}", node);
+                log.debug("........................................");
             }
         });
 
@@ -100,38 +98,32 @@ public class StylesheetTest extends AbstractTestCase {
         assertEquals("Check url is processed twice", "urlurl", b.toString());
     }
 
-    // Implementation methods
-    // -------------------------------------------------------------------------
-
     @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
 
         stylesheet = new Stylesheet();
-        stylesheet.setValueOfAction(new Action() {
-            @Override
-            public void run(Node node) {
-                log("Default ValueOf action on node: " + node);
-                log("........................................");
-            }
+        stylesheet.setValueOfAction(node -> {
+            log.debug("Default ValueOf action on node: {}", node);
+            log.debug("........................................");
         });
     }
 
     protected void addTemplate(final String match) {
-        log("Adding template match: " + match);
+        log.debug("Adding template match: {}", match);
 
         Pattern pattern = DocumentHelper.createPattern(match);
 
-        log("Pattern: " + pattern);
-        log("........................................");
+        log.debug("Pattern: " + pattern);
+        log.debug("........................................");
 
         Action action = new Action() {
             @Override
             public void run(Node node) throws Exception {
-                log("Matched pattern: " + match);
-                log("Node: " + node.asXML());
-                log("........................................");
+                log.debug("Matched pattern: " + match);
+                log.debug("Node: {}", node.asXML());
+                log.debug("........................................");
 
                 // apply any child templates
                 stylesheet.applyTemplates(node);

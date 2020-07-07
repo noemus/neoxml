@@ -16,15 +16,14 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import java.io.StringWriter;
 
+import static org.junit.Assert.assertFalse;
+
 /**
  * DOCUMENT ME!
  *
  * @author <a href="mailto:maartenc@sourceforge.net">Maarten Coene </a>
  */
 public class DocumentSourceTest extends AbstractTestCase {
-
-    // Test case(s)
-    // -------------------------------------------------------------------------
 
     @Test
     public void testBug555549() throws Exception {
@@ -37,8 +36,9 @@ public class DocumentSourceTest extends AbstractTestCase {
         StringWriter writer = new StringWriter();
         txml.transform(new DocumentSource(doc), new StreamResult(writer));
 
-        System.out.println(writer.toString());
-        assertTrue(writer.toString().indexOf("&#13") == -1);
+        log.info(writer.toString());
+
+        assertFalse(writer.toString().contains("&#13"));
     }
 }
 

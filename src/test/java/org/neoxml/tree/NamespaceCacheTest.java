@@ -30,7 +30,7 @@ public class NamespaceCacheTest extends AbstractTestCase {
         test.run();
 
         long end = System.currentTimeMillis();
-        System.out.println("Same NS Single took " + (end - start) + " ms");
+        log.info("Same NS Single took " + (end - start) + " ms");
     }
 
     @Test
@@ -39,7 +39,7 @@ public class NamespaceCacheTest extends AbstractTestCase {
         runMultiThreadedTest(new SameNSTest());
 
         long end = System.currentTimeMillis();
-        System.out.println("Different NS Single took " + (end - start) + " ms");
+        log.info("Different NS Single took " + (end - start) + " ms");
     }
 
     @Test
@@ -49,7 +49,7 @@ public class NamespaceCacheTest extends AbstractTestCase {
         test.run();
 
         long end = System.currentTimeMillis();
-        System.out.println("Same NS Multi took " + (end - start) + " ms");
+        log.info("Same NS Multi took " + (end - start) + " ms");
     }
 
     @Test
@@ -58,7 +58,7 @@ public class NamespaceCacheTest extends AbstractTestCase {
         runMultiThreadedTest(new DifferentNSTest());
 
         long end = System.currentTimeMillis();
-        System.out.println("Different NS Multi took " + (end - start) + " ms");
+        log.info("Different NS Multi took " + (end - start) + " ms");
     }
 
     private void runMultiThreadedTest(Runnable test) throws Exception {

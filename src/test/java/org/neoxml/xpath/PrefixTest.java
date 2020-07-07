@@ -16,6 +16,8 @@ import org.neoxml.XPath;
 
 import java.util.List;
 
+import static org.junit.Assert.assertTrue;
+
 /**
  * Tests finding items using a namespace prefix
  *
@@ -33,16 +35,11 @@ public class PrefixTest extends AbstractTestCase {
     // -------------------------------------------------------------------------
 
     @Test
-    public void testXPaths() throws Exception {
-        int size = paths.length;
-
-        for (int i = 0; i < size; i++) {
-            testXPath(paths[i]);
+    public void testXPaths() {
+        for (String path : paths) {
+            testXPath(path);
         }
     }
-
-    // Implementation methods
-    // -------------------------------------------------------------------------
 
     protected void testXPath(String xpathText) {
         XPath xpath = DocumentHelper.createXPath(xpathText);
@@ -54,7 +51,7 @@ public class PrefixTest extends AbstractTestCase {
 
         List<Node> list = xpath.selectNodes(document);
 
-        log("Searched path: " + xpathText + " found: " + list.size() + " result(s)");
+        log.debug("Searched path: " + xpathText + " found: " + list.size() + " result(s)");
 
         assertTrue("Should have found at lest one result", list.size() > 0);
     }

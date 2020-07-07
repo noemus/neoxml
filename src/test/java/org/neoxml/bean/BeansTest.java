@@ -10,15 +10,14 @@ import org.junit.Test;
 import org.neoxml.AbstractTestCase;
 import org.neoxml.io.SAXReader;
 
+import static org.junit.Assert.assertNotNull;
+
 /**
  * DOCUMENT ME!
  *
  * @author <a href="mailto:maartenc@users.sourceforge.net">Maarten Coene </a>
  */
 public class BeansTest extends AbstractTestCase {
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
     public void testReadXML() throws Exception {
         SAXReader reader = new SAXReader(BeanDocumentFactory.getInstance());

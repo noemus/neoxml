@@ -10,6 +10,8 @@ import org.junit.Test;
 import org.neoxml.AbstractTestCase;
 import org.neoxml.DefaultDocumentFactory;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Tests the priority behaviour of Pattern.
  *
@@ -18,33 +20,33 @@ import org.neoxml.DefaultDocumentFactory;
  */
 public class PriorityTest extends AbstractTestCase {
     @Test
-    public void testNameNode() throws Exception {
+    public void testNameNode() {
         testPriority("foo", 0);
     }
 
     @Test
-    public void testFilter() throws Exception {
+    public void testFilter() {
         testPriority("foo[@id='123']", 0.5);
     }
 
     @Test
-    public void testURI() throws Exception {
+    public void testURI() {
         testPriority("foo:*", -0.25);
     }
 
     @Test
-    public void testAnyNode() throws Exception {
+    public void testAnyNode() {
         testPriority("*", -0.5);
     }
 
-    protected void testPriority(String expr, double priority) throws Exception {
-        System.out.println("parsing: " + expr);
+    protected void testPriority(String expr, double priority) {
+        log.info("parsing: " + expr);
 
         Pattern pattern = DefaultDocumentFactory.getInstance().createPattern(expr);
         double d = pattern.getPriority();
 
-        System.out.println("expr: " + expr + " has priority: " + d);
-        System.out.println("pattern: " + pattern);
+        log.info("expr: " + expr + " has priority: " + d);
+        log.info("pattern: " + pattern);
 
         assertEquals("expr: " + expr, new Double(priority), new Double(d));
     }

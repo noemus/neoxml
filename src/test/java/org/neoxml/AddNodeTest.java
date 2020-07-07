@@ -8,6 +8,8 @@ package org.neoxml;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * A test harness to test the addNode() methods on node
  *

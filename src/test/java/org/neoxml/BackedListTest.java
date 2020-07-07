@@ -10,6 +10,8 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * A test harness to test the backed list feature of DOM4J
  *
@@ -17,9 +19,6 @@ import java.util.List;
  * @version $Revision: 1.3 $
  */
 public class BackedListTest extends AbstractTestCase {
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
     public void testXPaths() {
         Element element = (Element) document.selectSingleNode("/root");

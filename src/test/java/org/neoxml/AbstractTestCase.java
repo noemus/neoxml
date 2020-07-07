@@ -8,13 +8,16 @@ package org.neoxml;
 
 import org.apache.xalan.processor.TransformerFactoryImpl;
 import org.apache.xerces.jaxp.SAXParserFactoryImpl;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.neoxml.io.SAXReader;
 import org.neoxml.util.NodeComparator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
+
+import static org.junit.Assert.*;
 
 /**
  * An abstract base class for some neoxml test cases
@@ -23,12 +26,10 @@ import java.io.File;
  * @version $Revision: 1.24 $
  */
 @Ignore
-public class AbstractTestCase extends Assert {
-    protected Document document;
+public class AbstractTestCase {
+    protected final Logger log = LoggerFactory.getLogger(getClass());
 
-    protected void log(String text) {
-        //		System.out.println(text);
-    }
+    protected Document document;
 
     protected Document getDocument() {
         return document;
@@ -47,9 +48,8 @@ public class AbstractTestCase extends Assert {
         final File result = firstExistingFile(new File(workDir, path), new File(workDir, "src/test/" + path));
         if (result != null) {
             return result;
-        } else {
-            throw new IllegalArgumentException("Can't find test file " + path);
         }
+        throw new IllegalArgumentException("Can't find test file " + path);
     }
 
     private static File firstExistingFile(final File... files) {
@@ -72,7 +72,7 @@ public class AbstractTestCase extends Assert {
 
             assertEquals("Documents are equal", 0, NodeComparator.compare(doc1, doc2));
         } catch (Exception e) {
-            log("Failed during comparison of: " + doc1 + " and: " + doc2);
+            log.debug("Failed during comparison of: " + doc1 + " and: " + doc2);
             throw e;
         }
     }
@@ -139,8 +139,7 @@ public class AbstractTestCase extends Assert {
     }
 
     public void assertNodesEqual(Namespace n1, Namespace n2) {
-        assertEquals("Namespace prefixes not equal", n1.getPrefix(), n2
-                .getPrefix());
+        assertEquals("Namespace prefixes not equal", n1.getPrefix(), n2.getPrefix());
         assertEquals("Namespace URIs not equal", n1.getURI(), n2.getURI());
     }
 
@@ -149,10 +148,10 @@ public class AbstractTestCase extends Assert {
         int c2 = b2.nodeCount();
 
         if (c1 != c2) {
-            log("Content of: " + b1);
-            log("is: " + b1.content());
-            log("Content of: " + b2);
-            log("is: " + b2.content());
+            log.debug("Content of: " + b1);
+            log.debug("is: " + b1.content());
+            log.debug("Content of: " + b2);
+            log.debug("is: " + b2.content());
         }
 
         assertEquals("Branches have same number of children (" + c1 + ", " + c2 + " for: " + b1 + " and " + b2, c1, c2);
@@ -172,32 +171,26 @@ public class AbstractTestCase extends Assert {
         switch (nodeType1) {
             case ELEMENT_NODE:
                 assertNodesEqual((Element) n1, (Element) n2);
-
                 break;
 
             case DOCUMENT_NODE:
                 assertNodesEqual((Document) n1, (Document) n2);
-
                 break;
 
             case ATTRIBUTE_NODE:
                 assertNodesEqual((Attribute) n1, (Attribute) n2);
-
                 break;
 
             case TEXT_NODE:
                 assertNodesEqual((Text) n1, (Text) n2);
-
                 break;
 
             case CDATA_SECTION_NODE:
                 assertNodesEqual((CDATA) n1, (CDATA) n2);
-
                 break;
 
             case ENTITY_REFERENCE_NODE:
                 assertNodesEqual((Entity) n1, (Entity) n2);
-
                 break;
 
             case PROCESSING_INSTRUCTION_NODE:
@@ -233,14 +226,18 @@ public class AbstractTestCase extends Assert {
 
         Element root = document.addElement("root");
 
-        Element author1 = root.addElement("author").addAttribute("name",
-                                                                 "James").addAttribute("location", "UK").addText("James Strachan");
+        Element author1 = root.addElement("author")
+                              .addAttribute("name", "James")
+                              .addAttribute("location", "UK")
+                              .addText("James Strachan");
 
         Element url1 = author1.addElement("url");
         url1.addText("http://sourceforge.net/users/jstrachan/");
 
-        Element author2 = root.addElement("author").addAttribute("name", "Bob")
-                              .addAttribute("location", "Canada").addText("Bob McWhirter");
+        Element author2 = root.addElement("author")
+                              .addAttribute("name", "Bob")
+                              .addAttribute("location", "Canada")
+                              .addText("Bob McWhirter");
 
         Element url2 = author2.addElement("url");
         url2.addText("http://sourceforge.net/users/werken/");
@@ -254,7 +251,6 @@ public class AbstractTestCase extends Assert {
     protected Element getRootElement() {
         Element root = document.getRootElement();
         assertNotNull("Document has root element", root);
-
         return root;
     }
 }

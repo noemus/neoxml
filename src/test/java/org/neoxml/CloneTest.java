@@ -11,6 +11,8 @@ import org.neoxml.dom.DOMDocument;
 import org.neoxml.dom.DOMDocumentFactory;
 import org.neoxml.util.NodeComparator;
 
+import static org.junit.Assert.*;
+
 /**
  * A test harness to test the clone() methods on Nodes
  *

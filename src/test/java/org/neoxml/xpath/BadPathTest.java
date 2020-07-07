@@ -8,7 +8,8 @@ package org.neoxml.xpath;
 
 import org.junit.Test;
 import org.neoxml.AbstractTestCase;
-import org.neoxml.XPath;
+
+import static org.junit.Assert.fail;
 
 /**
  * Tests bad XPath expressions
@@ -17,36 +18,32 @@ import org.neoxml.XPath;
  * @version $Revision: 1.3 $
  */
 public class BadPathTest extends AbstractTestCase {
-    private String[] paths = {
+    private final String[] paths = {
             "+", "/foo/bar/"
     };
 
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
-    public void testBadPaths() throws Exception {
-        for (int i = 0, size = paths.length; i < size; i++) {
-            String path = paths[i];
+    public void testBadPaths() {
+        for (String path : paths) {
             testBadPath(path);
         }
     }
 
-    protected void testBadPath(String path) throws Exception {
+    protected void testBadPath(String path) {
         try {
             document.selectObject(path);
 
             fail("Should have thrown exception for: " + path);
         } catch (Exception e) {
-            log("Successfully caught: " + e);
+            log.debug("Successfully caught: {}", e.getMessage());
         }
 
         try {
-            XPath xpath = document.createXPath(path);
+            document.createXPath(path);
 
             fail("Should have thrown exception for: " + path);
         } catch (Exception e) {
-            log("Successfully caught: " + e);
+            log.debug("Successfully caught: {}", e.getMessage());
         }
     }
 }

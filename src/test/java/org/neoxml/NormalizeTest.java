@@ -9,6 +9,8 @@ package org.neoxml;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * A test harness for the normalize() method
  *
@@ -16,26 +18,20 @@ import org.junit.Test;
  * @version $Revision: 1.3 $
  */
 public class NormalizeTest extends AbstractTestCase {
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
-    public void testNormalize() throws Exception {
+    public void testNormalize() {
         String text = document.asXML();
 
         document.normalize();
 
         String normalizedText = document.asXML();
 
-        log("Initial: " + text);
-        log("Normalized: " + normalizedText);
+        log.debug("Initial: {}", text);
+        log.debug("Normalized: {}", normalizedText);
 
         String value = document.valueOf("/dummy/full");
         assertEquals("Should not trim text", " node ", value);
     }
-
-    // Implementation methods
-    // -------------------------------------------------------------------------
 
     @Override
     @Before

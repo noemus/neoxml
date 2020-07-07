@@ -8,8 +8,12 @@ package org.neoxml;
 
 import org.junit.Test;
 
-import java.util.Iterator;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 /**
  * A test harness to test the detach() method on attributes
@@ -19,17 +23,14 @@ import java.util.List;
  */
 @SuppressWarnings("rawtypes")
 public class AttributeDetachTest extends AbstractTestCase {
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
-    public void testDetachAttribute() throws Exception {
-        List attributes = document.selectNodes("//@name");
+    public void testDetachAttribute() {
+        List<Node> attributes = document.selectNodes("//@name");
 
         assertTrue("Found more than one attribute: ", attributes.size() > 0);
 
-        for (Iterator iter = attributes.iterator(); iter.hasNext(); ) {
-            Attribute attribute = (Attribute) iter.next();
+        for (Node node : attributes) {
+            Attribute attribute = (Attribute) node;
             Element element = attribute.getParent();
 
             assertSame("Attribute: " + attribute + " has parent: " + element, attribute.getParent(), element);
@@ -41,8 +42,7 @@ public class AttributeDetachTest extends AbstractTestCase {
             String value = attribute.getValue();
             String value2 = element.attributeValue(qname);
 
-            assertEquals("Attribute and Element have same attrbute value",
-                         value, value2);
+            assertEquals("Attribute and Element have same attrbute value", value, value2);
 
             attribute.detach();
 

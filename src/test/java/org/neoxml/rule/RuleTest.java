@@ -15,6 +15,8 @@ import org.neoxml.DocumentFactory;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import static org.junit.Assert.assertTrue;
+
 /**
  * Tests the ordering of Rules
  *
@@ -30,12 +32,12 @@ public class RuleTest extends AbstractTestCase {
     }
 
     protected void testGreater(String expr1, String expr2) throws Exception {
-        System.out.println("parsing: " + expr1 + " and " + expr2);
+        log.info("parsing: " + expr1 + " and " + expr2);
 
         Rule r1 = createRule(expr1);
         Rule r2 = createRule(expr2);
 
-        System.out.println("rule1: " + r1 + " rule2: " + r2);
+        log.info("rule1: " + r1 + " rule2: " + r2);
 
         assertTrue("r1 > r2", r1.compareTo(r2) > 0);
         assertTrue("r2 < r1", r2.compareTo(r1) < 0);

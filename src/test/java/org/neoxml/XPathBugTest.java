@@ -10,6 +10,11 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 /**
  * A test harness to test XPath expression evaluation in DOM4J
  *
@@ -17,27 +22,23 @@ import java.util.List;
  * @version $Revision: 1.4 $
  */
 public class XPathBugTest extends AbstractTestCase {
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
     public void testXPaths() throws Exception {
         Document document = getDocument("/src/test/xml/rabo1ae.xml");
-        Element root = (Element) document
-                .selectSingleNode("/m:Msg/m:Contents/m:Content");
+        Element root = (Element) document.selectSingleNode("/m:Msg/m:Contents/m:Content");
 
-        assertTrue("root is not null", root != null);
+        assertNotNull("root is not null", root);
 
         Namespace ns = root.getNamespaceForPrefix("ab");
 
-        assertTrue("Found namespace", ns != null);
+        assertNotNull("Found namespace", ns);
 
-        System.out.println("Found: " + ns.getURI());
+        log.info("Found: " + ns.getURI());
 
         Element element = (Element) root
                 .selectSingleNode("ab:RaboPayLoad[@id='1234123']");
 
-        assertTrue("element is not null", element != null);
+        assertNotNull("element is not null", element);
 
         String value = element.valueOf("ab:AccountingEntry/ab:RateType");
 
@@ -93,33 +94,32 @@ public class XPathBugTest extends AbstractTestCase {
     /**
      * Test found by Mike Skells
      *
-     * @throws Exception DOCUMENT ME!
      */
     @Test
-    public void testMikeSkells() throws Exception {
+    public void testMikeSkells() {
         Document top = DefaultDocumentFactory.getInstance().createDocument();
         Element root = top.addElement("root");
         root.addElement("child1").addElement("child11");
         root.addElement("child2").addElement("child21");
-        System.out.println(top.asXML());
+        log.info(top.asXML());
 
         XPath test1 = top.createXPath("/root/child1/child11");
         XPath test2 = top.createXPath("/root/child2/child21");
         Node position1 = test1.selectSingleNode(root);
         Node position2 = test2.selectSingleNode(root);
 
-        System.out.println("test1= " + test1);
-        System.out.println("test2= " + test2);
-        System.out.println("Position1 Xpath = " + position1.getUniquePath());
-        System.out.println("Position2 Xpath = " + position2.getUniquePath());
+        log.info("test1= " + test1);
+        log.info("test2= " + test2);
+        log.info("Position1 Xpath = " + position1.getUniquePath());
+        log.info("Position2 Xpath = " + position2.getUniquePath());
 
-        System.out.println("test2.matches(position1) : "
+        log.info("test2.matches(position1) : "
                                    + test2.matches(position1));
 
         assertTrue("test1.matches(position1)", test1.matches(position1));
         assertTrue("test2.matches(position2)", test2.matches(position2));
 
-        assertTrue("test2.matches(position1) should be false", !test2
+        assertFalse("test2.matches(position1) should be false", test2
                 .matches(position1));
     }
 }

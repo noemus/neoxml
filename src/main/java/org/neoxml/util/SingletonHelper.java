@@ -27,7 +27,7 @@ public final class SingletonHelper {
             String singletonClass = System.getProperty(singletonStrategyProperty);
             if (singletonClass != null) {
                 Class<?> clazz = Class.forName(singletonClass);
-                singleton = (SingletonStrategy<T>) clazz.newInstance();
+                singleton = (SingletonStrategy<T>) clazz.getConstructor().newInstance();
             } else {
                 singleton = new SimpleSingleton<>();
             }

@@ -11,6 +11,12 @@ import org.junit.Test;
 import java.util.Iterator;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+
 /**
  * A test harness to test the content API in DOM4J
  *
@@ -20,11 +26,8 @@ import java.util.List;
 public class ContentTest extends AbstractTestCase {
     protected DocumentFactory factory = new DefaultDocumentFactory();
 
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
-    public void testRoot() throws Exception {
+    public void testRoot() {
         Element root = document.getRootElement();
         assertNotNull("Has root element", root);
 

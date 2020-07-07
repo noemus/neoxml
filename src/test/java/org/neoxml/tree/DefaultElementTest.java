@@ -16,6 +16,10 @@ import org.neoxml.Node;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+
 /**
  * JUnit tests for <code>DefaultElement</code>.
  *
@@ -82,8 +86,7 @@ public class DefaultElementTest extends AbstractTestCase {
                 + "        </all>" + "    </complexType>" + "</schema>";
         Document doc = DocumentHelper.parseText(xml);
         Element schema = doc.getRootElement();
-        List namespaces = schema
-                .getNamespacesForURI("http://www.w3.org/2001/XMLSchema");
+        List namespaces = schema.getNamespacesForURI("http://www.w3.org/2001/XMLSchema");
 
         assertNotNull(namespaces);
         assertEquals(2, namespaces.size());

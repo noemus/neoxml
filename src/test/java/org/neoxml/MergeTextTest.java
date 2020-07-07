@@ -11,6 +11,8 @@ import org.neoxml.io.SAXReader;
 
 import java.util.Iterator;
 
+import static org.junit.Assert.fail;
+
 /**
  * A test harness for SAXReader option setMergeAdjacentText(true)
  *
@@ -18,13 +20,7 @@ import java.util.Iterator;
  * @version $Revision: 1.4 $
  */
 public class MergeTextTest extends AbstractTestCase {
-    /**
-     * Input XML file to read
-     */
     private static final String INPUT_XML_FILE = "/src/test/xml/test/mergetext.xml";
-
-    // Test case(s)
-    // -------------------------------------------------------------------------
 
     @Test
     public void testNoAdjacentText() throws Exception {
@@ -37,7 +33,7 @@ public class MergeTextTest extends AbstractTestCase {
         Document document = getDocument(INPUT_XML_FILE, reader);
 
         checkNoAdjacent(document.getRootElement());
-        log("No adjacent Text nodes in " + document.asXML());
+      log.debug("No adjacent Text nodes in " + document.asXML());
     }
 
     // Implementation methods
@@ -46,14 +42,13 @@ public class MergeTextTest extends AbstractTestCase {
     private void checkNoAdjacent(Element parent) {
         // Check that no two Text nodes are adjacent in the parent's content
         Node prev = null;
-        Iterator iter = parent.nodeIterator();
+        Iterator<Node> iter = parent.nodeIterator();
 
         while (iter.hasNext()) {
-            Node n = (Node) iter.next();
+            Node n = iter.next();
 
-            if (n instanceof Text && ((prev != null) && prev instanceof Text)) {
-                fail("Node: " + n + " is text and so is its "
-                             + "preceding sibling: " + prev);
+            if (n instanceof Text && prev instanceof Text) {
+                fail("Node: " + n + " is text and so is its preceding sibling: " + prev);
             } else if (n instanceof Element) {
                 checkNoAdjacent((Element) n);
             }

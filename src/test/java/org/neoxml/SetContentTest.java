@@ -8,6 +8,12 @@ package org.neoxml;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+
 /**
  * Tests the setContent method
  *
@@ -15,11 +21,8 @@ import org.junit.Test;
  * @version $Revision: 1.3 $
  */
 public class SetContentTest extends AbstractTestCase {
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
-    public void testDocument() throws Exception {
+    public void testDocument() {
         document.setName("doc1");
 
         Element oldRoot = document.getRootElement();
@@ -51,7 +54,7 @@ public class SetContentTest extends AbstractTestCase {
     }
 
     @Test
-    public void testRootElement() throws Exception {
+    public void testRootElement() {
         Document doc3 = DocumentHelper.createDocument();
         doc3.setName("doc3");
 

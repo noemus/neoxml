@@ -14,6 +14,8 @@ import org.neoxml.XPath;
 
 import java.util.List;
 
+import static org.junit.Assert.assertNotNull;
+
 /**
  * Test harness for the boolean expressions
  *
@@ -28,9 +30,6 @@ public class BooleanTest extends AbstractTestCase {
             ".='XXXX'"
     };
 
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
     public void testXPaths() {
         for (String path : paths) {
@@ -42,7 +41,7 @@ public class BooleanTest extends AbstractTestCase {
         XPath xpath = DocumentHelper.createXPath(xpathExpression);
         assertNotNull("No xpath object was created", xpath);
 
-        log("Evaluating xpath: " + xpath);
+        log.debug("Evaluating xpath: " + xpath);
 
         List<Node> list = document.selectNodes("//author");
 

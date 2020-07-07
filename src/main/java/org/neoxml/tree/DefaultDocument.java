@@ -217,7 +217,6 @@ public class DefaultDocument extends AbstractDocument {
         if (node == rootElement) {
             rootElement = null;
         }
-
         return super.removeNode(node);
     }
 

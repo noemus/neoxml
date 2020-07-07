@@ -10,6 +10,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * A test harness to test the xml:space attribute for preserve. If it is
  * preserve, then keep whitespace.
@@ -38,8 +40,7 @@ public class XMLSpaceAttributeTest extends AbstractTestCase {
         Element c4 = (Element) doc2.selectSingleNode("/top/row[2]/col");
         String actual = c4.getText();
 
-        assertEquals("compared element text expecting whitespace", expected,
-                     actual);
+        assertEquals("compared element text expecting whitespace", expected, actual);
 
         expected = expected.trim();
         actual = c4.getTextTrim();
@@ -49,8 +50,7 @@ public class XMLSpaceAttributeTest extends AbstractTestCase {
 
         Element c5 = (Element) doc2.selectSingleNode("/top/row[3]/col");
         actual = c5.getText();
-        assertEquals("compared element text expecting trimmed whitespace",
-                     expected, actual);
+        assertEquals("compared element text expecting trimmed whitespace", expected, actual);
     }
 
     // -------------------------------------------------------------------------
@@ -72,8 +72,7 @@ public class XMLSpaceAttributeTest extends AbstractTestCase {
         Element c4 = (Element) doc2.selectSingleNode("/top/row[2]/col");
         String actual = c4.getText();
 
-        assertEquals("compared element text expecting whitespace", expected,
-                     actual);
+        assertEquals("compared element text expecting whitespace", expected, actual);
     }
 
     // -------------------------------------------------------------------------
@@ -99,15 +98,13 @@ public class XMLSpaceAttributeTest extends AbstractTestCase {
         Element c4 = (Element) doc2.selectSingleNode("/top/row[2]/col/a[1]/b");
         String actual = c4.getText();
 
-        assertEquals("compared element text expecting whitespace", expected,
-                     actual);
+        assertEquals("compared element text expecting whitespace", expected, actual);
 
         Element c8 = (Element) doc2.selectSingleNode("/top/row[2]/col/a[2]/b");
 
         expected = "   This is space=preserve too!";
         actual = c8.getText();
-        assertEquals("compared element text follow trimmed whitespace",
-                     expected, actual);
+        assertEquals("compared element text follow trimmed whitespace", expected, actual);
 
         expected = expected.trim();
         actual = c8.getTextTrim();
@@ -117,8 +114,7 @@ public class XMLSpaceAttributeTest extends AbstractTestCase {
 
         expected = "This is a test!";
         actual = c12.getText();
-        assertEquals("compared element text follow trimmed whitespace",
-                     expected, actual);
+        assertEquals("compared element text follow trimmed whitespace", expected, actual);
     }
 
     // -------------------------------------------------------------------------
@@ -142,34 +138,26 @@ public class XMLSpaceAttributeTest extends AbstractTestCase {
 
         Document doc2 = DocumentHelper.parseText(xml);
 
-        Element c4 = (Element) doc2
-                .selectSingleNode("/top/row[2]/col/a[1]/b[1]");
+        Element c4 = (Element) doc2.selectSingleNode("/top/row[2]/col/a[1]/b[1]");
         String actual = c4.getText();
-        assertEquals("compared element text expecting whitespace", expected,
-                     actual);
+        assertEquals("compared element text expecting whitespace", expected, actual);
 
-        Element c8 = (Element) doc2
-                .selectSingleNode("/top/row[2]/col/a[1]/b[2]");
+        Element c8 = (Element) doc2.selectSingleNode("/top/row[2]/col/a[1]/b[2]");
         expected = "This should do global default!";
         actual = c8.getText();
-        assertEquals("compared element text nested trimmed whitespace",
-                     expected, actual);
+        assertEquals("compared element text nested trimmed whitespace", expected, actual);
 
-        Element c12 = (Element) doc2
-                .selectSingleNode("/top/row[2]/col/a[1]/b[3]");
+        Element c12 = (Element) doc2.selectSingleNode("/top/row[2]/col/a[1]/b[3]");
         expected = "   This is embedded! ";
         actual = c12.getText();
-        assertEquals("compared element text nested preserved whitespace",
-                     expected, actual);
+        assertEquals("compared element text nested preserved whitespace", expected, actual);
     }
 
     // Implementation methods
     // -------------------------------------------------------------------------
 
-    private String rewriteToXmlString(Document doc, boolean trimOn)
-            throws IOException {
-        org.neoxml.io.OutputFormat of = org.neoxml.io.OutputFormat
-                .createCompactFormat();
+    private String rewriteToXmlString(Document doc, boolean trimOn) throws IOException {
+        org.neoxml.io.OutputFormat of = org.neoxml.io.OutputFormat.createCompactFormat();
         of.setIndent(true);
         of.setNewlines(true);
         of.setExpandEmptyElements(false);
@@ -186,10 +174,7 @@ public class XMLSpaceAttributeTest extends AbstractTestCase {
         xmlWriter.write(doc);
         xmlWriter.close();
 
-        String xml = os.toString();
-
-        // System.out.println("***** xml out *****\n"+xml);
-        return xml;
+        return os.toString();
     }
 
     // -------------------------------------------------------------------------
@@ -211,15 +196,13 @@ public class XMLSpaceAttributeTest extends AbstractTestCase {
         String expected = "   This is a test!\nWith a new line, special "
                 + "character like & , and\t tab.";
         String actual = c2.getText();
-        assertEquals("compared element text expecting whitespace", expected,
-                     actual);
+        assertEquals("compared element text expecting whitespace", expected, actual);
 
         Element c4 = (Element) doc2.selectSingleNode("/top/row[3]/col");
         expected = "This is a test! With a new line, special character "
                 + "like & , and tab.";
         actual = c4.getText();
-        assertEquals("compared element text expecting whitespace", expected,
-                     actual);
+        assertEquals("compared element text expecting whitespace", expected, actual);
     }
 }
 

@@ -6,11 +6,17 @@
 
 package org.neoxml;
 
+import org.junit.Test;
 import org.neoxml.io.SAXReader;
 import org.neoxml.rule.Pattern;
 
 import java.util.Iterator;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Performs a number of unit test cases on the XPath engine
@@ -36,16 +42,15 @@ public class XPathExamplesTest extends AbstractTestCase {
      */
     protected DocumentFactory factory = DefaultDocumentFactory.getInstance();
 
-    // Test case(s)
-    // -------------------------------------------------------------------------
+    @Test
     public void testXPaths() throws Exception {
         Document document = getDocument("/src/test/xml/test/xpath/tests.xml");
         Element root = document.getRootElement();
 
-        Iterator iter = root.elementIterator("document");
+        Iterator<Element> iter = root.elementIterator("document");
 
         while (iter.hasNext()) {
-            Element documentTest = (Element) iter.next();
+            Element documentTest = iter.next();
             testDocument(documentTest);
         }
     }
@@ -55,65 +60,59 @@ public class XPathExamplesTest extends AbstractTestCase {
     protected void testDocument(Element documentTest) throws Exception {
         String url = documentTest.attributeValue("url");
         testDocument = xmlReader.read(getFile(url));
-        assertTrue("Loaded test document: " + url, testDocument != null);
+        assertNotNull("Loaded test document: " + url, testDocument);
 
-        log("Loaded document: " + url);
+        log.debug("Loaded document: " + url);
 
-        for (Iterator iter = documentTest.elementIterator("context"); iter
-                .hasNext(); ) {
-            Element context = (Element) iter.next();
+        for (Iterator<Element> iter = documentTest.elementIterator("context"); iter.hasNext(); ) {
+            Element context = iter.next();
             testContext(documentTest, context);
         }
     }
 
-    protected void testContext(Element documentTest, Element context)
-            throws Exception {
+    protected void testContext(Element documentTest, Element context) {
         String xpath = context.attributeValue("select");
 
-        List list = testDocument.selectNodes(xpath);
+        List<Node> list = testDocument.selectNodes(xpath);
 
         assertTrue("Found at least one context nodes to test for path: "
                            + xpath, (list != null) && (list.size() > 0));
 
-        for (Iterator iter = list.iterator(); iter.hasNext(); ) {
-            Object object = iter.next();
-            assertTrue("Context node is a Node: " + object,
-                       object instanceof Node);
-            testContext = (Node) object;
+        for (Node node : list) {
+            assertNotNull("Context node is a Node: " + node, node);
+            testContext = node;
 
-            log("Context is now: " + testContext);
+            log.debug("Context is now: {}", testContext);
             runTests(documentTest, context);
-            log("");
+            log.debug("");
         }
     }
 
-    protected void runTests(Element documentTest, Element context)
-            throws Exception {
-        for (Iterator iter = context.elementIterator("test"); iter.hasNext(); ) {
-            Element test = (Element) iter.next();
+    protected void runTests(Element documentTest, Element context) {
+        for (Iterator<Element> iter = context.elementIterator("test"); iter.hasNext(); ) {
+            Element test = iter.next();
             runTest(documentTest, context, test);
         }
 
-        for (Iterator it = context.elementIterator("valueOf"); it.hasNext(); ) {
-            Element valueOf = (Element) it.next();
+        for (Iterator<Element> it = context.elementIterator("valueOf"); it.hasNext(); ) {
+            Element valueOf = it.next();
             testValueOf(documentTest, context, valueOf);
         }
 
-        for (Iterator it = context.elementIterator("pattern"); it.hasNext(); ) {
-            Element pattern = (Element) it.next();
+        for (Iterator<Element> it = context.elementIterator("pattern"); it.hasNext(); ) {
+            Element pattern = it.next();
             testPattern(documentTest, context, pattern);
         }
 
-        Iterator it = context.elementIterator("fileter");
+        Iterator<Element> it = context.elementIterator("fileter");
 
         while (it.hasNext()) {
-            Element filter = (Element) it.next();
+            Element filter = it.next();
             testFilter(documentTest, context, filter);
         }
     }
 
-    protected void runTest(Element documentTest, Element context, Element test)
-            throws Exception {
+    protected void runTest(Element documentTest, Element context, Element test) {
         String xpath = test.attributeValue("select");
 
         String description = "Path: " + xpath;
@@ -132,59 +131,55 @@ public class XPathExamplesTest extends AbstractTestCase {
 
         if (count != null) {
             int expectedSize = Integer.parseInt(count);
-            List results = testContext.selectNodes(xpath);
+            List<Node> results = testContext.selectNodes(xpath);
 
-            log(description + " found result size: " + results.size());
+            log.debug(description + " found result size: " + results.size());
 
-            assertEquals(description + " wrong result size", expectedSize,
-                         results.size());
+            assertEquals(description + " wrong result size", expectedSize, results.size());
         }
 
         Element valueOf = test.element("valueOf");
 
         if (valueOf != null) {
             Node node = testContext.selectSingleNode(xpath);
-            assertTrue(description + " found node", node != null);
+            assertNotNull(description + " found node", node);
 
             String expected = valueOf.getText();
             String result = node.valueOf(valueOf.attributeValue("select"));
 
-            log(description);
-            log("\texpected: " + expected + " result: " + result);
+            log.debug(description);
+            log.debug("\texpected: " + expected + " result: " + result);
 
             assertEquals(description, expected, result);
         }
     }
 
-    protected void testValueOf(Element documentTest, Element context,
-                               Element valueOf) throws Exception {
+    protected void testValueOf(Element documentTest, Element context, Element valueOf) {
         String xpath = valueOf.attributeValue("select");
         String description = "valueOf: " + xpath;
 
         String expected = valueOf.getText();
         String result = testContext.valueOf(xpath);
 
-        log(description);
-        log("\texpected: " + expected + " result: " + result);
+        log.debug(description);
+        log.debug("\texpected: " + expected + " result: " + result);
 
         assertEquals(description, expected, result);
     }
 
-    protected void testPattern(Element documentTest, Element context,
-                               Element patternElement) throws Exception {
+    protected void testPattern(Element documentTest, Element context, Element patternElement) {
         String match = patternElement.attributeValue("match");
         String description = "match: " + match;
 
-        log("");
-        log(description);
+        log.debug("");
+        log.debug(description);
 
         Pattern pattern = factory.createPattern(match);
 
         assertTrue(description, pattern.matches(testContext));
     }
 
-    protected void testFilter(Element documentTest, Element context,
-                              Element pattern) throws Exception {
+    protected void testFilter(Element documentTest, Element context, Element pattern) {
         String match = pattern.attributeValue("match");
         String description = "match: " + match;
 

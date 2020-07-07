@@ -15,6 +15,9 @@ import org.neoxml.XPath;
 
 import java.util.List;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 /**
  * Test harness for the attribute axis
  *
@@ -27,9 +30,6 @@ public class AttributeTest extends AbstractTestCase {
             "/root/author/attribute::*", "//attribute::*", "@name"
     };
 
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
     public void testXPaths() {
         for (String path : paths) {
@@ -37,17 +37,14 @@ public class AttributeTest extends AbstractTestCase {
         }
     }
 
-    // Implementation methods
-    // -------------------------------------------------------------------------
-
     protected void testXPath(String xpathText) {
         XPath xpath = DocumentHelper.createXPath(xpathText);
         List<Node> nodes = xpath.selectNodes(document);
 
-        log("Searched path: " + xpathText + " found: " + nodes.size() + " result(s)");
+        log.debug("Searched path: {} found: {} result(s)", xpathText, nodes.size());
 
         for (Node node : nodes) {
-            log("Found Result: " + node);
+            log.debug("Found Result: {}", node);
 
             assertTrue("Results should be Attribute objects", node instanceof Attribute);
 

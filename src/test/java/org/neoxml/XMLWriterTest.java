@@ -21,6 +21,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 
+import static org.junit.Assert.*;
+
 /**
  * A simple test harness to check that the XML Writer works
  *
@@ -45,7 +47,7 @@ public class XMLWriterTest extends AbstractTestCase {
 
         String xml = out.toString();
 
-        System.out.println(xml);
+        log.info(xml);
         assertEquals("whitespace problem", -1, xml.indexOf("</code>bar"));
     }
 
@@ -69,7 +71,7 @@ public class XMLWriterTest extends AbstractTestCase {
 
         String xml = out.toString();
 
-        System.out.println(xml);
+        log.info(xml);
         assertEquals("whitespace problem", -1, xml.indexOf("</code>bar"));
     }
 
@@ -86,9 +88,9 @@ public class XMLWriterTest extends AbstractTestCase {
         String text = out.toString();
 
         if (VERBOSE) {
-            log("Text output is [");
-            log(text);
-            log("]. Done");
+          log.debug("Text output is [");
+          log.debug(text);
+          log.debug("]. Done");
         }
 
         assertTrue("Output text is bigger than 10 characters",
@@ -122,10 +124,9 @@ public class XMLWriterTest extends AbstractTestCase {
 
         String xml = buffer.toString();
 
-        System.out.println(xml);
+        log.info(xml);
 
-        assertTrue("child2 not present",
-                   xml.indexOf("<child2>test</child2>") != -1);
+        assertTrue("child2 not present", xml.indexOf("<child2>test</child2>") != -1);
     }
 
     protected void testEncoding(String encoding) throws Exception {
@@ -138,7 +139,7 @@ public class XMLWriterTest extends AbstractTestCase {
         writer.write(document);
         writer.close();
 
-        log("Wrote to encoding: " + encoding);
+      log.debug("Wrote to encoding: {}", encoding);
     }
 
     @Test
@@ -147,18 +148,15 @@ public class XMLWriterTest extends AbstractTestCase {
         Document doc = new DefaultDocument(project);
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        XMLWriter writer = new XMLWriter(out, new OutputFormat("\t", true,
-                                                               "ISO-8859-1"));
+        XMLWriter writer = new XMLWriter(out, new OutputFormat("\t", true, "ISO-8859-1"));
         writer.write(doc);
 
         ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
         SAXReader reader = new SAXReader();
         Document doc2 = reader.read(in);
 
-        assertTrue("Generated document has a root element", doc2
-                .getRootElement() != null);
-        assertEquals("Generated document has corrent named root element", doc2
-                .getRootElement().getName(), "project");
+        assertNotNull("Generated document has a root element", doc2.getRootElement());
+        assertEquals("Generated document has corrent named root element", doc2.getRootElement().getName(), "project");
     }
 
     @Test
@@ -175,11 +173,9 @@ public class XMLWriterTest extends AbstractTestCase {
 
         String text = out.toString();
 
-        // System.out.println( "Generated:" + text );
         Document doc2 = DocumentHelper.parseText(text);
         root = doc2.getRootElement();
-        assertEquals("root has incorrect namespace", "ns1", root
-                .getNamespaceURI());
+        assertEquals("root has incorrect namespace", "ns1", root.getNamespaceURI());
 
         Element joe = root.elementIterator().next();
         assertEquals("joe has correct namespace", "ns2", joe.getNamespaceURI());
@@ -206,8 +202,8 @@ public class XMLWriterTest extends AbstractTestCase {
         String text = out.toString();
 
         if (VERBOSE) {
-            log("Created XML");
-            log(text);
+          log.debug("Created XML");
+          log.debug(text);
         }
 
         // now lets parse the output and test it with XPath
@@ -238,9 +234,9 @@ public class XMLWriterTest extends AbstractTestCase {
         writer.write(doc);
 
         String xml = buffer.toString();
-        log(xml);
+      log.debug(xml);
 
-        Document doc2 = DocumentHelper.parseText(xml);
+      Document doc2 = DocumentHelper.parseText(xml);
         String text = doc2.valueOf("/notes");
         String expected = "This is a multiline entry";
 
@@ -276,9 +272,9 @@ public class XMLWriterTest extends AbstractTestCase {
         writer.write(doc);
 
         String xml = buffer.toString();
-        log(xml);
+      log.debug(xml);
 
-        Document doc2 = DocumentHelper.parseText(xml);
+      Document doc2 = DocumentHelper.parseText(xml);
         String text = doc2.valueOf("/root/meaning");
         String expected = "to live";
 
@@ -310,7 +306,7 @@ public class XMLWriterTest extends AbstractTestCase {
 
         String xml = buffer.toString();
 
-        System.out.println("xml: " + xml);
+        log.info("xml: " + xml);
 
         String expected = "<root>prefix <b></b> suffix</root>";
         assertEquals(expected, xml);
@@ -337,7 +333,7 @@ public class XMLWriterTest extends AbstractTestCase {
 
         String xml = buffer.toString();
 
-        System.out.println("xml: " + xml);
+        log.info("xml: " + xml);
 
         String expected = "<root>prefix<b></b>suffix</root>";
         assertEquals(expected, xml);
@@ -413,15 +409,15 @@ public class XMLWriterTest extends AbstractTestCase {
         }
 
         String xml = buffer.toString();
-        log(xml);
+      log.debug(xml);
 
-        int start = xml.indexOf("<root");
+      int start = xml.indexOf("<root");
         int end = xml.indexOf("/root>") + 6;
         String expected = "<root>this is simple text<child></child>containing spaces and multiple textnodes</root>";
-        System.out.println("Expected:");
-        System.out.println(expected);
-        System.out.println("Obtained:");
-        System.out.println(xml.substring(start, end));
+        log.info("Expected:");
+        log.info(expected);
+        log.info("Obtained:");
+        log.info(xml.substring(start, end));
         assertEquals(expected, xml.substring(start, end));
     }
 
@@ -444,18 +440,18 @@ public class XMLWriterTest extends AbstractTestCase {
         }
 
         String xml = buffer.toString();
-        log(xml);
+      log.debug(xml);
 
-        int start = xml.indexOf("<root");
+      int start = xml.indexOf("<root");
         int end = xml.indexOf("/root>") + 6;
         String eol = "\n"; // System.getProperty("line.separator");
         String expected = "<root>" + eol +
                 "    <child></child>" + eol +
                 "</root>";
-        System.out.println("Expected:");
-        System.out.println(expected);
-        System.out.println("Obtained:");
-        System.out.println(xml.substring(start, end));
+        log.info("Expected:");
+        log.info(expected);
+        log.info("Obtained:");
+        log.info(xml.substring(start, end));
         assertEquals(expected, xml.substring(start, end));
     }
 
@@ -474,11 +470,11 @@ public class XMLWriterTest extends AbstractTestCase {
         writer.write(document);
 
         String result = os.toString();
-        System.out.println(result);
+        log.info(result);
 
         Document doc2 = DocumentHelper.parseText(result);
         doc2.normalize(); // merges adjacant Text nodes
-        System.out.println(doc2.getRootElement().getText());
+        log.info(doc2.getRootElement().getText());
         assertNodesEqual(document, doc2);
     }
 
@@ -504,7 +500,7 @@ public class XMLWriterTest extends AbstractTestCase {
         writer.write(doc);
 
         String xml2 = wr.toString();
-        System.out.println(xml2);
+        log.info(xml2);
 
         Document doc2 = DocumentHelper.parseText(xml2);
 
@@ -539,7 +535,7 @@ public class XMLWriterTest extends AbstractTestCase {
         xmlWriter.endDocument();
 
         String output = writer.toString();
-        System.out.println(output);
+        log.info(output);
         assertTrue(output.indexOf("<test>") != -1);
     }
 
@@ -553,8 +549,8 @@ public class XMLWriterTest extends AbstractTestCase {
         assertEquals(-1, e.asXML().indexOf("null"));
         assertEquals(-1, doc.asXML().indexOf("null"));
 
-        System.out.println(e.asXML());
-        System.out.println(doc.asXML());
+        log.info(e.asXML());
+        log.info(doc.asXML());
     }
 
     protected void generateXML(ContentHandler handler) throws SAXException {

@@ -26,13 +26,13 @@ public class SortByTest extends AbstractTestCase {
     public void testXPaths() throws Exception {
         List list = document.selectNodes("//SPEAKER", "NAME");
 
-        log("Number of SPEAKER instances: " + list.size());
+      log.debug("Number of SPEAKER instances: " + list.size());
 
-        List noDuplicates = document.selectNodes("//SPEAKER", ".", true);
+      List noDuplicates = document.selectNodes("//SPEAKER", ".", true);
 
-        log("Number of distinct SPEAKER instances: " + noDuplicates.size());
+      log.debug("Number of distinct SPEAKER instances: " + noDuplicates.size());
 
-        log("Number of distinct SPEAKER instances: " + noDuplicates.size());
+      log.debug("Number of distinct SPEAKER instances: " + noDuplicates.size());
     }
 
     @Override

@@ -18,6 +18,8 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import java.io.StringWriter;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Test harness for the XMLResult which acts as a JAXP Result
  *
@@ -26,9 +28,6 @@ import java.io.StringWriter;
  */
 public class XMLResultTest extends AbstractTestCase {
     protected static final boolean VERBOSE = false;
-
-    // Test case(s)
-    // -------------------------------------------------------------------------
 
     @Test
     public void testWriter() throws Exception {
@@ -50,8 +49,8 @@ public class XMLResultTest extends AbstractTestCase {
         String text = buffer.toString();
 
         if (VERBOSE) {
-            log("Using JAXP and XMLResult the document is:- ");
-            log(text);
+            log.debug("Using JAXP and XMLResult the document is:- ");
+            log.debug(text);
         }
 
         StringWriter out = new StringWriter();
@@ -62,8 +61,8 @@ public class XMLResultTest extends AbstractTestCase {
         String text2 = out.toString();
 
         if (VERBOSE) {
-            log("Using XMLWriter the text is:-");
-            log(text2);
+            log.debug("Using XMLWriter the text is:-");
+            log.debug(text2);
         }
 
         assertEquals("The text output should be identical", text2, text);

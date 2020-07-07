@@ -8,6 +8,10 @@ package org.neoxml;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+
 /**
  * A test harness to test the detach() method on root elements
  *
@@ -15,11 +19,8 @@ import org.junit.Test;
  * @version $Revision: 1.3 $
  */
 public class DetachTest extends AbstractTestCase {
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
-    public void testRoot() throws Exception {
+    public void testRoot() {
         document.setName("doc1");
 
         Element root = document.getRootElement();

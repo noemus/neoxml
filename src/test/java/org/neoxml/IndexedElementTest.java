@@ -11,6 +11,8 @@ import org.neoxml.util.IndexedDocumentFactory;
 
 import java.util.List;
 
+import static org.junit.Assert.assertTrue;
+
 /**
  * A test harness for the IndexedElement implementation
  *
@@ -18,48 +20,27 @@ import java.util.List;
  * @version $Revision: 1.3 $
  */
 public class IndexedElementTest extends AbstractTestCase {
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
-    public void testXPaths() throws Exception {
+    public void testXPaths() {
         testXPath("//author");
     }
 
-    // Implementation methods
-    // -------------------------------------------------------------------------
-
     protected void testXPath(String xpath) {
-        List list = document.selectNodes(xpath);
+        List<Node> list = document.selectNodes(xpath);
 
-        log("Searched path: " + xpath);
-        log("Found        : " + list.size() + " result(s)");
+        log.debug("Searched path: {}", xpath);
+        log.debug("Found        : {} result(s)", list.size());
+        log.debug("Results");
+        log.debug("[");
 
-        log("Results");
-
-        if (list == null) {
-            log("null");
-        } else {
-            log("[");
-
-            for (int i = 0, size = list.size(); i < size; i++) {
-                Object object = list.get(i);
-                String text = "null";
-
-                if (object instanceof Node) {
-                    Node node = (Node) object;
-                    text = node.asXML();
-                } else if (object != null) {
-                    text = object.toString();
-                }
-
-                log("    " + text);
-            }
-
-            log("]");
+        for (Node node : list) {
+            String text = node != null ? node.asXML() : "null";
+            log.debug("    {}", text);
         }
 
-        log("...........................................");
+        log.debug("]");
+
+        log.debug("...........................................");
 
         assertTrue("Found some results", list.size() > 0);
     }

@@ -10,6 +10,8 @@ import org.junit.Test;
 import org.neoxml.AbstractTestCase;
 import org.neoxml.ElementHandler;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * DOCUMENT ME!
  *

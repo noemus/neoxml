@@ -8,8 +8,10 @@ package org.neoxml;
 
 import org.junit.Test;
 
-import java.util.Iterator;
 import java.util.List;
+
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 /**
  * A test harness to test the parent relationship and use of the {@link Node#asXPathResult} method.
@@ -18,17 +20,13 @@ import java.util.List;
  * @version $Revision: 1.3 $
  */
 public class ParentTest extends AbstractTestCase {
-
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
-    public void testDocument() throws Exception {
+    public void testDocument() {
         testParentRelationship(document.getRootElement());
     }
 
     @Test
-    public void testFragment() throws Exception {
+    public void testFragment() {
         DocumentFactory factory = new DefaultDocumentFactory();
         Element root = factory.createElement("root");
         Element first = root.addElement("child");
@@ -38,18 +36,13 @@ public class ParentTest extends AbstractTestCase {
         testXPathNode(root, second);
     }
 
-    // Implementation methods
-    // -------------------------------------------------------------------------
-
-    protected void testParentRelationship(Element parent, List content) {
-        for (Iterator iter = content.iterator(); iter.hasNext(); ) {
-            Object object = iter.next();
-
-            if (object instanceof Element) {
-                testParentRelationship((Element) object);
+    protected void testParentRelationship(Element parent, List<? extends Node> content) {
+        for (Node node : content) {
+            if (node instanceof Element) {
+                testParentRelationship((Element) node);
             }
 
-            testXPathNode(parent, (Node) object);
+            testXPathNode(parent, node);
         }
     }
 
@@ -60,19 +53,16 @@ public class ParentTest extends AbstractTestCase {
 
     protected void testXPathNode(Element parent, Node node) {
         if (node.supportsParent()) {
-            log("Node: " + node);
-            log("Parent: " + parent);
-            log("getParent(): " + node.getParent());
+            log.debug("Node: {}", node);
+            log.debug("Parent: {}", parent);
+            log.debug("getParent(): {}", node.getParent());
 
-            assertTrue("getParent() returns parent for: " + node, node
-                    .getParent() == parent);
+            assertSame("getParent() returns parent for: " + node, node.getParent(), parent);
         } else {
             // lets create an XPath node
             Node xpathNode = node.asXPathResult(parent);
-            assertTrue("XPath Node supports parent for: " + xpathNode,
-                       xpathNode.supportsParent());
-            assertTrue("getParent() returns parent for: " + xpathNode,
-                       xpathNode.getParent() == parent);
+            assertTrue("XPath Node supports parent for: " + xpathNode, xpathNode.supportsParent());
+            assertSame("getParent() returns parent for: " + xpathNode, xpathNode.getParent(), parent);
         }
     }
 }

@@ -10,6 +10,10 @@ import org.junit.Test;
 import org.junit.runners.JUnit4;
 import org.junit.runners.model.InitializationError;
 import org.neoxml.AbstractTestCase;
+import org.neoxml.DocTypeTest;
+import org.neoxml.DocumentType;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests the {@link AttributeDecl}functionality. Tests each of the property
@@ -108,9 +112,6 @@ public class AttributeDeclTest extends AbstractTestCase {
                                                         null, "goo"));
     }
 
-    // Implementation methods
-    // -------------------------------------------------------------------------
-
     protected void assertSameAttributeDecl(MyTestAttributeDecl expected,
                                            AttributeDecl actual) {
         assertEquals("elementName is correct", expected.getElementName(),
@@ -133,17 +134,12 @@ public class AttributeDeclTest extends AbstractTestCase {
      * variations and their correct serialization.
      */
     protected static class MyTestAttributeDecl {
-        private String elName;
-
-        private String attName;
-
-        private String declType;
-
-        private String defaultValue;
-
-        private String declValue;
-
-        private String txt;
+        private final String elName;
+        private final String attName;
+        private final String declType;
+        private final String defaultValue;
+        private final String declValue;
+        private final String txt;
 
         /**
          * DOCUMENT ME!

@@ -12,12 +12,13 @@ import org.neoxml.Document;
 import org.neoxml.DocumentType;
 import org.neoxml.dtd.AttributeDecl;
 import org.neoxml.dtd.ElementDecl;
+import org.neoxml.dtd.ExternalDeclaration;
 import org.neoxml.dtd.ExternalEntityDecl;
+import org.neoxml.dtd.InternalDeclaration;
 import org.neoxml.dtd.InternalEntityDecl;
 import org.neoxml.tree.DefaultDocumentType;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -25,6 +26,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * Tests the DocType functionality.
@@ -63,9 +67,9 @@ public class DTDTest extends AbstractTestCase {
     private static final String XML_MIXED = "xml/dtd/mixed.xml";
 
     /**
-     * Input XML file to for {@linkEntityResolver} <code>xml/dtd/sample.dtd</code>- the external entity providing the
+     * Input XML file to for {@link EntityResolver} <code>xml/dtd/sample.dtd</code>- the external entity providing the
      * external DTD subset for test cases that need one. The SYSTEM identifier
-     * for this external entity is given by {@link#DTD_SYSTEM_ID}.
+     * for this external entity is given by {@link #DTD_SYSTEM_ID}.
      */
     private static final String DTD_FILE = "xml/dtd/sample.dtd";
 
@@ -176,13 +180,11 @@ public class DTDTest extends AbstractTestCase {
      *
      * @return DOCUMENT ME!
      */
-    protected List getInternalDeclarations() {
-        List decls = new ArrayList();
+    protected List<InternalDeclaration> getInternalDeclarations() {
+        List<InternalDeclaration> decls = new ArrayList<>();
 
         decls.add(new ElementDecl("greeting", "(#PCDATA)"));
-
         decls.add(new AttributeDecl("greeting", "foo", "ID", "#IMPLIED", null));
-
         decls.add(new InternalEntityDecl("%boolean", "( true | false )"));
 
         return decls;
@@ -192,11 +194,9 @@ public class DTDTest extends AbstractTestCase {
      * Test helper method returns a {@link List}of DTD declarations that
      * represents the expected external DTD subset (for the tests that use an
      * external DTD subset).
-     *
-     * @return DOCUMENT ME!
      */
-    protected List getExternalDeclarations() {
-        List decls = new ArrayList();
+    protected List<ExternalDeclaration> getExternalDeclarations() {
+        List<ExternalDeclaration> decls = new ArrayList<>();
 
         decls.add(new ElementDecl("another-greeting", "(#PCDATA)"));
 
@@ -206,21 +206,14 @@ public class DTDTest extends AbstractTestCase {
     /**
      * Test helper method compares the expected and actual {@link DocumentType} objects, including their internal and
      * external DTD subsets.
-     * <p/>
-     * <p>
-     * </p>
-     *
-     * @param expected DOCUMENT ME!
-     * @param actual   DOCUMENT ME!
      */
-    protected void assertSameDocumentType(DocumentType expected,
-                                          DocumentType actual) {
+    protected void assertSameDocumentType(DocumentType expected, DocumentType actual) {
         /*
          * Nothing expected?
          */
         if (expected == null) {
             if (actual == null) {
-                return; // Nothing found.
+                // Nothing found.
             } else {
                 fail("Not expecting DOCTYPE.");
             }
@@ -232,17 +225,14 @@ public class DTDTest extends AbstractTestCase {
                 fail("Expecting DOCTYPE");
             }
 
-            log("Expected DocumentType:\n" + expected.toString());
-
-            log("Actual DocumentType:\n" + actual.toString());
+            log.debug("Expected DocumentType:\n{}", expected);
+            log.debug("Actual DocumentType:\n{}", actual);
 
             // Check the internal DTD subset.
-            assertSameDTDSubset("Internal", expected.getInternalDeclarations(),
-                                actual.getInternalDeclarations());
+            assertSameDTDSubset("Internal", expected.getInternalDeclarations(), actual.getInternalDeclarations());
 
             // Check the external DTD subset.
-            assertSameDTDSubset("External", expected.getExternalDeclarations(),
-                                actual.getExternalDeclarations());
+            assertSameDTDSubset("External", expected.getExternalDeclarations(), actual.getExternalDeclarations());
         }
     }
 
@@ -253,19 +243,14 @@ public class DTDTest extends AbstractTestCase {
      * must occur in their logical ordering. See <a
      * href="http://tinyurl.com/5jhd8">Lexical Handler </a> for conformance
      * criteria.
-     *
-     * @param txt      DOCUMENT ME!
-     * @param expected DOCUMENT ME!
-     * @param actual   DOCUMENT ME!
-     * @throws AssertionError DOCUMENT ME!
      */
-    protected void assertSameDTDSubset(String txt, List expected, List actual) {
+    protected <T> void assertSameDTDSubset(String txt, List<T> expected, List<T> actual) {
         /*
          * Nothing expected?
          */
         if (expected == null) {
             if (actual == null) {
-                return; // Nothing found.
+                // Nothing found.
             } else {
                 fail("Not expecting " + txt + " DTD subset.");
             }
@@ -288,14 +273,13 @@ public class DTDTest extends AbstractTestCase {
              * Check order, type, and values of each declaration. Serialization
              * tests are done separately.
              */
-            Iterator itr1 = expected.iterator();
+            Iterator<T> itr1 = expected.iterator();
 
-            Iterator itr2 = actual.iterator();
+            Iterator<T> itr2 = actual.iterator();
 
             while (itr1.hasNext()) {
-                Object obj1 = itr1.next();
-
-                Object obj2 = itr2.next();
+                T obj1 = itr1.next();
+                T obj2 = itr2.next();
 
                 assertEquals(txt + " DTD subset: Same type of declaration",
                              obj1.getClass().getName(), obj2.getClass().getName());
@@ -305,14 +289,11 @@ public class DTDTest extends AbstractTestCase {
                 } else if (obj1 instanceof ElementDecl) {
                     assertSameDecl((ElementDecl) obj1, (ElementDecl) obj2);
                 } else if (obj1 instanceof InternalEntityDecl) {
-                    assertSameDecl((InternalEntityDecl) obj1,
-                                   (InternalEntityDecl) obj2);
+                    assertSameDecl((InternalEntityDecl) obj1, (InternalEntityDecl) obj2);
                 } else if (obj1 instanceof ExternalEntityDecl) {
-                    assertSameDecl((ExternalEntityDecl) obj1,
-                                   (ExternalEntityDecl) obj2);
+                    assertSameDecl((ExternalEntityDecl) obj1, (ExternalEntityDecl) obj2);
                 } else {
-                    throw new AssertionError("Unexpected declaration type: "
-                                                     + obj1.getClass());
+                    throw new AssertionError("Unexpected declaration type: " + obj1.getClass());
                 }
             }
         }
@@ -320,80 +301,44 @@ public class DTDTest extends AbstractTestCase {
 
     /**
      * Test helper method compares an expected and an actual {@link AttributeDecl}.
-     *
-     * @param expected DOCUMENT ME!
-     * @param actual   DOCUMENT ME!
      */
     public void assertSameDecl(AttributeDecl expected, AttributeDecl actual) {
-        assertEquals("attributeName is correct", expected.getAttributeName(),
-                     actual.getAttributeName());
-
-        assertEquals("elementName is correct", expected.getElementName(),
-                     actual.getElementName());
+        assertEquals("attributeName is correct", expected.getAttributeName(), actual.getAttributeName());
+        assertEquals("elementName is correct", expected.getElementName(), actual.getElementName());
 
         assertEquals("type is correct", expected.getType(), actual.getType());
+        assertEquals("value is not correct", expected.getValue(), actual.getValue());
 
-        assertEquals("value is not correct", expected.getValue(), actual
-                .getValue());
-
-        assertEquals("valueDefault is correct", expected.getValueDefault(),
-                     actual.getValueDefault());
-
-        assertEquals("toString() is correct", expected.toString(), actual
-                .toString());
+        assertEquals("valueDefault is correct", expected.getValueDefault(), actual.getValueDefault());
+        assertEquals("toString() is correct", expected.toString(), actual.toString());
     }
 
     /**
      * Test helper method compares an expected and an actual {@link ElementDecl}.
-     *
-     * @param expected DOCUMENT ME!
-     * @param actual   DOCUMENT ME!
      */
     protected void assertSameDecl(ElementDecl expected, ElementDecl actual) {
         assertEquals("name is correct", expected.getName(), actual.getName());
-
-        assertEquals("model is not correct", expected.getModel(), actual
-                .getModel());
-
-        assertEquals("toString() is correct", expected.toString(), actual
-                .toString());
+        assertEquals("model is not correct", expected.getModel(), actual.getModel());
+        assertEquals("toString() is correct", expected.toString(), actual.toString());
     }
 
     /**
      * Test helper method compares an expected and an actual {@link InternalEntityDecl}.
-     *
-     * @param expected DOCUMENT ME!
-     * @param actual   DOCUMENT ME!
      */
-    protected void assertSameDecl(InternalEntityDecl expected,
-                                  InternalEntityDecl actual) {
+    protected void assertSameDecl(InternalEntityDecl expected, InternalEntityDecl actual) {
         assertEquals("name is correct", expected.getName(), actual.getName());
-
-        assertEquals("value is not correct", expected.getValue(), actual
-                .getValue());
-
-        assertEquals("toString() is correct", expected.toString(), actual
-                .toString());
+        assertEquals("value is not correct", expected.getValue(), actual.getValue());
+        assertEquals("toString() is correct", expected.toString(), actual.toString());
     }
 
     /**
      * Test helper method compares an expected and an actual {@link ExternalEntityDecl}.
-     *
-     * @param expected DOCUMENT ME!
-     * @param actual   DOCUMENT ME!
      */
-    protected void assertSameDecl(ExternalEntityDecl expected,
-                                  ExternalEntityDecl actual) {
+    protected void assertSameDecl(ExternalEntityDecl expected, ExternalEntityDecl actual) {
         assertEquals("name is correct", expected.getName(), actual.getName());
-
-        assertEquals("publicID is correct", expected.getPublicID(), actual
-                .getPublicID());
-
-        assertEquals("systemID is correct", expected.getSystemID(), actual
-                .getSystemID());
-
-        assertEquals("toString() is correct", expected.toString(), actual
-                .toString());
+        assertEquals("publicID is correct", expected.getPublicID(), actual.getPublicID());
+        assertEquals("systemID is correct", expected.getSystemID(), actual.getSystemID());
+        assertEquals("toString() is correct", expected.toString(), actual.toString());
     }
 
     /**
@@ -402,23 +347,14 @@ public class DTDTest extends AbstractTestCase {
      * parser and exposed via the {@link DocumentType}object on the returned {@link Document}. The parser is configured
      * with an {@link EntityResolver}that knows how to find the local resource identified by {@link #DTD_FILE}whose SYSTEM
      * identifier is given by {@link #DTD_SYSTEM_ID}.
-     *
-     * @param resourceName    DOCUMENT ME!
-     * @param includeInternal DOCUMENT ME!
-     * @param includeExternal DOCUMENT ME!
-     * @return DOCUMENT ME!
-     * @throws Exception DOCUMENT ME!
      */
-    protected Document readDocument(String resourceName,
-                                    boolean includeInternal, boolean includeExternal) throws Exception {
+    protected Document readDocument(String resourceName, boolean includeInternal, boolean includeExternal) throws Exception {
         SAXReader reader = new SAXReader();
 
         reader.setIncludeInternalDTDDeclarations(includeInternal);
-
         reader.setIncludeExternalDTDDeclarations(includeExternal);
 
-        reader.setEntityResolver(new MyEntityResolver(DTD_FILE,
-                                                      DTD_PUBLICID, DTD_SYSTEM_ID));
+        reader.setEntityResolver(new MyEntityResolver(DTD_FILE, DTD_PUBLICID, DTD_SYSTEM_ID));
 
         return getDocument(resourceName, reader);
     }
@@ -427,47 +363,35 @@ public class DTDTest extends AbstractTestCase {
      * Provides a resolver for the local test DTD resource.
      */
     protected static class MyEntityResolver implements EntityResolver {
-        private String resourceName;
+        private final String resourceName;
 
         private String pubId;
 
-        private String sysId;
+        private final String sysId;
 
-        public MyEntityResolver(String localResourceName, String publicId,
-                                String systemId) {
+        public MyEntityResolver(String localResourceName, String publicId, String systemId) {
             resourceName = localResourceName;
 
             sysId = systemId;
         }
 
         @Override
-        public InputSource resolveEntity(String publicId, String systemId)
-                throws SAXException, IOException {
-            if (pubId != null) {
-                if (pubId.equals(publicId)) {
-                    return new InputSource(getInputStream(resourceName));
-                }
+        public InputSource resolveEntity(String publicId, String systemId) throws IOException {
+            if (pubId != null && pubId.equals(publicId)) {
+                return new InputSource(getInputStream(resourceName));
             }
-
             if (sysId.equals(systemId)) {
                 return new InputSource(getInputStream(resourceName));
-            } else {
-                return null;
             }
+            return null;
         }
 
         /**
          * Returns an {@link InputStream}that will read from the indicated
          * local resource.
-         *
-         * @param localResourceName DOCUMENT ME!
-         * @return DOCUMENT ME!
-         * @throws IOException DOCUMENT ME!
          */
         protected InputStream getInputStream(String localResourceName) throws IOException {
-            InputStream is = new FileInputStream("src/test/" + localResourceName);
-
-            return is;
+            return new FileInputStream("src/test/" + localResourceName);
         }
     }
 }

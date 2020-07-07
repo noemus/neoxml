@@ -14,6 +14,9 @@ import org.neoxml.XPath;
 
 import java.util.List;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 /**
  * Test harness for the valueOf() function
  *
@@ -33,40 +36,35 @@ public class ValueOfTest extends AbstractTestCase {
             "../child::node()", "/.", "/*", "*", "/child::node()"
     };
 
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
-    public void testXPaths() throws Exception {
+    public void testXPaths() {
         Element root = document.getRootElement();
-        List children = root.elements("author");
-        Element child1 = (Element) children.get(0);
+        List<Element> children = root.elements("author");
+        Element child1 = children.get(0);
 
         testXPath(document);
         testXPath(root);
         testXPath(child1);
     }
 
-    protected void testXPath(Node node) throws Exception {
-        log("Testing XPath on: " + node);
-        log("===============================");
+    protected void testXPath(Node node) {
+        log.debug("Testing XPath on: {}", node);
+        log.debug("===============================");
 
-        int size = paths.length;
-
-        for (int i = 0; i < size; i++) {
-            testXPath(node, paths[i]);
+        for (String path : paths) {
+            testXPath(node, path);
         }
     }
 
-    protected void testXPath(Node node, String xpathExpr) throws Exception {
+    protected void testXPath(Node node, String xpathExpr) {
         try {
             XPath xpath = node.createXPath(xpathExpr);
             String value = xpath.valueOf(node);
 
-            log("valueOf: " + xpathExpr + " is: " + value);
+            log.debug("valueOf: " + xpathExpr + " is: " + value);
         } catch (Throwable e) {
             e.printStackTrace();
-            assertTrue("Failed with exception: " + e, false);
+            fail("Failed with exception: " + e);
         }
     }
 }

@@ -8,6 +8,10 @@ package org.neoxml;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+
 /**
  * A test harness to test the DocumentHelper.makeElement() methodt
  *
@@ -15,19 +19,16 @@ import org.junit.Test;
  * @version $Revision: 1.3 $
  */
 public class MakeElementTest extends AbstractTestCase {
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
-    public void testMakeElement() throws Exception {
+    public void testMakeElement() {
         Document doc = DocumentHelper.createDocument();
 
         Element c = DocumentHelper.makeElement(doc, "a/b/c");
-        assertTrue("Should return a valid element", c != null);
+        assertNotNull("Should return a valid element", c);
 
         Element c2 = DocumentHelper.makeElement(doc, "a/b/c");
 
-        assertTrue("Found same element again", c == c2);
+        assertSame("Found same element again", c, c2);
 
         c.addAttribute("x", "123");
 
@@ -39,11 +40,11 @@ public class MakeElementTest extends AbstractTestCase {
 
         Element e = DocumentHelper.makeElement(b, "c/d/e");
 
-        assertTrue("Should return a valid element", e != null);
+        assertNotNull("Should return a valid element", e);
 
         Element e2 = DocumentHelper.makeElement(b, "c/d/e");
 
-        assertTrue("Found same element again", e == e2);
+        assertSame("Found same element again", e, e2);
 
         e.addAttribute("y", "456");
 
@@ -53,7 +54,7 @@ public class MakeElementTest extends AbstractTestCase {
     }
 
     @Test
-    public void testMakeQualifiedElement() throws Exception {
+    public void testMakeQualifiedElement() {
         Document doc = DocumentHelper.createDocument();
         Element root = doc.addElement("root");
         root.addNamespace("", "defaultURI");
@@ -61,7 +62,7 @@ public class MakeElementTest extends AbstractTestCase {
         root.addNamespace("bar", "barURI");
 
         Element c = DocumentHelper.makeElement(doc, "root/foo:b/bar:c");
-        assertTrue("Should return a valid element", c != null);
+        assertNotNull("Should return a valid element", c);
 
         assertEquals("c has a valid namespace", "barURI", c.getNamespaceURI());
 
@@ -69,10 +70,10 @@ public class MakeElementTest extends AbstractTestCase {
 
         assertEquals("b has a valid namespace", "fooURI", b.getNamespaceURI());
 
-        log("Created: " + c);
+        log.debug("Created: " + c);
 
         Element c2 = DocumentHelper.makeElement(doc, "root/foo:b/bar:c");
-        assertTrue("Found same element again", c == c2);
+        assertSame("Found same element again", c, c2);
     }
 }
 

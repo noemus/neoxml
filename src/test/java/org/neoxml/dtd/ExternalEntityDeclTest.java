@@ -8,6 +8,9 @@ package org.neoxml.dtd;
 
 import org.junit.Test;
 import org.neoxml.AbstractTestCase;
+import org.neoxml.DocTypeTest;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests the {@link ExternalEntityDecl}functionality. Tests each of the
@@ -33,10 +36,8 @@ public class ExternalEntityDeclTest extends AbstractTestCase {
 
     @Test
     public void testToString() {
-        ExternalEntityDecl decl1 = new ExternalEntityDecl("name", null,
-                                                          "systemID");
-        ExternalEntityDecl decl2 = new ExternalEntityDecl("%name", null,
-                                                          "systemID");
+        ExternalEntityDecl decl1 = new ExternalEntityDecl("name", null, "systemID");
+        ExternalEntityDecl decl2 = new ExternalEntityDecl("%name", null, "systemID");
 
         assertEquals("<!ENTITY name SYSTEM \"systemID\" >", decl1.toString());
         assertEquals("<!ENTITY % name SYSTEM \"systemID\" >", decl2.toString());
@@ -53,19 +54,15 @@ public class ExternalEntityDeclTest extends AbstractTestCase {
 
         String expectedSystemID = "http://www.myorg.org/foo";
 
-        String expectedText = "<!ENTITY anEntity "
-                + "SYSTEM \"http://www.myorg.org/foo\" >";
+        String expectedText = "<!ENTITY anEntity SYSTEM \"http://www.myorg.org/foo\" >";
 
-        ExternalEntityDecl actual = new ExternalEntityDecl(expectedName,
-                                                           expectedPublicID, expectedSystemID);
+        ExternalEntityDecl actual = new ExternalEntityDecl(expectedName, expectedPublicID, expectedSystemID);
 
         assertEquals("name is correct", expectedName, actual.getName());
 
-        assertEquals("publicID is correct", expectedPublicID, actual
-                .getPublicID());
+        assertEquals("publicID is correct", expectedPublicID, actual.getPublicID());
 
-        assertEquals("systemID is correct", expectedSystemID, actual
-                .getSystemID());
+        assertEquals("systemID is correct", expectedSystemID, actual.getSystemID());
 
         assertEquals("toString() is correct", expectedText, actual.toString());
     }
@@ -86,16 +83,13 @@ public class ExternalEntityDeclTest extends AbstractTestCase {
                 + "PUBLIC \"-//dom4j//DTD sample\" "
                 + "\"http://www.myorg.org/foo\" >";
 
-        ExternalEntityDecl actual = new ExternalEntityDecl(expectedName,
-                                                           expectedPublicID, expectedSystemID);
+        ExternalEntityDecl actual = new ExternalEntityDecl(expectedName, expectedPublicID, expectedSystemID);
 
         assertEquals("name is correct", expectedName, actual.getName());
 
-        assertEquals("publicID is correct", expectedPublicID, actual
-                .getPublicID());
+        assertEquals("publicID is correct", expectedPublicID, actual.getPublicID());
 
-        assertEquals("systemID is correct", expectedSystemID, actual
-                .getSystemID());
+        assertEquals("systemID is correct", expectedSystemID, actual.getSystemID());
 
         assertEquals("toString() is correct", expectedText, actual.toString());
     }

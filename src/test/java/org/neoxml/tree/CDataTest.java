@@ -9,6 +9,9 @@ package org.neoxml.tree;
 import org.junit.Test;
 import org.neoxml.AbstractTestCase;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 /**
  * DOCUMENT ME!
  *

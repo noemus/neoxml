@@ -15,6 +15,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 /**
  * A test harness to test the use of Namespaces.
  *
@@ -30,63 +34,52 @@ public class NamespaceTest extends AbstractTestCase {
     /**
      * Namespace to use in tests
      */
-    private static final Namespace XSL_NAMESPACE = Namespace.get("xsl",
-                                                                 "http://www.w3.org/1999/XSL/Transform");
+    private static final Namespace XSL_NAMESPACE = Namespace.get("xsl", "http://www.w3.org/1999/XSL/Transform");
 
-    private static final QName XSL_TEMPLATE = QName.get("template",
-                                                        XSL_NAMESPACE);
+    private static final QName XSL_TEMPLATE = QName.get("template", XSL_NAMESPACE);
 
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
-    public void debugShowNamespaces() throws Exception {
+    public void debugShowNamespaces() {
         Element root = getRootElement();
 
-        for (Iterator iter = root.elementIterator(); iter.hasNext(); ) {
-            Element element = (Element) iter.next();
+        for (Iterator<Element> iter = root.elementIterator(); iter.hasNext(); ) {
+            Element element = iter.next();
 
-            log("Found element:    " + element);
-            log("Namespace:        " + element.getNamespace());
-            log("Namespace prefix: " + element.getNamespacePrefix());
-            log("Namespace URI:    " + element.getNamespaceURI());
+            log.debug("Found element:    {}", element);
+            log.debug("Namespace:        {}", element.getNamespace());
+            log.debug("Namespace prefix: {}", element.getNamespacePrefix());
+            log.debug("Namespace URI:    {}", element.getNamespaceURI());
         }
     }
 
     @Test
-    public void testGetElement() throws Exception {
+    public void testGetElement() {
         Element root = getRootElement();
 
         Element firstTemplate = root.element(XSL_TEMPLATE);
-        assertTrue(
-                "Root element contains at least one <xsl:template/> element",
-                firstTemplate != null);
+        assertNotNull("Root element contains at least one <xsl:template/> element", firstTemplate);
 
-        log("Found element: " + firstTemplate);
+        log.debug("Found element: {}", firstTemplate);
     }
 
     @Test
-    public void testGetElements() throws Exception {
+    public void testGetElements() {
         Element root = getRootElement();
 
-        List list = root.elements(XSL_TEMPLATE);
-        assertTrue(
-                "Root element contains at least one <xsl:template/> element",
-                list.size() > 0);
+        List<Element> list = root.elements(XSL_TEMPLATE);
+        assertTrue("Root element contains at least one <xsl:template/> element", list.size() > 0);
 
-        log("Found elements: " + list);
+        log.debug("Found elements: {}", list);
     }
 
     @Test
-    public void testElementIterator() throws Exception {
+    public void testElementIterator() {
         Element root = getRootElement();
-        Iterator iter = root.elementIterator(XSL_TEMPLATE);
-        assertTrue(
-                "Root element contains at least one <xsl:template/> element",
-                iter.hasNext());
+        Iterator<Element> iter = root.elementIterator(XSL_TEMPLATE);
+        assertTrue("Root element contains at least one <xsl:template/> element", iter.hasNext());
 
         do {
-            Element element = (Element) iter.next();
-            log("Found element: " + element);
+            Element element = iter.next();
+            log.debug("Found element: {}", element);
         }
         while (iter.hasNext());
     }
@@ -99,7 +92,7 @@ public class NamespaceTest extends AbstractTestCase {
     @Test
     public void testNamespaceUriMap() throws Exception {
         // register namespace prefix->uri mappings with factory
-        Map uris = new HashMap();
+        Map<String,String> uris = new HashMap<>();
         uris.put("x", "fooNamespace");
         uris.put("y", "barNamespace");
 
@@ -116,7 +109,7 @@ public class NamespaceTest extends AbstractTestCase {
         // which do not appear in the document (though the URIs do!)
         String value = doc.valueOf("/x:pizza/y:cheese/x:pepper");
 
-        log("Found value: " + value);
+        log.debug("Found value: {}", value);
 
         assertEquals("XPath used default namesapce URIS", "works", value);
     }
@@ -132,15 +125,12 @@ public class NamespaceTest extends AbstractTestCase {
     }
 
     /**
-     * DOCUMENT ME!
-     *
      * @return the root element of the document
      */
     @Override
     protected Element getRootElement() {
         Element root = document.getRootElement();
-        assertTrue("Document has root element", root != null);
-
+        assertNotNull("Document has root element", root);
         return root;
     }
 }

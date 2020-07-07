@@ -11,6 +11,8 @@ import org.neoxml.AbstractTestCase;
 import org.neoxml.Node;
 import org.neoxml.XPath;
 
+import static org.junit.Assert.fail;
+
 /**
  * Test harness for numeric XPath expressions
  *
@@ -32,37 +34,28 @@ public class NumberTest extends AbstractTestCase {
             "10 + (count(descendant::author) * 5)"
     };
 
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
-    public void testXPaths() throws Exception {
+    public void testXPaths() {
         Node element = document.selectSingleNode("//author");
-        int size = paths.length;
 
-        for (int i = 0; i < size; i++) {
-            testXPath(document, paths[i]);
-            testXPath(element, paths[i]);
+        for (String path : paths) {
+            testXPath(document, path);
+            testXPath(element, path);
         }
 
-        log("Finished successfully");
+        log.debug("Finished successfully");
     }
 
-    // Implementation methods
-    // -------------------------------------------------------------------------
-
-    protected void testXPath(Node node, String xpathText) throws Exception {
+    protected void testXPath(Node node, String xpathText) {
         try {
             XPath xpath = node.createXPath(xpathText);
 
             Number number = xpath.numberValueOf(node);
 
-            log("Searched path: " + xpathText + " found: " + number);
+            log.debug("Searched path: " + xpathText + " found: " + number);
         } catch (Throwable e) {
-            log("Caught exception: " + e);
-            e.printStackTrace();
-            assertTrue("Failed to process:  " + xpathText
-                               + " caught exception: " + e, false);
+            log.debug("Caught exception: ", e);
+            fail("Failed to process:  " + xpathText + " caught exception: " + e);
         }
     }
 }

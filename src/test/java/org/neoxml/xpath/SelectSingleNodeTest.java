@@ -12,6 +12,8 @@ import org.neoxml.Document;
 import org.neoxml.Element;
 import org.neoxml.Node;
 
+import static org.junit.Assert.assertNotNull;
+
 /**
  * Tests the selectSingleNode method
  *
@@ -19,30 +21,26 @@ import org.neoxml.Node;
  * @version $Revision: 1.4 $
  */
 public class SelectSingleNodeTest extends AbstractTestCase {
-    // Test case(s)
-    // -------------------------------------------------------------------------
-
     @Test
     public void testSelectSingleNode() throws Exception {
         Document document = getDocument("/src/test/xml/test/jimBrain.xml");
         Node node = document.selectSingleNode("/properties/client/threadsafe");
-        assertTrue("Found a valid node", node != null);
+        assertNotNull("Found a valid node", node);
 
-        Element server = (Element) document
-                .selectSingleNode("/properties/server");
-        assertTrue("Found a valid server", server != null);
+        Element server = (Element) document.selectSingleNode("/properties/server");
+        assertNotNull("Found a valid server", server);
 
         Element root = document.getRootElement();
         server = (Element) root.selectSingleNode("/properties/server");
-        assertTrue("Found a valid server", server != null);
+        assertNotNull("Found a valid server", server);
 
         // try finding it via a relative path
         server = (Element) document.selectSingleNode("properties/server");
-        assertTrue("Found a valid server", server != null);
+        assertNotNull("Found a valid server", server);
 
         // now lets use a relative path
         Element connection = (Element) server.selectSingleNode("db/connection");
-        assertTrue("Found a valid connection", connection != null);
+        assertNotNull("Found a valid connection", connection);
     }
 
     /**
