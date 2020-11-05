@@ -12,7 +12,7 @@ import org.neoxml.tree.DefaultAttribute;
 /**
  * <p>
  * <code>UserDataAttribute</code> support the adornment of a user data object on an Element or Attribute instance such
- * that the methods {@link#getData} {@link #setData(Object)}will get and set the values of a user data object. This can
+ * that the methods {@link #getData} {@link #setData(Object)}will get and set the values of a user data object. This can
  * be useful for developers wishing to create XML trees and adorn the trees with user defined objects.
  * </p>
  *

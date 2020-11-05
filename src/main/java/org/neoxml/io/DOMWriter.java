@@ -91,7 +91,7 @@ public class DOMWriter {
      * Sets the DOM {@link org.w3c.dom.Document}implementation class used by
      * the writer when creating DOM documents.
      *
-     * @param domDocumentClass is the Class implementing the {@linkorg.w3c.dom.Document} interface
+     * @param domDocumentClass is the Class implementing the {@link org.w3c.dom.Document} interface
      */
     public void setDomDocumentClass(Class<?> domDocumentClass) {
         this.domDocumentClass = domDocumentClass;

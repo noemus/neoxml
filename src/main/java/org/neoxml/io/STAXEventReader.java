@@ -254,7 +254,7 @@ public class STAXEventReader {
      * @param eventReader The event stream from which to read the Element.
      * @return The Element that was read from the stream.
      * @throws XMLStreamException If an error occured reading events from the stream, or the
-     *                            stream was not positioned before a {@linkStartElement} event.
+     *                            stream was not positioned before a {@link StartElement} event.
      */
     public Element readElement(XMLEventReader eventReader) throws XMLStreamException {
         final XMLEvent event = eventReader.peek();
@@ -299,7 +299,7 @@ public class STAXEventReader {
      * @param reader The event stream from which to read the Attribute.
      * @return The Attribute that was read from the stream.
      * @throws XMLStreamException If an error occured reading events from the stream, or the
-     *                            stream was not positioned before an {@linkAttribute} event.
+     *                            stream was not positioned before an {@link Attribute} event.
      */
     public org.neoxml.Attribute readAttribute(XMLEventReader reader) throws XMLStreamException {
         final XMLEvent event = reader.peek();
@@ -320,7 +320,7 @@ public class STAXEventReader {
      * @param reader The event stream from which to read the Namespace.
      * @return The Namespace that was read from the stream.
      * @throws XMLStreamException If an error occured reading events from the stream, or the
-     *                            stream was not positioned before a {@linkNamespace} event.
+     *                            stream was not positioned before a {@link Namespace} event.
      */
     public org.neoxml.Namespace readNamespace(XMLEventReader reader) throws XMLStreamException {
         final XMLEvent event = reader.peek();
@@ -341,7 +341,7 @@ public class STAXEventReader {
      * @param reader The event stream from which to read the Text or CDATA.
      * @return The Text or CDATA that was read from the stream.
      * @throws XMLStreamException If an error occured reading events from the stream, or the
-     *                            stream was not positioned before a {@linkCharacters} event.
+     *                            stream was not positioned before a {@link Characters} event.
      */
     public CharacterData readCharacters(XMLEventReader reader) throws XMLStreamException {
         final XMLEvent event = reader.peek();
@@ -362,7 +362,7 @@ public class STAXEventReader {
      * @param reader The event stream from which to read the Comment.
      * @return The Comment that was read from the stream.
      * @throws XMLStreamException If an error occured reading events from the stream, or the
-     *                            stream was not positioned before a {@linkComment} event.
+     *                            stream was not positioned before a {@link Comment} event.
      */
     public org.neoxml.Comment readComment(XMLEventReader reader) throws XMLStreamException {
         final XMLEvent event = reader.peek();
@@ -381,7 +381,7 @@ public class STAXEventReader {
      * @param reader The event stream from which to read the {@link EntityReference}.
      * @return The {@link org.neoxml.Entity} that was read from the stream.
      * @throws XMLStreamException If an error occured reading events from the stream, or the
-     *                            stream was not positioned before an {@linkEntityReference} event.
+     *                            stream was not positioned before an {@link EntityReference} event.
      */
     public Entity readEntityReference(XMLEventReader reader) throws XMLStreamException {
         final XMLEvent event = reader.peek();

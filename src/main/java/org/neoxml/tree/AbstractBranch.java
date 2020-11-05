@@ -83,7 +83,7 @@ public abstract class AbstractBranch extends AbstractNode implements Branch {
     /**
      * DOCUMENT ME!
      *
-     * @param content DOCUMENT ME!
+     * @param node DOCUMENT ME!
      * @return the text value of the given content object as text which returns
      * the text value of CDATA, Entity or Text nodes
      */
@@ -381,8 +381,7 @@ public abstract class AbstractBranch extends AbstractNode implements Branch {
      * This method is for internal use only
      * Replaces nodes in node list with suplied nodes (nodes are cloned if necessary). Used in setContent
      *
-     * @param newContent DOCUMENT ME!
-     * @param node       DOCUMENT ME!
+     * @param nodes     DOCUMENT ME!
      */
     protected abstract void setContentList(List<? extends Node> nodes);
 

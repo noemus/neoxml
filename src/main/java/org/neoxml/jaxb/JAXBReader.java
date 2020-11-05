@@ -26,7 +26,7 @@ import java.nio.charset.Charset;
 /**
  * Reads an XML document and creates a neoxml tree from SAX parsing events. {@link JAXBObjectHandler}objects can be
  * registered to automatically receive
- * unmarshalled XML fragments. Registered {@linkorg.xtree.ElementHandler} implementations are notified when a certain
+ * unmarshalled XML fragments. Registered {@link ElementHandler} implementations are notified when a certain
  * element path is encountered
  *
  * @author Wonne Keysers (Realsoftware.be)
@@ -52,7 +52,7 @@ public class JAXBReader extends JAXBSupport {
 
     /**
      * Creates a new JAXBReader for the given JAXB context path, using the
-     * specified {@link java.lang.Classloader}. This is the Java package where
+     * specified {@link java.lang.ClassLoader}. This is the Java package where
      * JAXB can find the generated XML classes. This package MUST contain
      * jaxb.properties!
      *
@@ -290,10 +290,10 @@ public class JAXBReader extends JAXBSupport {
         return reader;
     }
 
-    private class UnmarshalElementHandler implements ElementHandler {
-        private JAXBReader jaxbReader;
+    private static class UnmarshalElementHandler implements ElementHandler {
+        private final JAXBReader jaxbReader;
 
-        private JAXBObjectHandler handler;
+        private final JAXBObjectHandler handler;
 
         public UnmarshalElementHandler(JAXBReader documentReader, JAXBObjectHandler handler) {
             this.jaxbReader = documentReader;

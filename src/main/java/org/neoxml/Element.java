@@ -18,7 +18,7 @@ import java.util.Map;
  * <p/>
  * <p>
  * Some of this interface is optional. Some implementations may be read-only and not support being modified. Some
- * implementations may not support the parent relationship and methods such as {@link #getParent}or {@link#getDocument}.
+ * implementations may not support the parent relationship and methods such as {@link #getParent} or {@link #getDocument}.
  * </p>
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>

@@ -90,7 +90,7 @@ public class SAXModifier {
 
     /**
      * Reads a Document from the given {@link java.io.File}and writes it to the
-     * specified {@link XMLWriter}using SAX. Registered {@linkElementModifier} objects are invoked on the fly.
+     * specified {@link XMLWriter}using SAX. Registered {@link ElementModifier} objects are invoked on the fly.
      *
      * @param source is the <code>File</code> to read from.
      * @return the newly created Document instance
@@ -203,7 +203,7 @@ public class SAXModifier {
 
     /**
      * Reads a Document from the given {@link java.net.URL}and writes it to the
-     * specified {@link XMLWriter}using SAX. Registered {@linkElementModifier} objects are invoked on the fly.
+     * specified {@link XMLWriter}using SAX. Registered {@link ElementModifier} objects are invoked on the fly.
      *
      * @param source is the <code>java.net.URL</code> to read from.
      * @return the newly created Document instance
@@ -221,7 +221,7 @@ public class SAXModifier {
 
     /**
      * Reads a Document from the given URL or filename and writes it to the
-     * specified {@link XMLWriter}using SAX. Registered {@linkElementModifier} objects are invoked on the fly.
+     * specified {@link XMLWriter}using SAX. Registered {@link ElementModifier} objects are invoked on the fly.
      *
      * @param source is the URL or filename to read from.
      * @return the newly created Document instance

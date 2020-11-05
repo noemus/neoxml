@@ -16,7 +16,7 @@ import javax.xml.transform.sax.SAXSource;
 
 /**
  * <p>
- * <code>DocumentSource</code> implements a JAXP {@link SAXSource} for a {@linkDocument}.
+ * <code>DocumentSource</code> implements a JAXP {@link SAXSource} for a {@link Document}.
  * </p>
  *
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
@@ -89,7 +89,7 @@ public class DocumentSource extends SAXSource {
     }
 
     /**
-     * This method is not supported as this source is always a {@linkDocument} instance.
+     * This method is not supported as this source is always a {@link Document} instance.
      *
      * @param inputSource DOCUMENT ME!
      * @throws UnsupportedOperationException as this method is unsupported

@@ -148,7 +148,7 @@ public class STAXEventWriter {
 
     /**
      * Writes a neoxml {@link Node}to the stream. This method is simply a
-     * gateway to the overloaded methods such as {@link#writeElement(Element)}.
+     * gateway to the overloaded methods such as {@link #writeElement(Element)}.
      *
      * @param n The neoxml {@link Node}to write to the stream.
      * @throws XMLStreamException If an error occurs writing to the stream.
