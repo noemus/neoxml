@@ -113,7 +113,6 @@ abstract class AbstractNodeListFacade<T extends Node> extends AbstractList<T> im
                 AbstractNodeListFacade<T> answer = (AbstractNodeListFacade<T>) super.clone();
                 return answer;
             } catch (CloneNotSupportedException e) {
-                // should never happen
                 throw new AssertionError("This should never happen. Caught: ", e);
             }
         }

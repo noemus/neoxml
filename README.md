@@ -8,7 +8,8 @@ I am using dom4j in many my projects, but it is now too old and whithout mainten
 
 GOALS:
 - Focus is on simple traversal API based on java.util Collections framework ( as in dom4j )
-- I have (and will) remove some parts of former dom4j that are not necessary and that only added some dependencies. I will maybe - if asked for - create some separate modules for theese parts. (Swing, Datatype, Xpp, etc)
+- I have (and will) remove some parts of former dom4j that are not necessary and that only added some dependencies. 
+I will maybe - if asked for - create some separate modules for theese parts. (Swing, Datatype, Xpp, etc)
 
 WHAT IS DONE:
 - All code is refactored and reorganised, nearly all code duplications are removed
@@ -18,5 +19,10 @@ WHAT IS DONE:
 - I have also extended implementation of visitor pattern - which is one of top features of former dom4j library
 - Done some benchmarks (based on JMH) against original dom4j, neoxml performs better in some cases and nearly same in other scenarios, whole library is optimised for XML documents with many nodes without subnodes or with only one subnode 
 
-NOTICE:
-This is early version of NeoXML, and I am now focusing on JUnit test coverage and code clarity
+CHANGELOG:
+1.0.3:
+- Fixed some Sonar warnings
+- Fixed Javadoc warnings
+- onboarded to TravisCI
+- onboarded to Sonarcloud
+- configured maven build for maven central deployment

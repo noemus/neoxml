@@ -65,10 +65,7 @@ public abstract class AbstractElement extends AbstractBranch implements Element 
 
         if (document != null) {
             Element root = document.getRootElement();
-
-            if (root == this) {
-                return true;
-            }
+            return root == this;
         }
 
         return false;
@@ -150,7 +147,7 @@ public abstract class AbstractElement extends AbstractBranch implements Element 
             if (idx >= 0) {
                 buffer.append("[");
 
-                buffer.append(Integer.toString(++idx));
+                buffer.append(++idx);
 
                 buffer.append("]");
             }
@@ -169,7 +166,7 @@ public abstract class AbstractElement extends AbstractBranch implements Element 
 
             return out.toString();
         } catch (IOException e) {
-            throw new RuntimeException("IOException while generating textual representation: " + e.getMessage());
+            throw new IllegalStateException("IOException while generating textual representation: " + e.getMessage());
         }
     }
 
@@ -189,10 +186,8 @@ public abstract class AbstractElement extends AbstractBranch implements Element 
      */
     @Override
     public boolean accept(Visitor visitor) {
-        if (visitor.visitEnter(this)) {// enter this node?
-            if (visitor.visit(this) && visitAttributes(visitor)) {
-                visitNodes(visitor);
-            }
+        if (visitor.visitEnter(this) && visitor.visit(this) && visitAttributes(visitor)) {
+            visitNodes(visitor);
         }
 
         // leave this node and indicate whether to stop processing after this element
@@ -213,12 +208,9 @@ public abstract class AbstractElement extends AbstractBranch implements Element 
 
     private void visitNodes(Visitor visitor) {
         for (int i = 0, size = nodeCount(); i < size; i++) {
-            final Node node = node(i);
-
-            if (node != null) {
-                if (!node.accept(visitor)) {
-                    break;
-                }
+            Node node = node(i);
+            if (node != null && !node.accept(visitor)) {
+                break;
             }
         }
     }
@@ -602,19 +594,14 @@ public abstract class AbstractElement extends AbstractBranch implements Element 
     public Element addElement(String name) {
         DocumentFactory factory = getDocumentFactory();
 
-        int index = name.indexOf(":");
-
-        String prefix = "";
+        int index = name.indexOf(':');
 
         String localName = name;
-
-        Namespace namespace = null;
+        Namespace namespace;
 
         if (index > 0) {
-            prefix = name.substring(0, index);
-
+            String prefix = name.substring(0, index);
             localName = name.substring(index + 1);
-
             namespace = getNamespaceForPrefix(prefix);
 
             if (namespace == null) {

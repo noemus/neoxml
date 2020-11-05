@@ -120,7 +120,6 @@ public abstract class AbstractNode implements Node, Serializable {
 
                 return answer;
             } catch (CloneNotSupportedException e) {
-                // should never happen
                 throw new AssertionError("This should never happen. Caught: ", e);
             }
         }

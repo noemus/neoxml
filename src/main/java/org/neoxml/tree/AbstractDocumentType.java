@@ -64,20 +64,19 @@ public abstract class AbstractDocumentType extends AbstractNode implements Docum
     @Override
     public String getText() {
         List<InternalDeclaration> list = getInternalDeclarations();
-
-        if ((list != null) && (list.size() > 0)) {
-            StringBuilder builder = new StringBuilder();
-            for (InternalDeclaration decl : list) {
-                builder.append(decl.toString());
-                builder.append('\n');
-            }
-            if (builder.length() > 0) {
-                builder.setLength(builder.length() - 1);
-            }
-            return builder.toString();
+        if (list == null || list.isEmpty()) {
+            return "";
         }
 
-        return "";
+        StringBuilder builder = new StringBuilder();
+        for (InternalDeclaration decl : list) {
+            builder.append(decl.toString());
+            builder.append('\n');
+        }
+        if (builder.length() > 0) {
+            builder.setLength(builder.length() - 1);
+        }
+        return builder.toString();
     }
 
     @Override
@@ -154,7 +153,7 @@ public abstract class AbstractDocumentType extends AbstractNode implements Docum
 
         List<InternalDeclaration> list = getInternalDeclarations();
 
-        if ((list != null) && (list.size() > 0)) {
+        if (list != null && !list.isEmpty()) {
             writer.write(" [");
 
             for (Iterator<InternalDeclaration> iter = list.iterator(); iter.hasNext(); ) {
