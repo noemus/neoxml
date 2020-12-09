@@ -6,8 +6,7 @@
 
 package org.neoxml;
 
-import org.apache.xalan.processor.TransformerFactoryImpl;
-import org.apache.xerces.jaxp.SAXParserFactoryImpl;
+import com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.neoxml.io.SAXReader;
@@ -219,8 +218,8 @@ public class AbstractTestCase {
 
     @Before
     public void setUp() throws Exception {
-        System.setProperty("javax.xml.parsers.SAXParserFactory", SAXParserFactoryImpl.class.getName());
-        System.setProperty("javax.xml.transform.TransformerFactory", TransformerFactoryImpl.class.getName());
+        //System.setProperty("javax.xml.parsers.SAXParserFactory", SAXParserFactoryImpl.class.getName());
+        //System.setProperty("javax.xml.transform.TransformerFactory", TransformerFactoryImpl.class.getName());
 
         document = DocumentHelper.createDocument();
 

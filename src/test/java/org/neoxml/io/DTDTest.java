@@ -20,6 +20,7 @@ import org.neoxml.tree.DefaultDocumentType;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
+import javax.xml.XMLConstants;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -162,9 +163,6 @@ public class DTDTest extends AbstractTestCase {
         assertSameDocumentType(expected, readDocument(XML_MIXED, true, true).getDocType());
     }
 
-    // Implementation methods
-    // -------------------------------------------------------------------------
-
     /**
      * Test helper method returns a {@link List}of DTD declarations that
      * represents the expected internal DTD subset (for the tests that use an
@@ -173,12 +171,6 @@ public class DTDTest extends AbstractTestCase {
      * <p>
      * Note: The declarations returned by this method MUST agree those actually declared in {@link #XML_INTERNAL_FILE}and
      * {@link #XML_MIXED}.
-     * </p>
-     * <p/>
-     * <p>
-     * </p>
-     *
-     * @return DOCUMENT ME!
      */
     protected List<InternalDeclaration> getInternalDeclarations() {
         List<InternalDeclaration> decls = new ArrayList<>();
@@ -351,6 +343,7 @@ public class DTDTest extends AbstractTestCase {
     protected Document readDocument(String resourceName, boolean includeInternal, boolean includeExternal) throws Exception {
         SAXReader reader = new SAXReader();
 
+        reader.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "all");
         reader.setIncludeInternalDTDDeclarations(includeInternal);
         reader.setIncludeExternalDTDDeclarations(includeExternal);
 

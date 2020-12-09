@@ -6,6 +6,7 @@
 
 package org.neoxml;
 
+import com.sun.org.apache.xerces.internal.parsers.SAXParser;
 import org.junit.Test;
 import org.neoxml.io.OutputFormat;
 import org.neoxml.io.SAXReader;
@@ -21,7 +22,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * A simple test harness to check that the XML Writer works
@@ -491,7 +494,7 @@ public class XMLWriterTest extends AbstractTestCase {
                 + "<!ENTITY euro \"&#x20ac;\"> "
                 + "<!ENTITY Omega \"&#937;\"> ]>\n" + "<root />";
 
-        SAXReader reader = new SAXReader("org.apache.xerces.parsers.SAXParser");
+        SAXReader reader = new SAXReader(SAXParser.class.getName());
         reader.setIncludeInternalDTDDeclarations(true);
 
         Document doc = reader.read(new StringReader(xml));
@@ -519,7 +522,10 @@ public class XMLWriterTest extends AbstractTestCase {
         writer.setMaximumAllowedCharacter(127);
         writer.write(document);
 
-        String xml = strWriter.toString();
+        String expectedXml =
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "<root>blahblah &#143;</root>";
+        assertEquals(expectedXml, strWriter.toString());
     }
 
     @Test
