@@ -15,7 +15,7 @@ package org.neoxml.io;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.17 $
  */
-public class OutputFormat implements Cloneable {
+public class OutputFormat {
     /**
      * standard value to indent by, if we are indenting
      */
@@ -141,11 +141,9 @@ public class OutputFormat implements Cloneable {
     }
 
     /**
-     * <p>
      * This will set the new-line separator. The default is <code>\n</code>. Note that if the "newlines" property is
      * false, this value is irrelevant. To make it output the system default line ending string, call
      * <code>setLineSeparator(System.getProperty("line.separator"))</code>
-     * </p>
      *
      * @param separator <code>String</code> line separator to use.
      * @see #setNewlines(boolean)
@@ -193,11 +191,9 @@ public class OutputFormat implements Cloneable {
     }
 
     /**
-     * <p>
      * This will set whether the XML declaration (<code>&lt;?xml version="1.0"
      * encoding="UTF-8"?&gt;</code>) includes the encoding of the document. It is common to suppress this in protocols
      * such as WML and SOAP.
-     * </p>
      *
      * @param omitEncoding <code>boolean</code> indicating whether or not the XML
      *                     declaration should indicate the document encoding.
@@ -208,10 +204,8 @@ public class OutputFormat implements Cloneable {
     }
 
     /**
-     * <p>
      * This will set whether the XML declaration (<code>&lt;?xml version="1.0"
      * encoding="UTF-8"?&gt;</code>) is included or not. It is common to suppress this in protocols such as WML and SOAP.
-     * </p>
      *
      * @param suppressDeclaration <code>boolean</code> indicating whether or not the XML
      *                            declaration should be suppressed.
@@ -233,9 +227,7 @@ public class OutputFormat implements Cloneable {
     }
 
     /**
-     * <p>
      * This will set whether a new line is printed after the XML declaration (assuming it is not supressed.)
-     * </p>
      *
      * @param newLineAfterDeclaration <code>boolean</code> indicating whether or not to print new
      *                                line following the XML declaration. The default is true.
@@ -259,10 +251,8 @@ public class OutputFormat implements Cloneable {
     }
 
     /**
-     * <p>
      * This will set whether empty elements are expanded from <code>&lt;tagName&gt;</code> to
      * <code>&lt;tagName&gt;&lt;/tagName&gt;</code>.
-     * </p>
      *
      * @param expandEmptyElements <code>boolean</code> indicating whether or not empty
      *                            elements should be expanded.
@@ -277,17 +267,10 @@ public class OutputFormat implements Cloneable {
     }
 
     /**
-     * <p>
      * This will set whether the text is output verbatim (false) or with whitespace stripped as per <code>{@link
      * org.neoxml.Element#getTextTrim()}</code>.
-     * </p>
-     * <p/>
-     * <p>
-     * </p>
-     * <p/>
      * <p>
      * Default: false
-     * </p>
      *
      * @param trimText <code>boolean</code> true=>trim the whitespace, false=>use
      *                 text verbatim
@@ -302,21 +285,15 @@ public class OutputFormat implements Cloneable {
     }
 
     /**
-     * <p>
      * Ensure that text immediately preceded by or followed by an element will be "padded" with a single space. This is
      * used to allow make browser-friendly HTML, avoiding trimText's transformation of, e.g.,
      * <code>The quick &lt;b&gt;brown&lt;/b&gt; fox</code> into <code>The
      * quick&lt;b&gt;brown&lt;/b&gt;fox</code> (the latter will run the three separate words together into a single word).
      * This setting is not too useful if you haven't also called {@link #setTrimText}.
-     * </p>
-     * <p/>
      * <p>
      * The padding string will only be added if the text itself starts or ends with some whitespace characters.
-     * </p>
-     * <p/>
      * <p>
      * Default: false
-     * </p>
      *
      * @param padText <code>boolean</code> if true, pad string-element boundaries
      */
@@ -330,10 +307,9 @@ public class OutputFormat implements Cloneable {
     }
 
     /**
-     * <p>
      * This will set the indent <code>String</code> to use; this is usually a <code>String</code> of empty spaces. If you
      * pass null, or the empty string (""), then no indentation will happen.
-     * </p>
+     * <p>
      * Default: none (null)
      *
      * @param indent <code>String</code> to use for indentation.
@@ -383,12 +359,10 @@ public class OutputFormat implements Cloneable {
     }
 
     /**
-     * <p>
      * Whether or not to use the XHTML standard: like HTML but passes an XML parser with real, closed tags. Also, XHTML
      * CDATA sections will be output with the CDATA delimiters: ( &quot; <b>&lt;![CDATA[ </b>&quot; and &quot; <b>]]&gt;
      * </b>&quot; ) otherwise, the class HTMLWriter will output the CDATA text, but not the delimiters.
      * </p>
-     * <p/>
      * <p>
      * Default is <code>false</code>
      * </p>
@@ -400,15 +374,11 @@ public class OutputFormat implements Cloneable {
     }
 
     /**
-     * <p>
      * This will set whether or not to use the XHTML standard: like HTML but passes an XML parser with real, closed tags.
      * Also, XHTML CDATA sections will be output with the CDATA delimiters: ( &quot; <b>&lt;[CDATA[ </b>&quot; and &quot;
      * <b>]]&lt; </b>) otherwise, the class HTMLWriter will output the CDATA text, but not the delimiters.
-     * </p>
-     * <p/>
      * <p>
      * Default: false
-     * </p>
      *
      * @param xhtml <code>boolean</code> true=>conform to XHTML, false=>conform
      *              to HTML, can have unclosed tags, etc.
