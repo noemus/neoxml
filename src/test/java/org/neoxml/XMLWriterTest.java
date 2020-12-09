@@ -8,6 +8,7 @@ package org.neoxml;
 
 import com.sun.org.apache.xerces.internal.parsers.SAXParser;
 import org.junit.Test;
+import org.neoxml.io.HTMLWriter;
 import org.neoxml.io.OutputFormat;
 import org.neoxml.io.SAXReader;
 import org.neoxml.io.XMLWriter;
@@ -21,10 +22,14 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.neoxml.DocumentHelper.createAttribute;
+import static org.neoxml.DocumentHelper.createComment;
+import static org.neoxml.DocumentHelper.createText;
 
 /**
  * A simple test harness to check that the XML Writer works
@@ -91,13 +96,68 @@ public class XMLWriterTest extends AbstractTestCase {
         String text = out.toString();
 
         if (VERBOSE) {
-          log.debug("Text output is [");
-          log.debug(text);
-          log.debug("]. Done");
+            log.debug("Text output is [");
+            log.debug(text);
+            log.debug("]. Done");
         }
 
         assertTrue("Output text is bigger than 10 characters",
                    text.length() > 10);
+    }
+
+    @Test
+    public void testOutputStream() throws Exception {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        XMLWriter writer = new XMLWriter(out);
+        writer.write((Object)"document");
+        writer.close();
+
+        assertEquals("document", out.toString());
+    }
+
+    @Test
+    public void testTextNode() throws Exception {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        XMLWriter writer = new XMLWriter(out);
+        writer.write((Object)createText("document"));
+        writer.close();
+
+        assertEquals("document", out.toString());
+    }
+
+    @Test
+    public void testAttribute() throws Exception {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        XMLWriter writer = new XMLWriter(out);
+        writer.write((Object)createAttribute(null, "attr", "value"));
+        writer.close();
+
+        assertEquals(" attr=\"value\"", out.toString());
+    }
+
+    @Test
+    public void testComment() throws Exception {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        XMLWriter writer = new XMLWriter(out);
+        writer.write((Object)createComment("comment"));
+        writer.close();
+
+        assertEquals("<!--comment-->", out.toString());
+    }
+
+    @Test
+    public void testList() throws Exception {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        XMLWriter writer = new XMLWriter(out);
+        writer.write(Arrays.asList("foo", "bar"));
+        writer.close();
+
+        assertEquals("foobar", out.toString());
     }
 
     @Test
@@ -142,7 +202,7 @@ public class XMLWriterTest extends AbstractTestCase {
         writer.write(document);
         writer.close();
 
-      log.debug("Wrote to encoding: {}", encoding);
+        log.debug("Wrote to encoding: {}", encoding);
     }
 
     @Test
@@ -205,8 +265,8 @@ public class XMLWriterTest extends AbstractTestCase {
         String text = out.toString();
 
         if (VERBOSE) {
-          log.debug("Created XML");
-          log.debug(text);
+            log.debug("Created XML");
+            log.debug(text);
         }
 
         // now lets parse the output and test it with XPath
@@ -237,9 +297,9 @@ public class XMLWriterTest extends AbstractTestCase {
         writer.write(doc);
 
         String xml = buffer.toString();
-      log.debug(xml);
+        log.debug(xml);
 
-      Document doc2 = DocumentHelper.parseText(xml);
+        Document doc2 = DocumentHelper.parseText(xml);
         String text = doc2.valueOf("/notes");
         String expected = "This is a multiline entry";
 
@@ -275,9 +335,9 @@ public class XMLWriterTest extends AbstractTestCase {
         writer.write(doc);
 
         String xml = buffer.toString();
-      log.debug(xml);
+        log.debug(xml);
 
-      Document doc2 = DocumentHelper.parseText(xml);
+        Document doc2 = DocumentHelper.parseText(xml);
         String text = doc2.valueOf("/root/meaning");
         String expected = "to live";
 
@@ -412,9 +472,9 @@ public class XMLWriterTest extends AbstractTestCase {
         }
 
         String xml = buffer.toString();
-      log.debug(xml);
+        log.debug(xml);
 
-      int start = xml.indexOf("<root");
+        int start = xml.indexOf("<root");
         int end = xml.indexOf("/root>") + 6;
         String expected = "<root>this is simple text<child></child>containing spaces and multiple textnodes</root>";
         log.info("Expected:");
@@ -443,11 +503,11 @@ public class XMLWriterTest extends AbstractTestCase {
         }
 
         String xml = buffer.toString();
-      log.debug(xml);
+        log.debug(xml);
 
-      int start = xml.indexOf("<root");
+        int start = xml.indexOf("<root");
         int end = xml.indexOf("/root>") + 6;
-        String eol = "\n"; // System.getProperty("line.separator");
+        String eol = "\n";
         String expected = "<root>" + eol +
                 "    <child></child>" + eol +
                 "</root>";
@@ -524,7 +584,7 @@ public class XMLWriterTest extends AbstractTestCase {
 
         String expectedXml =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<root>blahblah &#143;</root>";
+                        "<root>blahblah &#143;</root>";
         assertEquals(expectedXml, strWriter.toString());
     }
 
@@ -557,6 +617,17 @@ public class XMLWriterTest extends AbstractTestCase {
 
         log.info(e.asXML());
         log.info(doc.asXML());
+    }
+
+    @Test
+    public void testSetProperty() throws Exception {
+        XMLWriter writer = new XMLWriter();
+        HTMLWriter handler = new HTMLWriter();
+
+        writer.setProperty("http://xml.org/sax/properties/lexical-handler", handler);
+
+        assertEquals(handler, writer.getProperty("http://xml.org/sax/properties/lexical-handler"));
+        assertEquals(handler, writer.getLexicalHandler());
     }
 
     protected void generateXML(ContentHandler handler) throws SAXException {
