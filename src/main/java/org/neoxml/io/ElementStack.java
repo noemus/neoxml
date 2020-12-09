@@ -23,6 +23,7 @@ import java.util.Arrays;
  * @version $Revision: 1.14 $
  */
 class ElementStack implements ElementPath {
+    private static final String SLASH = "/";
     /**
      * stack of <code>Element</code> objects
      */
@@ -155,17 +156,6 @@ class ElementStack implements ElementPath {
         this.handler.removeHandler(getHandlerPath(path));
     }
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @param path DOCUMENT ME!
-     * @return true when an <code>ElementHandler</code> is registered for the
-     * specified path.
-     */
-    public boolean containsHandler(String path) {
-        return this.handler.containsHandler(path);
-    }
-
     private String getHandlerPath(String path) {
         String handlerPath;
 
@@ -173,12 +163,12 @@ class ElementStack implements ElementPath {
             setDispatchHandler(new DispatchHandler());
         }
 
-        if (path.startsWith("/")) {
+        if (path.startsWith(SLASH)) {
             handlerPath = path;
-        } else if (getPath().equals("/")) {
-            handlerPath = getPath() + path;
+        } else if (getPath().equals(SLASH)) {
+            handlerPath = SLASH + path;
         } else {
-            handlerPath = getPath() + "/" + path;
+            handlerPath = getPath() + SLASH + path;
         }
 
         return handlerPath;

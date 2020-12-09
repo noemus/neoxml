@@ -35,9 +35,9 @@ import java.util.Set;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  */
 public class DefaultXPath implements org.neoxml.XPath, Serializable {
-    private String text;
+    private final String text;
 
-    private XPath xpath;
+    private final XPath xpath;
 
     private NamespaceContext namespaceContext;
 
@@ -47,7 +47,7 @@ public class DefaultXPath implements org.neoxml.XPath, Serializable {
      * @param text DOCUMENT ME!
      * @throws InvalidXPathException DOCUMENT ME!
      */
-    public DefaultXPath(String text) throws InvalidXPathException {
+    public DefaultXPath(String text) {
         this.text = text;
         this.xpath = parse(text);
     }
@@ -104,6 +104,7 @@ public class DefaultXPath implements org.neoxml.XPath, Serializable {
         try {
             setNSContext(context);
 
+            @SuppressWarnings("unchecked")
             List<? extends Node> answer = xpath.selectNodes(context);
 
             if ((answer != null) && (answer.size() == 1)) {
@@ -123,11 +124,12 @@ public class DefaultXPath implements org.neoxml.XPath, Serializable {
         try {
             setNSContext(context);
 
+            //noinspection unchecked
             return xpath.selectNodes(context);
         } catch (JaxenException e) {
             handleJaxenException(e);
 
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
     }
 
@@ -237,11 +239,8 @@ public class DefaultXPath implements org.neoxml.XPath, Serializable {
             int size = list.size();
             HashMap<Node, String> sortValues = new HashMap<>(size);
 
-            for (int i = 0; i < size; i++) {
-                Object object = list.get(i);
-
-                if (object instanceof Node) {
-                    Node node = (Node) object;
+            for (Node node : list) {
+                if (node != null) {
                     String expression = getCompareValue(node);
                     sortValues.put(node, expression);
                 }
@@ -260,24 +259,21 @@ public class DefaultXPath implements org.neoxml.XPath, Serializable {
         try {
             setNSContext(node);
 
-            List<? extends Node> answer = xpath.selectNodes(node);
+            List<?> answer = xpath.selectNodes(node);
 
             if ((answer != null) && !answer.isEmpty()) {
                 Object item = answer.get(0);
 
                 if (item instanceof Boolean) {
-                    return ((Boolean) item).booleanValue();
+                    return (Boolean) item;
                 }
 
                 return answer.contains(node);
             }
-
-            return false;
         } catch (JaxenException e) {
             handleJaxenException(e);
-
-            return false;
         }
+        return false;
     }
 
     /**
@@ -286,25 +282,23 @@ public class DefaultXPath implements org.neoxml.XPath, Serializable {
      * @param list       DOCUMENT ME!
      * @param sortValues DOCUMENT ME!
      */
+    @SuppressWarnings("StringEquality")
     protected void sort(List<? extends Node> list, final Map<Node, String> sortValues) {
-        Collections.sort(list, new Comparator<Node>() {
-            @Override
-            public int compare(Node o1, Node o2) {
-                String k1 = sortValues.get(o1);
-                String k2 = sortValues.get(o2);
+        list.sort((o1, o2) -> {
+            String k1 = sortValues.get(o1);
+            String k2 = sortValues.get(o2);
 
-                if (k1 == k2) {
-                    // also handles k1 == null && k2 == null
-                    return 0;
-                } else if (k1 != null && k2 != null) {
-                    return k1.compareTo(k2);
-                } else if (k1 == null) {
-                    // k1 == null && k2 != null
-                    return 1;
-                } else {
-                    // k2 == null && k1 != null
-                    return -1;
-                }
+            if (k1 == k2) {
+                // also handles k1 == null && k2 == null
+                return 0;
+            } else if (k1 != null && k2 != null) {
+                return k1.compareTo(k2);
+            } else if (k1 == null) {
+                // k1 == null && k2 != null
+                return 1;
+            } else {
+                // k2 == null && k1 != null
+                return -1;
             }
         });
     }
@@ -348,7 +342,9 @@ public class DefaultXPath implements org.neoxml.XPath, Serializable {
             return new XtreeXPath(text);
         } catch (JaxenException e) {
             throw new InvalidXPathException(text, e.getMessage());
-        } catch (RuntimeException e) {}
+        } catch (RuntimeException ignored) {
+            // ignored
+        }
 
         throw new InvalidXPathException(text);
     }
@@ -359,7 +355,7 @@ public class DefaultXPath implements org.neoxml.XPath, Serializable {
         }
     }
 
-    protected void handleJaxenException(JaxenException exception) throws XPathException {
+    protected void handleJaxenException(JaxenException exception) {
         throw new XPathException(text, exception);
     }
 }

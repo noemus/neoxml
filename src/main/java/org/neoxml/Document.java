@@ -9,6 +9,7 @@ package org.neoxml;
 import org.xml.sax.EntityResolver;
 
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * <p>
@@ -40,6 +41,7 @@ public interface Document extends Branch {
      * @param comment is the text for the <code>Comment</code> node.
      * @return this <code>Document</code> instance.
      */
+    @Override
     Document addComment(String comment);
 
     /**
@@ -50,6 +52,7 @@ public interface Document extends Branch {
      *               instruction
      * @return this <code>Document</code> instance.
      */
+    @Override
     Document addProcessingInstruction(String target, String text);
 
     /**
@@ -128,6 +131,15 @@ public interface Document extends Branch {
      * @since 1.6
      */
     void setXMLEncoding(String encoding);
+
+    static Document require(Node node) {
+        if (node instanceof Document) {
+            return (Document) node;
+        }
+        Objects.requireNonNull(node);
+        throw new IllegalArgumentException("Node should be instance of " + Document.class.getName() +
+                                                   ", but its type is " + node.getClass().getName());
+    }
 }
 
 /*

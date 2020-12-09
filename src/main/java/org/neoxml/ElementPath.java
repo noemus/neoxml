@@ -25,8 +25,8 @@ public interface ElementPath {
     /**
      * DOCUMENT ME!
      *
-     * @param depth DOCUMENT ME!
-     * @return the element at the specified depth index, 0 = root element
+     * @param depth depth index, 0 = root element
+     * @return the element at the specified depth
      */
     Element getElement(int depth);
 

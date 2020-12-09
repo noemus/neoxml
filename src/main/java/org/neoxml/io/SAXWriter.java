@@ -55,6 +55,7 @@ public class SAXWriter implements XMLReader {
 
     protected static final String FEATURE_NAMESPACE_PREFIXES = "http://xml.org/sax/features/namespace-prefixes";
 
+    @SuppressWarnings("unused")
     protected static final String FEATURE_NAMESPACES = "http://xml.org/sax/features/namespaces";
 
     /**
@@ -82,17 +83,17 @@ public class SAXWriter implements XMLReader {
     /**
      * <code>AttributesImpl</code> used when generating the Attributes
      */
-    private AttributesImpl attributes = new AttributesImpl();
+    private final AttributesImpl attributes = new AttributesImpl();
 
     /**
      * Stores the features
      */
-    private Map<String, Boolean> features = new HashMap<>();
+    private final Map<String, Boolean> features = new HashMap<>();
 
     /**
      * Stores the properties
      */
-    private Map<String, Object> properties = new HashMap<>();
+    private final Map<String, Object> properties = new HashMap<>();
 
     /**
      * Whether namespace declarations are exported as attributes or not
@@ -100,7 +101,6 @@ public class SAXWriter implements XMLReader {
     private boolean declareNamespaceAttributes;
 
     public SAXWriter() {
-        properties.put(FEATURE_NAMESPACE_PREFIXES, false);
         properties.put(FEATURE_NAMESPACE_PREFIXES, true);
     }
 
@@ -136,53 +136,42 @@ public class SAXWriter implements XMLReader {
         switch (nodeType) {
             case ELEMENT_NODE:
                 write((Element) node);
-
                 break;
 
             case ATTRIBUTE_NODE:
-                write(node);
-
+                // Attributes are written as part of Element
                 break;
 
             case TEXT_NODE:
                 write(node.getText());
-
                 break;
 
             case CDATA_SECTION_NODE:
                 write((CDATA) node);
-
                 break;
 
             case ENTITY_REFERENCE_NODE:
                 write((Entity) node);
-
                 break;
 
             case PROCESSING_INSTRUCTION_NODE:
                 write((ProcessingInstruction) node);
-
                 break;
 
             case COMMENT_NODE:
                 write((Comment) node);
-
                 break;
 
             case DOCUMENT_NODE:
                 write((Document) node);
-
                 break;
 
             case DOCUMENT_TYPE_NODE:
-                write(node);
-
+                // DocumentType is written as part of Document
                 break;
 
             case NAMESPACE_NODE:
-
                 // Will be output with attributes
-                // write((Namespace) node);
                 break;
 
             default:
@@ -469,11 +458,9 @@ public class SAXWriter implements XMLReader {
      * @throws SAXNotSupportedException  DOCUMENT ME!
      */
     @Override
-    public boolean getFeature(String name) throws SAXNotRecognizedException,
-                                                  SAXNotSupportedException {
+    public boolean getFeature(String name) throws SAXNotRecognizedException, SAXNotSupportedException {
         Boolean answer = features.get(name);
-
-        return (answer != null) && answer.booleanValue();
+        return (answer != null) && answer;
     }
 
     /**
@@ -560,11 +547,7 @@ public class SAXWriter implements XMLReader {
         }
     }
 
-    // Implementation methods
-    // -------------------------------------------------------------------------
-
-    protected void writeContent(Branch branch, NamespaceStack namespaceStack)
-            throws SAXException {
+    protected void writeContent(Branch branch, NamespaceStack namespaceStack) throws SAXException {
         for (Node node : branch) {
             if (node instanceof Element) {
                 write((Element) node, namespaceStack);
@@ -577,18 +560,16 @@ public class SAXWriter implements XMLReader {
                 } else if (node instanceof Comment) {
                     write((Comment) node);
                 } else {
-                    throw new SAXException("Invalid Node in neoxml content: "
-                                                   + node + " of type: " + node.getClass());
+                    throw new SAXException("Invalid Node in neoxml content: " + node + " of type: " + node.getClass());
                 }
             } else if (node instanceof Entity) {
                 write((Entity) node);
             } else if (node instanceof ProcessingInstruction) {
                 write((ProcessingInstruction) node);
             } else if (node instanceof Namespace) {
-                write(node);
+                // Will be output with attributes
             } else {
-                throw new SAXException("Invalid Node in neoxml content: "
-                                               + node);
+                throw new SAXException("Invalid Node in neoxml content: " + node);
             }
         }
     }
@@ -601,7 +582,6 @@ public class SAXWriter implements XMLReader {
      * and column numbers.
      *
      * @param document DOCUMENT ME!
-     * @throws SAXException DOCUMENT ME!
      */
     protected void documentLocator(Document document) {
         LocatorImpl locator = new LocatorImpl();
@@ -653,9 +633,10 @@ public class SAXWriter implements XMLReader {
      * right now.
      *
      * @param document DOCUMENT ME!
-     * @throws SAXException DOCUMENT ME!
      */
-    protected void dtdHandler(Document document) {}
+    protected void dtdHandler(Document document) {
+        // do nothing
+    }
 
     protected void startDocument() throws SAXException {
         contentHandler.startDocument();
@@ -665,11 +646,9 @@ public class SAXWriter implements XMLReader {
         contentHandler.endDocument();
     }
 
-    protected void write(Element element, NamespaceStack namespaceStack)
-            throws SAXException {
+    protected void write(Element element, NamespaceStack namespaceStack) throws SAXException {
         int stackSize = namespaceStack.size();
-        AttributesImpl namespaceAttributes = startPrefixMapping(element,
-                                                                namespaceStack);
+        AttributesImpl namespaceAttributes = startPrefixMapping(element, namespaceStack);
         startElement(element, namespaceAttributes);
         writeContent(element, namespaceStack);
         endElement(element);
@@ -695,10 +674,8 @@ public class SAXWriter implements XMLReader {
         if ((elementNamespace != null)
                 && !isIgnoreableNamespace(elementNamespace, namespaceStack)) {
             namespaceStack.push(elementNamespace);
-            contentHandler.startPrefixMapping(elementNamespace.getPrefix(),
-                                              elementNamespace.getURI());
-            namespaceAttributes = addNamespaceAttribute(namespaceAttributes,
-                                                        elementNamespace);
+            contentHandler.startPrefixMapping(elementNamespace.getPrefix(), elementNamespace.getURI());
+            namespaceAttributes = addNamespaceAttribute(namespaceAttributes, elementNamespace);
         }
 
         for (Namespace namespace : element.declaredNamespaces()) {
@@ -731,16 +708,16 @@ public class SAXWriter implements XMLReader {
         }
     }
 
-    protected void startElement(Element element,
-                                AttributesImpl namespaceAttributes) throws SAXException {
-        contentHandler.startElement(element.getNamespaceURI(), element
-                .getName(), element.getQualifiedName(), createAttributes(
-                element, namespaceAttributes));
+    protected void startElement(Element element, AttributesImpl namespaceAttributes) throws SAXException {
+        contentHandler.startElement(
+                element.getNamespaceURI(),
+                element.getName(),
+                element.getQualifiedName(),
+                createAttributes(element, namespaceAttributes));
     }
 
     protected void endElement(Element element) throws SAXException {
-        contentHandler.endElement(element.getNamespaceURI(), element.getName(),
-                                  element.getQualifiedName());
+        contentHandler.endElement(element.getNamespaceURI(), element.getName(), element.getQualifiedName());
     }
 
     protected Attributes createAttributes(Element element, Attributes namespaceAttributes) {
@@ -771,8 +748,7 @@ public class SAXWriter implements XMLReader {
      * @param namespace DOCUMENT ME!
      * @return DOCUMENT ME!
      */
-    protected AttributesImpl addNamespaceAttribute(AttributesImpl attrs,
-                                                   Namespace namespace) {
+    protected AttributesImpl addNamespaceAttribute(AttributesImpl attrs, Namespace namespace) {
         if (declareNamespaceAttributes) {
             if (attrs == null) {
                 attrs = new AttributesImpl();
@@ -786,11 +762,10 @@ public class SAXWriter implements XMLReader {
             }
 
             String uri = "";
-            String localName = prefix;
             String type = "CDATA";
             String value = namespace.getURI();
 
-            attrs.addAttribute(uri, localName, qualifiedName, type, value);
+            attrs.addAttribute(uri, prefix, qualifiedName, type, value);
         }
 
         return attrs;
@@ -799,7 +774,7 @@ public class SAXWriter implements XMLReader {
     /**
      * DOCUMENT ME!
      *
-     * @param namespace      DOCUMENT ME!
+     * @param namespace DOCUMENT ME!
      * @param namespaceStack DOCUMENT ME!
      * @return true if the given namespace is an ignorable namespace (such as
      * Namespace.NO_NAMESPACE or Namespace.XML_NAMESPACE) or if the
@@ -824,7 +799,9 @@ public class SAXWriter implements XMLReader {
     /**
      * Ensures non-null content handlers?
      */
-    protected void checkForNullHandlers() {}
+    protected void checkForNullHandlers() {
+        // do nothing in this implementation
+    }
 }
 
 /*

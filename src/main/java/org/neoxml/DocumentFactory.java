@@ -5,13 +5,6 @@ import org.neoxml.rule.Pattern;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by IntelliJ IDEA.
- * User: filip
- * Date: 5.4.2010
- * Time: 17:05:44
- * To change this template use File | Settings | File Templates.
- */
 public interface DocumentFactory {
     Document createDocument();
 

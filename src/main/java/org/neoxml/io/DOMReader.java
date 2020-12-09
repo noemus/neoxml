@@ -37,7 +37,7 @@ public class DOMReader {
     /**
      * stack of <code>Namespace</code> and <code>QName</code> objects
      */
-    private NamespaceStack namespaceStack;
+    private final NamespaceStack namespaceStack;
 
     public DOMReader() {
         this.factory = DefaultDocumentFactory.getInstance();
@@ -50,8 +50,6 @@ public class DOMReader {
     }
 
     /**
-     * DOCUMENT ME!
-     *
      * @return the <code>DefaultDocumentFactory</code> used to create document
      * objects
      */
@@ -61,12 +59,12 @@ public class DOMReader {
 
     /**
      * <p>
-     * This sets the <code>DefaultDocumentFactory</code> used to create new documents. This method allows the building of
+     * This sets the <code>DocumentFactory</code> used to create new documents. This method allows the building of
      * custom neoxml tree objects to be implemented easily using a custom derivation of
      * {@link org.neoxml.DefaultDocumentFactory}
      * </p>
      *
-     * @param docFactory <code>DefaultDocumentFactory</code> used to create neoxml objects
+     * @param docFactory <code>DocumentFactory</code> used to create neoxml objects
      */
     public void setDocumentFactory(DocumentFactory docFactory) {
         this.factory = docFactory;
@@ -79,92 +77,61 @@ public class DOMReader {
         }
 
         Document document = createDocument();
-
         clearNamespaceStack();
+        readTree(domDocument, document);
 
+        return document;
+    }
+
+    private void readTree(org.w3c.dom.Document domDocument, Document document) {
         org.w3c.dom.NodeList nodeList = domDocument.getChildNodes();
 
         for (int i = 0, size = nodeList.getLength(); i < size; i++) {
             readTree(nodeList.item(i), document);
         }
-
-        return document;
     }
 
-    // Implementation methods
-
-    @SuppressWarnings("null")
     protected void readTree(org.w3c.dom.Node node, Branch current) {
-        Element element = null;
-        Document document = null;
-
-        if (current instanceof Element) {
-            element = (Element) current;
-        } else {
-            document = (Document) current;
-        }
-
         switch (node.getNodeType()) {
             case org.w3c.dom.Node.ELEMENT_NODE:
                 readElement(node, current);
-
                 break;
 
             case org.w3c.dom.Node.PROCESSING_INSTRUCTION_NODE:
-
-                if (current instanceof Element) {
-                    Element currentEl = (Element) current;
-                    currentEl.addProcessingInstruction(node.getNodeName(), node.getNodeValue());
-                } else {
-                    Document currentDoc = (Document) current;
-                    currentDoc.addProcessingInstruction(node.getNodeName(), node.getNodeValue());
-                }
-
+                current.addProcessingInstruction(node.getNodeName(), node.getNodeValue());
                 break;
 
             case org.w3c.dom.Node.COMMENT_NODE:
-
-                if (current instanceof Element) {
-                    ((Element) current).addComment(node.getNodeValue());
-                } else {
-                    ((Document) current).addComment(node.getNodeValue());
-                }
-
+                current.addComment(node.getNodeValue());
                 break;
 
             case org.w3c.dom.Node.DOCUMENT_TYPE_NODE:
-
                 org.w3c.dom.DocumentType domDocType = (org.w3c.dom.DocumentType) node;
-                document.addDocType(domDocType.getName(), domDocType.getPublicId(), domDocType.getSystemId());
-
+                Document.require(current)
+                        .addDocType(domDocType.getName(), domDocType.getPublicId(), domDocType.getSystemId());
                 break;
 
             case org.w3c.dom.Node.TEXT_NODE:
-                element.addText(node.getNodeValue());
-
+                Element.require(current).addText(node.getNodeValue());
                 break;
 
             case org.w3c.dom.Node.CDATA_SECTION_NODE:
-                element.addCDATA(node.getNodeValue());
-
+                Element.require(current).addCDATA(node.getNodeValue());
                 break;
 
             case org.w3c.dom.Node.ENTITY_REFERENCE_NODE:
-
                 // is there a better way to get the value of an entity?
                 org.w3c.dom.Node firstChild = node.getFirstChild();
 
                 if (firstChild != null) {
-                    element.addEntity(node.getNodeName(), firstChild.getNodeValue());
+                    Element.require(current).addEntity(node.getNodeName(), firstChild.getNodeValue());
                 } else {
-                    element.addEntity(node.getNodeName(), "");
+                    Element.require(current).addEntity(node.getNodeName(), "");
                 }
-
                 break;
 
             case org.w3c.dom.Node.ENTITY_NODE:
-                element.addEntity(node.getNodeName(), node.getNodeValue());
-
+                Element.require(current).addEntity(node.getNodeName(), node.getNodeValue());
                 break;
 
             default:
@@ -178,11 +145,6 @@ public class DOMReader {
         int previouslyDeclaredNamespaces = namespaceStack.size();
 
         String namespaceUri = node.getNamespaceURI();
-        String elementPrefix = node.getPrefix();
-
-        if (elementPrefix == null) {
-            elementPrefix = "";
-        }
 
         org.w3c.dom.NamedNodeMap attributeList = node.getAttributes();
 
@@ -192,7 +154,6 @@ public class DOMReader {
 
             if (attribute != null) {
                 namespaceUri = attribute.getNodeValue();
-                elementPrefix = "";
             }
         }
 
@@ -220,22 +181,31 @@ public class DOMReader {
                 }
             }
 
-            // now add the attributes, the namespaces should be available
-            for (org.w3c.dom.Node attribute : attributes) {
-                QName attributeQName = namespaceStack.getQName(attribute.getNamespaceURI(), attribute.getLocalName(), attribute.getNodeName());
-                element.addAttribute(attributeQName, attribute.getNodeValue());
-            }
+            addAttributes(element, attributes);
         }
 
-        // Recurse on child nodes
+        recurseOnChildNodes(node, element);
+        popNamespaceFromStack(previouslyDeclaredNamespaces);
+    }
+
+    private void addAttributes(Element element, List<org.w3c.dom.Node> attributes) {
+        // the namespaces should be available by now
+        for (org.w3c.dom.Node attribute : attributes) {
+            QName attributeQName = namespaceStack.getQName(attribute.getNamespaceURI(), attribute.getLocalName(), attribute.getNodeName());
+            element.addAttribute(attributeQName, attribute.getNodeValue());
+        }
+    }
+
+    private void recurseOnChildNodes(org.w3c.dom.Node node, Element element) {
         org.w3c.dom.NodeList children = node.getChildNodes();
 
         for (int i = 0, size = children.getLength(); i < size; i++) {
             org.w3c.dom.Node child = children.item(i);
             readTree(child, element);
         }
+    }
 
-        // pop namespaces from the stack
+    private void popNamespaceFromStack(int previouslyDeclaredNamespaces) {
         while (namespaceStack.size() > previouslyDeclaredNamespaces) {
             namespaceStack.pop();
         }

@@ -33,6 +33,7 @@ import java.util.Comparator;
  * @version $Revision: 1.10 $
  */
 public class NodeComparator implements Comparator<Node> {
+    @SuppressWarnings("unused")
     public static final NodeComparator INSTANCE = new NodeComparator();
 
     @Override
@@ -85,7 +86,7 @@ public class NodeComparator implements Comparator<Node> {
                 return compare((Namespace) n1, (Namespace) n2);
 
             default:
-                throw new RuntimeException("Invalid node types. node1: " + n1 + " and node2: " + n2);
+                throw new IllegalStateException("Invalid node types. node1: " + n1 + " and node2: " + n2);
         }
     }
 
@@ -229,6 +230,7 @@ public class NodeComparator implements Comparator<Node> {
         return answer;
     }
 
+    @SuppressWarnings("StringEquality")
     public static int compare(String o1, String o2) {
         if (o1 == o2) {
             return 0;

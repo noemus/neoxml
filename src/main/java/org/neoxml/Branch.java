@@ -63,7 +63,7 @@ public interface Branch extends Node, Iterable<Node> {
      * Returns the content nodes of this branch as a backed {@link List}so that the content of this branch may be modified
      * directly using the {@link List}interface. The <code>List</code> is backed by the <code>Branch</code> so that
      * changes to the list are reflected in the branch and vice versa.
-     * RK: not all changes were actually reflected in dom4j 1.6.6 - clearContent() was not reflected in ContentListFacade!
+     * Note: not all changes were actually reflected in dom4j 1.6.6 - clearContent() was not reflected in ContentListFacade!
      * </p>
      *
      * @return the nodes that this branch contains as a <code>List</code>
@@ -177,6 +177,25 @@ public interface Branch extends Node, Iterable<Node> {
      * @return the newly added <code>Element</code> node.
      */
     Element addElement(String qualifiedName, String namespaceURI);
+
+    /**
+     * Adds a new <code>Comment</code> node with the given text to this
+     * branch.
+     *
+     * @param comment is the text for the <code>Comment</code> node.
+     * @return this <code>Document</code> instance.
+     */
+    Branch addComment(String comment);
+
+    /**
+     * Adds a processing instruction for the given target
+     *
+     * @param target is the target of the processing instruction
+     * @param text   is the textual data (key/value pairs) of the processing
+     *               instruction
+     * @return this <code>Document</code> instance.
+     */
+    Branch addProcessingInstruction(String target, String text);
 
     /**
      * Removes the processing instruction for the given target if it exists

@@ -21,7 +21,6 @@ import org.neoxml.Text;
 import org.neoxml.tree.NamespaceStack;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
-import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
@@ -103,12 +102,12 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
     /**
      * The Stack of namespaceStack written so far
      */
-    private NamespaceStack namespaceStack = new NamespaceStack();
+    private final NamespaceStack namespaceStack = new NamespaceStack();
 
     /**
      * The format used by this writer
      */
-    private OutputFormat format;
+    private final OutputFormat format;
 
     /**
      * whether we should escape text
@@ -124,7 +123,7 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
     /**
      * buffer used when escaping strings
      */
-    private StringBuilder buffer = new StringBuilder();
+    private final StringBuilder buffer = new StringBuilder();
 
     /**
      * whether we have added characters before from the same chunk of characters
@@ -142,12 +141,6 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
      * Lexical handler we should delegate to
      */
     private LexicalHandler lexicalHandler;
-
-    /**
-     * Whether comments should appear inside DTD declarations - defaults to
-     * false
-     */
-    private boolean showCommentsInDTDs;
 
     /**
      * Is the writer curerntly inside a DTD definition?
@@ -509,14 +502,13 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
      * @param object is the object to output.
      * @throws IOException DOCUMENT ME!
      */
-    @SuppressWarnings("unchecked")
     public void write(Object object) throws IOException {
         if (object instanceof Node) {
             write((Node) object);
         } else if (object instanceof String) {
             write((String) object);
         } else if (object instanceof List<?>) {
-            for (Object obj : (List<? extends Object>) object) {
+            for (Object obj : (List<?>) object) {
                 write(obj);
             }
         } else if (object != null) {
@@ -562,10 +554,9 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
 
     @Override
     public void setProperty(String name, Object value) throws SAXNotRecognizedException, SAXNotSupportedException {
-        for (int i = 0; i < LEXICAL_HANDLER_NAMES.length; i++) {
-            if (LEXICAL_HANDLER_NAMES[i].equals(name)) {
+        for (String lexicalHandlerName : LEXICAL_HANDLER_NAMES) {
+            if (lexicalHandlerName.equals(name)) {
                 setLexicalHandler((LexicalHandler) value);
-
                 return;
             }
         }
@@ -575,8 +566,8 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
 
     @Override
     public Object getProperty(String name) throws SAXNotRecognizedException, SAXNotSupportedException {
-        for (int i = 0; i < LEXICAL_HANDLER_NAMES.length; i++) {
-            if (LEXICAL_HANDLER_NAMES[i].equals(name)) {
+        for (String lexicalHandlerName : LEXICAL_HANDLER_NAMES) {
+            if (lexicalHandlerName.equals(name)) {
                 return getLexicalHandler();
             }
         }
@@ -587,9 +578,8 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
     public void setLexicalHandler(LexicalHandler handler) {
         if (handler == null) {
             throw new NullPointerException("Null lexical handler");
-        } else {
-            this.lexicalHandler = handler;
         }
+        this.lexicalHandler = handler;
     }
 
     public LexicalHandler getLexicalHandler() {
@@ -616,7 +606,9 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
         if (autoFlush) {
             try {
                 flush();
-            } catch (IOException e) {}
+            } catch (IOException ignored) {
+                // ignored
+            }
         }
     }
 
@@ -663,15 +655,7 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
                 indent();
             }
 
-            // XXX: need to determine this using a stack and checking for
-            // content / children
-            boolean hadContent = true;
-
-            if (hadContent) {
-                writeClose(qName);
-            } else {
-                writeEmptyElementClose(qName);
-            }
+            writeClose(qName);
 
             lastOutputNodeType = NodeType.ELEMENT_NODE;
             lastElementClosed = true;
@@ -827,7 +811,7 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
 
     @Override
     public void comment(char[] ch, int start, int length) throws SAXException {
-        if (showCommentsInDTDs || !inDTD) {
+        if (!inDTD) {
             try {
                 charsAdded = false;
                 writeComment(new String(ch, start, length));
@@ -933,14 +917,12 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
      */
     protected final boolean isElementSpacePreserved(Element element) {
         final Attribute attr = element.attribute("space");
-        boolean preserveFound = preserve; // default to global state
+        // defaults to global state
+        boolean preserveFound = preserve;
 
         if (attr != null) {
-            if ("xml".equals(attr.getNamespacePrefix()) && "preserve".equals(attr.getText())) {
-                preserveFound = true;
-            } else {
-                preserveFound = false;
-            }
+            preserveFound = "xml".equals(attr.getNamespacePrefix())
+                    && "preserve".equals(attr.getText());
         }
 
         return preserveFound;
@@ -978,9 +960,9 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
 
                 if (node instanceof Text) {
                     if (buff == null) {
-                        buff = new StringBuilder(((Text) node).getText());
+                        buff = new StringBuilder(node.getText());
                     } else {
-                        buff.append(((Text) node).getText());
+                        buff.append(node.getText());
                     }
                 } else {
                     if (buff != null && buff.length() > 0) {
@@ -1715,8 +1697,6 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
     protected void handleException(IOException e) throws SAXException {
         throw new SAXException(e);
     }
-
-    // Laramie Crocker 4/8/2002 10:38AM
 
     /**
      * Lets subclasses get at the current format object, so they can call

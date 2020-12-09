@@ -9,6 +9,7 @@ package org.neoxml;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * <p>
@@ -198,6 +199,7 @@ public interface Element extends Branch {
      * @param comment is the text for the <code>Comment</code> node.
      * @return this <code>Element</code> instance.
      */
+    @Override
     Element addComment(String comment);
 
     /**
@@ -235,6 +237,7 @@ public interface Element extends Branch {
      *               instruction
      * @return this <code>Element</code> instance.
      */
+    @Override
     Element addProcessingInstruction(String target, String text);
 
     /**
@@ -356,7 +359,6 @@ public interface Element extends Branch {
     // Text methods
     // -------------------------------------------------------------------------
 
-    @Override
     /**
      * Returns the text value of this element without recursing through child
      * elements. This method iterates through all {@link Text},{@link CDATA}
@@ -366,6 +368,7 @@ public interface Element extends Branch {
      * @return the textual content of this Element. Child elements are not
      *         navigated. This method does not return null;
      */
+    @Override
     String getText();
 
     /**
@@ -376,7 +379,6 @@ public interface Element extends Branch {
      */
     String getTextTrim();
 
-    @Override
     /**
      * Returns the XPath string-value of this node. The behaviour of this method
      * is defined in the <a href="http://www.w3.org/TR/xpath">XPath
@@ -386,6 +388,7 @@ public interface Element extends Branch {
      *
      * @return the text from all the child Text and Element nodes appended together.
      */
+    @Override
     String getStringValue();
 
     /**
@@ -694,6 +697,15 @@ public interface Element extends Branch {
      * relationship or null if there is not a node at the given index.
      */
     Node getXPathResult(int index);
+
+    static Element require(Node node) {
+        if (node instanceof Element) {
+            return (Element) node;
+        }
+        Objects.requireNonNull(node);
+        throw new IllegalArgumentException("Node should be instance of " + Element.class.getName() +
+                                                   ", but its type is " + node.getClass().getName());
+    }
 }
 
 /*

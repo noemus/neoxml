@@ -24,11 +24,9 @@ public class PerThreadSingleton<T> implements SingletonStrategy<T> {
 
     private final ThreadLocal<WeakReference<T>> perThreadCache = new ThreadLocal<>();
 
-    public PerThreadSingleton() {}
-
     @Override
     public void reset() {
-        perThreadCache.set(null);
+        perThreadCache.remove();
     }
 
     @SuppressWarnings("unchecked")
@@ -40,15 +38,17 @@ public class PerThreadSingleton<T> implements SingletonStrategy<T> {
         WeakReference<T> ref = perThreadCache.get();
 
         if (ref == null || ref.get() == null) {
-            Class<T> clazz = null;
+            Class<T> clazz;
             try {
                 clazz = (Class<T>) Thread.currentThread().getContextClassLoader().loadClass(singletonClassName);
-                singletonInstancePerThread = clazz.newInstance();
+                singletonInstancePerThread = clazz.getConstructor().newInstance();
             } catch (Exception ignore) {
                 try {
                     clazz = (Class<T>) Class.forName(singletonClassName);
-                    singletonInstancePerThread = clazz.newInstance();
-                } catch (Exception ignore2) {}
+                    singletonInstancePerThread = clazz.getConstructor().newInstance();
+                } catch (Exception ignore2) {
+                    // ignored
+                }
             }
 
             perThreadCache.set(new WeakReference<>(singletonInstancePerThread));
