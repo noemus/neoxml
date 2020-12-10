@@ -52,7 +52,7 @@ public class DOMWriter {
     /**
      * stack of <code>Namespace</code> objects
      */
-    private NamespaceStack namespaceStack = new NamespaceStack();
+    private final NamespaceStack namespaceStack = new NamespaceStack();
 
     public DOMWriter() {}
 

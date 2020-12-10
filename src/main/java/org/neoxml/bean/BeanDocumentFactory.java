@@ -20,11 +20,8 @@ import org.xml.sax.Attributes;
  * <p>
  * <code>BeanDocumentFactory</code> is a factory of neoxml objects which may be BeanElements which are backed by
  * JavaBeans and their properties.
- * </p>
- * <p/>
  * <p>
  * The tree built allows full XPath expressions from anywhere on the tree.
- * </p>
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.14 $
@@ -33,12 +30,10 @@ public class BeanDocumentFactory extends DefaultDocumentFactory {
     /**
      * The Singleton instance
      */
-    private static BeanDocumentFactory singleton = new BeanDocumentFactory();
+    private static final BeanDocumentFactory singleton = new BeanDocumentFactory();
 
     /**
-     * <p>
      * Access to the singleton instance of this factory.
-     * </p>
      *
      * @return the default singleon instance
      */

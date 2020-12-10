@@ -51,7 +51,7 @@ public class SAXContentHandler extends DefaultHandler implements LexicalHandler,
     /**
      * The factory used to create new <code>Document</code> instances
      */
-    private DocumentFactory documentFactory;
+    private final DocumentFactory documentFactory;
 
     /**
      * The document that is being built
@@ -66,12 +66,12 @@ public class SAXContentHandler extends DefaultHandler implements LexicalHandler,
     /**
      * stack of <code>Namespace</code> and <code>QName</code> objects
      */
-    private NamespaceStack namespaceStack;
+    private final NamespaceStack namespaceStack;
 
     /**
      * the <code>ElementHandler</code> called as the elements are complete
      */
-    private ElementHandler elementHandler;
+    private final ElementHandler elementHandler;
 
     /**
      * the Locator
@@ -98,16 +98,6 @@ public class SAXContentHandler extends DefaultHandler implements LexicalHandler,
      * events
      */
     private StringBuilder cdataText;
-
-    /**
-     * namespaces that are available for use
-     */
-    //private Map<String,Namespace> availableNamespaceMap = new HashMap<>();
-
-    /**
-     * declared namespaces that are not yet available for use
-     */
-    //private List<Namespace> declaredNamespaceList = new ArrayList<>();
 
     /**
      * internal DTD declarations
@@ -248,7 +238,6 @@ public class SAXContentHandler extends DefaultHandler implements LexicalHandler,
 
     @Override
     public void startDocument() throws SAXException {
-        // document = createDocument();
         document = null;
         currentElement = null;
 
@@ -282,8 +271,6 @@ public class SAXContentHandler extends DefaultHandler implements LexicalHandler,
         namespaceStack.clear();
         elementStack.clear();
         currentElement = null;
-        //textBuffer = null;
-        //cdataText = null;
     }
 
     @Override

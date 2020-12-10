@@ -45,7 +45,7 @@ public class SAXModifier {
 
     private SAXModifyReader modifyReader;
 
-    private HashMap<String, ElementModifier> modifiers = new HashMap<>();
+    private final HashMap<String, ElementModifier> modifiers = new HashMap<>();
 
     /**
      * Creates a new modifier. <br>

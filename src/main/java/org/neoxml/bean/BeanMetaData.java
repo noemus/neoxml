@@ -35,7 +35,7 @@ public class BeanMetaData {
     /**
      * Singleton cache
      */
-    private static Map<Class<?>, BeanMetaData> singletonCache = new HashMap<>();
+    private static final Map<Class<?>, BeanMetaData> singletonCache = new HashMap<>();
 
     private static final DocumentFactory DOCUMENT_FACTORY = BeanDocumentFactory
             .getInstance();
@@ -43,7 +43,7 @@ public class BeanMetaData {
     /**
      * The class of the bean
      */
-    private Class<?> beanClass;
+    private final Class<?> beanClass;
 
     /**
      * Property descriptors for the bean
@@ -53,22 +53,22 @@ public class BeanMetaData {
     /**
      * QNames for the attributes
      */
-    private QName[] qNames;
+    private final QName[] qNames;
 
     /**
      * Read methods used for getting properties
      */
-    private Method[] readMethods;
+    private final Method[] readMethods;
 
     /**
      * Write methods used for setting properties
      */
-    private Method[] writeMethods;
+    private final Method[] writeMethods;
 
     /**
      * Index of names and QNames to indices
      */
-    private Map<Object, Integer> nameMap = new HashMap<>();
+    private final Map<Object, Integer> nameMap = new HashMap<>();
 
     public BeanMetaData(Class<?> beanClass) {
         this.beanClass = beanClass;

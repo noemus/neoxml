@@ -22,17 +22,17 @@ public class BeanAttributeList extends DefaultNodeList<Attribute> {
     /**
      * The BeanElement that this
      */
-    private BeanElement parent;
+    private final BeanElement parent;
 
     /**
      * The BeanElement that this
      */
-    private BeanMetaData beanMetaData;
+    private final BeanMetaData beanMetaData;
 
     /**
      * The attributes
      */
-    private BeanAttribute[] attributes;
+    private final BeanAttribute[] attributes;
 
     public BeanAttributeList(BeanElement parent, BeanMetaData beanMetaData) {
         super(parent);

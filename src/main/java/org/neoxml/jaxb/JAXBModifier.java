@@ -44,7 +44,7 @@ public class JAXBModifier extends JAXBSupport {
 
     private boolean pruneElements;
 
-    private OutputFormat outputFormat;
+    private final OutputFormat outputFormat;
 
     private final Map<String, JAXBObjectModifier> modifiers = new HashMap<>();
 

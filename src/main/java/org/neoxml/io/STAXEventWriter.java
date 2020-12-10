@@ -58,7 +58,7 @@ public class STAXEventWriter {
      */
     protected XMLEventFactory factory = XMLEventFactory.newInstance();
 
-    private XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
+    private final XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
 
     public STAXEventWriter() {}
 

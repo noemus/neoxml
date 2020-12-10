@@ -30,11 +30,6 @@ public class Stylesheet {
     private String modeName;
 
     /**
-     * Creates a new empty stylesheet.
-     */
-    public Stylesheet() {}
-
-    /**
      * Add a rule to this stylesheet.
      *
      * @param rule the rule to add

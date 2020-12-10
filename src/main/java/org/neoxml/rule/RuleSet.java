@@ -33,8 +33,6 @@ public final class RuleSet {
      */
     private Rule[] ruleArray;
 
-    public RuleSet() {}
-
     @Override
     public String toString() {
         return super.toString() + " [RuleSet: " + rules + " ]";

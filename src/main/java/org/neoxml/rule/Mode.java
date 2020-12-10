@@ -37,8 +37,6 @@ public class Mode {
      */
     private Map<String, RuleSet> attributeNameRuleSets;
 
-    public Mode() {}
-
     /**
      * Runs the actions associated with the given node
      *

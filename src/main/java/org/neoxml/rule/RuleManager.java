@@ -42,8 +42,6 @@ public class RuleManager {
      */
     private Action valueOfAction;
 
-    public RuleManager() {}
-
     /**
      * DOCUMENT ME!
      *

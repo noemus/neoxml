@@ -47,7 +47,7 @@ public class STAXEventReader {
     /**
      * A StAX input factory, used to construct streams from IO streams.
      */
-    private XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+    private final XMLInputFactory inputFactory = XMLInputFactory.newInstance();
 
     /**
      * Constructs a default <code>STAXEventReader</code> instance with a

@@ -41,18 +41,18 @@ class DispatchHandler implements ElementHandler {
     /**
      * maintains a stack of previously encountered paths
      */
-    private List<String> pathStack;
+    private final List<String> pathStack;
 
     /**
      * maintains a stack of previously encountered handlers
      */
-    private List<ElementHandler> handlerStack;
+    private final List<ElementHandler> handlerStack;
 
     /**
      * <code>HashMap</code> maintains the mapping between element paths and
      * handlers
      */
-    private Map<String, ElementHandler> handlers;
+    private final Map<String, ElementHandler> handlers;
 
     /**
      * <code>ElementHandler</code> to use by default for element paths with no

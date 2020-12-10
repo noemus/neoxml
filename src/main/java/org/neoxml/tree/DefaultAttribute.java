@@ -29,7 +29,7 @@ public class DefaultAttribute extends AbstractAttribute {
     /**
      * The <code>QName</code> for this element
      */
-    private QName qname;
+    private final QName qname;
 
     /**
      * The value of the <code>Attribute</code>

@@ -26,18 +26,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <p>
  * Records SAX events such that they may be "replayed" at a later time. Provides an alternative serialization approach
  * when externalizing a neoxml document. Rather than serializing a document as text and re-parsing, the sax events may be
  * serialized instead.
- * </p>
+ * <p>
  * Example usage:
- * <p/>
- *
+ * <p>
  * <pre>
- * <p/>
- * <p/>
- * <p/>
  *         SAXEventRecorder recorder = new SAXEventRecorder();
  *         SAXWriter saxWriter = new SAXWriter(recorder, recorder);
  *         saxWriter.write(document);
@@ -47,9 +42,6 @@ import java.util.Map;
  *         SAXContentHandler saxContentHandler = new SAXContentHandler();
  *         recorder.replay(saxContentHandler);
  *         Document document = saxContentHandler.getDocument();
- * <p/>
- * <p/>
- * <p/>
  * </pre>
  *
  * @author Todd Wolff (Bluestem Software)

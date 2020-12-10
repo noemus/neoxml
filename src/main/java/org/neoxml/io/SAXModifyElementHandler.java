@@ -15,16 +15,14 @@ import org.neoxml.ElementPath;
  * This {@link org.neoxml.ElementHandler}is used to trigger {@link ElementModifier} objects in order to modify (parts of)
  * the Document on the
  * fly.
- * <p/>
  * <p>
  * When an element is completely parsed, a copy is handed to the associated (if any) {@link ElementModifier}that on his
  * turn returns the modified element that has to come in the tree.
- * </p>
  *
  * @author Wonne Keysers (Realsoftware.be)
  */
 class SAXModifyElementHandler implements ElementHandler {
-    private ElementModifier elemModifier;
+    private final ElementModifier elemModifier;
 
     private Element modifiedElement;
 

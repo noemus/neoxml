@@ -23,14 +23,14 @@ class PruningElementStack extends ElementStack {
     /**
      * ElementHandler to call when pruning occurs
      */
-    private ElementHandler elementHandler;
+    private final ElementHandler elementHandler;
 
     /**
      * the element name path which denotes the node to remove from its parent
      * when it is complete (i.e. when it is popped from the stack). The first
      * entry in the path will be a child of the root node
      */
-    private String[] path;
+    private final String[] path;
 
     /**
      * The level at which a path match can occur. We match when we have popped
