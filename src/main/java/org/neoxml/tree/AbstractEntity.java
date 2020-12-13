@@ -35,8 +35,7 @@ public abstract class AbstractEntity extends AbstractNode implements Entity {
         // From XPaths perspective, entities are included in text
         Element parent = getParent();
 
-        return ((parent != null) && (parent != context)) ? (parent
-                .getPath(context) + "/text()") : "text()";
+        return ((parent != null) && (parent != context)) ? (parent.getPath(context) + "/text()") : "text()";
     }
 
     @Override
@@ -44,8 +43,7 @@ public abstract class AbstractEntity extends AbstractNode implements Entity {
         // From XPaths perspective, entities are included in text
         Element parent = getParent();
 
-        return ((parent != null) && (parent != context)) ? (parent
-                .getUniquePath(context) + "/text()") : "text()";
+        return ((parent != null) && (parent != context)) ? (parent.getUniquePath(context) + "/text()") : "text()";
     }
 
     @Override

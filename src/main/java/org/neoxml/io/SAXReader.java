@@ -402,8 +402,7 @@ public class SAXReader {
             reader.parse(in);
 
             return handler.getDocument();
-        } catch (SAXParseException e) {
-            SAXParseException parseException = e;
+        } catch (SAXParseException parseException) {
             String systemId = parseException.getSystemId();
 
             if (systemId == null) {
@@ -412,7 +411,7 @@ public class SAXReader {
 
             String message = "Error on line " + parseException.getLineNumber() + " of document " + systemId + " : " + parseException.getMessage();
 
-            throw new DocumentException(message, e);
+            throw new DocumentException(message, parseException);
         } catch (Exception e) {
             throw new DocumentException(e.getMessage(), e);
         }

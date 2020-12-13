@@ -32,11 +32,11 @@ import java.util.ArrayList;
  * @version $Revision: 1.18 $
  */
 public class XPathPattern implements org.neoxml.rule.Pattern {
-    private String text;
+    private final String text;
 
-    private Pattern pattern;
+    private final Pattern pattern;
 
-    private Context context;
+    private final Context context;
 
     public XPathPattern(Pattern pattern) {
         this.pattern = pattern;
@@ -119,7 +119,8 @@ public class XPathPattern implements org.neoxml.rule.Pattern {
     }
 
     protected ContextSupport getContextSupport() {
-        return new ContextSupport(new SimpleNamespaceContext(), XPathFunctionContext.getInstance(), new SimpleVariableContext(), DocumentNavigator.getInstance());
+        return new ContextSupport(new SimpleNamespaceContext(), XPathFunctionContext.getInstance(),
+                                  new SimpleVariableContext(), DocumentNavigator.getInstance());
     }
 
     protected void handleJaxenException(JaxenException exception) throws XPathException {

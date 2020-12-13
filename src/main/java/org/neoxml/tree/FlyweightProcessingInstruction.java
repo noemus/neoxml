@@ -13,14 +13,10 @@ import java.util.Collections;
 import java.util.Map;
 
 /**
- * <p>
  * <code>FlyweightProcessingInstruction</code> is a Flyweight pattern implementation of a singly linked, read-only XML
  * Processing Instruction.
- * </p>
- * <p/>
  * <p>
  * This node could be shared across documents and elements though it does not support the parent relationship.
- * </p>
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.7 $

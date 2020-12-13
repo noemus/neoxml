@@ -161,8 +161,7 @@ public abstract class AbstractDocument extends AbstractBranch implements Documen
 
     @Override
     public Document addProcessingInstruction(String target, String data) {
-        ProcessingInstruction node = getDocumentFactory()
-                .createProcessingInstruction(target, data);
+        ProcessingInstruction node = getDocumentFactory().createProcessingInstruction(target, data);
         add(node);
 
         return this;
@@ -186,8 +185,7 @@ public abstract class AbstractDocument extends AbstractBranch implements Documen
 
     @Override
     public Element addElement(String qualifiedName, String namespaceURI) {
-        Element element = getDocumentFactory().createElement(qualifiedName,
-                                                             namespaceURI);
+        Element element = getDocumentFactory().createElement(qualifiedName, namespaceURI);
         add(element);
 
         return element;

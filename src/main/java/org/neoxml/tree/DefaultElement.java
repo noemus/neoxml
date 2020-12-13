@@ -129,35 +129,6 @@ public class DefaultElement extends AbstractElement {
         this.qname = name;
     }
 
-  /*
-  @Override
-  public String getStringValue() {
-    if (safeContentList().size() == 0) {
-      return "";
-    }
-
-    if (safeContentList().size() == 1) {
-      return getContentAsStringValue(contentList().get(0));
-    }
-
-    StringBuilder builder = new StringBuilder();
-
-    for (Node node : contentList()) {
-      String string = getContentAsStringValue(node);
-      if (string.length() > 0) {
-        if (USE_STRINGVALUE_SEPARATOR) {
-          if (builder.length() > 0) {
-            builder.append(' ');
-          }
-        }
-        builder.append(string);
-      }
-    }
-
-    return builder.toString();
-  }
-  */
-
     @Override
     public Namespace getNamespaceForURI(String uri) {
         Namespace namespace = super.getNamespaceForURI(uri);

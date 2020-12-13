@@ -44,7 +44,7 @@ public class DOMSAXContentHandler extends DefaultHandler implements LexicalHandl
     /**
      * The factory used to create new <code>Document</code> instances
      */
-    private DOMDocumentFactory documentFactory;
+    private final DOMDocumentFactory documentFactory;
 
     /**
      * The document that is being built
@@ -59,7 +59,7 @@ public class DOMSAXContentHandler extends DefaultHandler implements LexicalHandl
     /**
      * stack of <code>Namespace</code> and <code>QName</code> objects
      */
-    private NamespaceStack namespaceStack;
+    private final NamespaceStack namespaceStack;
 
     /**
      * the Locator
@@ -76,16 +76,6 @@ public class DOMSAXContentHandler extends DefaultHandler implements LexicalHandl
      * events
      */
     private StringBuilder cdataText;
-
-    /**
-     * namespaces that are available for use
-     */
-    //private Map availableNamespaceMap = new HashMap();
-
-    /**
-     * declared namespaces that are not yet available for use
-     */
-    //private List declaredNamespaceList = new ArrayList();
 
     /**
      * The number of namespaces that are declared in the current scope
@@ -130,7 +120,7 @@ public class DOMSAXContentHandler extends DefaultHandler implements LexicalHandl
     private boolean stripWhitespaceText = false;
 
     public DOMSAXContentHandler() {
-        this((DOMDocumentFactory) DOMDocumentFactory.getInstance());
+        this(DOMDocumentFactory.getInstance());
     }
 
     public DOMSAXContentHandler(DOMDocumentFactory documentFactory) {

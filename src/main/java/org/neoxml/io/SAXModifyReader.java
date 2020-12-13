@@ -19,7 +19,7 @@ import org.xml.sax.XMLReader;
  *
  * @author Wonne Keysers (Realsoftware.be)
  * @see org.neoxml.io.SAXReader
- * @see org.neoxml.io.XMLWriters
+ * @see org.neoxml.io.XMLWriter
  */
 class SAXModifyReader extends SAXReader {
     private XMLWriter xmlWriter;

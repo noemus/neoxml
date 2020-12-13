@@ -13,7 +13,6 @@ import org.neoxml.dtd.InternalDeclaration;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -156,8 +155,7 @@ public abstract class AbstractDocumentType extends AbstractNode implements Docum
         if (list != null && !list.isEmpty()) {
             writer.write(" [");
 
-            for (Iterator<InternalDeclaration> iter = list.iterator(); iter.hasNext(); ) {
-                InternalDeclaration decl = iter.next();
+            for (InternalDeclaration decl : list) {
                 writer.write("\n  ");
                 writer.write(decl.toString());
             }

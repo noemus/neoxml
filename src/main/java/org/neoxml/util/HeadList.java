@@ -58,7 +58,7 @@ public class HeadList<T> extends AbstractList<T> implements RandomAccess, Clonea
             return head;
         }
 
-        throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size());
+        throw indexOutOfBounds(index);
     }
 
     @Override
@@ -97,7 +97,7 @@ public class HeadList<T> extends AbstractList<T> implements RandomAccess, Clonea
             return head;
         }
 
-        throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size());
+        throw indexOutOfBounds(index);
     }
 
     @Override
@@ -116,26 +116,26 @@ public class HeadList<T> extends AbstractList<T> implements RandomAccess, Clonea
             createList(head, element);
             modCount++;
         } else {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size());
+            throw indexOutOfBounds(index);
         }
     }
 
     @Override
     public T remove(int index) {
         if (list != null) {
-            T _elt = list.remove(index);
-            if (_elt != null) {
+            T removedElement = list.remove(index);
+            if (removedElement != null) {
                 modCount++;
             }
-            return _elt;
+            return removedElement;
         } else if (head != null && index == 0) {
-            T _head = head;
+            T removedHead = head;
             head = null;
             modCount++;
-            return _head;
+            return removedHead;
         }
 
-        throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size());
+        throw indexOutOfBounds(index);
     }
 
     @Override
@@ -253,6 +253,10 @@ public class HeadList<T> extends AbstractList<T> implements RandomAccess, Clonea
             // this shouldn't happen, since we are Cloneable
             throw new InternalError();
         }
+    }
+
+    private IndexOutOfBoundsException indexOutOfBounds(int index) {
+        return new IndexOutOfBoundsException("Index: " + index + ", Size: " + size());
     }
 
     @SuppressWarnings("synthetic-access")

@@ -326,7 +326,7 @@ class FilteredNodeList<T extends Node> extends AbstractNodeListFacade<T> {
     }
 
     public final class ListItr extends Itr implements ListIterator<T> {
-        int prevIndex = -1;
+        int prevIndex;
         T prevElt;
 
         int idx;

@@ -56,8 +56,7 @@ class PruningElementStack extends ElementStack {
     public Element popElement() {
         Element answer = super.popElement();
 
-        if ((lastElementIndex == matchingElementIndex)
-                && (lastElementIndex >= 0)) {
+        if ((lastElementIndex == matchingElementIndex) && (lastElementIndex >= 0)) {
             // we are popping the correct level in the tree
             // lets check if the path fits
             //

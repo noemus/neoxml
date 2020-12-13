@@ -173,7 +173,7 @@ class DispatchHandler implements ElementHandler {
             path = path + "/" + element.getName();
         }
 
-        if ((handlers != null) && (handlers.containsKey(path))) {
+        if (handlers.containsKey(path)) {
             // The current node has a handler associated with it.
             // Find the handler and save it on the handler stack.
             ElementHandler handler = handlers.get(path);
@@ -192,7 +192,7 @@ class DispatchHandler implements ElementHandler {
 
     @Override
     public void onEnd(ElementPath elementPath) {
-        if ((handlers != null) && (handlers.containsKey(path))) {
+        if (handlers.containsKey(path)) {
             // This node has a handler associated with it.
             // Find the handler and pop it from the handler stack.
             ElementHandler handler = handlers.get(path);

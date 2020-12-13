@@ -241,8 +241,6 @@ public class HTMLWriter extends XMLWriter {
 
     @Override
     protected void writeCDATA(String text) throws IOException {
-        // XXX: Should we escape entities?
-        // writer.write( escapeElementEntities( text ) );
         if (getOutputFormat().isXHTML()) {
             super.writeCDATA(text);
         } else {

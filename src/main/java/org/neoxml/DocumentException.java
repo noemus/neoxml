@@ -17,7 +17,6 @@ import java.io.PrintWriter;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.7 $
  */
-@SuppressWarnings("serial")
 public class DocumentException extends Exception {
     /**
      * A wrapped <code>Throwable</code>

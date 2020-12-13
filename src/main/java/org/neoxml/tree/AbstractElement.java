@@ -681,46 +681,34 @@ public abstract class AbstractElement extends AbstractBranch implements Element 
         switch (node.getNodeTypeEnum()) {
             case ELEMENT_NODE:
                 add((Element) node);
-
                 break;
 
             case ATTRIBUTE_NODE:
                 add((Attribute) node);
-
                 break;
 
             case TEXT_NODE:
                 add((Text) node);
-
                 break;
 
             case CDATA_SECTION_NODE:
                 add((CDATA) node);
-
                 break;
 
             case ENTITY_REFERENCE_NODE:
                 add((Entity) node);
-
                 break;
 
             case PROCESSING_INSTRUCTION_NODE:
                 add((ProcessingInstruction) node);
-
                 break;
 
             case COMMENT_NODE:
                 add((Comment) node);
-
                 break;
 
-            /*
-             * XXXX: to do! case DOCUMENT_TYPE_NODE: add((DocumentType) node);
-             * break;
-             */
             case NAMESPACE_NODE:
                 add((Namespace) node);
-
                 break;
 
             default:
@@ -752,9 +740,6 @@ public abstract class AbstractElement extends AbstractBranch implements Element 
             case COMMENT_NODE:
                 return remove((Comment) node);
 
-            /*
-             * case DOCUMENT_TYPE_NODE: return remove((DocumentType) node);
-             */
             case NAMESPACE_NODE:
                 return remove((Namespace) node);
 

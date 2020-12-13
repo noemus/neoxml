@@ -10,13 +10,9 @@ import org.neoxml.Element;
 import org.neoxml.Node;
 
 /**
- * <p>
  * <code>FlyweightText</code> is a Flyweight pattern implementation of a singly linked, read-only XML Text.
- * </p>
- * <p/>
  * <p>
  * This node could be shared across documents and elements though it does not support the parent relationship.
- * </p>
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.7 $

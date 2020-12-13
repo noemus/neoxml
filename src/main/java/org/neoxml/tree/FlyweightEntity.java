@@ -10,18 +10,12 @@ import org.neoxml.Element;
 import org.neoxml.Node;
 
 /**
- * <p>
  * <code>FlyweightEntity</code> is a Flyweight pattern implementation of a singly linked, read-only XML entity.
- * </p>
- * <p/>
  * <p>
  * This node could be shared across documents and elements though it does not support the parent relationship.
- * </p>
- * <p/>
  * <p>
  * Often this node needs to be created and then the text content added later (for example in SAX) so this implementation
  * allows a call to {@link #setText} providing the entity has no text already.
- * </p>
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.6 $

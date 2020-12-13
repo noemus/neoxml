@@ -9,8 +9,8 @@ package org.neoxml.io;
 import org.neoxml.ElementPath;
 
 /**
- * This extension on the {@link DispatchHandler}prunes the current {@link org.neoxml.Element} when there are no
- * {@link ElementHandler}objects active
+ * This extension on the {@link org.neoxml.io.DispatchHandler} prunes the current {@link org.neoxml.Element} when there are no
+ * {@link org.neoxml.ElementHandler}objects active
  * the element.
  *
  * @author Wonne keysers (Realsoftware)

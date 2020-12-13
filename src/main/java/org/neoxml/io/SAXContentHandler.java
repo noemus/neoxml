@@ -243,8 +243,7 @@ public class SAXContentHandler extends DefaultHandler implements LexicalHandler,
 
         elementStack.clear();
 
-        if ((elementHandler != null)
-                && (elementHandler instanceof DispatchHandler)) {
+        if (elementHandler instanceof DispatchHandler) {
             elementStack.setDispatchHandler((DispatchHandler) elementHandler);
         }
 
@@ -427,10 +426,8 @@ public class SAXContentHandler extends DefaultHandler implements LexicalHandler,
         // Ignore DTD references
         entity = null;
 
-        if (!insideDTDSection) {
-            if (!isIgnorableEntity(name)) {
-                entity = name;
-            }
+        if (!insideDTDSection && !isIgnorableEntity(name)) {
+            entity = name;
         }
 
         // internal DTD subsets can only appear outside of a
@@ -567,16 +564,9 @@ public class SAXContentHandler extends DefaultHandler implements LexicalHandler,
      * @see org.xml.sax.DTDHandler#unparsedEntityDecl
      */
     @Override
-    public void internalEntityDecl(String name, String value)
-            throws SAXException {
-        if (internalDTDsubset) {
-            if (includeInternalDTDDeclarations) {
-                addDTDDeclaration(new InternalEntityDecl(name, value));
-            }
-        } else {
-            if (includeExternalDTDDeclarations) {
-                //addExternalDTDDeclaration(new InternalEntityDecl(name, value));
-            }
+    public void internalEntityDecl(String name, String value) throws SAXException {
+        if (internalDTDsubset && includeInternalDTDDeclarations) {
+            addDTDDeclaration(new InternalEntityDecl(name, value));
         }
     }
 
@@ -600,14 +590,8 @@ public class SAXContentHandler extends DefaultHandler implements LexicalHandler,
     public void externalEntityDecl(String name, String publicId, String sysId) throws SAXException {
         ExternalEntityDecl declaration = new ExternalEntityDecl(name, publicId, sysId);
 
-        if (internalDTDsubset) {
-            if (includeInternalDTDDeclarations) {
-                //addDTDDeclaration(declaration);
-            }
-        } else {
-            if (includeExternalDTDDeclarations) {
-                addExternalDTDDeclaration(declaration);
-            }
+        if (!internalDTDsubset && includeExternalDTDDeclarations) {
+            addExternalDTDDeclaration(declaration);
         }
     }
 
@@ -843,28 +827,9 @@ public class SAXContentHandler extends DefaultHandler implements LexicalHandler,
     }
 
     private String getEncoding() {
-        //if (locator == null) {
-        //  return null;
-        //}
-
         if (locator instanceof Locator2) {
             return ((Locator2) locator).getEncoding();
         }
-
-        // use reflection to avoid dependency on Locator2
-        // or other locator implemenations.
-    /*
-    try {
-      Method m = locator.getClass().getMethod("getEncoding");
-
-      if (m != null) {
-        return (String)m.invoke(locator);
-      }
-    }
-    catch (Exception e) {
-      // do nothing
-    }
-    */
 
         // couldn't determine encoding, returning null...
         return null;
@@ -898,15 +863,9 @@ public class SAXContentHandler extends DefaultHandler implements LexicalHandler,
      * @param element DOCUMENT ME!
      */
     protected void addDeclaredNamespaces(Element element) {
-        //Namespace elementNamespace = element.getNamespace();
-
         for (int size = namespaceStack.size(); declaredNamespaceIndex < size; declaredNamespaceIndex++) {
             Namespace namespace = namespaceStack.getNamespace(declaredNamespaceIndex);
-
-            // if ( namespace != elementNamespace ) {
             element.add(namespace);
-
-            // }
         }
     }
 
@@ -919,19 +878,18 @@ public class SAXContentHandler extends DefaultHandler implements LexicalHandler,
     protected void addAttributes(Element element, Attributes attributes) {
         // XXXX: as an optimisation, we could deduce this value from the current
         // SAX parser settings, the SAX namespaces-prefixes feature
-        boolean noNamespaceAttributes = false;
 
         if (element instanceof AbstractElement) {
             // optimised method
             AbstractElement baseElement = (AbstractElement) element;
-            baseElement.setAttributes(attributes, namespaceStack, noNamespaceAttributes);
+            baseElement.setAttributes(attributes, namespaceStack, false);
         } else {
             int size = attributes.getLength();
 
             for (int i = 0; i < size; i++) {
                 String attributeQName = attributes.getQName(i);
 
-                if (noNamespaceAttributes || !attributeQName.startsWith("xmlns")) {
+                if (!attributeQName.startsWith("xmlns")) {
                     String attributeURI = attributes.getURI(i);
                     String attributeLocalName = attributes.getLocalName(i);
                     String attributeValue = attributes.getValue(i);

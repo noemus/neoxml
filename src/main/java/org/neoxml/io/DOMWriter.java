@@ -33,7 +33,7 @@ import java.util.List;
  * @version $Revision: 1.17 $
  */
 public class DOMWriter {
-    private static final boolean verbose = SAXHelper.isVerboseErrorReporting();
+    private static final boolean VERBOSE = SAXHelper.isVerboseErrorReporting();
     private static boolean loggedWarning = false;
 
     private static final String[] DEFAULT_DOM_DOCUMENT_CLASSES = {
@@ -62,29 +62,20 @@ public class DOMWriter {
 
     @SuppressWarnings("unused")
     public Class<?> getDomDocumentClass() throws DocumentException {
-        Class<?> result = domDocumentClass;
+        if (domDocumentClass != null) {
+            return domDocumentClass;
+        }
 
-        if (result == null) {
-            // lets try and find one in the classpath
-            int size = DEFAULT_DOM_DOCUMENT_CLASSES.length;
-
-            for (int i = 0; i < size; i++) {
-                try {
-                    String name = DEFAULT_DOM_DOCUMENT_CLASSES[i];
-                    result = Class.forName(name, true, DOMWriter.class
-                            .getClassLoader());
-
-                    if (result != null) {
-                        break;
-                    }
-                } catch (Exception e) {
-                    // could not load class correctly
-                    // lets carry on to the next one
-                }
+        for (String className : DEFAULT_DOM_DOCUMENT_CLASSES) {
+            try {
+                return Class.forName(className, true, DOMWriter.class.getClassLoader());
+            } catch (Exception e) {
+                // could not load class correctly
+                // lets carry on to the next one
             }
         }
 
-        return result;
+        return null;
     }
 
     /**
@@ -284,7 +275,7 @@ public class DOMWriter {
             if (!loggedWarning) {
                 loggedWarning = true;
 
-                if (verbose || log.isInfoEnabled()) {
+                if (VERBOSE || log.isInfoEnabled()) {
                     // log all exceptions as warnings and carry
                     // on as we have a default SAX parser we can use
                     log.warn("Caught exception attempting to use JAXP to create a W3C DOM document");

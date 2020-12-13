@@ -9,7 +9,7 @@ public class DTDEntityResolver implements EntityResolver {
     @Override
     public InputSource resolveEntity(String publicId, String systemId) {
         if (systemId != null) {
-            if (systemId.indexOf("http:") != -1) {
+            if (systemId.contains("http:")) {
                 return processDtdStream(publicId, systemId.substring(systemId.lastIndexOf('/') + 1));
             } else {
                 return processDtdStream(publicId, systemId);

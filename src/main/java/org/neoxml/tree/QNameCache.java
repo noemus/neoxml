@@ -16,9 +16,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * <p>
  * <code>QNameCache</code> caches instances of <code>QName</code> for reuse both across documents and within documents.
- * </p>
  *
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.16 $

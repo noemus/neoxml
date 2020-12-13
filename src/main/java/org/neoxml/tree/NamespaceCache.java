@@ -43,8 +43,7 @@ public class NamespaceCache {
      */
     public Namespace get(String prefix, String uri) {
         final Map<String, Namespace> uriCache = getURICache(uri);
-        return uriCache.computeIfAbsent(prefix, _prefix -> createNamespace(_prefix, uri));
-        //return createNamespace(prefix, uri);
+        return uriCache.computeIfAbsent(prefix, p -> createNamespace(p, uri));
     }
 
     /**
@@ -54,8 +53,7 @@ public class NamespaceCache {
      * @return the name model for the given name and namepsace
      */
     public Namespace get(String uri) {
-        return noPrefixCache.computeIfAbsent(uri, _uri -> createNamespace("", _uri));
-        //return createNamespace("", uri);
+        return noPrefixCache.computeIfAbsent(uri, u -> createNamespace("", u));
     }
 
     /**
@@ -66,7 +64,7 @@ public class NamespaceCache {
      * exist it is created.
      */
     protected Map<String, Namespace> getURICache(String uri) {
-        return cache.computeIfAbsent(uri, _uri -> new ConcurrentHashMap<>());
+        return cache.computeIfAbsent(uri, u -> new ConcurrentHashMap<>());
     }
 
     /**

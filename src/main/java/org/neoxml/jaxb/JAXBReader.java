@@ -321,7 +321,7 @@ public class JAXBReader extends JAXBSupport {
         }
     }
 
-    private class PruningElementHandler implements ElementHandler {
+    private static class PruningElementHandler implements ElementHandler {
         public PruningElementHandler() {}
 
         @Override
@@ -331,7 +331,6 @@ public class JAXBReader extends JAXBSupport {
         public void onEnd(ElementPath elementPath) {
             Element elem = elementPath.getCurrent();
             elem.detach();
-            elem = null;
         }
     }
 }

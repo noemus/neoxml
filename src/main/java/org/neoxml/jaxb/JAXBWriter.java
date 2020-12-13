@@ -61,7 +61,7 @@ public class JAXBWriter extends JAXBSupport {
 
     /**
      * Creates a new JAXBWriter for the given JAXB context path, using the
-     * specified {@link java.lang.Classloader}. (This is the Java package where
+     * specified {@link java.lang.ClassLoader}. (This is the Java package where
      * JAXB can find the generated XML classes. This package MUST contain
      * jaxb.properties!)
      *
@@ -76,7 +76,7 @@ public class JAXBWriter extends JAXBSupport {
 
     /**
      * Creates a new JAXBWriter for the given JAXB context path, using the
-     * specified {@link java.lang.Classloader}. The specied {@link org.neoxml.io.OutputFormat} will be used while writing
+     * specified {@link java.lang.ClassLoader}. The specied {@link org.neoxml.io.OutputFormat} will be used while writing
      * the XML stream.
      *
      * @param contextPath  JAXB context path to be used

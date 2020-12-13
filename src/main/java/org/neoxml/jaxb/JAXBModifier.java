@@ -92,7 +92,7 @@ public class JAXBModifier extends JAXBSupport {
 
     /**
      * Creates a new JAXBModifier for the given JAXB context path, using the
-     * specified {@link java.lang.Classloader}. The specified {@link org.neoxml.io.OutputFormat} will be used while
+     * specified {@link java.lang.ClassLoader}. The specified {@link org.neoxml.io.OutputFormat} will be used while
      * writing
      * the XML stream.
      *
@@ -111,8 +111,7 @@ public class JAXBModifier extends JAXBSupport {
      *
      * @param source the file to parse
      * @return the resulting neoxml document
-     * @throws DocumentException when an error occurs while parsing
-     * @throws IOException       when an error occurs while writing to the {@link org.neoxml.io.XMLWriter}
+     * @throws DocumentException when an error occurs while parsing or writing
      */
     public Document modify(File source) throws DocumentException {
         return installModifier().modify(source);
@@ -124,8 +123,7 @@ public class JAXBModifier extends JAXBSupport {
      * @param source  the file to parse
      * @param charset the character set to use
      * @return the resulting neoxml document
-     * @throws DocumentException when an error occurs while parsing
-     * @throws IOException       when an error occurs while writing to the {@link org.neoxml.io.XMLWriter}
+     * @throws DocumentException when an error occurs while parsing or writing
      */
     public Document modify(File source, Charset charset) throws DocumentException, IOException {
         try (Reader reader = new InputStreamReader(new FileInputStream(source), charset)) {
@@ -143,8 +141,7 @@ public class JAXBModifier extends JAXBSupport {
      *
      * @param source the input source to parse
      * @return the resulting neoxml document
-     * @throws DocumentException when an error occurs while parsing
-     * @throws IOException       when an error occurs while writing to the {@link org.neoxml.io.XMLWriter}
+     * @throws DocumentException when an error occurs while parsing or writing
      */
     public Document modify(InputSource source) throws DocumentException {
         try {
@@ -160,8 +157,7 @@ public class JAXBModifier extends JAXBSupport {
      *
      * @param source the inputstream to parse
      * @return the resulting neoxml document
-     * @throws DocumentException when an error occurs while parsing
-     * @throws IOException       when an error occurs while writing to the {@link org.neoxml.io.XMLWriter}
+     * @throws DocumentException when an error occurs while parsing or writing
      */
     public Document modify(InputStream source) throws DocumentException {
         try {
@@ -178,8 +174,7 @@ public class JAXBModifier extends JAXBSupport {
      * @param source   the inputstream to parse
      * @param systemId the URI of the given inputstream
      * @return the resulting neoxml document
-     * @throws DocumentException when an error occurs while parsing
-     * @throws IOException       when an error occurs while writing to the {@link org.neoxml.io.XMLWriter}
+     * @throws DocumentException when an error occurs while parsing or writing
      */
     public Document modify(InputStream source, String systemId) throws DocumentException {
         try {
@@ -195,8 +190,7 @@ public class JAXBModifier extends JAXBSupport {
      *
      * @param r the reader to use for parsing
      * @return the resulting neoxml document
-     * @throws DocumentException when an error occurs while parsing
-     * @throws IOException       when an error occurs while writing to the {@link org.neoxml.io.XMLWriter}
+     * @throws DocumentException when an error occurs while parsing or writing
      */
     public Document modify(Reader r) throws DocumentException {
         try {
@@ -213,8 +207,7 @@ public class JAXBModifier extends JAXBSupport {
      * @param source   the reader to parse
      * @param systemId the URI of the given reader
      * @return the resulting neoxml document
-     * @throws DocumentException when an error occurs while parsing
-     * @throws IOException       when an error occurs while writing to the {@link org.neoxml.io.XMLWriter}
+     * @throws DocumentException when an error occurs while parsing or writing
      */
     public Document modify(Reader source, String systemId) throws DocumentException {
         try {
@@ -230,8 +223,7 @@ public class JAXBModifier extends JAXBSupport {
      *
      * @param url the URL or filename to parse
      * @return the resulting neoxml document
-     * @throws DocumentException when an error occurs while parsing
-     * @throws IOException       when an error occurs while writing to the {@link org.neoxml.io.XMLWriter}
+     * @throws DocumentException when an error occurs while parsing or writing
      */
     public Document modify(String url) throws DocumentException {
         try {
@@ -247,8 +239,7 @@ public class JAXBModifier extends JAXBSupport {
      *
      * @param source the URL to parse
      * @return the resulting neoxml document
-     * @throws DocumentException when an error occurs while parsing
-     * @throws IOException       when an error occurs while writing to the {@link org.neoxml.io.XMLWriter}
+     * @throws DocumentException when an error occurs while parsing or writing
      */
     public Document modify(URL source) throws DocumentException {
         try {
@@ -376,10 +367,9 @@ public class JAXBModifier extends JAXBSupport {
         return xmlWriter;
     }
 
-    private class JAXBElementModifier implements ElementModifier {
-        private JAXBModifier jaxbModifier;
-
-        private JAXBObjectModifier objectModifier;
+    private static class JAXBElementModifier implements ElementModifier {
+        private final JAXBModifier jaxbModifier;
+        private final JAXBObjectModifier objectModifier;
 
         public JAXBElementModifier(JAXBModifier jaxbModifier, JAXBObjectModifier objectModifier) {
             this.jaxbModifier = jaxbModifier;

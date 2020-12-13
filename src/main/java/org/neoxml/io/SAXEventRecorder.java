@@ -107,8 +107,8 @@ public class SAXEventRecorder extends DefaultHandler implements LexicalHandler, 
 
                 case SAXEvent.CHARACTERS:
                     char[] chars = (char[]) saxEvent.getParm(0);
-                    int start = ((Integer) saxEvent.getParm(1)).intValue();
-                    int end = ((Integer) saxEvent.getParm(2)).intValue();
+                    int start = (Integer) saxEvent.getParm(1);
+                    int end = (Integer) saxEvent.getParm(2);
                     handler.characters(chars, start, end);
                     break;
 
@@ -139,8 +139,8 @@ public class SAXEventRecorder extends DefaultHandler implements LexicalHandler, 
 
                 case SAXEvent.COMMENT:
                     char[] cchars = (char[]) saxEvent.getParm(0);
-                    int cstart = ((Integer) saxEvent.getParm(1)).intValue();
-                    int cend = ((Integer) saxEvent.getParm(2)).intValue();
+                    int cstart = (Integer) saxEvent.getParm(1);
+                    int cend = (Integer) saxEvent.getParm(2);
                     ((LexicalHandler) handler).comment(cchars, cstart, cend);
                     break;
 
@@ -368,8 +368,8 @@ public class SAXEventRecorder extends DefaultHandler implements LexicalHandler, 
     public void comment(char[] ch, int start, int end) throws SAXException {
         SAXEvent saxEvent = new SAXEvent(SAXEvent.COMMENT);
         saxEvent.addParm(ch);
-        saxEvent.addParm(new Integer(start));
-        saxEvent.addParm(new Integer(end));
+        saxEvent.addParm(start);
+        saxEvent.addParm(end);
         events.add(saxEvent);
     }
 
