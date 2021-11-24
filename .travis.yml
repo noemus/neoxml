@@ -1,11 +1,14 @@
 language: java
-jdk:
-  - openjdk8
-  - openjdk11
-  - openjdk17
+jdk: openjdk11
+#  - openjdk8
+#  - openjdk11
+#  - openjdk17
 
 script:
   # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
+  - java_version=$(java --version);
+  - echo ${java_version:1:1}
+  - echo ${java_version:1:0}
   - git fetch --unshallow
   - mvn clean verify -Pcoverage
   - echo "SONAR_TOKEN=$SONAR_TOKEN"
