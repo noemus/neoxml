@@ -412,7 +412,7 @@ public interface Node extends Cloneable {
      * @return an XPath object represeting the given expression
      * @throws InvalidXPathException if the XPath expression is invalid
      */
-    XPath createXPath(String xpathExpression) throws InvalidXPathException;
+    XPath createXPath(String xpathExpression);
 
     /**
      * <p>

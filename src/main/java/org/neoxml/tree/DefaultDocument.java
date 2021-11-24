@@ -45,7 +45,7 @@ public class DefaultDocument extends AbstractDocument {
     /**
      * The document factory used by default
      */
-    private DocumentFactory documentFactory = DefaultDocumentFactory.getInstance();
+    private transient DocumentFactory documentFactory = DefaultDocumentFactory.getInstance();
     /**
      * The resolver of URIs
      */
