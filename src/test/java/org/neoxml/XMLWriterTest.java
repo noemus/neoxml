@@ -6,7 +6,6 @@
 
 package org.neoxml;
 
-import com.sun.org.apache.xerces.internal.parsers.SAXParser;
 import org.junit.Test;
 import org.neoxml.io.HTMLWriter;
 import org.neoxml.io.OutputFormat;
@@ -554,7 +553,7 @@ public class XMLWriterTest extends AbstractTestCase {
                 + "<!ENTITY euro \"&#x20ac;\"> "
                 + "<!ENTITY Omega \"&#937;\"> ]>\n" + "<root />";
 
-        SAXReader reader = new SAXReader(SAXParser.class.getName());
+        SAXReader reader = new SAXReader();
         reader.setIncludeInternalDTDDeclarations(true);
 
         Document doc = reader.read(new StringReader(xml));

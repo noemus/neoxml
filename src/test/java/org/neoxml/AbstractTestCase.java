@@ -6,7 +6,6 @@
 
 package org.neoxml;
 
-import com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.neoxml.io.SAXReader;
@@ -16,7 +15,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.fail;
 
 /**
  * An abstract base class for some neoxml test cases

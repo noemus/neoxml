@@ -21,6 +21,9 @@ I will maybe - if asked for - create some separate modules for theese parts (Swi
 other scenarios, whole library is optimised for XML documents with many nodes without subnodes or with only one subnode. 
 
 ##CHANGELOG
+###1.0.4
+- Removed issues when running on Java 11
+
 ###1.0.3
 - Fixed some Sonar warnings
 - Fixed Javadoc warnings

@@ -31,7 +31,6 @@ import java.util.Map;
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  */
-@SuppressWarnings("serial")
 public class DefaultDocumentFactory implements DocumentFactory, Serializable {
     private static SingletonStrategy<DocumentFactory> singleton = null;
 

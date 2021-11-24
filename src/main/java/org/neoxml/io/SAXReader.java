@@ -232,20 +232,18 @@ public class SAXReader {
             }
             String path = file.getAbsolutePath();
 
-            if (path != null) {
-                // Code taken from Ant FileUtils
-                StringBuilder sb = new StringBuilder("file://");
+            // Code taken from Ant FileUtils
+            StringBuilder sb = new StringBuilder("file://");
 
-                // add an extra slash for filesystems with drive-specifiers
-                if (!path.startsWith(File.separator)) {
-                    sb.append("/");
-                }
-
-                path = path.replace('\\', '/');
-                sb.append(path);
-
-                source.setSystemId(sb.toString());
+            // add an extra slash for filesystems with drive-specifiers
+            if (!path.startsWith(File.separator)) {
+                sb.append("/");
             }
+
+            path = path.replace('\\', '/');
+            sb.append(path);
+
+            source.setSystemId(sb.toString());
 
             return read(source);
         } catch (IOException e) {
@@ -433,7 +431,7 @@ public class SAXReader {
     /**
      * Sets the validation mode.
      *
-     * @param validation indicates whether or not validation should occur.
+     * @param validation indicates whether validation should occur.
      */
     public void setValidation(boolean validation) {
         this.validating = validation;
