@@ -6,7 +6,7 @@ jdk: openjdk11
 
 script:
   # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-  - java_version=$(java --version);
+  - java_version=$(java -version);
   - echo ${java_version:1:1}
   - echo ${java_version:1:0}
   - git fetch --unshallow
