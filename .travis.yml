@@ -1,5 +1,8 @@
 language: java
-jdk: openjdk11
+jdk:
+  - openjdk8
+  - openjdk11
+  - openjdk17
 
 script:
   # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
