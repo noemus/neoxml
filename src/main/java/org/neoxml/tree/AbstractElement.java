@@ -434,7 +434,7 @@ public abstract class AbstractElement extends AbstractBranch implements Element 
 
             for (int i = 0; i < size; i++) {
                 // optimised to avoid the call to attribute(QName) to
-                // lookup an attribute for a given QName
+                // look up an attribute for a given QName
                 String name = attributes.getQName(i);
 
                 if (noNamespaceAttributes || !name.startsWith("xmlns")) {
@@ -824,7 +824,6 @@ public abstract class AbstractElement extends AbstractBranch implements Element 
     // -------------------------------------------------------------------------
 
     //FIXME returns true in case of Text + Comment or CDATA, or in case of Element + ProcessingInstruction
-    //FIXME missing tests
     @Override
     public boolean hasMixedContent() {
         List<Node> contentList = safeContentList();

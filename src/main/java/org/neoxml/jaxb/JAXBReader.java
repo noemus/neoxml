@@ -31,7 +31,7 @@ import java.nio.charset.Charset;
  *
  * @author Wonne Keysers (Realsoftware.be)
  * @see org.neoxml.io.SAXReader
- * @see javax.xml.bind.JAXBContext
+ * @see jakarta.xml.bind.JAXBContext
  */
 public class JAXBReader extends JAXBSupport {
     private SAXReader reader;
@@ -44,7 +44,7 @@ public class JAXBReader extends JAXBSupport {
      * MUST contain jaxb.properties!
      *
      * @param contextPath context path to be used
-     * @see javax.xml.bind.JAXBContext
+     * @see jakarta.xml.bind.JAXBContext
      */
     public JAXBReader(String contextPath) {
         super(contextPath);
@@ -58,7 +58,7 @@ public class JAXBReader extends JAXBSupport {
      *
      * @param contextPath to be used
      * @param classloader to be used
-     * @see javax.xml.bind.JAXBContext
+     * @see jakarta.xml.bind.JAXBContext
      */
     public JAXBReader(String contextPath, ClassLoader classloader) {
         super(contextPath, classloader);
@@ -308,7 +308,7 @@ public class JAXBReader extends JAXBSupport {
             try {
                 org.neoxml.Element elem = elementPath.getCurrent();
 
-                javax.xml.bind.Element jaxbObject = jaxbReader.unmarshal(elem);
+                jakarta.xml.bind.Element jaxbObject = jaxbReader.unmarshal(elem);
 
                 if (jaxbReader.isPruneElements()) {
                     elem.detach();

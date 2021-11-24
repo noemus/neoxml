@@ -242,7 +242,7 @@ public interface Branch extends Node, Iterable<Node> {
     /**
      * Removes the given <code>Node</code> if the node is an immediate child
      * of this branch. If the given node is not an immediate child of this
-     * branch then the {@link Node#detach()}method should be used instead. This
+     * branch then the {@link Node#detach()} method should be used instead. This
      * is a polymorphic method which will call the typesafe method for the node
      * type such as remove(Element) or remove(Comment).
      *

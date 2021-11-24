@@ -46,7 +46,7 @@ public interface DocumentFactory {
 
     QName createQName(String qualifiedName, String uri);
 
-    XPath createXPath(String xpathExpression) throws InvalidXPathException;
+    XPath createXPath(String xpathExpression);
 
     NodeFilter createXPathFilter(String xpathFilterExpression);
 

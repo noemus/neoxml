@@ -102,7 +102,7 @@ class SAXHelper {
         // try use JAXP to load the XMLReader...
         try {
             return JAXPHelper.createXMLReader(validating, namespaceAware);
-        } catch (Throwable e) {
+        } catch (Exception|LinkageError e) {
             if (!loggedWarning) {
                 loggedWarning = true;
 

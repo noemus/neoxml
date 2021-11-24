@@ -18,12 +18,12 @@ import java.io.Serializable;
 /**
  * <p>
  * <code>QName</code> represents a qualified name value of an XML element or attribute. It consists of a local name and
- * a {@link Namespace}instance. This object is immutable.
+ * a {@link Namespace} instance. This object is immutable.
  * </p>
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  */
-@SuppressWarnings({"serial", "null"})
+@SuppressWarnings({"null"})
 public class QName implements Serializable {
     /**
      * The Singleton instance

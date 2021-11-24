@@ -102,7 +102,7 @@ public final class DocumentHelper {
      * @return a new <code>XPath</code> instance
      * @throws InvalidXPathException if the XPath expression is invalid
      */
-    public static XPath createXPath(String xpathExpression) throws InvalidXPathException {
+    public static XPath createXPath(String xpathExpression) {
         return getDocumentFactory().createXPath(xpathExpression);
     }
 
@@ -122,7 +122,7 @@ public final class DocumentHelper {
 
     /**
      * <p>
-     * <code>createPattern</code> parses the given XPath expression to create an XSLT style {@link Pattern}instance which
+     * <code>createPattern</code> parses the given XPath expression to create an XSLT style {@link Pattern} instance which
      * can then be used in an XSLT processing model.
      * </p>
      *
@@ -135,7 +135,7 @@ public final class DocumentHelper {
 
     /**
      * <p>
-     * <code>selectNodes</code> performs the given XPath expression on the {@link List}of {@link Node}instances appending
+     * <code>selectNodes</code> performs the given XPath expression on the {@link List} of {@link Node} instances appending
      * all the results together into a single list.
      * </p>
      *
@@ -143,7 +143,7 @@ public final class DocumentHelper {
      * @param nodes                 is the list of nodes on which to evalute the XPath
      * @return the results of all the XPath evaluations as a single list
      */
-    public static List<? extends Node> selectNodes(String xpathFilterExpression, List<? extends Node> nodes) {
+    public static List<Node> selectNodes(String xpathFilterExpression, List<? extends Node> nodes) {
         XPath xpath = createXPath(xpathFilterExpression);
 
         return xpath.selectNodes(nodes);
@@ -151,7 +151,7 @@ public final class DocumentHelper {
 
     /**
      * <p>
-     * <code>selectNodes</code> performs the given XPath expression on the {@link List}of {@link Node}instances appending
+     * <code>selectNodes</code> performs the given XPath expression on the {@link List} of {@link Node} instances appending
      * all the results together into a single list.
      * </p>
      *
@@ -159,7 +159,7 @@ public final class DocumentHelper {
      * @param node                  is the Node on which to evalute the XPath
      * @return the results of all the XPath evaluations as a single list
      */
-    public static List<? extends Node> selectNodes(String xpathFilterExpression, Node node) {
+    public static List<Node> selectNodes(String xpathFilterExpression, Node node) {
         XPath xpath = createXPath(xpathFilterExpression);
 
         return xpath.selectNodes(node);
@@ -180,7 +180,7 @@ public final class DocumentHelper {
 
     /**
      * <p>
-     * <code>sort</code> sorts the given List of Nodes using an XPath expression as a {@link java.util.Comparator}and
+     * <code>sort</code> sorts the given List of Nodes using an XPath expression as a {@link java.util.Comparator} and
      * optionally removing duplicates.
      * </p>
      *
@@ -204,15 +204,13 @@ public final class DocumentHelper {
      * @throws DocumentException if the document could not be parsed
      */
     public static Document parseText(String text) throws DocumentException {
-        Document result = null;
-
         SAXReader reader = new SAXReader();
         String encoding = getEncoding(text);
 
         InputSource source = new InputSource(new StringReader(text));
         source.setEncoding(encoding);
 
-        result = reader.read(source);
+        Document result = reader.read(source);
 
         // if the XML parser doesn't provide a way to retrieve the encoding,
         // specify it manually
@@ -231,7 +229,7 @@ public final class DocumentHelper {
         if (xml.startsWith("<?xml")) {
             int end = xml.indexOf("?>");
             String sub = xml.substring(0, end);
-            StringTokenizer tokens = new StringTokenizer(sub, " =\"\'");
+            StringTokenizer tokens = new StringTokenizer(sub, " =\"'");
 
             while (tokens.hasMoreTokens()) {
                 String token = tokens.nextToken();
@@ -275,7 +273,7 @@ public final class DocumentHelper {
             Document document = (Document) source;
             parent = document.getRootElement();
 
-            // lets throw a NoSuchElementException
+            // let's throw a NoSuchElementException
             // if we are given an empty path
             String name = tokens.nextToken();
 

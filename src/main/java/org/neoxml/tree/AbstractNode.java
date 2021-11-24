@@ -110,18 +110,18 @@ public abstract class AbstractNode implements Node, Serializable {
     public AbstractNode clone() {
         if (isReadOnly()) {
             return this;
-        } else {
-            try {
-                AbstractNode answer = (AbstractNode) super.clone();
-                if (answer.supportsParent()) {
-                    answer.setParent(null);
-                    answer.setDocument(null);
-                }
+        }
 
-                return answer;
-            } catch (CloneNotSupportedException e) {
-                throw new AssertionError("This should never happen. Caught: ", e);
+        try {
+            AbstractNode answer = (AbstractNode) super.clone();
+            if (answer.supportsParent()) {
+                answer.setParent(null);
+                answer.setDocument(null);
             }
+
+            return answer;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError("This should never happen. Caught: ", e);
         }
     }
 

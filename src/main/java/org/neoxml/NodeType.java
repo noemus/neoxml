@@ -73,7 +73,7 @@ public enum NodeType {
         }
     }
 
-    private NodeType(final short code, final String name) {
+    NodeType(final short code, final String name) {
         this.code = code;
         this.name = name;
     }

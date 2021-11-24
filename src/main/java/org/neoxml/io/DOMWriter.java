@@ -105,8 +105,7 @@ public class DOMWriter {
         }
     }
 
-    public org.w3c.dom.Document write(Document document)
-            throws DocumentException {
+    public org.w3c.dom.Document write(Document document) throws DocumentException {
         if (document instanceof org.w3c.dom.Document) {
             return (org.w3c.dom.Document) document;
         }
@@ -223,8 +222,6 @@ public class DOMWriter {
 
     protected void writeNamespace(org.w3c.dom.Element domElement, Namespace namespace) {
         String attributeName = attributeNameForNamespace(namespace);
-
-        // domElement.setAttributeNS("", attributeName, namespace.getURI());
         domElement.setAttribute(attributeName, namespace.getURI());
     }
 
@@ -240,24 +237,24 @@ public class DOMWriter {
     }
 
     protected org.w3c.dom.Document createDomDocument(Document document) throws DocumentException {
-        org.w3c.dom.Document result = null;
+        org.w3c.dom.Document result;
 
         // use the given domDocumentClass (if not null)
         if (domDocumentClass != null) {
             try {
-                result = (org.w3c.dom.Document) domDocumentClass.newInstance();
+                result = (org.w3c.dom.Document) domDocumentClass.getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                 throw new DocumentException("Could not instantiate an instance of DOM Document with class: " + domDocumentClass.getName(), e);
             }
         } else {
-            // lets try JAXP first before using the hardcoded default parsers
+            // let's try JAXP first before using the hardcoded default parsers
             result = createDomDocumentViaJAXP();
 
             if (result == null) {
                 Class<?> theClass = getDomDocumentClass();
 
                 try {
-                    result = (org.w3c.dom.Document) theClass.newInstance();
+                    result = (org.w3c.dom.Document) theClass.getDeclaredConstructor().newInstance();
                 } catch (Exception e) {
                     throw new DocumentException("Could not instantiate an instance of DOM Document " + "with class: " + theClass.getName(), e);
                 }
@@ -271,22 +268,26 @@ public class DOMWriter {
     protected org.w3c.dom.Document createDomDocumentViaJAXP() throws DocumentException {
         try {
             return JAXPHelper.createDocument(false, true);
-        } catch (Throwable e) {
-            if (!loggedWarning) {
-                loggedWarning = true;
-
-                if (VERBOSE || log.isInfoEnabled()) {
-                    // log all exceptions as warnings and carry
-                    // on as we have a default SAX parser we can use
-                    log.warn("Caught exception attempting to use JAXP to create a W3C DOM document");
-                    log.warn("Exception was: ", e);
-                } else {
-                    log.warn("Error occurred using JAXP to create a DOM document.");
-                }
-            }
+        } catch (Exception|LinkageError e) {
+            logWarning(e);
         }
 
         return null;
+    }
+
+    private static void logWarning(Throwable e) {
+        if (!loggedWarning) {
+            loggedWarning = true;
+
+            if (VERBOSE || log.isInfoEnabled()) {
+                // log all exceptions as warnings and carry
+                // on as we have a default SAX parser we can use
+                log.warn("Caught exception attempting to use JAXP to create a W3C DOM document");
+                log.warn("Exception was: ", e);
+            } else {
+                log.warn("Error occurred using JAXP to create a DOM document.");
+            }
+        }
     }
 
     @SuppressWarnings("unused")
@@ -304,9 +305,7 @@ public class DOMWriter {
             String uri = ns.getURI();
 
             if ((uri != null) && (uri.length() > 0)) {
-                if (!namespaceStack.contains(ns)) {
-                    return true;
-                }
+                return !namespaceStack.contains(ns);
             }
         }
 

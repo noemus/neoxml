@@ -2,7 +2,6 @@ package org.neoxml.xpath;
 
 import org.jaxen.DefaultNavigator;
 import org.jaxen.FunctionCallException;
-import org.jaxen.JaxenConstants;
 import org.jaxen.NamedAccessNavigator;
 import org.jaxen.Navigator;
 import org.jaxen.XPath;
@@ -28,6 +27,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import static java.util.Collections.emptyIterator;
 
 /**
  * Interface for navigating around the neoxml object model.
@@ -131,17 +132,13 @@ class DocumentNavigator extends DefaultNavigator implements NamedAccessNavigator
     }
 
     @Override
-    public Iterator getChildAxisIterator(Object contextNode) {
-        final Iterator<Node> result;
-
+    public Iterator<Node> getChildAxisIterator(Object contextNode) {
         if (contextNode instanceof Branch) {
             Branch node = (Branch) contextNode;
-            result = node.nodeIterator();
-        } else {
-            result = JaxenConstants.EMPTY_ITERATOR;
+            return node.nodeIterator();
         }
 
-        return result;
+        return emptyIterator();
     }
 
     /**
@@ -155,7 +152,7 @@ class DocumentNavigator extends DefaultNavigator implements NamedAccessNavigator
      * @return an Iterator that traverses the named children, or null if none
      */
     @Override
-    public Iterator getChildAxisIterator(Object contextNode, String localName, String namespacePrefix, String namespaceURI) {
+    public Iterator<Element> getChildAxisIterator(Object contextNode, String localName, String namespacePrefix, String namespaceURI) {
         if (contextNode instanceof Element) {
             Element node = (Element) contextNode;
             return node.elementIterator(QName.get(localName, namespacePrefix, namespaceURI));
@@ -165,31 +162,31 @@ class DocumentNavigator extends DefaultNavigator implements NamedAccessNavigator
             Document node = (Document) contextNode;
             Element el = node.getRootElement();
 
-            if (el == null || el.getName().equals(localName) == false) {
-                return JaxenConstants.EMPTY_ITERATOR;
+            if (el == null || !el.getName().equals(localName)) {
+                return emptyIterator();
             }
 
             if (namespaceURI != null) {
-                if (namespaceURI.equals(el.getNamespaceURI()) == false) {
-                    return JaxenConstants.EMPTY_ITERATOR;
+                if (!namespaceURI.equals(el.getNamespaceURI())) {
+                    return emptyIterator();
                 }
             }
 
             return new SingleObjectIterator(el);
         }
 
-        return JaxenConstants.EMPTY_ITERATOR;
+        return emptyIterator();
     }
 
     @Override
-    public Iterator getParentAxisIterator(Object contextNode) {
+    public Iterator<Node> getParentAxisIterator(Object contextNode) {
         if (contextNode instanceof Document) {
-            return JaxenConstants.EMPTY_ITERATOR;
+            return emptyIterator();
         }
 
         Node node = (Node) contextNode;
 
-        Object parent = node.getParent();
+        Node parent = node.getParent();
 
         if (parent == null) {
             parent = node.getDocument();
@@ -199,9 +196,9 @@ class DocumentNavigator extends DefaultNavigator implements NamedAccessNavigator
     }
 
     @Override
-    public Iterator getAttributeAxisIterator(Object contextNode) {
+    public Iterator<Attribute> getAttributeAxisIterator(Object contextNode) {
         if (!(contextNode instanceof Element)) {
-            return JaxenConstants.EMPTY_ITERATOR;
+            return emptyIterator();
         }
 
         Element elem = (Element) contextNode;
@@ -220,25 +217,25 @@ class DocumentNavigator extends DefaultNavigator implements NamedAccessNavigator
      * @return an Iterator that traverses the named attributes, not null
      */
     @Override
-    public Iterator getAttributeAxisIterator(Object contextNode, String localName, String namespacePrefix, String namespaceURI) {
+    public Iterator<Attribute> getAttributeAxisIterator(Object contextNode, String localName, String namespacePrefix, String namespaceURI) {
         if (contextNode instanceof Element) {
             final Element node = (Element) contextNode;
             final Attribute attr = node.attribute(QName.get(localName, namespacePrefix, namespaceURI));
 
             if (attr == null) {
-                return JaxenConstants.EMPTY_ITERATOR;
+                return emptyIterator();
             }
 
             return new SingleObjectIterator(attr);
         }
 
-        return JaxenConstants.EMPTY_ITERATOR;
+        return emptyIterator();
     }
 
     @Override
-    public Iterator getNamespaceAxisIterator(Object contextNode) {
+    public Iterator<Node> getNamespaceAxisIterator(Object contextNode) {
         if (!(contextNode instanceof Element)) {
-            return JaxenConstants.EMPTY_ITERATOR;
+            return emptyIterator();
         }
 
         final List<Node> nsList = new ArrayList<>();
@@ -273,9 +270,9 @@ class DocumentNavigator extends DefaultNavigator implements NamedAccessNavigator
     }
 
     @Override
-    public Object getDocumentNode(Object contextNode) {
+    public Document getDocumentNode(Object contextNode) {
         if (contextNode instanceof Document) {
-            return contextNode;
+            return (Document) contextNode;
         } else if (contextNode instanceof Node) {
             Node node = (Node) contextNode;
             return node.getDocument();
@@ -294,10 +291,10 @@ class DocumentNavigator extends DefaultNavigator implements NamedAccessNavigator
     }
 
     @Override
-    public Object getParentNode(Object contextNode) {
+    public Node getParentNode(Object contextNode) {
         if (contextNode instanceof Node) {
             Node node = (Node) contextNode;
-            Object answer = node.getParent();
+            Node answer = node.getParent();
 
             if (answer == null) {
                 answer = node.getDocument();

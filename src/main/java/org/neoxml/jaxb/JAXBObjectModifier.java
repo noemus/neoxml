@@ -6,7 +6,7 @@
 
 package org.neoxml.jaxb;
 
-import javax.xml.bind.Element;
+import jakarta.xml.bind.Element;
 
 /**
  * JAXBObjectHandler implementations can be registered with the {@link JAXBModifier} in order to change unmarshalled XML

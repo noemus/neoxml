@@ -13,7 +13,6 @@ package org.neoxml;
  *
  * @version $Revision: 1.6 $
  */
-@SuppressWarnings("serial")
 public class IllegalAddException extends IllegalArgumentException {
     public IllegalAddException(String reason) {
         super(reason);

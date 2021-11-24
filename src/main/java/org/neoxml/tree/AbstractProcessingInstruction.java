@@ -138,7 +138,7 @@ public abstract class AbstractProcessingInstruction extends AbstractNode impleme
     protected Map<String, String> parseValues(String text) {
         Map<String, String> data = new HashMap<>();
 
-        StringTokenizer s = new StringTokenizer(text, " =\'\"", true);
+        StringTokenizer s = new StringTokenizer(text, " ='\"", true);
 
         while (s.hasMoreTokens()) {
             String name = getName(s);
@@ -174,7 +174,7 @@ public abstract class AbstractProcessingInstruction extends AbstractNode impleme
         StringBuilder value = new StringBuilder();
 
         /* get the quote */
-        while (tokenizer.hasMoreTokens() && !token.equals("\'") && !token.equals("\"")) {
+        while (tokenizer.hasMoreTokens() && !token.equals("'") && !token.equals("\"")) {
             token = tokenizer.nextToken();
         }
 

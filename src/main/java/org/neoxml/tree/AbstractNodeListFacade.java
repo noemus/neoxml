@@ -107,14 +107,14 @@ abstract class AbstractNodeListFacade<T extends Node> extends AbstractList<T> im
     public AbstractNodeListFacade<T> clone() {
         if (isReadOnly()) {
             return this;
-        } else {
-            try {
-                @SuppressWarnings("unchecked")
-                AbstractNodeListFacade<T> answer = (AbstractNodeListFacade<T>) super.clone();
-                return answer;
-            } catch (CloneNotSupportedException e) {
-                throw new AssertionError("This should never happen. Caught: ", e);
-            }
+        }
+
+        try {
+            @SuppressWarnings("unchecked")
+            AbstractNodeListFacade<T> answer = (AbstractNodeListFacade<T>) super.clone();
+            return answer;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError("This should never happen. Caught: ", e);
         }
     }
 }

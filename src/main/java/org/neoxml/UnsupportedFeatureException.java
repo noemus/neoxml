@@ -7,7 +7,6 @@ package org.neoxml;
  *
  * @version $neoxml: 1.0$
  */
-@SuppressWarnings("serial")
 public class UnsupportedFeatureException extends UnsupportedOperationException {
     public UnsupportedFeatureException() {
         super("Not supported yet.");

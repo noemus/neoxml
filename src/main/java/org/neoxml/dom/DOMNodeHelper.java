@@ -19,6 +19,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -29,6 +30,8 @@ import java.util.List;
  * @version $Revision: 1.20 $
  */
 public class DOMNodeHelper {
+    private static final Log log = LogFactory.getLog(DOMNodeHelper.class);
+
     public static final NodeList EMPTY_NODE_LIST = new EmptyNodeList();
 
     protected DOMNodeHelper() {}
@@ -119,48 +122,40 @@ public class DOMNodeHelper {
         return asDOMDocument(node.getDocument());
     }
 
-    @SuppressWarnings({
-                              "unchecked", "rawtypes"
-                      })
     public static org.w3c.dom.Node insertBefore(Node node, org.w3c.dom.Node newChild, org.w3c.dom.Node refChild) {
         if (node instanceof Branch) {
             Branch branch = (Branch) node;
-            List list = branch.content();
-            int index = list.indexOf(refChild);
+            List<Node> list = branch.content();
+            int index = refChild instanceof Node ? list.indexOf((Node)refChild) : -1;
 
-            //FIXME newChild may be incompatible with List<Node> signature
             if (index < 0) {
-                branch.add((Node) newChild);
+                branch.add(asNode(newChild));
             } else {
-                list.add(index, newChild);
+                list.add(index, asNode(newChild));
             }
 
             return newChild;
-        } else {
-            throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "Children not allowed for this node: " + node);
         }
+
+        throw newHierarchyRequestError(node);
     }
 
-    @SuppressWarnings({
-                              "rawtypes", "unchecked"
-                      })
     public static org.w3c.dom.Node replaceChild(Node node, org.w3c.dom.Node newChild, org.w3c.dom.Node oldChild) {
         if (node instanceof Branch) {
             Branch branch = (Branch) node;
-            List list = branch.content();
-            int index = list.indexOf(oldChild);
+            List<Node> list = branch.content();
+            int index = oldChild instanceof Node ? list.indexOf((Node)oldChild) : -1;
 
             if (index < 0) {
-                throw new DOMException(DOMException.NOT_FOUND_ERR, "Tried to replace a non existing child " + "for node: " + node);
+                throw new DOMException(DOMException.NOT_FOUND_ERR, "Tried to replace a non existing child for node: " + node);
             }
 
-            //FIXME newChild may be incompatible with List<Node> signature
-            list.set(index, newChild);
+            list.set(index, asNode(newChild));
 
             return oldChild;
-        } else {
-            throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "Children not allowed for this node: " + node);
         }
+
+        throw newHierarchyRequestError(node);
     }
 
     public static org.w3c.dom.Node removeChild(Node node, org.w3c.dom.Node oldChild) {
@@ -171,7 +166,7 @@ public class DOMNodeHelper {
             return oldChild;
         }
 
-        throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "Children not allowed for this node: " + node);
+        throw newHierarchyRequestError(node);
     }
 
     public static org.w3c.dom.Node appendChild(Node node, org.w3c.dom.Node newChild) {
@@ -188,7 +183,7 @@ public class DOMNodeHelper {
             return newChild;
         }
 
-        throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "Children not allowed for this node: " + node);
+        throw newHierarchyRequestError(node);
     }
 
     public static boolean hasChildNodes(Node node) {
@@ -208,7 +203,7 @@ public class DOMNodeHelper {
     }
 
     public static boolean hasAttributes(Node node) {
-        if ((node != null) && node instanceof Element) {
+        if (node instanceof Element) {
             return ((Element) node).attributeCount() > 0;
         }
         return false;
@@ -228,32 +223,27 @@ public class DOMNodeHelper {
         return (text != null) ? text.length() : 0;
     }
 
-    @SuppressWarnings("null")
     public static String substringData(CharacterData charData, int offset, int count) {
-        if (count < 0) {
-            throw new DOMException(DOMException.INDEX_SIZE_ERR, "Illegal value for count: " + count);
-        }
+        checkCount(count);
 
         String text = charData.getText();
         int length = (text != null) ? text.length() : 0;
 
-        if ((offset < 0) || (offset >= length)) {
-            throw new DOMException(DOMException.INDEX_SIZE_ERR, "No text at offset: " + offset);
+        checkOffset(offset, length);
+
+        if (length == 0) {
+            return "";
         }
 
         if ((offset + count) > length) {
-            // @nosonar suppressed null warning - text cannot be null here
             return text.substring(offset);
         }
 
-        // @nosonar suppressed null warning - text cannot be null here
         return text.substring(offset, offset + count);
     }
 
     public static void appendData(CharacterData charData, String arg) {
-        if (charData.isReadOnly()) {
-            throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "CharacterData node is read only: " + charData);
-        }
+        checkIfReadOnly(charData);
 
         String text = charData.getText();
         if (text == null) {
@@ -263,74 +253,74 @@ public class DOMNodeHelper {
         }
     }
 
-    public static void insertData(CharacterData data, int offset, String arg) {
-        if (data.isReadOnly()) {
-            throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "CharacterData node is read only: " + data);
+    public static void insertData(CharacterData charData, int offset, String arg) {
+        checkIfReadOnly(charData);
+
+        String text = charData.getText();
+
+        if (text == null) {
+            charData.setText(arg);
         } else {
-            String text = data.getText();
+            int length = text.length();
 
-            if (text == null) {
-                data.setText(arg);
-            } else {
-                int length = text.length();
+            checkOffset(offset, length);
 
-                if ((offset < 0) || (offset > length)) {
-                    throw new DOMException(DOMException.INDEX_SIZE_ERR, "No text at offset: " + offset);
-                } else {
-                    StringBuilder buffer = new StringBuilder(text.length() + arg.length());
-                    buffer.append(text);
-                    buffer.insert(offset, arg);
-                    data.setText(buffer.toString());
-                }
-            }
+            StringBuilder buffer = new StringBuilder(text.length() + arg.length());
+            buffer.append(text);
+            buffer.insert(offset, arg);
+            charData.setText(buffer.toString());
         }
     }
 
     public static void deleteData(CharacterData charData, int offset, int count) {
-        if (charData.isReadOnly()) {
-            throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "CharacterData node is read only: " + charData);
-        } else {
-            if (count < 0) {
-                throw new DOMException(DOMException.INDEX_SIZE_ERR, "Illegal value for count: " + count);
-            }
+        checkIfReadOnly(charData);
+        checkCount(count);
 
-            String text = charData.getText();
+        String text = charData.getText();
 
-            if (text != null) {
-                int length = text.length();
+        if (text != null) {
+            int length = text.length();
 
-                if ((offset < 0) || (offset >= length)) {
-                    throw new DOMException(DOMException.INDEX_SIZE_ERR, "No text at offset: " + offset);
-                } else {
-                    StringBuilder buffer = new StringBuilder(text);
-                    buffer.delete(offset, offset + count);
-                    charData.setText(buffer.toString());
-                }
-            }
+            checkOffset(offset, length);
+
+            StringBuilder buffer = new StringBuilder(text);
+            buffer.delete(offset, offset + count);
+            charData.setText(buffer.toString());
         }
     }
 
     public static void replaceData(CharacterData charData, int offset, int count, String arg) {
+        checkIfReadOnly(charData);
+        checkCount(count);
+
+        String text = charData.getText();
+
+        if (text != null) {
+            int length = text.length();
+
+            checkOffset(offset, length);
+
+            StringBuilder buffer = new StringBuilder(text);
+            buffer.replace(offset, offset + count, arg);
+            charData.setText(buffer.toString());
+        }
+    }
+
+    private static void checkIfReadOnly(CharacterData charData) {
         if (charData.isReadOnly()) {
             throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "CharacterData node is read only: " + charData);
-        } else {
-            if (count < 0) {
-                throw new DOMException(DOMException.INDEX_SIZE_ERR, "Illegal value for count: " + count);
-            }
+        }
+    }
 
-            String text = charData.getText();
+    private static void checkCount(int count) {
+        if (count < 0) {
+            throw new DOMException(DOMException.INDEX_SIZE_ERR, "Illegal value for count: " + count);
+        }
+    }
 
-            if (text != null) {
-                int length = text.length();
-
-                if ((offset < 0) || (offset >= length)) {
-                    throw new DOMException(DOMException.INDEX_SIZE_ERR, "No text at offset: " + offset);
-                } else {
-                    StringBuilder buffer = new StringBuilder(text);
-                    buffer.replace(offset, offset + count, arg);
-                    charData.setText(buffer.toString());
-                }
-            }
+    private static void checkOffset(int offset, int length) {
+        if ((offset < 0) || (offset >= length)) {
+            throw new DOMException(DOMException.INDEX_SIZE_ERR, "No text at offset: " + offset);
         }
     }
 
@@ -361,9 +351,10 @@ public class DOMNodeHelper {
             if (node instanceof Element) {
                 Element element = (Element) node;
 
-                final boolean hasNotNamespace = ((namespace == null) || (namespace.length() == 0)) && ((element.getNamespaceURI() == null) || (element.getNamespaceURI().length() == 0));
-                if ((isStarNS || hasNotNamespace || ((namespace != null) && namespace.equals(element.getNamespaceURI()))) &&
-                        (isStar || localName.equals(element.getName()))) {
+                final boolean hasNotNamespace = ((namespace == null) || (namespace.length() == 0))
+                        && ((element.getNamespaceURI() == null) || (element.getNamespaceURI().length() == 0));
+                if ((isStarNS || hasNotNamespace || ((namespace != null) && namespace.equals(element.getNamespaceURI())))
+                        && (isStar || localName.equals(element.getName()))) {
                     list.add(element);
                 }
 
@@ -386,9 +377,8 @@ public class DOMNodeHelper {
                      * null.
                      */
                     return null;
-                } else {
-                    return DOMNodeHelper.asDOMNode(list.get(index));
                 }
+                return DOMNodeHelper.asDOMNode(list.get(index));
             }
 
             @Override
@@ -405,15 +395,15 @@ public class DOMNodeHelper {
 
         if (node instanceof org.w3c.dom.Node) {
             return (org.w3c.dom.Node) node;
-        } else {
-            // Use DOMWriter?
-            if (log.isWarnEnabled()) {
-                log.warn("Cannot convert: " + node + " into a W3C DOM Node");
-            }
-            notSupported();
-
-            return null;
         }
+
+        // Use DOMWriter?
+        if (log.isWarnEnabled()) {
+            log.warn("Cannot convert: " + node + " into a W3C DOM Node");
+        }
+
+        notSupported();
+        return null;
     }
 
     public static org.w3c.dom.Document asDOMDocument(Document document) {
@@ -423,12 +413,11 @@ public class DOMNodeHelper {
 
         if (document instanceof org.w3c.dom.Document) {
             return (org.w3c.dom.Document) document;
-        } else {
-            // Use DOMWriter?
-            notSupported();
-
-            return null;
         }
+
+        // Use DOMWriter?
+        notSupported();
+        return null;
     }
 
     public static org.w3c.dom.DocumentType asDOMDocumentType(DocumentType dt) {
@@ -438,12 +427,11 @@ public class DOMNodeHelper {
 
         if (dt instanceof org.w3c.dom.DocumentType) {
             return (org.w3c.dom.DocumentType) dt;
-        } else {
-            // Use DOMWriter?
-            notSupported();
-
-            return null;
         }
+
+        // Use DOMWriter?
+        notSupported();
+        return null;
     }
 
     public static org.w3c.dom.Text asDOMText(CharacterData text) {
@@ -453,12 +441,11 @@ public class DOMNodeHelper {
 
         if (text instanceof org.w3c.dom.Text) {
             return (org.w3c.dom.Text) text;
-        } else {
-            // Use DOMWriter?
-            notSupported();
-
-            return null;
         }
+
+        // Use DOMWriter?
+        notSupported();
+        return null;
     }
 
     public static org.w3c.dom.Element asDOMElement(Node element) {
@@ -468,12 +455,11 @@ public class DOMNodeHelper {
 
         if (element instanceof org.w3c.dom.Element) {
             return (org.w3c.dom.Element) element;
-        } else {
-            // Use DOMWriter?
-            notSupported();
-
-            return null;
         }
+
+        // Use DOMWriter?
+        notSupported();
+        return null;
     }
 
     public static org.w3c.dom.Attr asDOMAttr(Node attribute) {
@@ -483,12 +469,47 @@ public class DOMNodeHelper {
 
         if (attribute instanceof org.w3c.dom.Attr) {
             return (org.w3c.dom.Attr) attribute;
-        } else {
-            // Use DOMWriter?
-            notSupported();
+        }
+        // Use DOMWriter?
+        notSupported();
 
+        return null;
+    }
+
+    public static Node asNode(org.w3c.dom.Node node) {
+        if (node == null) {
             return null;
         }
+
+        if (node instanceof Node) {
+            return (Node) node;
+        }
+        if (log.isWarnEnabled()) {
+            log.warn("Cannot convert: " + node + " into a W3C DOM Node");
+        }
+        notSupported();
+        return null;
+    }
+
+    public static boolean isStringEquals(String string1, String string2) {
+        return Objects.equals(string1, string2);
+    }
+
+    public static boolean isNodeEquals(org.w3c.dom.Node node1, org.w3c.dom.Node node2) {
+        if (node1 == node2) {
+            return true;
+        }
+        return node1 != null && node2 != null
+                && node1.getNodeType() == node2.getNodeType()
+                && isStringEquals(node1.getNodeName(), node2.getNodeName())
+                && isStringEquals(node1.getLocalName(), node2.getLocalName())
+                && isStringEquals(node1.getNamespaceURI(), node2.getNamespaceURI())
+                && isStringEquals(node1.getPrefix(), node2.getPrefix())
+                && isStringEquals(node1.getNodeValue(), node2.getNodeValue());
+    }
+
+    public static boolean isNodeSame(org.w3c.dom.Node node1, org.w3c.dom.Node node2) {
+        return node1 == node2;
     }
 
     /**
@@ -504,6 +525,10 @@ public class DOMNodeHelper {
         return new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "Children not allowed for this node: " + node);
     }
 
+    private static DOMException newHierarchyRequestError(Node node) {
+        return new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "Children not allowed for this node: " + node);
+    }
+
     public static class EmptyNodeList implements NodeList {
         @Override
         public org.w3c.dom.Node item(int index) {
@@ -515,50 +540,6 @@ public class DOMNodeHelper {
             return 0;
         }
     }
-
-    public static boolean isStringEquals(String string1, String string2) {
-        if (string1 == null && string2 == null) {
-            return true;
-        }
-        if (string1 == null || string2 == null) {
-            return false;
-        }
-        return string1.equals(string2);
-    }
-
-    public static boolean isNodeEquals(org.w3c.dom.Node node1, org.w3c.dom.Node node2) {
-        if (node1 == null && node2 == null) {
-            return true;
-        }
-        if (node1 == null || node2 == null) {
-            return false;
-        }
-        if (node1.getNodeType() != node2.getNodeType()) {
-            return false;
-        }
-        if (!isStringEquals(node1.getNodeName(), node2.getNodeName())) {
-            return false;
-        }
-        if (!isStringEquals(node1.getLocalName(), node2.getLocalName())) {
-            return false;
-        }
-        if (!isStringEquals(node1.getNamespaceURI(), node2.getNamespaceURI())) {
-            return false;
-        }
-        if (!isStringEquals(node1.getPrefix(), node2.getPrefix())) {
-            return false;
-        }
-        if (!isStringEquals(node1.getNodeValue(), node2.getNodeValue())) {
-            return false;
-        }
-        return true;
-    }
-
-    public static boolean isNodeSame(org.w3c.dom.Node node1, org.w3c.dom.Node node2) {
-        return node1 == node2;
-    }
-
-    private static final Log log = LogFactory.getLog(DOMNodeHelper.class);
 }
 
 /*

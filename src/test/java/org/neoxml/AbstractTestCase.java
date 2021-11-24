@@ -60,22 +60,16 @@ public class AbstractTestCase {
         return null;
     }
 
-    @SuppressWarnings("null")
     public void assertDocumentsEqual(Document doc1, Document doc2) {
-        try {
-            assertNotNull("Doc1 not null", doc1);
-            assertNotNull("Doc2 not null", doc2);
+        assertNotNull("Doc1 not null", doc1);
+        assertNotNull("Doc2 not null", doc2);
 
-            doc1.normalize();
-            doc2.normalize();
+        doc1.normalize();
+        doc2.normalize();
 
-            assertNodesEqual(doc1, doc2);
+        assertNodesEqual(doc1, doc2);
 
-            assertEquals("Documents are equal", 0, NodeComparator.compare(doc1, doc2));
-        } catch (Exception e) {
-            log.debug("Failed during comparison of: " + doc1 + " and: " + doc2);
-            throw e;
-        }
+        assertEquals("Documents are equal", 0, NodeComparator.compare(doc1, doc2));
     }
 
     public void assertNodesEqual(Document n1, Document n2) {
@@ -220,9 +214,6 @@ public class AbstractTestCase {
 
     @Before
     public void setUp() throws Exception {
-        //System.setProperty("javax.xml.parsers.SAXParserFactory", SAXParserFactoryImpl.class.getName());
-        //System.setProperty("javax.xml.transform.TransformerFactory", TransformerFactoryImpl.class.getName());
-
         document = DocumentHelper.createDocument();
 
         Element root = document.addElement("root");

@@ -16,6 +16,7 @@ import org.neoxml.XPath;
 
 import java.util.List;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -25,22 +26,18 @@ import static org.junit.Assert.assertTrue;
  * @version $Revision: 1.4 $
  */
 public class VariableTest extends AbstractTestCase {
-    // TODO: uncomment these if jaxen bug is fixed
-    // http://jira.codehaus.org/browse/JAXEN-73
     protected static String[] paths = {
             "$author",
-            //            "$author/@name",
-            //            "$root/author",
-            //            "$root/author[1]",
-            //            "$root/author[1]/@name",
-            //            "$author/@name"
+            "$author/@name",
+            "$root/author",
+            "$root/author[1]",
+            "$root/author[1]/@name",
+            "$author/@name"
     };
 
-    private SimpleVariableContext variableContext = new SimpleVariableContext();
+    private final SimpleVariableContext variableContext = new SimpleVariableContext();
 
     private Node rootNode;
-
-    private Node authorNode;
 
     @Test
     public void testXPaths() {
@@ -55,7 +52,7 @@ public class VariableTest extends AbstractTestCase {
 
         log.debug("Searched path: " + xpathText + " found: " + list.size() + " result(s)");
 
-        assertTrue("Results should not contain the root node", !list.contains(rootNode));
+        assertFalse("Results should not contain the root node", list.contains(rootNode));
     }
 
     protected XPath createXPath(String xpath) {
@@ -70,7 +67,7 @@ public class VariableTest extends AbstractTestCase {
         super.setUp();
 
         rootNode = document.selectSingleNode("/root");
-        authorNode = document.selectSingleNode("/root/author[1]");
+        Node authorNode = document.selectSingleNode("/root/author[1]");
 
         variableContext.setVariableValue("root", rootNode);
         variableContext.setVariableValue("author", authorNode);

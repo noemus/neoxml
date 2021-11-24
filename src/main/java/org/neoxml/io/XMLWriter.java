@@ -851,9 +851,7 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
         // Print out additional namespace declarations
         boolean textOnly = true;
 
-        for (int i = 0; i < size; i++) {
-            Node node = element.node(i);
-
+        for (Node node : element) {
             if (node instanceof Namespace) {
                 Namespace additional = (Namespace) node;
 
@@ -910,7 +908,7 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
 
     /**
      * Determines if element is a special case of XML elements where it contains
-     * an xml:space attribute of "preserve". If it does, then retain whitespace.
+     * a xml:space attribute of "preserve". If it does, then retain whitespace.
      *
      * @param element DOCUMENT ME!
      * @return DOCUMENT ME!
@@ -1223,9 +1221,9 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
         }
 
         // try to register for lexical events
-        for (int i = 0; i < LEXICAL_HANDLER_NAMES.length; i++) {
+        for (String handlerName : LEXICAL_HANDLER_NAMES) {
             try {
-                parent.setProperty(LEXICAL_HANDLER_NAMES[i], this);
+                parent.setProperty(handlerName, this);
                 break;
             } catch (SAXNotRecognizedException | SAXNotSupportedException ex) {
                 // ignore
@@ -1480,7 +1478,6 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
      * @return DOCUMENT ME!
      */
     protected String escapeElementEntities(String text) {
-        char[] block = null;
         int i;
         int last = 0;
         int size = text.length();
@@ -1519,11 +1516,7 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
             }
 
             if (entity != null) {
-                if (block == null) {
-                    block = text.toCharArray();
-                }
-
-                buffer.append(block, last, i - last);
+                buffer.append(text, last, i);
                 buffer.append(entity);
                 last = i + 1;
             }
@@ -1534,11 +1527,7 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
         }
 
         if (last < size) {
-            if (block == null) {
-                block = text.toCharArray();
-            }
-
-            buffer.append(block, last, i - last);
+            buffer.append(text, last, i);
         }
 
         String answer = buffer.toString();
@@ -1565,7 +1554,6 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
     protected String escapeAttributeEntities(String text) {
         char quote = format.getAttributeQuoteCharacter();
 
-        char[] block = null;
         int i;
         int last = 0;
         int size = text.length();
@@ -1614,20 +1602,14 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
                     break;
 
                 default:
-
                     if ((c < 32) || shouldEncodeChar(c)) {
                         entity = "&#" + (int) c + ";";
                     }
-
                     break;
             }
 
             if (entity != null) {
-                if (block == null) {
-                    block = text.toCharArray();
-                }
-
-                buffer.append(block, last, i - last);
+                buffer.append(text, last, i);
                 buffer.append(entity);
                 last = i + 1;
             }
@@ -1638,11 +1620,7 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
         }
 
         if (last < size) {
-            if (block == null) {
-                block = text.toCharArray();
-            }
-
-            buffer.append(block, last, i - last);
+            buffer.append(text, last, i);
         }
 
         String answer = buffer.toString();
@@ -1686,9 +1664,7 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler, Closeabl
         if ((ns != null) && (ns != Namespace.XML_NAMESPACE)) {
             String uri = ns.getURI();
 
-            if (uri != null && !namespaceStack.contains(ns)) {
-                return true;
-            }
+            return uri != null && !namespaceStack.contains(ns);
         }
 
         return false;

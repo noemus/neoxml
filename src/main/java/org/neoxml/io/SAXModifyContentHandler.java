@@ -17,7 +17,7 @@ import java.io.IOException;
 
 /**
  * This extension of the SAXContentHandler writes SAX events immediately to the
- * provided XMLWriter, unless some {@link org.dom4.ElementHandler}is still
+ * provided XMLWriter, unless some {@link org.neoxml.ElementHandler} is still
  * handling the current Element.
  *
  * @author Wonne Keysers (Realsoftware.be)
@@ -48,7 +48,7 @@ class SAXModifyContentHandler extends SAXContentHandler {
     public void startCDATA() throws SAXException {
         super.startCDATA();
 
-        if (!activeHandlers() && (xmlWriter != null)) {
+        if (noActiveHandlers() && (xmlWriter != null)) {
             xmlWriter.startCDATA();
         }
     }
@@ -76,7 +76,7 @@ class SAXModifyContentHandler extends SAXContentHandler {
             throws SAXException {
         super.comment(characters, parm2, parm3);
 
-        if (!activeHandlers() && (xmlWriter != null)) {
+        if (noActiveHandlers() && (xmlWriter != null)) {
             xmlWriter.comment(characters, parm2, parm3);
         }
     }
@@ -94,7 +94,7 @@ class SAXModifyContentHandler extends SAXContentHandler {
     public void endCDATA() throws SAXException {
         super.endCDATA();
 
-        if (!activeHandlers() && (xmlWriter != null)) {
+        if (noActiveHandlers() && (xmlWriter != null)) {
             xmlWriter.endCDATA();
         }
     }
@@ -112,7 +112,7 @@ class SAXModifyContentHandler extends SAXContentHandler {
     public void unparsedEntityDecl(String name, String publicId, String systemId, String notation) throws SAXException {
         super.unparsedEntityDecl(name, publicId, systemId, notation);
 
-        if (!activeHandlers() && (xmlWriter != null)) {
+        if (noActiveHandlers() && (xmlWriter != null)) {
             xmlWriter.unparsedEntityDecl(name, publicId, systemId, notation);
         }
     }
@@ -130,7 +130,7 @@ class SAXModifyContentHandler extends SAXContentHandler {
     public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
         super.startElement(uri, localName, qName, atts);
 
-        if (!activeHandlers() && (xmlWriter != null)) {
+        if (noActiveHandlers() && (xmlWriter != null)) {
             xmlWriter.startElement(uri, localName, qName, atts);
         }
     }
@@ -148,7 +148,7 @@ class SAXModifyContentHandler extends SAXContentHandler {
     public void ignorableWhitespace(char[] parm1, int parm2, int parm3) throws SAXException {
         super.ignorableWhitespace(parm1, parm2, parm3);
 
-        if (!activeHandlers() && (xmlWriter != null)) {
+        if (noActiveHandlers() && (xmlWriter != null)) {
             xmlWriter.ignorableWhitespace(parm1, parm2, parm3);
         }
     }
@@ -157,7 +157,7 @@ class SAXModifyContentHandler extends SAXContentHandler {
     public void processingInstruction(String target, String data) throws SAXException {
         super.processingInstruction(target, data);
 
-        if (!activeHandlers() && (xmlWriter != null)) {
+        if (noActiveHandlers() && (xmlWriter != null)) {
             xmlWriter.processingInstruction(target, data);
         }
     }
@@ -175,7 +175,7 @@ class SAXModifyContentHandler extends SAXContentHandler {
     public void skippedEntity(String name) throws SAXException {
         super.skippedEntity(name);
 
-        if (!activeHandlers() && (xmlWriter != null)) {
+        if (noActiveHandlers() && xmlWriter != null) {
             xmlWriter.skippedEntity(name);
         }
     }
@@ -204,19 +204,17 @@ class SAXModifyContentHandler extends SAXContentHandler {
 
         super.endElement(uri, localName, qName);
 
-        if (!activeHandlers()) {
-            if (xmlWriter != null) {
-                if (currentHandler == null) {
-                    xmlWriter.endElement(uri, localName, qName);
-                } else if (currentHandler instanceof SAXModifyElementHandler) {
-                    SAXModifyElementHandler modifyHandler = (SAXModifyElementHandler) currentHandler;
-                    Element modifiedElement = modifyHandler.getModifiedElement();
+        if (noActiveHandlers() && xmlWriter != null) {
+            if (currentHandler == null) {
+                xmlWriter.endElement(uri, localName, qName);
+            } else if (currentHandler instanceof SAXModifyElementHandler) {
+                SAXModifyElementHandler modifyHandler = (SAXModifyElementHandler) currentHandler;
+                Element modifiedElement = modifyHandler.getModifiedElement();
 
-                    try {
-                        xmlWriter.write(modifiedElement);
-                    } catch (IOException ex) {
-                        throw new SAXModifyException(ex);
-                    }
+                try {
+                    xmlWriter.write(modifiedElement);
+                } catch (IOException ex) {
+                    throw new SAXModifyException(ex);
                 }
             }
         }
@@ -235,7 +233,7 @@ class SAXModifyContentHandler extends SAXContentHandler {
     public void characters(char[] parm1, int parm2, int parm3) throws SAXException {
         super.characters(parm1, parm2, parm3);
 
-        if (!activeHandlers() && (xmlWriter != null)) {
+        if (noActiveHandlers() && xmlWriter != null) {
             xmlWriter.characters(parm1, parm2, parm3);
         }
     }
@@ -244,10 +242,9 @@ class SAXModifyContentHandler extends SAXContentHandler {
         return this.xmlWriter;
     }
 
-    private boolean activeHandlers() {
+    private boolean noActiveHandlers() {
         DispatchHandler handler = getElementStack().getDispatchHandler();
-
-        return handler.getActiveHandlerCount() > 0;
+        return handler.getActiveHandlerCount() <= 0;
     }
 }
 

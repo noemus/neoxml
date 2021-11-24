@@ -8,10 +8,10 @@ package org.neoxml.jaxb;
 
 import org.neoxml.dom.DOMDocument;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import java.io.StringReader;
@@ -42,14 +42,14 @@ abstract class JAXBSupport {
     }
 
     /**
-     * Marshals the given {@link javax.xml.bind.Element} in to its neoxml
+     * Marshals the given {@link jakarta.xml.bind.Element} in to its neoxml
      * counterpart.
      *
      * @param element JAXB Element to be marshalled
      * @return the marshalled neoxml {@link org.neoxml.Element}
      * @throws JAXBException when an error occurs
      */
-    protected org.neoxml.Element marshal(javax.xml.bind.Element element) throws JAXBException {
+    protected org.neoxml.Element marshal(jakarta.xml.bind.Element element) throws JAXBException {
         DOMDocument doc = new DOMDocument();
         getMarshaller().marshal(element, doc);
 
@@ -57,16 +57,16 @@ abstract class JAXBSupport {
     }
 
     /**
-     * Unmarshalls the specified neoxml {@link org.neoxml.Element} into a {@link javax.xml.bind.Element}
+     * Unmarshalls the specified neoxml {@link org.neoxml.Element} into a {@link jakarta.xml.bind.Element}
      *
      * @param element the neoxml element to unmarshall
      * @return the unmarshalled JAXB object
      * @throws JAXBException when an error occurs
      */
-    protected javax.xml.bind.Element unmarshal(org.neoxml.Element element) throws JAXBException {
+    protected jakarta.xml.bind.Element unmarshal(org.neoxml.Element element) throws JAXBException {
         Source source = new StreamSource(new StringReader(element.asXML()));
 
-        return (javax.xml.bind.Element) getUnmarshaller().unmarshal(source);
+        return (jakarta.xml.bind.Element) getUnmarshaller().unmarshal(source);
     }
 
     private Marshaller getMarshaller() throws JAXBException {

@@ -18,7 +18,6 @@ import org.neoxml.tree.NamespaceCache;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.22 $
  */
-@SuppressWarnings("serial")
 public class Namespace extends AbstractNode {
     /**
      * Cache of Namespace instances
@@ -149,11 +148,6 @@ public class Namespace extends AbstractNode {
         return uri;
     }
 
-    @Override
-    public String getStringValue() {
-        return uri;
-    }
-
     /**
      * DOCUMENT ME!
      *
@@ -173,7 +167,7 @@ public class Namespace extends AbstractNode {
     }
 
     public String getXPathNameStep() {
-        if ((prefix != null) && !"".equals(prefix)) {
+        if (!"".equals(prefix)) {
             return "namespace::" + prefix;
         }
 

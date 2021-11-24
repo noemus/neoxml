@@ -14,7 +14,6 @@ package org.neoxml;
  *
  * @version $Revision: 1.6 $
  */
-@SuppressWarnings("serial")
 public class XPathException extends RuntimeException {
     /**
      * The XPath expression that caused the exception

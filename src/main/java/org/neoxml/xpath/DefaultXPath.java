@@ -28,7 +28,7 @@ import java.util.Set;
 
 /**
  * <p>
- * Default implementation of {@link org.neoxml.XPath}which uses the <a href="http://jaxen.org">Jaxen </a> project.
+ * Default implementation of {@link org.neoxml.XPath} which uses the <a href="http://jaxen.org">Jaxen </a> project.
  * </p>
  *
  * @author bob mcwhirter
@@ -339,7 +339,7 @@ public class DefaultXPath implements org.neoxml.XPath, Serializable {
 
     protected static XPath parse(String text) {
         try {
-            return new XtreeXPath(text);
+            return new NeoXmlXPath(text);
         } catch (JaxenException e) {
             throw new InvalidXPathException(text, e.getMessage());
         } catch (RuntimeException ignored) {

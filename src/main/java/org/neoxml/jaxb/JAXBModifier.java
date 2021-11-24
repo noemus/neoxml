@@ -54,7 +54,7 @@ public class JAXBModifier extends JAXBSupport {
      * MUST contain jaxb.properties!
      *
      * @param contextPath JAXB context path to be used
-     * @see javax.xml.bind.JAXBContext
+     * @see jakarta.xml.bind.JAXBContext
      */
     public JAXBModifier(String contextPath) {
         super(contextPath);
@@ -69,7 +69,7 @@ public class JAXBModifier extends JAXBSupport {
      *
      * @param contextPath JAXB context path to be used
      * @param classloader the classloader to use
-     * @see javax.xml.bind.JAXBContext
+     * @see jakarta.xml.bind.JAXBContext
      */
     public JAXBModifier(String contextPath, ClassLoader classloader) {
         super(contextPath, classloader);
@@ -83,7 +83,7 @@ public class JAXBModifier extends JAXBSupport {
      *
      * @param contextPath  JAXB context path to be used
      * @param outputFormat the neoxml {@link org.neoxml.io.OutputFormat} to be used
-     * @see javax.xml.bind.JAXBContext
+     * @see jakarta.xml.bind.JAXBContext
      */
     public JAXBModifier(String contextPath, OutputFormat outputFormat) {
         super(contextPath);
@@ -99,7 +99,7 @@ public class JAXBModifier extends JAXBSupport {
      * @param contextPath  JAXB context path to be used
      * @param classloader  the class loader to be used to load JAXB
      * @param outputFormat the neoxml {@link org.neoxml.io.OutputFormat} to be used
-     * @see javax.xml.bind.JAXBContext
+     * @see jakarta.xml.bind.JAXBContext
      */
     public JAXBModifier(String contextPath, ClassLoader classloader, OutputFormat outputFormat) {
         super(contextPath, classloader);
@@ -378,8 +378,8 @@ public class JAXBModifier extends JAXBSupport {
 
         @Override
         public org.neoxml.Element modifyElement(org.neoxml.Element element) throws Exception {
-            javax.xml.bind.Element originalObject = jaxbModifier.unmarshal(element);
-            javax.xml.bind.Element modifiedObject = objectModifier.modifyObject(originalObject);
+            jakarta.xml.bind.Element originalObject = jaxbModifier.unmarshal(element);
+            jakarta.xml.bind.Element modifiedObject = objectModifier.modifyObject(originalObject);
 
             return jaxbModifier.marshal(modifiedObject);
         }
