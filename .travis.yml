@@ -8,6 +8,7 @@ script:
   # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
   - java_version=$(java --version | grep openjdk | cut -f2 -d' ' | cut -f1 -d'.');
   - git fetch --unshallow
-  - mvn clean verify -Pcoverage
-  - echo "SONAR_TOKEN=$SONAR_TOKEN"
+  - if [ $java_version = 11 ]; then PROFILES=-Pcoverage; else PROFILES=; fi
+  - mvn clean verify $PROFILES
+#  - echo "SONAR_TOKEN=$SONAR_TOKEN"
   - if [ $java_version = 11 ]; then mvn sonar:sonar -Dsonar.login=$SONAR_TOKEN -Dsonar.sourceEncoding=UTF-8 -Dsonar.branch.name=master; fi
