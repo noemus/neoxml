@@ -6,12 +6,12 @@ My intent is to keep this library simple in design and use.
 
 I am using dom4j in many my projects, but it is now too old and whithout maintenance
 
-##GOALS
+## GOALS
 - Focus is on simple traversal API based on java.util Collections framework ( as in dom4j )
 - I have (and will) remove some parts of former dom4j that are not necessary and that only added some dependencies. 
 I will maybe - if asked for - create some separate modules for theese parts (Swing, Datatype, Xpp, etc).
 
-##WHAT IS DONE
+## WHAT IS DONE
 - All code is refactored and reorganised, nearly all code duplications are removed
 - I have added API for NodeList for better manipulation with collections of Nodes
 - Branch (and all container nodes) now implements Iterable
@@ -20,11 +20,11 @@ I will maybe - if asked for - create some separate modules for theese parts (Swi
 - Done some benchmarks (based on JMH) against original dom4j, neoxml performs better in some cases and nearly same in 
 other scenarios, whole library is optimised for XML documents with many nodes without subnodes or with only one subnode. 
 
-##CHANGELOG
-###1.0.4
+## CHANGELOG
+### 1.0.4
 - Removed issues when running on Java 11
 
-###1.0.3
+### 1.0.3
 - Fixed some Sonar warnings
 - Fixed Javadoc warnings
 - onboarded to TravisCI
