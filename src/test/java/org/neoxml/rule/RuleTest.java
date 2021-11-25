@@ -15,6 +15,9 @@ import org.neoxml.DocumentFactory;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -41,8 +44,10 @@ public class RuleTest extends AbstractTestCase {
 
         assertTrue("r1 > r2", r1.compareTo(r2) > 0);
         assertTrue("r2 < r1", r2.compareTo(r1) < 0);
-        assertTrue("r1 == r1", r1.compareTo(r1) == 0);
-        assertTrue("r2 == r2", r2.compareTo(r2) == 0);
+        //@nosonar testing reflexivity
+        assertEquals("r1 == r1", 0, r1.compareTo(r1));
+        //@nosonar testing reflexivity
+        assertEquals("r2 == r2", 0, r2.compareTo(r2));
 
         ArrayList<Rule> list = new ArrayList<>();
         list.add(r1);
@@ -50,8 +55,8 @@ public class RuleTest extends AbstractTestCase {
 
         Collections.sort(list);
 
-        assertTrue("r2 should be first", list.get(0) == r2);
-        assertTrue("r1 should be next", list.get(1) == r1);
+        assertSame("r2 should be first", r2, list.get(0));
+        assertSame("r1 should be next", r1, list.get(1));
 
         list = new ArrayList<>();
         list.add(r2);
@@ -59,8 +64,8 @@ public class RuleTest extends AbstractTestCase {
 
         Collections.sort(list);
 
-        assertTrue("r2 should be first", list.get(0) == r2);
-        assertTrue("r1 should be next", list.get(1) == r1);
+        assertSame("r2 should be first", r2, list.get(0));
+        assertSame("r1 should be next", r1, list.get(1));
 
         /*
          * TreeSet set = new TreeSet(); set.add( r1 ); set.add( r2 );
@@ -85,7 +90,7 @@ public class RuleTest extends AbstractTestCase {
         document.addElement("foo");
 
         assertTrue("/ matches document", rule.matches(document));
-        assertTrue("/ does not match root element", !rule.matches(document.getRootElement()));
+        assertFalse("/ does not match root element", rule.matches(document.getRootElement()));
     }
 
     @Test

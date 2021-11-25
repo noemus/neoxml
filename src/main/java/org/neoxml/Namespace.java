@@ -145,7 +145,7 @@ public class Namespace extends AbstractNode {
 
     @Override
     public String getText() {
-        return uri;
+        return getURI();
     }
 
     /**

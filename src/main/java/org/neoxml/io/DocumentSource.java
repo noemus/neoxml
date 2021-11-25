@@ -95,12 +95,11 @@ public class DocumentSource extends SAXSource {
      * @throws UnsupportedOperationException as this method is unsupported
      */
     @Override
-    public void setInputSource(InputSource inputSource) throws UnsupportedOperationException {
+    public void setInputSource(InputSource inputSource) {
         if (inputSource instanceof DocumentInputSource) {
             super.setInputSource(inputSource);
-        } else {
-            throw new UnsupportedOperationException();
         }
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -110,7 +109,7 @@ public class DocumentSource extends SAXSource {
      * @throws UnsupportedOperationException DOCUMENT ME!
      */
     @Override
-    public void setXMLReader(XMLReader reader) throws UnsupportedOperationException {
+    public void setXMLReader(XMLReader reader) {
         if (reader instanceof SAXWriter) {
             this.xmlReader = reader;
         } else if (reader instanceof XMLFilter) {

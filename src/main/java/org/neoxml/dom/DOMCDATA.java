@@ -111,7 +111,7 @@ public class DOMCDATA extends DefaultCDATA implements org.w3c.dom.CDATASection {
 
     @Override
     public NamedNodeMap getAttributes() {
-        return null;
+        return DOMNodeHelper.getAttributes(this);
     }
 
     @Override

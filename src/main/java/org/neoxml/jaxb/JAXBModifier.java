@@ -107,7 +107,7 @@ public class JAXBModifier extends JAXBSupport {
     }
 
     /**
-     * Parses the specified {@link java.io.File}with SAX
+     * Parses the specified {@link java.io.File} with SAX
      *
      * @param source the file to parse
      * @return the resulting neoxml document
@@ -118,7 +118,7 @@ public class JAXBModifier extends JAXBSupport {
     }
 
     /**
-     * Parses the specified {@link java.io.File}with SAX, using the given {@link java.nio.charset.Charset}.
+     * Parses the specified {@link java.io.File} with SAX, using the given {@link java.nio.charset.Charset}.
      *
      * @param source  the file to parse
      * @param charset the character set to use
@@ -137,7 +137,7 @@ public class JAXBModifier extends JAXBSupport {
     }
 
     /**
-     * Parses the specified {@link org.xml.sax.InputSource}with SAX.
+     * Parses the specified {@link org.xml.sax.InputSource} with SAX.
      *
      * @param source the input source to parse
      * @return the resulting neoxml document
@@ -153,7 +153,7 @@ public class JAXBModifier extends JAXBSupport {
     }
 
     /**
-     * Parses the specified {@link java.io.InputStream}with SAX.
+     * Parses the specified {@link java.io.InputStream} with SAX.
      *
      * @param source the inputstream to parse
      * @return the resulting neoxml document
@@ -169,7 +169,7 @@ public class JAXBModifier extends JAXBSupport {
     }
 
     /**
-     * Parses the specified {@link java.io.InputStream}with SAX.
+     * Parses the specified {@link java.io.InputStream} with SAX.
      *
      * @param source   the inputstream to parse
      * @param systemId the URI of the given inputstream
@@ -186,7 +186,7 @@ public class JAXBModifier extends JAXBSupport {
     }
 
     /**
-     * Parses the specified {@link java.io.Reader}with SAX.
+     * Parses the specified {@link java.io.Reader} with SAX.
      *
      * @param r the reader to use for parsing
      * @return the resulting neoxml document
@@ -202,7 +202,7 @@ public class JAXBModifier extends JAXBSupport {
     }
 
     /**
-     * Parses the specified {@link java.io.Reader}with SAX.
+     * Parses the specified {@link java.io.Reader} with SAX.
      *
      * @param source   the reader to parse
      * @param systemId the URI of the given reader
@@ -253,7 +253,7 @@ public class JAXBModifier extends JAXBSupport {
     /**
      * Sets the Output to write the (modified) xml document to.
      *
-     * @param file the {@link java.io.File}to write to
+     * @param file the {@link java.io.File} to write to
      * @throws IOException when the file cannot be found or when the outputformat
      */
     @SuppressWarnings("resource")
@@ -264,7 +264,7 @@ public class JAXBModifier extends JAXBSupport {
     /**
      * Sets the Output to write the (modified) xml document to.
      *
-     * @param outputStream the {@link java.io.OutputStream}to write to
+     * @param outputStream the {@link java.io.OutputStream} to write to
      * @throws IOException when an error occurs
      */
     public void setOutput(OutputStream outputStream) throws IOException {
@@ -274,7 +274,7 @@ public class JAXBModifier extends JAXBSupport {
     /**
      * Sets the Output to write the (modified) xml document to.
      *
-     * @param writer the {@link java.io.Writer}to write to
+     * @param writer the {@link java.io.Writer} to write to
      * @throws IOException when an error occurs
      */
     public void setOutput(Writer writer) throws IOException {
@@ -282,7 +282,7 @@ public class JAXBModifier extends JAXBSupport {
     }
 
     /**
-     * Adds the {@link JAXBObjectModifier}to be called when the specified xml
+     * Adds the {@link JAXBObjectModifier} to be called when the specified xml
      * path is encounted while parsing the source.
      *
      * @param path the element path to listen for
@@ -293,7 +293,7 @@ public class JAXBModifier extends JAXBSupport {
     }
 
     /**
-     * Removes the {@link JAXBObjectModifier}from the event based processor,
+     * Removes the {@link JAXBObjectModifier} from the event based processor,
      * for the specified element path.
      *
      * @param path the xml path to remove the modifier for
@@ -304,7 +304,7 @@ public class JAXBModifier extends JAXBSupport {
     }
 
     /**
-     * Removes all registered {@link JAXBObjectModifier}instances from the
+     * Removes all registered {@link JAXBObjectModifier} instances from the
      * event based processor.
      */
     public void resetObjectModifiers() {
@@ -313,7 +313,7 @@ public class JAXBModifier extends JAXBSupport {
     }
 
     /**
-     * Returns true when the modified {@link org.neoxml.Document}is not kept in
+     * Returns true when the modified {@link org.neoxml.Document} is not kept in
      * memory.
      *
      * @return Returns true if elements are pruned.
@@ -323,7 +323,7 @@ public class JAXBModifier extends JAXBSupport {
     }
 
     /**
-     * Define whether the modified {@link org.neoxml.Document}must only be
+     * Define whether the modified {@link org.neoxml.Document} must only be
      * written to the output and pruned from the neoxml tree.
      *
      * @param pruneElements When true, elements will not be kept in memory

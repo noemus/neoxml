@@ -18,6 +18,7 @@ import org.neoxml.Node;
  * @version $Revision: 1.7 $
  */
 public interface Action {
+    //@nosonar - Exception alllows arbitrary thirdparty code
     void run(Node node) throws Exception;
 }
 

@@ -9,7 +9,7 @@ package org.neoxml.io;
 import org.neoxml.Element;
 
 /**
- * ElementModifier defines a modifier of {@link org.neoxml.Element}objects. <br>
+ * ElementModifier defines a modifier of {@link org.neoxml.Element} objects. <br>
  * It can be used in the event based {@link org.neoxml.io.SAXModifier}, in order
  * to modify elements on the fly, rather than waiting until the complete
  * document is parsed.
@@ -19,18 +19,19 @@ import org.neoxml.Element;
 public interface ElementModifier {
     /**
      * Called by an event based processor when an elements closing tag is
-     * encountered. This method must return the modified version of the provided {@link org.neoxml.Element}or null if it
+     * encountered. This method must return the modified version of the provided {@link org.neoxml.Element} or null if it
      * has to be removed from the
      * document. <br>
-     * The incoming {@link org.neoxml.Element}is disconnected from the DOM4J
-     * tree. This means that navigation to the elements parent {@link org.neoxml.Element} and {@link org.neoxml.Document}are
+     * The incoming {@link org.neoxml.Element} is disconnected from the NeoXml
+     * tree. This means that navigation to the elements parent {@link org.neoxml.Element} and {@link org.neoxml.Document} are
      * not available. Only
      * the element itself can be modified!
      *
-     * @param element {@link org.neoxml.Element}to be parsed
+     * @param element {@link org.neoxml.Element} to be parsed
      * @return the modified {@link org.neoxml.Element}
      * @throws Exception of any kind
      */
+    //@nosonar - Exception alllows arbitrary thirdparty code
     Element modifyElement(Element element) throws Exception;
 }
 

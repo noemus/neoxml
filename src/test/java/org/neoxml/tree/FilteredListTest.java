@@ -11,6 +11,7 @@ import java.util.function.Predicate;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class FilteredListTest {
@@ -36,7 +37,7 @@ public class FilteredListTest {
 
     @Test
     public void createFilteredList_success() {
-        new FilteredNodeList<>(list1, new TwoOrMore());
+        assertFalse(new FilteredNodeList<>(list1, new TwoOrMore()).isEmpty());
     }
 
     @Test(expected = NullPointerException.class)

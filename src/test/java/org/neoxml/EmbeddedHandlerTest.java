@@ -36,13 +36,21 @@ public class EmbeddedHandlerTest extends AbstractTestCase {
     @Test
     public void testMainReader() throws Exception {
         test = MAIN_READER;
-        readDocuments();
+        try {
+            readDocuments();
+        } catch (Exception e) {
+            fail("No exception should be thrown, but we caught: " + e.getMessage());
+        }
     }
 
     @Test
-    public void testOnEndReader() throws Exception {
+    public void testOnEndReader() {
         test = ON_END_READER;
-        readDocuments();
+        try {
+            readDocuments();
+        } catch (Exception e) {
+            fail("No exception should be thrown, but we caught: " + e.getMessage());
+        }
     }
 
     @Test

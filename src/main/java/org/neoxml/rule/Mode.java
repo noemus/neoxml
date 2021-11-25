@@ -201,22 +201,21 @@ public class Mode {
      * return null, a new instance will be created.
      */
     protected RuleSet getRuleSet(NodeType matchType) {
-        RuleSet ruleSet = ruleSets.get(matchType);
+        return ruleSets.computeIfAbsent(matchType, key -> createRuleSet(matchType));
+    }
 
-        if (ruleSet == null) {
-            ruleSet = new RuleSet();
-            ruleSets.put(matchType, ruleSet);
+    private RuleSet createRuleSet(NodeType matchType) {
+        RuleSet ruleSet = new RuleSet();
+        ruleSets.put(matchType, ruleSet);
 
-            // add the patterns that match any node
-            if (matchType != NodeType.ANY_NODE) {
-                RuleSet allRules = ruleSets.get(NodeType.ANY_NODE);
+        // add the patterns that match any node
+        if (matchType != NodeType.ANY_NODE) {
+            RuleSet allRules = ruleSets.get(NodeType.ANY_NODE);
 
-                if (allRules != null) {
-                    ruleSet.addAll(allRules);
-                }
+            if (allRules != null) {
+                ruleSet.addAll(allRules);
             }
         }
-
         return ruleSet;
     }
 

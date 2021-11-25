@@ -1,14 +1,15 @@
 language: java
 jdk:
+  # Test the build on all major java releases
   - openjdk8
   - openjdk11
   - openjdk17
 
 script:
   # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
+  # Test coverage and Sonar analysis is supported only on java 11
   - java_version=$(java --version | grep openjdk | cut -f2 -d' ' | cut -f1 -d'.');
   - git fetch --unshallow
   - if [ $java_version = 11 ]; then PROFILES=-Pcoverage; else PROFILES=; fi
   - mvn clean verify $PROFILES
-#  - echo "SONAR_TOKEN=$SONAR_TOKEN"
   - if [ $java_version = 11 ]; then mvn sonar:sonar -Dsonar.login=$SONAR_TOKEN -Dsonar.sourceEncoding=UTF-8 -Dsonar.branch.name=master; fi

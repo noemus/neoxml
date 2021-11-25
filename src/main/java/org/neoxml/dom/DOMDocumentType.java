@@ -109,7 +109,7 @@ public class DOMDocumentType extends DefaultDocumentType implements org.w3c.dom.
 
     @Override
     public NamedNodeMap getAttributes() {
-        return null;
+        return DOMNodeHelper.getAttributes(this);
     }
 
     @Override

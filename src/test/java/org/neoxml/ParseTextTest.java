@@ -36,11 +36,11 @@ public class ParseTextTest extends AbstractTestCase {
 
         String name = author.attributeValue("name");
 
-        assertEquals("Name attribute matches", name, "James");
+        assertEquals("Name attribute matches", "James", name);
 
         String location = document.valueOf("/root/author/location");
 
-        assertEquals("Location element matches", location, "Paris");
+        assertEquals("Location element matches", "Paris", location);
     }
 
     @Override

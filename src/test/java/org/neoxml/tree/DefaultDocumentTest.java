@@ -19,6 +19,7 @@ import org.neoxml.io.XMLWriter;
 import java.io.ByteArrayOutputStream;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -57,6 +58,7 @@ public class DefaultDocumentTest extends AbstractTestCase {
         log.info(document.asXML());
 
         DocumentHelper.parseText(document.asXML());
+        assertTrue(document.hasContent());
     }
 
     @Test
@@ -91,7 +93,7 @@ public class DefaultDocumentTest extends AbstractTestCase {
 
         String xml = document.asXML();
         assertTrue(xml.contains("UTF-16"));
-        assertTrue(xml.indexOf('\u00FC') != -1);
+        assertNotEquals(-1, xml.indexOf('\u00FC'));
     }
 
     @Test

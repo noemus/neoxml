@@ -225,7 +225,7 @@ public class JAXBReader extends JAXBSupport {
      * Removes the {@link JAXBObjectHandler}from the event based processor, for
      * the specified element path.
      *
-     * @param path The path to remove the {@link JAXBObjectHandler}for
+     * @param path The path to remove the {@link JAXBObjectHandler} for
      */
     public void removeObjectHandler(String path) {
         getReader().removeHandler(path);
@@ -301,7 +301,9 @@ public class JAXBReader extends JAXBSupport {
         }
 
         @Override
-        public void onStart(ElementPath elementPath) {}
+        public void onStart(ElementPath elementPath) {
+            // nothing to do in this implementation
+        }
 
         @Override
         public void onEnd(ElementPath elementPath) {
@@ -322,10 +324,10 @@ public class JAXBReader extends JAXBSupport {
     }
 
     private static class PruningElementHandler implements ElementHandler {
-        public PruningElementHandler() {}
-
         @Override
-        public void onStart(ElementPath parm1) {}
+        public void onStart(ElementPath parm1) {
+            // nothing to do in this implementation
+        }
 
         @Override
         public void onEnd(ElementPath elementPath) {

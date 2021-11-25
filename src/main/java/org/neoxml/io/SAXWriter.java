@@ -55,7 +55,7 @@ public class SAXWriter implements XMLReader {
 
     protected static final String FEATURE_NAMESPACE_PREFIXES = "http://xml.org/sax/features/namespace-prefixes";
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings("unused") // could be used in subclasses
     protected static final String FEATURE_NAMESPACES = "http://xml.org/sax/features/namespaces";
 
     /**

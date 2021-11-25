@@ -67,6 +67,7 @@ public class NodeTypePattern implements Pattern {
 
     @Override
     public Pattern[] getUnionPatterns() {
+        //@nosonar We should return null for non-union patterns
         return null;
     }
 

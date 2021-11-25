@@ -19,6 +19,7 @@ import org.w3c.dom.NodeList;
 import java.io.StringReader;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 /**
@@ -59,6 +60,8 @@ public class DOMTest extends AbstractTestCase {
         traverse(domDocument);
 
         log.debug("elements: {} attributes: {} characters: {}", elements, attributes, characters);
+
+        assertTrue(domDocument.hasChildNodes());
     }
 
     @Test
@@ -75,7 +78,6 @@ public class DOMTest extends AbstractTestCase {
 
     /**
      * Tests the bug found by Soumanjoy
-     *
      */
     @Test
     public void testClassCastBug() {
@@ -86,8 +88,8 @@ public class DOMTest extends AbstractTestCase {
         oParent.setAttribute("name", "N01");
         oParent.setAttribute("id", "ID01");
 
-        oDocument.appendChild(oParent); // <-- Fails here, Error message is
-        // below
+        oDocument.appendChild(oParent); // <-- Fails here, Error message is below
+        assertTrue(oDocument.hasContent());
     }
 
     @Test

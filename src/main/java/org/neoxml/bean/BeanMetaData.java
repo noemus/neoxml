@@ -37,8 +37,7 @@ public class BeanMetaData {
      */
     private static final Map<Class<?>, BeanMetaData> singletonCache = new HashMap<>();
 
-    private static final DocumentFactory DOCUMENT_FACTORY = BeanDocumentFactory
-            .getInstance();
+    private static final DocumentFactory DOCUMENT_FACTORY = BeanDocumentFactory.getInstance();
 
     /**
      * The class of the bean
@@ -135,13 +134,13 @@ public class BeanMetaData {
     public int getIndex(String name) {
         Integer index = nameMap.get(name);
 
-        return (index != null) ? index.intValue() : (-1);
+        return (index != null) ? index : (-1);
     }
 
     public int getIndex(QName qName) {
         Integer index = nameMap.get(qName);
 
-        return (index != null) ? index.intValue() : (-1);
+        return (index != null) ? index : (-1);
     }
 
     public Object getData(int index, Object bean) {
@@ -151,7 +150,6 @@ public class BeanMetaData {
             return method.invoke(bean, NULL_ARGS);
         } catch (Exception e) {
             handleException(e);
-
             return null;
         }
     }
@@ -159,9 +157,7 @@ public class BeanMetaData {
     public void setData(int index, Object bean, Object data) {
         try {
             Method method = writeMethods[index];
-            Object[] args = {
-                    data
-            };
+            Object[] args = {data};
             method.invoke(bean, args);
         } catch (Exception e) {
             handleException(e);

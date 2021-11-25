@@ -135,7 +135,7 @@ public class Rule implements Comparable<Rule> {
     /**
      * If this rule contains a union pattern then this method should return an
      * array of Rules which describe the union rule, which should contain more
-     * than one rule. Otherwise this method should return null.
+     * than one rule. Otherwise, this method should return null.
      *
      * @return an array of the rules which make up this union rule or null if
      * this rule is not a union rule

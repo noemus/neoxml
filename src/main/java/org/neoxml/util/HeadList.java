@@ -42,12 +42,17 @@ public class HeadList<T> extends AbstractList<T> implements RandomAccess, Clonea
         }
     }
 
-    @SuppressWarnings("unchecked")
+    private HeadList(T head, ArrayList<T> nodes) {
+        super();
+        this.head = head;
+        this.list = nodes;
+    }
+
     protected HeadList(HeadList<? extends T> nodes) {
         super();
 
         head = nodes.head;
-        list = nodes.list != null ? (ArrayList<T>) nodes.list.clone() : null;
+        list = nodes.list != null ? new ArrayList<>(nodes.list) : null;
     }
 
     @Override
@@ -145,12 +150,10 @@ public class HeadList<T> extends AbstractList<T> implements RandomAccess, Clonea
                 modCount++;
                 return true;
             }
-        } else if (head != null) {
-            if (head == element) {
-                head = null;
-                modCount++;
-                return true;
-            }
+        } else if (head != null && head == element) {
+            head = null;
+            modCount++;
+            return true;
         }
         return false;
     }
@@ -159,12 +162,9 @@ public class HeadList<T> extends AbstractList<T> implements RandomAccess, Clonea
     public int indexOf(Object element) {
         if (list != null) {
             return list.indexOf(element);
-        } else if (head != null) {
-            if (head == element) {
-                return 0;
-            }
+        } else if (head != null && head == element) {
+            return 0;
         }
-
         return -1;
     }
 
@@ -172,12 +172,9 @@ public class HeadList<T> extends AbstractList<T> implements RandomAccess, Clonea
     public int lastIndexOf(Object element) {
         if (list != null) {
             return list.lastIndexOf(element);
-        } else if (head != null) {
-            if (head == element) {
-                return 0;
-            }
+        } else if (head != null && head == element) {
+            return 0;
         }
-
         return -1;
     }
 
@@ -186,7 +183,6 @@ public class HeadList<T> extends AbstractList<T> implements RandomAccess, Clonea
         if (list != null) {
             return list.size();
         }
-
         return head != null ? 1 : 0;
     }
 
@@ -195,7 +191,6 @@ public class HeadList<T> extends AbstractList<T> implements RandomAccess, Clonea
         if (list != null) {
             return list.isEmpty();
         }
-
         return head == null;
     }
 
@@ -243,24 +238,16 @@ public class HeadList<T> extends AbstractList<T> implements RandomAccess, Clonea
     @Override
     @SuppressWarnings("unchecked")
     public HeadList<T> clone() {
-        try {
-            HeadList<T> v = (HeadList<T>) super.clone();
-            if (list != null) {
-                v.list = (ArrayList<T>) list.clone();
-            }
-            return v;
-        } catch (CloneNotSupportedException e) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError();
-        }
+        return list != null
+               ? new HeadList<>(head, (ArrayList<T>) list.clone())
+               : new HeadList<>(head, null);
     }
 
     private IndexOutOfBoundsException indexOutOfBounds(int index) {
         return new IndexOutOfBoundsException("Index: " + index + ", Size: " + size());
     }
 
-    @SuppressWarnings("synthetic-access")
-    private class SingleItr implements Iterator<T> {
+    class SingleItr implements Iterator<T> {
         protected boolean atStart = true;
         int expectedModCount = modCount;
 

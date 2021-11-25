@@ -7,8 +7,6 @@
 package org.neoxml.io;
 
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXNotRecognizedException;
-import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.XMLReader;
 
 import javax.xml.XMLConstants;
@@ -41,6 +39,7 @@ class JAXPHelper {
      * @throws SAXException DOCUMENT ME!
      */
     public static XMLReader createXMLReader(boolean validating, boolean namespaceAware) throws ParserConfigurationException, SAXException {
+        //@nosonar we need to support also java 1.8 with old Jaxp implementation
         SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setValidating(validating);
         factory.setNamespaceAware(namespaceAware);
@@ -49,6 +48,7 @@ class JAXPHelper {
         try {
             parser.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
             parser.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+            parser.setProperty(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
         } catch (SAXException e) {
             // ignore if not supported
         }
@@ -57,10 +57,12 @@ class JAXPHelper {
     }
 
     public static org.w3c.dom.Document createDocument(boolean validating, boolean namespaceAware) throws ParserConfigurationException {
+        //@nosonar we need to support also java 1.8 with old Jaxp implementation
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         try {
             factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
             factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+            factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
         } catch (IllegalArgumentException e) {
             // ignore if not supported
         }

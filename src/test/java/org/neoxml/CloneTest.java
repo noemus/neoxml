@@ -22,7 +22,7 @@ import static org.junit.Assert.*;
 public class CloneTest extends AbstractTestCase {
     @Test
     public void testBug1148333() {
-        DOMDocumentFactory factory = (DOMDocumentFactory) DOMDocumentFactory.getInstance();
+        DOMDocumentFactory factory = DOMDocumentFactory.getInstance();
         DOMDocument doc = (DOMDocument) factory.createDocument();
         Element el = doc.addElement("root");
         el.addNamespace("pref2", "uri2");
@@ -91,7 +91,7 @@ public class CloneTest extends AbstractTestCase {
         Element author = doc2.getRootElement();
         author.addAttribute("foo", "bar");
 
-        assertTrue("Documents are not equal", NodeComparator.compare(document, doc2) != 0);
+        assertNotEquals("Documents are not equal", 0, NodeComparator.compare(document, doc2));
     }
 
     @Test
@@ -101,7 +101,7 @@ public class CloneTest extends AbstractTestCase {
 
         author.addText("foo");
 
-        assertTrue("Documents are not equal", NodeComparator.compare(document, doc2) != 0);
+        assertNotEquals("Documents are not equal", 0, NodeComparator.compare(document, doc2));
     }
 
     @Test
@@ -110,7 +110,7 @@ public class CloneTest extends AbstractTestCase {
         Element author = (Element) doc2.selectSingleNode("//author");
         author.addAttribute("name", "James Strachan");
 
-        assertTrue("Documents are not equal", NodeComparator.compare(document, doc2) != 0);
+        assertNotEquals("Documents are not equal", 0, NodeComparator.compare(document, doc2));
     }
 
     @Test
@@ -120,17 +120,17 @@ public class CloneTest extends AbstractTestCase {
 
         author.addText("foo");
 
-        assertTrue("Documents are not equal", NodeComparator.compare(document, doc2) != 0);
+        assertNotEquals("Documents are not equal", 0, NodeComparator.compare(document, doc2));
     }
 
     protected void testElementClone(Element element) throws Exception {
         Element element2 = (Element) element.clone();
 
-        assertTrue("Returned a new Element", element2 != element);
+        assertNotSame("Returned a new Element", element2, element);
         assertNull("New element has no parent", element2.getParent());
         assertNull("New element has no Document", element2.getDocument());
 
-        assertTrue("Element fragments are equal", NodeComparator.compare(element, element2) == 0);
+        assertEquals("Element fragments are equal", 0, NodeComparator.compare(element, element2));
     }
 }
 

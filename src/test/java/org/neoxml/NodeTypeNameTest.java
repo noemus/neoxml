@@ -8,8 +8,6 @@ package org.neoxml;
 
 import org.junit.Test;
 
-import java.util.Iterator;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -52,46 +50,44 @@ public class NodeTypeNameTest extends AbstractTestCase {
     }
 
     protected void testDocument(Document document) {
-        assertEquals(document.getNodeTypeName(), "Document");
+        assertEquals("Document", document.getNodeTypeName());
 
         DocumentType docType = document.getDocType();
 
         if (docType != null) {
-            assertEquals(docType.getNodeTypeName(), "DocumentType");
+            assertEquals("DocumentType", docType.getNodeTypeName());
         }
 
         testElement(document.getRootElement());
     }
 
     protected void testElement(Element element) {
-        assertEquals(element.getNodeTypeName(), "Element");
+        assertEquals("Element", element.getNodeTypeName());
 
-        for (Iterator iter = element.attributeIterator(); iter.hasNext(); ) {
-            Attribute attribute = (Attribute) iter.next();
-            assertEquals(attribute.getNodeTypeName(), "Attribute");
+        for (Attribute attribute:  element.attributes()) {
+            assertEquals("Attribute", attribute.getNodeTypeName());
         }
 
-        for (Iterator iter = element.nodeIterator(); iter.hasNext(); ) {
-            Node node = (Node) iter.next();
+        for (Node node : element.content()) {
             String nodeTypeName = node.getNodeTypeName();
 
             if (node instanceof Attribute) {
-                assertEquals(nodeTypeName, "Attribute");
+                assertEquals("Attribute", nodeTypeName);
             } else if (node instanceof CDATA) {
-                assertEquals(nodeTypeName, "CDATA");
+                assertEquals("CDATA", nodeTypeName);
             } else if (node instanceof Comment) {
-                assertEquals(nodeTypeName, "Comment");
+                assertEquals("Comment", nodeTypeName);
             } else if (node instanceof Element) {
-                assertEquals(nodeTypeName, "Element");
+                assertEquals("Element", nodeTypeName);
                 testElement((Element) node);
             } else if (node instanceof Entity) {
-                assertEquals(nodeTypeName, "Entity");
+                assertEquals("Entity", nodeTypeName);
             } else if (node instanceof Namespace) {
-                assertEquals(nodeTypeName, "Namespace");
+                assertEquals("Namespace", nodeTypeName);
             } else if (node instanceof ProcessingInstruction) {
-                assertEquals(nodeTypeName, "ProcessingInstruction");
+                assertEquals("ProcessingInstruction", nodeTypeName);
             } else if (node instanceof Text) {
-                assertEquals(nodeTypeName, "Text");
+                assertEquals("Text", nodeTypeName);
             } else {
                 fail("Invalid node type: " + nodeTypeName + " for node: " + node);
             }

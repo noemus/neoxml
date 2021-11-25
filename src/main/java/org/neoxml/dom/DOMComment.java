@@ -107,7 +107,7 @@ public class DOMComment extends DefaultComment implements org.w3c.dom.Comment {
 
     @Override
     public NamedNodeMap getAttributes() {
-        return null;
+        return DOMNodeHelper.getAttributes(this);
     }
 
     @Override
@@ -116,19 +116,13 @@ public class DOMComment extends DefaultComment implements org.w3c.dom.Comment {
     }
 
     @Override
-    public org.w3c.dom.Node insertBefore(org.w3c.dom.Node newChild,
-                                         org.w3c.dom.Node refChild) {
-        checkNewChildNode(newChild);
-
-        return DOMNodeHelper.insertBefore(this, newChild, refChild);
+    public org.w3c.dom.Node insertBefore(org.w3c.dom.Node newChild, org.w3c.dom.Node refChild) {
+        throw cannotHaveChildren();
     }
 
     @Override
-    public org.w3c.dom.Node replaceChild(org.w3c.dom.Node newChild,
-                                         org.w3c.dom.Node oldChild) {
-        checkNewChildNode(newChild);
-
-        return DOMNodeHelper.replaceChild(this, newChild, oldChild);
+    public org.w3c.dom.Node replaceChild(org.w3c.dom.Node newChild, org.w3c.dom.Node oldChild) {
+        throw cannotHaveChildren();
     }
 
     @Override
@@ -139,14 +133,11 @@ public class DOMComment extends DefaultComment implements org.w3c.dom.Comment {
 
     @Override
     public org.w3c.dom.Node appendChild(org.w3c.dom.Node newChild) {
-        checkNewChildNode(newChild);
-
-        return DOMNodeHelper.appendChild(this, newChild);
+        throw cannotHaveChildren();
     }
 
-    private void checkNewChildNode(org.w3c.dom.Node newChild) {
-        throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR,
-                               "Comment nodes cannot have children");
+    private DOMException cannotHaveChildren() {
+        return new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "Comment nodes cannot have children");
     }
 
     @Override

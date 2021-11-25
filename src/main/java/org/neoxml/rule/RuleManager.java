@@ -148,20 +148,17 @@ public class RuleManager {
     }
 
     /**
-     * Adds the default stylesheet rules to the given {@link Mode}instance
+     * Adds the default stylesheet rules to the given {@link Mode} instance
      *
      * @param mode DOCUMENT ME!
      */
-    protected void addDefaultRules(final Mode mode) {
-        // add an apply templates rule
-        Action applyTemplates = new Action() {
-            @Override
-            public void run(Node node) throws Exception {
-                if (node instanceof Element) {
-                    mode.applyTemplates((Element) node);
-                } else if (node instanceof Document) {
-                    mode.applyTemplates((Document) node);
-                }
+    protected void addDefaultRules(Mode mode) {
+        // add an applyTemplates rule
+        Action applyTemplates = node -> {
+            if (node instanceof Element) {
+                mode.applyTemplates((Element) node);
+            } else if (node instanceof Document) {
+                mode.applyTemplates((Document) node);
             }
         };
 

@@ -8,7 +8,7 @@ package org.neoxml.jaxb;
 
 /**
  * Exception internally thrown by the JAXBReader classes. This is a
- * RuntimeException since the {@link org.neoxml.ElementHandler}methods do not
+ * RuntimeException since the {@link org.neoxml.ElementHandler} methods do not
  * throw Exceptions.
  *
  * @author Wonne Keysers (Realsoftware.be)

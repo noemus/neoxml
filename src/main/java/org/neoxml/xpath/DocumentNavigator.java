@@ -166,10 +166,8 @@ class DocumentNavigator extends DefaultNavigator implements NamedAccessNavigator
                 return emptyIterator();
             }
 
-            if (namespaceURI != null) {
-                if (!namespaceURI.equals(el.getNamespaceURI())) {
-                    return emptyIterator();
-                }
+            if (namespaceURI != null && !namespaceURI.equals(el.getNamespaceURI())) {
+                return emptyIterator();
             }
 
             return new SingleObjectIterator(el);

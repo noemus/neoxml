@@ -164,12 +164,19 @@ public class DOMSAXContentHandler extends DefaultHandler implements LexicalHandl
         }
     }
 
+    /**
+     * @see DefaultHandler#startPrefixMapping(String,String) for documentation
+     * @throws SAXException could be thrown in subclasses
+     */
     @Override
-    public void startPrefixMapping(String prefix, String uri)
-            throws SAXException {
+    public void startPrefixMapping(String prefix, String uri) throws SAXException {
         namespaceStack.push(prefix, uri);
     }
 
+    /**
+     * @see DefaultHandler#endPrefixMapping(String)  for documentation
+     * @throws SAXException could be thrown in subclasses
+     */
     @Override
     public void endPrefixMapping(String prefix) throws SAXException {
         namespaceStack.pop(prefix);
@@ -232,8 +239,7 @@ public class DOMSAXContentHandler extends DefaultHandler implements LexicalHandl
     }
 
     @Override
-    public void endElement(String namespaceURI, String localName, String qName)
-            throws SAXException {
+    public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
         if (mergeAdjacentText && textInTextBuffer) {
             completeCurrentTextNode();
         }
@@ -260,7 +266,7 @@ public class DOMSAXContentHandler extends DefaultHandler implements LexicalHandl
                     textInTextBuffer = true;
                 } else {
                     DOMText text = new DOMText(new String(ch, start, end));
-                    ((DOMElement) currentElement).add(text);
+                    currentElement.add(text);
                 }
             }
         }
@@ -308,12 +314,18 @@ public class DOMSAXContentHandler extends DefaultHandler implements LexicalHandl
     // LexicalHandler interface
     // -------------------------------------------------------------------------
 
+    /**
+     * @see LexicalHandler for documentation
+     * @throws SAXException could be thrown in subclasses
+     */
     @Override
-    public void startDTD(String name, String publicId, String systemId)
-            throws SAXException {
+    public void startDTD(String name, String publicId, String systemId) throws SAXException {
         // not supported
     }
 
+    /**
+     * @throws SAXException could be thrown in subclasses
+     */
     @Override
     public void endDTD() throws SAXException {
         // not supported
@@ -329,6 +341,10 @@ public class DOMSAXContentHandler extends DefaultHandler implements LexicalHandl
         // not supported
     }
 
+    /**
+     * @see LexicalHandler#startCDATA() for documentation
+     * @throws SAXException could be thrown in subclasses
+     */
     @Override
     public void startCDATA() throws SAXException {
         insideCDATASection = true;
@@ -339,11 +355,15 @@ public class DOMSAXContentHandler extends DefaultHandler implements LexicalHandl
         }
     }
 
+    /**
+     * @see LexicalHandler#endCDATA() for documentation
+     * @throws SAXException could be thrown in subclasses
+     */
     @Override
     public void endCDATA() throws SAXException {
         insideCDATASection = false;
         DOMCDATA cdata = new DOMCDATA(cdataText.toString());
-        ((DOMElement) currentElement).add(cdata);
+        currentElement.add(cdata);
     }
 
     @Override
@@ -358,7 +378,7 @@ public class DOMSAXContentHandler extends DefaultHandler implements LexicalHandl
             if (text.length() > 0) {
                 DOMComment domComment = new DOMComment(text);
                 if (currentElement != null) {
-                    ((DOMElement) currentElement).add(domComment);
+                    currentElement.add(domComment);
                 } else {
                     getDocument().appendChild(domComment);
                 }
@@ -465,11 +485,11 @@ public class DOMSAXContentHandler extends DefaultHandler implements LexicalHandl
             }
             if (!whitespace) {
                 DOMText domText = new DOMText(textBuffer.toString());
-                ((DOMElement) currentElement).add(domText);
+                currentElement.add(domText);
             }
         } else {
             DOMText domText = new DOMText(textBuffer.toString());
-            ((DOMElement) currentElement).add(domText);
+            currentElement.add(domText);
         }
 
         textBuffer.setLength(0);
@@ -499,10 +519,7 @@ public class DOMSAXContentHandler extends DefaultHandler implements LexicalHandl
         // or other locator implemenations.
         try {
             Method m = locator.getClass().getMethod("getEncoding");
-
-            if (m != null) {
-                return (String) m.invoke(locator);
-            }
+            return (String) m.invoke(locator);
         } catch (Exception e) {
             // do nothing
         }

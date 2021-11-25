@@ -21,14 +21,14 @@ public class DocumentException extends Exception {
     /**
      * A wrapped <code>Throwable</code>
      */
-    private Throwable nestedException;
+    private final Throwable nestedException;
 
     public DocumentException() {
-        super("Error occurred in neoxml application.");
+        this("Error occurred in neoxml application.", null);
     }
 
     public DocumentException(String message) {
-        super(message);
+        this(message, null);
     }
 
     public DocumentException(Throwable nestedException) {
@@ -56,12 +56,8 @@ public class DocumentException extends Exception {
 
     @Override
     public void printStackTrace() {
-        super.printStackTrace();
-
-        if (nestedException != null) {
-            System.err.print("Nested exception: ");
-            nestedException.printStackTrace();
-        }
+        //@nosonar System.err should be used here
+        printStackTrace(System.err);
     }
 
     @Override

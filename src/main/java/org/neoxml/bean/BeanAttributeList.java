@@ -146,9 +146,7 @@ public class BeanAttributeList extends DefaultNodeList<Attribute> {
 
     @Override
     public void clear() {
-        for (int i = 0, size = attributes.length; i < size; i++) {
-            BeanAttribute attribute = attributes[i];
-
+        for (BeanAttribute attribute : attributes) {
             if (attribute != null) {
                 attribute.setValue(null);
             }
@@ -158,6 +156,11 @@ public class BeanAttributeList extends DefaultNodeList<Attribute> {
     // Implementation methods
     // -------------------------------------------------------------------------
 
+    /**
+     * @param element DOCUMENT ME!
+     * @param index DOCUMENT ME!
+     * @return DOCUMENT ME!
+     */
     protected BeanAttribute createAttribute(BeanElement element, int index) {
         return new BeanAttribute(this, index);
     }

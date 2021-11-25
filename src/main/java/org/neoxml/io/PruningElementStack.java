@@ -9,6 +9,8 @@ package org.neoxml.io;
 import org.neoxml.Element;
 import org.neoxml.ElementHandler;
 
+import java.util.Objects;
+
 /**
  * <p>
  * <code>PruningElementStack</code> is a stack of {@link Element}instances which will prune the tree when a path
@@ -93,20 +95,12 @@ class PruningElementStack extends ElementStack {
         String requiredName = path[index];
         String name = element.getName();
 
-        if (requiredName == name) {
-            return true;
-        }
-
-        if ((requiredName != null) && (name != null)) {
-            return requiredName.equals(name);
-        }
-
-        return false;
+        return Objects.equals(requiredName, name);
     }
 
     private void checkPath() {
         if (path.length < 2) {
-            throw new RuntimeException("Invalid path of length: " + path.length + " it must be greater than 2");
+            throw new IllegalStateException("Invalid path of length: " + path.length + " it must be greater than 2");
         }
 
         matchingElementIndex = path.length - 2;

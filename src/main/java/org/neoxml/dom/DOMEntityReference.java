@@ -24,8 +24,7 @@ import org.w3c.dom.UserDataHandler;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.12 $
  */
-public class DOMEntityReference extends DefaultEntity implements
-                                                      org.w3c.dom.EntityReference {
+public class DOMEntityReference extends DefaultEntity implements org.w3c.dom.EntityReference {
     public DOMEntityReference(String name) {
         super(name);
     }
@@ -112,7 +111,7 @@ public class DOMEntityReference extends DefaultEntity implements
 
     @Override
     public NamedNodeMap getAttributes() {
-        return null;
+        return DOMNodeHelper.getAttributes(this);
     }
 
     @Override
@@ -156,7 +155,7 @@ public class DOMEntityReference extends DefaultEntity implements
                 || (nodeType == org.w3c.dom.Node.CDATA_SECTION_NODE)
                 || (nodeType == org.w3c.dom.Node.ENTITY_REFERENCE_NODE))) {
             throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR,
-                                   "Given node cannot be a child of an entity " + "reference");
+                                   "Given node cannot be a child of an entity reference");
         }
     }
 

@@ -72,19 +72,27 @@ public class BeanDocumentFactory extends DefaultDocumentFactory {
 
     // Implementation methods
 
+    /**
+     * @param qname DOCUMENT ME!
+     * @return DOCUMENT ME!
+     */
     protected Object createBean(QName qname) {
         return null;
     }
 
+    /**
+     * @param qname DOCUMENT ME!
+     * @param attributes DOCUMENT ME!
+     * @return DOCUMENT ME!
+     */
     protected Object createBean(QName qname, Attributes attributes) {
         String value = attributes.getValue("class");
 
         if (value != null) {
             try {
-                Class<?> beanClass = Class.forName(value, true,
-                                                   BeanDocumentFactory.class.getClassLoader());
+                Class<?> beanClass = Class.forName(value, true, BeanDocumentFactory.class.getClassLoader());
 
-                return beanClass.newInstance();
+                return beanClass.getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                 handleException(e);
             }

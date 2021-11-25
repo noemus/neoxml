@@ -131,8 +131,8 @@ public class BeanElement extends DefaultElement {
             try {
                 Class<?> beanClass = Class.forName(className, true, BeanElement.class.getClassLoader());
 
-                // clears attributes
-                this.setData(beanClass.newInstance());
+                // clear attributes
+                this.setData(beanClass.getDeclaredConstructor().newInstance());
 
                 for (int i = 0; i < attributes.getLength(); i++) {
                     String attributeName = attributes.getLocalName(i);

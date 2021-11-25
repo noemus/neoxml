@@ -33,7 +33,7 @@ import java.util.Comparator;
  * @version $Revision: 1.10 $
  */
 public class NodeComparator implements Comparator<Node> {
-    @SuppressWarnings("unused")
+
     public static final NodeComparator INSTANCE = new NodeComparator();
 
     @Override

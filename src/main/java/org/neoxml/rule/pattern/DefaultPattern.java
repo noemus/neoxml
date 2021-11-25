@@ -41,6 +41,7 @@ public class DefaultPattern implements Pattern {
 
     @Override
     public Pattern[] getUnionPatterns() {
+        //@nosonar OK to return null for non-union pattern
         return null;
     }
 

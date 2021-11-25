@@ -31,9 +31,12 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -48,6 +51,14 @@ public abstract class AbstractElement extends AbstractBranch implements Element 
      * The <code>DefaultDocumentFactory</code> instance used by default
      */
     private static final DocumentFactory DOCUMENT_FACTORY = DefaultDocumentFactory.getInstance();
+
+    /**
+     * Used to determine if node has mixed content
+     */
+    private static final Set<NodeType> TEXT_AND_SUPPOTED_TYPES =
+            EnumSet.of(NodeType.TEXT_NODE, NodeType.COMMENT_NODE, NodeType.CDATA_SECTION_NODE);
+    private static final Set<NodeType> ELEMENT_AND_SUPPOTED_TYPES =
+            EnumSet.of(NodeType.ELEMENT_NODE, NodeType.PROCESSING_INSTRUCTION_NODE);
 
     protected static final boolean VERBOSE_TOSTRING = false;
     protected static final boolean USE_STRINGVALUE_SEPARATOR = false;
@@ -823,7 +834,6 @@ public abstract class AbstractElement extends AbstractBranch implements Element 
     // Helper methods
     // -------------------------------------------------------------------------
 
-    //FIXME returns true in case of Text + Comment or CDATA, or in case of Element + ProcessingInstruction
     @Override
     public boolean hasMixedContent() {
         List<Node> contentList = safeContentList();
@@ -832,21 +842,12 @@ public abstract class AbstractElement extends AbstractBranch implements Element 
             return false;
         }
 
-        Class<?> prevClass = null;
+        Set<NodeType> nodeTypes = contentList.stream()
+                                             .map(Node::getNodeTypeEnum)
+                                             .collect(Collectors.toSet());
 
-        for (Node node : contentList) {
-            Class<?> newClass = node.getClass();
-
-            if (newClass != prevClass) {
-                if (prevClass != null) {
-                    return true;
-                }
-
-                prevClass = newClass;
-            }
-        }
-
-        return false;
+        return TEXT_AND_SUPPOTED_TYPES.containsAll(nodeTypes)
+                || ELEMENT_AND_SUPPOTED_TYPES.containsAll(nodeTypes);
     }
 
     @Override
@@ -870,20 +871,7 @@ public abstract class AbstractElement extends AbstractBranch implements Element 
     public void setText(String text) {
         /* remove all text nodes */
 
-        for (Iterator<Node> it = safeContentList().iterator(); it.hasNext(); ) {
-            Node node = it.next();
-
-            switch (node.getNodeTypeEnum()) {
-                case CDATA_SECTION_NODE:
-                case ENTITY_REFERENCE_NODE:
-                case TEXT_NODE:
-                    it.remove();
-                    break;
-
-                default:
-                    break;
-            }
-        }
+        safeContentList().removeIf(node -> TEXT_AND_SUPPOTED_TYPES.contains(node.getNodeTypeEnum()));
 
         addText(text);
     }

@@ -23,7 +23,9 @@ public class NullAction implements Action {
     public static final NullAction SINGLETON = new NullAction();
 
     @Override
-    public void run(Node node) {}
+    public void run(Node node) {
+        // no action
+    }
 }
 
 /*

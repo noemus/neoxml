@@ -147,7 +147,7 @@ public class DOMDocument extends DefaultDocument implements Document {
 
     @Override
     public NamedNodeMap getAttributes() {
-        return null;
+        return DOMNodeHelper.getAttributes(this);
     }
 
     @Override
@@ -188,8 +188,7 @@ public class DOMDocument extends DefaultDocument implements Document {
                 || (nodeType == org.w3c.dom.Node.COMMENT_NODE)
                 || (nodeType == org.w3c.dom.Node.PROCESSING_INSTRUCTION_NODE)
                 || (nodeType == org.w3c.dom.Node.DOCUMENT_TYPE_NODE))) {
-            throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR,
-                                   "Given node cannot be a child of document");
+            throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "Given node cannot be a child of document");
         }
     }
 

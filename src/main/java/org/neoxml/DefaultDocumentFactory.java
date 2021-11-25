@@ -202,7 +202,7 @@ public class DefaultDocumentFactory implements DocumentFactory, Serializable {
      * @throws InvalidXPathException if the XPath expression is invalid
      */
     @Override
-    public XPath createXPath(String xpathExpression) throws InvalidXPathException {
+    public XPath createXPath(String xpathExpression) {
         XPath xpath = createXPathInstance(xpathExpression);
 
         if (xpathNamespaceURIs != null) {
@@ -212,7 +212,7 @@ public class DefaultDocumentFactory implements DocumentFactory, Serializable {
         return xpath;
     }
 
-    private XPath createXPathInstance(String xpathExpression) throws XPathNotSupportedException {
+    private XPath createXPathInstance(String xpathExpression) {
         try {
             final Class<?> clazz = Class.forName("org.neoxml.xpath.DefaultXPath");
             final Constructor<?> ctr = clazz.getConstructor(String.class);

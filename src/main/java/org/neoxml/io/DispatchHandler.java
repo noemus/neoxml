@@ -28,6 +28,8 @@ import java.util.Map;
  * @version $Revision: 1.11 $
  */
 class DispatchHandler implements ElementHandler {
+    private static final String XML_PATH_DELIMITER = "/";
+
     /**
      * Whether the parser is at the root element or not
      */
@@ -170,7 +172,7 @@ class DispatchHandler implements ElementHandler {
             path = path + element.getName();
             atRoot = false;
         } else {
-            path = path + "/" + element.getName();
+            path = path + XML_PATH_DELIMITER + element.getName();
         }
 
         if (handlers.containsKey(path)) {
@@ -183,7 +185,7 @@ class DispatchHandler implements ElementHandler {
             handler.onStart(elementPath);
         } else {
             // No handler is associated with this node, so use the
-            // defaultHandler it it exists.
+            // defaultHandler if it exists.
             if (handlerStack.isEmpty() && (defaultHandler != null)) {
                 defaultHandler.onStart(elementPath);
             }

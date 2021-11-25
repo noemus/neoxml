@@ -36,22 +36,27 @@ public class DOMNodeHelper {
 
     protected DOMNodeHelper() {}
 
+    @SuppressWarnings("unused") // not implemented feature, but we don't want to throw exception
     public static boolean supports(Node node, String feature, String version) {
         return false;
     }
 
+    @SuppressWarnings("unused") // not implemented feature, but we don't want to throw exception
     public static String getNamespaceURI(Node node) {
         return null;
     }
 
+    @SuppressWarnings("unused") // not implemented feature, but we don't want to throw exception
     public static String getPrefix(Node node) {
         return null;
     }
 
+    @SuppressWarnings("unused") // not implemented feature, but we don't want to throw exception
     public static String getLocalName(Node node) {
         return null;
     }
 
+    @SuppressWarnings("unused") // not implemented feature
     public static void setPrefix(Node node, String prefix) {
         notSupported();
     }
@@ -68,14 +73,17 @@ public class DOMNodeHelper {
         return asDOMNode(node.getParent());
     }
 
+    @SuppressWarnings("unused") // not implemented feature, but we don't want to throw exception
     public static NodeList getChildNodes(Node node) {
         return EMPTY_NODE_LIST;
     }
 
+    @SuppressWarnings("unused") // not implemented feature, but we don't want to throw exception
     public static org.w3c.dom.Node getFirstChild(Node node) {
         return null;
     }
 
+    @SuppressWarnings("unused") // not implemented feature, but we don't want to throw exception
     public static org.w3c.dom.Node getLastChild(Node node) {
         return null;
     }
@@ -102,18 +110,17 @@ public class DOMNodeHelper {
         if (parent != null) {
             int index = parent.indexOf(node);
 
-            if (index >= 0) {
-                if (++index < parent.nodeCount()) {
-                    Node next = parent.node(index);
+            if (index >= 0 && ++index < parent.nodeCount()) {
+                Node next = parent.node(index);
 
-                    return asDOMNode(next);
-                }
+                return asDOMNode(next);
             }
         }
 
         return null;
     }
 
+    @SuppressWarnings("unused") // not implemented feature, but we don't want to throw exception
     public static NamedNodeMap getAttributes(Node node) {
         return null;
     }
@@ -186,19 +193,23 @@ public class DOMNodeHelper {
         throw newHierarchyRequestError(node);
     }
 
+    @SuppressWarnings("unused") // not implemented feature, but we don't want to throw exception
     public static boolean hasChildNodes(Node node) {
         return false;
     }
 
+    @SuppressWarnings("unused") // we do not support deep clone, but we don't want to throw exception
     public static org.w3c.dom.Node cloneNode(Node node, boolean deep) {
         return asDOMNode(node.clone());
     }
 
+    @SuppressWarnings("unused") // not implemented feature
     public static void normalize(Node node) {
         notSupported();
     }
 
-    public static boolean isSupported(Node n, String feature, String version) {
+    @SuppressWarnings("unused") // not implemented feature, but we don't want to throw exception
+    public static boolean isSupported(Node node, String feature, String version) {
         return false;
     }
 

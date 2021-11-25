@@ -112,7 +112,7 @@ public class DOMProcessingInstruction extends DefaultProcessingInstruction imple
 
     @Override
     public NamedNodeMap getAttributes() {
-        return null;
+        return DOMNodeHelper.getAttributes(this);
     }
 
     @Override

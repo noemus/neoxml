@@ -19,7 +19,7 @@ import org.neoxml.NodeType;
  * @version $Revision: 1.6 $
  */
 public interface Pattern extends NodeFilter {
-    // These node numbers are compatable with DOM4J's Node types
+    // These node numbers are compatible with NeoXml's Node types
 
     /**
      * According to the <a href="http://www.w3.org/TR/xslt11/#conflict">spec
@@ -48,7 +48,7 @@ public interface Pattern extends NodeFilter {
     /**
      * If this pattern is a union pattern then this method should return an
      * array of patterns which describe the union pattern, which should contain
-     * more than one pattern. Otherwise this method should return null.
+     * more than one pattern. Otherwise, this method should return null.
      *
      * @return an array of the patterns which make up this union pattern or null
      * if this pattern is not a union pattern

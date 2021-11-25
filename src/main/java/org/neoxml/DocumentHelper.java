@@ -289,6 +289,7 @@ public final class DocumentHelper {
         while (tokens.hasMoreTokens()) {
             String name = tokens.nextToken();
 
+            //@nosonar index 0 is ignored intentionally here
             if (name.indexOf(':') > 0) {
                 element = parent.element(parent.getQName(name));
             } else {

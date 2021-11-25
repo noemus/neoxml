@@ -10,6 +10,10 @@ import org.junit.Test;
 import org.neoxml.AbstractTestCase;
 import org.neoxml.Namespace;
 
+import java.util.stream.Stream;
+
+import static org.junit.Assert.fail;
+
 /**
  * A test harness to test the performance of the NamespaceCache
  *
@@ -27,7 +31,7 @@ public class NamespaceCacheTest extends AbstractTestCase {
     public void testGetSameNamespaceSingleThread() {
         long start = System.currentTimeMillis();
         SameNSTest test = new SameNSTest();
-        test.run();
+        assertNotThrows(test);
 
         long end = System.currentTimeMillis();
         log.info("Same NS Single took " + (end - start) + " ms");
@@ -46,7 +50,7 @@ public class NamespaceCacheTest extends AbstractTestCase {
     public void testGetNewNamespaceSingleThread() {
         long start = System.currentTimeMillis();
         DifferentNSTest test = new DifferentNSTest();
-        test.run();
+        assertNotThrows(test);
 
         long end = System.currentTimeMillis();
         log.info("Same NS Multi took " + (end - start) + " ms");
@@ -62,25 +66,27 @@ public class NamespaceCacheTest extends AbstractTestCase {
     }
 
     private void runMultiThreadedTest(Runnable test) throws Exception {
-        // Make the threads
-        Thread[] threads = new Thread[THREADCOUNT];
+        Stream.generate(() -> new Thread(test))
+              .limit(THREADCOUNT)
+              .peek(Thread::start)
+              .forEach(t -> {
+                    try {
+                        t.join();
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+              });
+    }
 
-        for (int i = 0; i < THREADCOUNT; i++) {
-            threads[i] = new Thread(new SameNSTest());
-        }
-
-        // Start the threads
-        for (int j = 0; j < THREADCOUNT; j++) {
-            threads[j].start();
-        }
-
-        // Join with the threads
-        for (int k = 0; k < THREADCOUNT; k++) {
-            threads[k].join();
+    private static void assertNotThrows(Runnable test) {
+        try {
+            test.run();
+        } catch (Exception e) {
+            fail("Test should not throw any exception");
         }
     }
 
-    private class SameNSTest implements Runnable {
+    private static class SameNSTest implements Runnable {
         @Override
         public void run() {
             NamespaceCache cache = new NamespaceCache();
@@ -91,7 +97,7 @@ public class NamespaceCacheTest extends AbstractTestCase {
         }
     }
 
-    private class DifferentNSTest implements Runnable {
+    private static class DifferentNSTest implements Runnable {
         @Override
         public void run() {
             NamespaceCache cache = new NamespaceCache();

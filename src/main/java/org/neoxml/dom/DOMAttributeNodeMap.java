@@ -45,8 +45,7 @@ public class DOMAttributeNodeMap implements org.w3c.dom.NamedNodeMap {
         org.w3c.dom.Attr attr = element.getAttributeNode(name);
 
         if (attr == null) {
-            throw new DOMException(DOMException.NOT_FOUND_ERR,
-                                   "No attribute named " + name);
+            throw new DOMException(DOMException.NOT_FOUND_ERR, "No attribute named " + name);
         }
 
         return element.removeAttributeNode(attr);
@@ -72,22 +71,19 @@ public class DOMAttributeNodeMap implements org.w3c.dom.NamedNodeMap {
         if (arg instanceof Attr) {
             return element.setAttributeNodeNS((org.w3c.dom.Attr) arg);
         } else {
-            throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
-                                   "Node is not an Attr: " + arg);
+            throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Node is not an Attr: " + arg);
         }
     }
 
     @Override
-    public Node removeNamedItemNS(String namespaceURI, String localName)
-            {
-        org.w3c.dom.Attr attr = element.getAttributeNodeNS(namespaceURI,
-                                                           localName);
+    public Node removeNamedItemNS(String namespaceURI, String localName) {
+        org.w3c.dom.Attr attr = element.getAttributeNodeNS(namespaceURI, localName);
 
         if (attr != null) {
             return element.removeAttributeNode(attr);
         }
 
-        return attr;
+        return null;
     }
 }
 

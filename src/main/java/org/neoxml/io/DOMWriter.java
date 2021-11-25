@@ -60,7 +60,9 @@ public class DOMWriter {
         this.domDocumentClass = domDocumentClass;
     }
 
-    @SuppressWarnings("unused")
+    /**
+     * @throws DocumentException could be thrown in subclasses
+     */
     public Class<?> getDomDocumentClass() throws DocumentException {
         if (domDocumentClass != null) {
             return domDocumentClass;
@@ -79,7 +81,7 @@ public class DOMWriter {
     }
 
     /**
-     * Sets the DOM {@link org.w3c.dom.Document}implementation class used by
+     * Sets the DOM {@link org.w3c.dom.Document} implementation class used by
      * the writer when creating DOM documents.
      *
      * @param domDocumentClass is the Class implementing the {@link org.w3c.dom.Document} interface
@@ -89,7 +91,7 @@ public class DOMWriter {
     }
 
     /**
-     * Sets the DOM {@link org.w3c.dom.Document}implementation class name used
+     * Sets the DOM {@link org.w3c.dom.Document} implementation class name used
      * by the writer when creating DOM documents.
      *
      * @param name is the name of the Class implementing the {@link org.w3c.dom.Document} interface
@@ -100,8 +102,7 @@ public class DOMWriter {
             this.domDocumentClass = Class.forName(name, true, DOMWriter.class
                     .getClassLoader());
         } catch (Exception e) {
-            throw new DocumentException("Could not load the DOM Document "
-                                                + "class: " + name, e);
+            throw new DocumentException("Could not load the DOM Document class: " + name, e);
         }
     }
 
@@ -236,6 +237,11 @@ public class DOMWriter {
         return xmlns;
     }
 
+    /**
+     * @param document DOCUMENT ME!
+     * @return DOCUMENT ME!
+     * @throws DocumentException DOCUMENT ME!
+     */
     protected org.w3c.dom.Document createDomDocument(Document document) throws DocumentException {
         org.w3c.dom.Document result;
 
@@ -264,7 +270,9 @@ public class DOMWriter {
         return result;
     }
 
-    @SuppressWarnings("unused")
+    /**
+     * @throws DocumentException could be thrown in subclasses
+     */
     protected org.w3c.dom.Document createDomDocumentViaJAXP() throws DocumentException {
         try {
             return JAXPHelper.createDocument(false, true);
@@ -290,7 +298,12 @@ public class DOMWriter {
         }
     }
 
-    @SuppressWarnings("unused")
+    /**
+     * @param document DOCUMENT ME!
+     * @param domImpl DOCUMENT ME!
+     * @return DOCUMENT ME!
+     * @throws DocumentException DOCUMENT ME!
+     */
     protected org.w3c.dom.Document createDomDocument(Document document, DOMImplementation domImpl) throws DocumentException {
         String namespaceURI = null;
         String qualifiedName = null;

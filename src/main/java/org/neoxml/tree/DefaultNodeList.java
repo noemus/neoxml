@@ -25,7 +25,6 @@ import java.util.function.Predicate;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.14 $
  */
-@SuppressWarnings("serial")
 public class DefaultNodeList<T extends Node> extends HeadList<T> implements NodeList<T> {
     /**
      * The <code>AbstractBranch</code> instance which owns the content

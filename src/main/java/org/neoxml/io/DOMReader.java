@@ -149,7 +149,7 @@ public class DOMReader {
         org.w3c.dom.NamedNodeMap attributeList = node.getAttributes();
 
         if ((attributeList != null) && (namespaceUri == null)) {
-            // test if we have an "xmlns" attribute
+            // test if we have a "xmlns" attribute
             org.w3c.dom.Node attribute = attributeList.getNamedItem("xmlns");
 
             if (attribute != null) {

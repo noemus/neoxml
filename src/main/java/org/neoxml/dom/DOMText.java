@@ -107,7 +107,7 @@ public class DOMText extends DefaultText implements org.w3c.dom.Text {
 
     @Override
     public NamedNodeMap getAttributes() {
-        return null;
+        return DOMNodeHelper.getAttributes(this);
     }
 
     @Override
