@@ -24,12 +24,12 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class NamespaceCache {
     /**
-     * Cache of {@link Map}instances indexed by URI which contain caches of {@link Namespace}for each prefix
+     * Cache of {@link Map} instances indexed by URI which contain caches of {@link Namespace} for each prefix
      */
     protected static final Map<String, Map<String, Namespace>> cache = new ConcurrentHashMap<>(11, 0.75f, 1);
 
     /**
-     * Cache of {@link Namespace}instances indexed by URI for default
+     * Cache of {@link Namespace} instances indexed by URI for default
      * namespaces with no prefixes
      */
     protected static final Map<String, Namespace> noPrefixCache = new ConcurrentHashMap<>(11, 0.75f, 1);
@@ -72,7 +72,7 @@ public class NamespaceCache {
      *
      * @param prefix DOCUMENT ME!
      * @param uri    DOCUMENT ME!
-     * @return a newly created {@link Namespace}instance.
+     * @return a newly created {@link Namespace} instance.
      */
     protected Namespace createNamespace(String prefix, String uri) {
         if (prefix.isEmpty() && uri.isEmpty()) {

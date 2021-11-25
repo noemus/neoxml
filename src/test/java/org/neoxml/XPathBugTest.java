@@ -57,13 +57,13 @@ public class XPathBugTest extends AbstractTestCase {
                 + "            </ul>" + "        <li/>" + "    </ul>" + "</ul>";
 
         Document document = DocumentHelper.parseText(text);
-        List lists = document.selectNodes("//ul | //ol");
+        List<Node> lists = document.selectNodes("//ul | //ol");
 
         int count = 0;
 
-        for (int i = 0; i < lists.size(); i++) {
-            Element list = (Element) lists.get(i);
-            List nodes = list.selectNodes("ancestor::ul");
+        for (Node node : lists) {
+            Element list = (Element) node;
+            List<Node> nodes = list.selectNodes("ancestor::ul");
 
             if ((nodes != null) && (nodes.size() > 0)) {
                 continue;

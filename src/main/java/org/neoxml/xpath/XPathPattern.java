@@ -96,6 +96,7 @@ public class XPathPattern implements org.neoxml.rule.Pattern {
             return answer;
         }
 
+        //@nosonar it's not union pattern
         return null;
     }
 
@@ -123,7 +124,7 @@ public class XPathPattern implements org.neoxml.rule.Pattern {
                                   new SimpleVariableContext(), DocumentNavigator.getInstance());
     }
 
-    protected void handleJaxenException(JaxenException exception) throws XPathException {
+    protected void handleJaxenException(JaxenException exception) {
         throw new XPathException(text, exception);
     }
 }

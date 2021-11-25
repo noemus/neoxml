@@ -14,6 +14,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -82,13 +83,14 @@ public class XPathTest extends AbstractTestCase {
         Element element = new DefaultElement("foo");
         XPath xpath = element.createXPath("//bar");
 
-        assertTrue(("created a valid XPath: " + xpath) != null);
+        assertNotNull("created a valid XPath", xpath);
     }
 
     @Test
     public void testBug857704() throws Exception {
         Document doc = DocumentHelper.parseText("<foo xmlns:bar='http://blort'/>");
-        doc.selectNodes("//*[preceding-sibling::*]"); // shouldn't throw NPE
+        // shouldn't throw NPE
+        assertNotNull(doc.selectNodes("//*[preceding-sibling::*]"));
     }
 
     @Test
@@ -107,26 +109,15 @@ public class XPathTest extends AbstractTestCase {
 
         XPath xpath = DocumentHelper.createXPath(xpathExpression);
 
-        List list = xpath.selectNodes(document);
+        List<Node> list = xpath.selectNodes(document);
 
         if (list == null) {
             log.debug("null");
         } else {
             log.debug("[");
 
-            for (int i = 0, size = list.size(); i < size; i++) {
-                Object object = list.get(i);
-
-                String text = "null";
-
-                if (object instanceof Node) {
-                    Node node = (Node) object;
-
-                    text = node.asXML();
-                } else if (object != null) {
-                    text = object.toString();
-                }
-
+            for (Node node : list) {
+                String text = node != null ? node.asXML() : "null";
                 log.debug("    " + text);
             }
 

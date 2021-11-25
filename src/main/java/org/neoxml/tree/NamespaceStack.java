@@ -328,7 +328,7 @@ public class NamespaceStack {
 
     @Override
     public String toString() {
-        return super.toString() + " Stack: " + namespaces.toString();
+        return super.toString() + " Stack: " + namespaces;
     }
 
     public DocumentFactory getDocumentFactory() {
@@ -369,7 +369,7 @@ public class NamespaceStack {
     }
 
     /**
-     * Factory method to creeate new QName instances. By default this method
+     * Factory method to creeate new QName instances. By default, this method
      * interns the QName
      *
      * @param localName     DOCUMENT ME!
@@ -383,7 +383,7 @@ public class NamespaceStack {
     }
 
     /**
-     * Factory method to creeate new Namespace instances. By default this method
+     * Factory method to creeate new Namespace instances. By default, this method
      * interns the Namespace
      *
      * @param prefix       DOCUMENT ME!
