@@ -23,7 +23,9 @@ import java.io.Writer;
  * @version $Revision: 1.15 $
  */
 public abstract class AbstractEntity extends AbstractNode implements Entity {
-    public AbstractEntity() {}
+    protected AbstractEntity() {
+        super();
+    }
 
     @Override
     public NodeType getNodeTypeEnum() {

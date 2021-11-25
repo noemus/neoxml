@@ -28,6 +28,7 @@ public class IndexedElement extends DefaultElement {
      * Lazily constructed index for elements
      */
     private DoubleNameMap<NodeList<Element>> elementIndex;
+
     /**
      * Lazily constructed index for attributes
      */
@@ -82,8 +83,6 @@ public class IndexedElement extends DefaultElement {
 
         return list.get(0);
     }
-
-    // #### could we override the add(Element) remove(Element methods?
 
     @Override
     protected void addNode(Node node) {

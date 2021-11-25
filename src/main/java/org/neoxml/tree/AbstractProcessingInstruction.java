@@ -26,7 +26,9 @@ import java.util.StringTokenizer;
  * @version $Revision: 1.17 $
  */
 public abstract class AbstractProcessingInstruction extends AbstractNode implements ProcessingInstruction {
-    public AbstractProcessingInstruction() {}
+    protected AbstractProcessingInstruction() {
+        super();
+    }
 
     @Override
     public NodeType getNodeTypeEnum() {

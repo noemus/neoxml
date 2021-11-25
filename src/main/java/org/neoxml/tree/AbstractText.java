@@ -22,7 +22,9 @@ import java.io.Writer;
  * @version $Revision: 1.10 $
  */
 public abstract class AbstractText extends AbstractCharacterData implements Text {
-    public AbstractText() {}
+    protected AbstractText() {
+        super();
+    }
 
     @Override
     public NodeType getNodeTypeEnum() {

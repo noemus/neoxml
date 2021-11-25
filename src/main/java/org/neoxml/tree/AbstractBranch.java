@@ -31,7 +31,9 @@ public abstract class AbstractBranch extends AbstractNode implements Branch {
 
     protected static final int DEFAULT_CONTENT_LIST_SIZE = 5;
 
-    public AbstractBranch() {}
+    protected AbstractBranch() {
+        super();
+    }
 
     @Override
     public boolean isReadOnly() {

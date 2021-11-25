@@ -19,7 +19,9 @@ import org.neoxml.Element;
  * @version $Revision: 1.12 $
  */
 public abstract class AbstractCharacterData extends AbstractNode implements CharacterData {
-    public AbstractCharacterData() {}
+    protected AbstractCharacterData() {
+        super();
+    }
 
     @Override
     public String getPath(Element context) {

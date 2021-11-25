@@ -23,7 +23,9 @@ import java.io.Writer;
  * @version $Revision: 1.13 $
  */
 public abstract class AbstractComment extends AbstractCharacterData implements Comment {
-    public AbstractComment() {}
+    protected AbstractComment() {
+        super();
+    }
 
     @Override
     public NodeType getNodeTypeEnum() {

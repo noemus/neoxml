@@ -24,7 +24,9 @@ import java.io.Writer;
  * @version $Revision: 1.12 $
  */
 public abstract class AbstractCDATA extends AbstractCharacterData implements CDATA {
-    public AbstractCDATA() {}
+    protected AbstractCDATA() {
+        super();
+    }
 
     @Override
     public NodeType getNodeTypeEnum() {

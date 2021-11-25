@@ -89,10 +89,6 @@ public class UserDataElement extends DefaultElement {
 
         return answer;
     }
-
-    // protected DefaultDocumentFactory getDocumentFactory() {
-    // return DOCUMENT_FACTORY;
-    // }
 }
 
 /*

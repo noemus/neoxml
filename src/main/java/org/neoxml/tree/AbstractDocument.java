@@ -38,7 +38,9 @@ public abstract class AbstractDocument extends AbstractBranch implements Documen
      */
     protected String encoding;
 
-    public AbstractDocument() {}
+    protected AbstractDocument() {
+        super();
+    }
 
     @Override
     public NodeType getNodeTypeEnum() {

@@ -25,7 +25,9 @@ import java.util.List;
  * @version $Revision: 1.17 $
  */
 public abstract class AbstractDocumentType extends AbstractNode implements DocumentType {
-    public AbstractDocumentType() {}
+    protected AbstractDocumentType() {
+        super();
+    }
 
     @Override
     public NodeType getNodeTypeEnum() {

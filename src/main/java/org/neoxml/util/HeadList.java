@@ -42,12 +42,6 @@ public class HeadList<T> extends AbstractList<T> implements RandomAccess, Clonea
         }
     }
 
-    private HeadList(T head, ArrayList<T> nodes) {
-        super();
-        this.head = head;
-        this.list = nodes;
-    }
-
     protected HeadList(HeadList<? extends T> nodes) {
         super();
 
@@ -238,9 +232,16 @@ public class HeadList<T> extends AbstractList<T> implements RandomAccess, Clonea
     @Override
     @SuppressWarnings("unchecked")
     public HeadList<T> clone() {
-        return list != null
-               ? new HeadList<>(head, (ArrayList<T>) list.clone())
-               : new HeadList<>(head, null);
+        try {
+            HeadList<T> v = (HeadList<T>) super.clone();
+            if (list != null) {
+                v.list = (ArrayList<T>) list.clone();
+            }
+            return v;
+        } catch (CloneNotSupportedException e) {
+            // this shouldn't happen, since we are Cloneable
+            throw new InternalError();
+        }
     }
 
     private IndexOutOfBoundsException indexOutOfBounds(int index) {

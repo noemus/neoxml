@@ -42,7 +42,9 @@ public abstract class AbstractNode implements Node, Serializable {
      */
     private static final DocumentFactory DOCUMENT_FACTORY = DefaultDocumentFactory.getInstance();
 
-    public AbstractNode() {}
+    protected AbstractNode() {
+        super();
+    }
 
     @Override
     public NodeType getNodeTypeEnum() {

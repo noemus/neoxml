@@ -152,6 +152,7 @@ class DocumentNavigator extends DefaultNavigator implements NamedAccessNavigator
      * @return an Iterator that traverses the named children, or null if none
      */
     @Override
+    @SuppressWarnings("unchecked")
     public Iterator<Element> getChildAxisIterator(Object contextNode, String localName, String namespacePrefix, String namespaceURI) {
         if (contextNode instanceof Element) {
             Element node = (Element) contextNode;
@@ -177,6 +178,7 @@ class DocumentNavigator extends DefaultNavigator implements NamedAccessNavigator
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Iterator<Node> getParentAxisIterator(Object contextNode) {
         if (contextNode instanceof Document) {
             return emptyIterator();
@@ -215,6 +217,7 @@ class DocumentNavigator extends DefaultNavigator implements NamedAccessNavigator
      * @return an Iterator that traverses the named attributes, not null
      */
     @Override
+    @SuppressWarnings("unchecked")
     public Iterator<Attribute> getAttributeAxisIterator(Object contextNode, String localName, String namespacePrefix, String namespaceURI) {
         if (contextNode instanceof Element) {
             final Element node = (Element) contextNode;

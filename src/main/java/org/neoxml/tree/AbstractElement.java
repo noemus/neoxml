@@ -63,7 +63,9 @@ public abstract class AbstractElement extends AbstractBranch implements Element 
     protected static final boolean VERBOSE_TOSTRING = false;
     protected static final boolean USE_STRINGVALUE_SEPARATOR = false;
 
-    public AbstractElement() {}
+    protected AbstractElement() {
+        super();
+    }
 
     @Override
     public NodeType getNodeTypeEnum() {
