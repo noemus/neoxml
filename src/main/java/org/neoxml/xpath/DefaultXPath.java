@@ -15,6 +15,7 @@ import org.jaxen.XPath;
 import org.neoxml.InvalidXPathException;
 import org.neoxml.Node;
 import org.neoxml.XPathException;
+import org.neoxml.tree.DefaultText;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -25,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -120,17 +122,28 @@ public class DefaultXPath implements org.neoxml.XPath, Serializable {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<Node> selectNodes(Object context) {
         try {
             setNSContext(context);
 
-            //noinspection unchecked
-            return xpath.selectNodes(context);
+            return ((List<Object>)xpath.selectNodes(context)).stream()
+                        .map(this::toNode)
+                        .collect(Collectors.toList());
         } catch (JaxenException e) {
             handleJaxenException(e);
 
             return Collections.emptyList();
         }
+    }
+
+    private Node toNode(Object obj) {
+        if (obj instanceof Node) {
+            return (Node) obj;
+        } else if (obj != null) {
+            return new DefaultText(String.valueOf(obj));
+        }
+        return null;
     }
 
     @Override
@@ -225,7 +238,7 @@ public class DefaultXPath implements org.neoxml.XPath, Serializable {
 
     /**
      * <p>
-     * <code>sort</code> sorts the given List of Nodes using this XPath expression as a {@link Comparator}and optionally
+     * <code>sort</code> sorts the given List of Nodes using this XPath expression as a {@link Comparator} and optionally
      * removing duplicates.
      * </p>
      *

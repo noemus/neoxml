@@ -56,24 +56,22 @@ public interface XPath extends NodeFilter {
 
     /**
      * <p>
-     * <code>selectNodes</code> performs this XPath expression on the given {@link Node}or {@link List}of {@link Node}s
+     * <code>selectNodes</code> performs this XPath expression on the given {@link Node} or {@link List} of {@link Node}s
      * instances appending all the results together into a single list.
      * </p>
      *
-     * @param context is either a node or a list of nodes on which to evalute the
-     *                XPath
+     * @param context is either a node or a list of nodes on which to evalute the XPath
      * @return the results of all the XPath evaluations as a single list
      */
     List<Node> selectNodes(Object context);
 
     /**
      * <p>
-     * <code>selectNodes</code> evaluates the XPath expression on the given {@link Node}or {@link List}of {@link Node}s
+     * <code>selectNodes</code> evaluates the XPath expression on the given {@link Node} or {@link List} of {@link Node}s
      * and returns the result as a <code>List</code> of <code>Node</code> s sorted by the sort XPath expression.
      * </p>
      *
-     * @param context   is either a node or a list of nodes on which to evalute the
-     *                  XPath
+     * @param context   is either a node or a list of nodes on which to evalute the XPath
      * @param sortXPath is the XPath expression to sort by
      * @return a list of <code>Node</code> instances
      */
@@ -81,14 +79,13 @@ public interface XPath extends NodeFilter {
 
     /**
      * <p>
-     * <code>selectNodes</code> evaluates the XPath expression on the given {@link Node}or {@link List}of {@link Node}s
+     * <code>selectNodes</code> evaluates the XPath expression on the given {@link Node} or {@link List} of {@link Node}s
      * and returns the result as a <code>List</code> of <code>Node</code> s sorted by the sort XPath expression.
      * </p>
      *
-     * @param context   is either a node or a list of nodes on which to evalute the
-     *                  XPath
+     * @param context   is either a node or a list of nodes on which to evalute the XPath
      * @param sortXPath is the XPath expression to sort by
-     * @param distinct  specifies whether or not duplicate values of the sort
+     * @param distinct  specifies whether duplicate values of the sort
      *                  expression are allowed. If this parameter is true then only
      *                  distinct sort expressions values are included in the result
      * @return a list of <code>Node</code> instances
@@ -97,7 +94,7 @@ public interface XPath extends NodeFilter {
 
     /**
      * <p>
-     * <code>selectSingleNode</code> evaluates this XPath expression on the given {@link Node}or {@link List}of
+     * <code>selectSingleNode</code> evaluates this XPath expression on the given {@link Node} or {@link List} of
      * {@link Node}s and returns the result as a single <code>Node</code> instance.
      * </p>
      *
