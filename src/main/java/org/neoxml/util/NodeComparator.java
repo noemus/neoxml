@@ -25,7 +25,7 @@ import java.util.Comparator;
 
 /**
  * <p>
- * <code>NodeComparator</code> is a {@link Comparator}of Node instances which is capable of comparing Nodes for equality
+ * <code>NodeComparator</code> is a {@link Comparator} of Node instances which is capable of comparing Nodes for equality
  * based on their values.
  * </p>
  *
@@ -42,9 +42,13 @@ public class NodeComparator implements Comparator<Node> {
     }
 
     private static int compareNodes(Node n1, Node n2) {
-        if (n1 == null && n2 == null) { return 0; } else if (n1 == null) {
+        if (n1 == null && n2 == null) {
+            return 0;
+        } else if (n1 == null) {
             return -1; // null is less
-        } else if (n2 == null) return 1;
+        } else if (n2 == null) {
+            return 1;
+        }
 
         NodeType nodeType1 = n1.getNodeTypeEnum();
         NodeType nodeType2 = n2.getNodeTypeEnum();
@@ -73,8 +77,7 @@ public class NodeComparator implements Comparator<Node> {
                 return compare((Entity) n1, (Entity) n2);
 
             case PROCESSING_INSTRUCTION_NODE:
-                return compare((ProcessingInstruction) n1,
-                               (ProcessingInstruction) n2);
+                return compare((ProcessingInstruction) n1, (ProcessingInstruction) n2);
 
             case COMMENT_NODE:
                 return compare((Comment) n1, (Comment) n2);
@@ -91,9 +94,13 @@ public class NodeComparator implements Comparator<Node> {
     }
 
     public static int compare(Document n1, Document n2) {
-        if (n1 == null && n2 == null) { return 0; } else if (n1 == null) {
+        if (n1 == null && n2 == null) {
+            return 0;
+        } else if (n1 == null) {
             return -1; // null is less
-        } else if (n2 == null) return 1;
+        } else if (n2 == null) {
+            return 1;
+        }
 
         int answer = compare(n1.getDocType(), n2.getDocType());
 

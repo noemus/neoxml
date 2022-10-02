@@ -296,7 +296,7 @@ public class DefaultXPath implements org.neoxml.XPath, Serializable {
      * @param sortValues DOCUMENT ME!
      */
     @SuppressWarnings("StringEquality")
-    protected void sort(List<? extends Node> list, final Map<Node, String> sortValues) {
+    protected void sort(List<? extends Node> list, Map<Node, String> sortValues) {
         list.sort((o1, o2) -> {
             String k1 = sortValues.get(o1);
             String k2 = sortValues.get(o2);
